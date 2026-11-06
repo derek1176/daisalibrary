@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Layers, Sliders, Type, Palette, MousePointerClick, MessageSquare, Maximize2, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Layers, Sliders, Type, Palette, MousePointerClick, MessageSquare, Maximize2, ShieldCheck, FolderDown, Download, FileText } from 'lucide-react';
 
 interface HomeSectionProps {
   onSelectTab: (tabId: string) => void;
@@ -8,7 +8,7 @@ interface HomeSectionProps {
 interface ComponentCard {
   id: string;
   title: string;
-  category: '기초 규격' | '컴포넌트' | '스타일' | '보이스앤톤';
+  category: '기초 규격' | '컴포넌트' | '스타일' | '보이스앤톤' | '문서 & 다운로드';
   desc: string;
   badge?: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -18,9 +18,37 @@ interface ComponentCard {
 export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
   const [filterCategory, setFilterCategory] = useState<string>('전체');
 
-  const filterTabs = ['전체', '기초 규격', '컴포넌트', '스타일', '보이스앤톤'];
+  const filterTabs = ['전체', '기초 규격', '컴포넌트', '스타일', '보이스앤톤', '문서 & 다운로드'];
 
   const cards: ComponentCard[] = [
+    {
+      id: 'archive',
+      title: '자료실 (MD 명세서 다운로드)',
+      category: '문서 & 다운로드',
+      badge: 'v1.2 원문',
+      icon: FolderDown,
+      desc: 'DAISA_DESIGN_SYSTEM.md 공식 명세서 원본 다운로드 및 미리보기',
+      renderPreview: () => (
+        <div className="w-full h-full flex flex-col justify-between p-4 select-none bg-[#F9FAFB] rounded-[14px]">
+          <div className="flex items-center justify-between border-b border-[#EBEEF2] pb-2">
+            <div className="flex items-center gap-1.5">
+              <FileText className="w-4 h-4 text-[#3182F6]" />
+              <span className="text-[12px] font-extrabold text-[#191F28]">DAISA_DESIGN_SYSTEM.md</span>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1B64DA]">.md</span>
+          </div>
+          <div className="space-y-1 text-[11px] text-[#6B7684]">
+            <div>• AI 에이전트 & 엔지니어 공식 헌법</div>
+            <div>• 360px 모바일 & 1200px 웹 640px</div>
+            <div>• 6대 UX 라이팅 표 전체 수록</div>
+          </div>
+          <div className="w-full h-[28px] bg-[#3182F6] text-white rounded-[8px] flex items-center justify-center gap-1.5 text-[11px] font-bold shadow-2xs">
+            <Download className="w-3 h-3" />
+            <span>원클릭 다운로드</span>
+          </div>
+        </div>
+      ),
+    },
     {
       id: 'layout',
       title: '작업 규격 (레이아웃)',

@@ -8,6 +8,7 @@ import { SpacingRadiusSection } from './components/sections/SpacingRadiusSection
 import { ButtonSection } from './components/sections/ButtonSection';
 import { InputSection } from './components/sections/InputSection';
 import { ModalSection } from './components/sections/ModalSection';
+import { ArchiveSection } from './components/sections/ArchiveSection';
 
 import {
   Menu,
@@ -16,7 +17,9 @@ import {
   ChevronRight,
   BookOpen,
   Layers,
-  Sparkles
+  Sparkles,
+  FolderDown,
+  FileText
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -28,6 +31,7 @@ export const App: React.FC = () => {
 
   const navItems = [
     { id: 'home', label: '컴포넌트 모아보기', category: '개요' },
+    { id: 'archive', label: '자료실 (다운로드)', category: '문서 & 다운로드' },
     { id: 'layout', label: '작업 규격', category: '파운데이션' },
     { id: 'writing', label: 'UX 라이팅', category: '보이스앤톤' },
     { id: 'colors', label: '색상', category: '파운데이션' },
@@ -80,7 +84,7 @@ export const App: React.FC = () => {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Official Logo */}
+          {/* Official Logo (Updated with user-uploaded asset) */}
           <div
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-3 cursor-pointer select-none group"
@@ -88,7 +92,7 @@ export const App: React.FC = () => {
             <img
               src="/logo-dark.png"
               alt="daisalibrary logo"
-              className="h-[22px] md:h-[24px] w-auto object-contain transition-transform group-hover:scale-102"
+              className="h-[24px] md:h-[26px] w-auto object-contain transition-transform group-hover:scale-102"
             />
             <span className="hidden sm:inline-block text-[13px] font-bold text-[#8B95A1] pl-2 border-l border-[#E5E8EB]">
               디자인시스템
@@ -210,25 +214,45 @@ export const App: React.FC = () => {
             }`}
           >
             <div className="space-y-6">
-              {/* Group 1: 전체 개요 */}
+              {/* Group 1: 전체 개요 & 자료실 */}
               <div>
                 <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B95A1] tracking-wider">
-                  대시보드
+                  대시보드 & 자료
                 </div>
-                <button
-                  onClick={() => handleNavClick('home')}
-                  className={`w-full h-[42px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
-                    activeTab === 'home'
-                      ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
-                      : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Layers className="w-4 h-4 text-[#8B95A1]" />
-                    <span>컴포넌트 모아보기</span>
-                  </div>
-                  {activeTab === 'home' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
-                </button>
+                <div className="space-y-0.5">
+                  <button
+                    onClick={() => handleNavClick('home')}
+                    className={`w-full h-[42px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                      activeTab === 'home'
+                        ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                        : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Layers className="w-4 h-4 text-[#8B95A1]" />
+                      <span>컴포넌트 모아보기</span>
+                    </div>
+                    {activeTab === 'home' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                  </button>
+
+                  {/* 자료실 (MD 다운로드) 메뉴 항목 */}
+                  <button
+                    onClick={() => handleNavClick('archive')}
+                    className={`w-full h-[42px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                      activeTab === 'archive'
+                        ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                        : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <FolderDown className="w-4 h-4 text-[#3182F6]" />
+                      <span>자료실 (다운로드)</span>
+                    </div>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#E8F3FF] text-[#1B64DA]">
+                      .md
+                    </span>
+                  </button>
+                </div>
               </div>
 
               {/* Group 2: 파운데이션 / 규격 */}
@@ -311,6 +335,7 @@ export const App: React.FC = () => {
           <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
             <div className="max-w-[1040px] mx-auto space-y-16">
               {activeTab === 'home' && <HomeSection onSelectTab={(id) => handleNavClick(id)} />}
+              {activeTab === 'archive' && <ArchiveSection />}
               {activeTab === 'layout' && <LayoutSection />}
               {activeTab === 'writing' && <WritingSection />}
               {activeTab === 'colors' && <ColorSection />}
