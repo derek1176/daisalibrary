@@ -152,6 +152,74 @@ export const ModalSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Cross-Platform Responsive Rule: Mobile BottomSheet <-> Web Center Modal */}
+      <div className="bg-white border-2 border-main-01/30 rounded-[20px] p-6 md:p-8 space-y-6 shadow-soft">
+        <div className="border-b border-etc-03 pb-4">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-main-01"></span>
+            <h3 className="text-[18px] font-extrabold text-text-01">
+              반응형 전환 규칙: 모바일 바텀시트 ↔ 웹 중앙 고정 모달
+            </h3>
+          </div>
+          <p className="text-[14px] text-text-03 mt-1.5 leading-relaxed">
+            다이사 서비스에서 <strong>주소 검색, 층수/옵션 선택, 약관 안내</strong> 등 선택형 오버레이는 디바이스 환경에 따라 형태가 자동 전환됩니다.
+            <strong>모바일에서는 화면 하단에서 밀려 올라오는 바텀시트(360px)</strong>로, <strong>웹/PC에서는 화면 중앙에 고정되는 센터 모달(440px)</strong>로 동작해야 합니다.
+          </p>
+        </div>
+
+        {/* Visual Comparison: Mobile BottomSheet vs Web Center Modal */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#F8F9FA] p-6 rounded-[16px] border border-etc-03">
+          {/* Mobile View: BottomSheet */}
+          <div className="flex flex-col items-center gap-3">
+            <span className="px-3 py-1 rounded-full text-[12px] font-bold bg-main-04 text-main-01 border border-main-02/20">
+              모바일 화면: 바텀시트 (Bottom Sheet 360px)
+            </span>
+            <div className="w-[300px] h-[340px] bg-black/40 rounded-[20px] relative flex flex-col justify-end p-2 overflow-hidden shadow-md">
+              <div className="bg-white rounded-t-[16px] p-4 space-y-3">
+                <div className="w-8 h-1 bg-etc-02 rounded-full mx-auto" />
+                <div className="flex items-center justify-between border-b border-etc-03 pb-2">
+                  <span className="text-[15px] font-bold text-text-01">출발지 주소 검색</span>
+                  <span className="text-[12px] text-text-04">닫기</span>
+                </div>
+                <div className="h-[40px] rounded-[8px] border-2 border-main-01 px-3 flex items-center justify-between text-[12px] text-text-03">
+                  <span>도로명, 지번, 건물명</span>
+                  <span className="text-main-01 font-bold">🔍</span>
+                </div>
+                <div className="space-y-1 text-[11px] text-text-03 bg-etc-04 p-2.5 rounded-[8px]">
+                  <div className="font-bold text-text-02">주소검색 Tip</div>
+                  <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
+                  <div>• 지번 + 번지수 (예: 역삼동 648)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Web View: Center-Fixed Modal */}
+          <div className="flex flex-col items-center gap-3">
+            <span className="px-3 py-1 rounded-full text-[12px] font-bold bg-white text-text-01 border border-etc-02 shadow-2xs">
+              웹/PC 화면: 중앙 고정 모달 (Center Modal 440px)
+            </span>
+            <div className="w-[300px] h-[340px] bg-black/40 rounded-[20px] relative flex items-center justify-center p-3 shadow-md">
+              <div className="w-[260px] bg-white rounded-[16px] p-4 space-y-3 shadow-pop border border-etc-02">
+                <div className="flex items-center justify-between border-b border-etc-03 pb-2">
+                  <span className="text-[15px] font-bold text-text-01">출발지 주소 검색</span>
+                  <span className="text-[14px] text-text-04 font-bold cursor-pointer">✕</span>
+                </div>
+                <div className="h-[40px] rounded-[8px] border-2 border-main-01 px-3 flex items-center justify-between text-[12px] text-text-03">
+                  <span>도로명, 지번, 건물명</span>
+                  <span className="text-main-01 font-bold">🔍</span>
+                </div>
+                <div className="space-y-1 text-[11px] text-text-03 bg-etc-04 p-2.5 rounded-[8px]">
+                  <div className="font-bold text-text-02">주소검색 Tip</div>
+                  <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
+                  <div>• 지번 + 번지수 (예: 역삼동 648)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Real Full Screen Dialog Instances */}
       <Modal
         open={liveConfirmOpen}

@@ -368,7 +368,7 @@ export const LayoutSection: React.FC = () => {
               <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
                 <strong className="text-text-01 block font-bold">1. 타이포그래피 (Pretendard & 짝수 6종)</strong>
                 <p className="text-text-03 text-[12px]">
-                  오직 Pretendard 단일 서체만 사용하며, 크기는 <strong>12, 14, 16, 18, 20, 24px</strong> 짝수 6종 외 절대 금지. 자간은 전사 <strong>-1px (-0.01em)</strong> 고정.
+                  오직 Pretendard 서체만 사용하며 크기는 <strong>12, 14, 16, 18, 20, 24px</strong> 짝수 6종을 원칙으로 합니다. (단, 뱃지 제작 시에만 <strong>10px / 11px</strong> 예외 허용). 자간은 전사 <strong>-1px (-0.01em)</strong> 고정.
                 </p>
               </div>
 
@@ -394,9 +394,9 @@ export const LayoutSection: React.FC = () => {
               </div>
 
               <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
-                <strong className="text-text-01 block font-bold">5. 모바일 플로팅 CTA (전폭 360px & 라운드 0px)</strong>
+                <strong className="text-text-01 block font-bold">5. 버튼 표준: Public Button 권장 (Floating CTA 지양)</strong>
                 <p className="text-text-03 text-[12px]">
-                  화면 하단에 부착되는 고정 플로팅 버튼은 여백 없이 <strong>360px 전폭</strong>과 <strong>Corner Radius 0px</strong>으로 화면 양 끝에 밀착합니다.
+                  플로팅 CTA(360x56, r:0px)는 이전 디자인 규격으로 점진적 퇴출 예정입니다. 신규 화면은 반드시 <strong>본문 인라인 Public Button(312px/640px, r:10px)</strong>을 사용합니다.
                 </p>
               </div>
 
@@ -451,7 +451,14 @@ export const LayoutSection: React.FC = () => {
               </div>
 
               <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
-                <strong className="text-text-01 block font-bold">5. 데스크톱 전폭 네비게이션 (1200px GNB)</strong>
+                <strong className="text-text-01 block font-bold">5. 크로스 플랫폼 오버레이: 모바일 바텀시트 ↔ 웹 모달</strong>
+                <p className="text-text-03 text-[12px]">
+                  모바일에서는 하단에서 밀려 올라오는 <strong>바텀시트(360px)</strong>로 동작하며, 웹/PC에서는 화면 중앙에 고정되는 <strong>센터 모달(440px)</strong>로 반응형 전환됩니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
+                <strong className="text-text-01 block font-bold">6. 데스크톱 전폭 네비게이션 (1200px GNB)</strong>
                 <p className="text-text-03 text-[12px]">
                   신청 폼은 640px 단일 열을 고수하지만, 메인 포털이나 대시보드의 최상단 글로벌 GNB 및 푸터는 <strong>1200px 전폭</strong>으로 확장 배치할 수 있습니다.
                 </p>

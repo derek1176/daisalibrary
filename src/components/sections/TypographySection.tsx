@@ -123,6 +123,15 @@ export const TypographySection: React.FC = () => {
       usage: '하단 약관 링크, 유의사항 각주, 타임스탬프',
       sampleText: '접수일 기준 3영업일 이내 순차 연락',
     },
+    {
+      name: 'Micro Badge',
+      size: 11,
+      weight: 'Bold',
+      weightNum: 700,
+      lh: '130% (14px)',
+      usage: '상태 뱃지, 카운트 배지 등 특수 배지 전용 예외 허용 (10px / 11px)',
+      sampleText: 'N개 · 추천 · 신규',
+    },
   ];
 
   return (
@@ -136,7 +145,7 @@ export const TypographySection: React.FC = () => {
           서체 및 글꼴 규격
         </h2>
         <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
-          Pretendard Bold (700) · Regular (400) 2개 두께만 사용합니다. 사이즈는 <strong>12 · 14 · 16 · 18 · 20 · 24</strong> 짝수 6개로 한정하며, 모든 텍스트에 <strong>자간 -1px (-0.01em)</strong>을 고정 적용합니다.
+          Pretendard Bold (700) · Regular (400) 2개 두께만 사용합니다. 사이즈는 <strong>12 · 14 · 16 · 18 · 20 · 24</strong> 짝수 6개 기본 원칙이며, 뱃지(Badge) 제작 시에 한하여 예외적으로 <strong>10px 또는 11px</strong> 사용이 허용됩니다. 모든 텍스트에 <strong>자간 -1px (-0.01em)</strong>을 고정 적용합니다.
         </p>
       </div>
 

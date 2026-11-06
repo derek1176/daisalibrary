@@ -73,9 +73,14 @@ export const ButtonSection: React.FC = () => {
       <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
           <div>
-            <h3 className="text-[17px] font-bold text-text-01">1. 본문 인라인 버튼 (Public Button)</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-[17px] font-bold text-text-01">1. 본문 인라인 버튼 (Public Button)</h3>
+              <span className="px-2 py-0.5 rounded-[6px] bg-main-04 text-main-01 text-[11px] font-bold">
+                ★ 공식 표준 권장
+              </span>
+            </div>
             <p className="text-[13px] text-text-03 mt-0.5">
-              본문 콘텐츠 영역 안에서 폼 제출, 다음 단계 진행에 사용되는 기본 표준 버튼
+              본문 콘텐츠 영역 내부에서 폼 제출, 다음 단계 진행에 사용되는 기본 표준 버튼입니다. 향후 모든 신규 화면의 표준입니다.
             </p>
           </div>
           <span className="text-[12px] text-text-04">
@@ -90,33 +95,38 @@ export const ButtonSection: React.FC = () => {
               fluid={deviceView === 'pc'}
               onClick={() => alert('Public 버튼 클릭')}
             >
-              무료 방문견적 신청하기 ({deviceView === 'mobile' ? '312px' : '672px'})
+              무료 방문견적 신청하기 ({deviceView === 'mobile' ? '312px' : '640px'})
             </PublicButton>
           </div>
         </div>
       </div>
 
-      {/* 2. Floating CTA Button */}
-      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
+      {/* 2. Floating CTA Button (Deprecated / Legacy) */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft opacity-90">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
           <div>
-            <h3 className="text-[17px] font-bold text-text-01">2. Floating CTA Button</h3>
-            <p className="text-[13px] text-text-03 mt-0.5">
-              화면 최하단에 항상 밀착 고정되는 메인 전환 버튼 (Corner Radius 절대 0px)
+            <div className="flex items-center gap-2">
+              <h3 className="text-[17px] font-bold text-text-01">2. 플로팅 버튼 (Floating CTA)</h3>
+              <span className="px-2 py-0.5 rounded-[6px] bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-bold">
+                ⚠️ 레거시 (사용 지양)
+              </span>
+            </div>
+            <p className="text-[13px] text-amber-800/80 mt-1 leading-relaxed">
+              <strong>안내:</strong> 플로팅 CTA는 이전 디자인 규격으로 점진적 퇴출 예정입니다. 신규 개발 및 개편 시에는 사용을 지양하고, 위 <strong>Public Button(본문 인라인 버튼)</strong>을 사용해 주세요.
             </p>
           </div>
-          <span className="font-mono text-[12px] text-error font-bold">
-            모바일 360x56 · PC 720x56 · r:0px (직각)
+          <span className="text-[12px] text-text-04">
+            모바일 360x56 · 라운드 0px (직각)
           </span>
         </div>
 
         <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px]">
           <div
             className={`border border-dashed border-etc-02 p-2 rounded bg-white/60 flex flex-col items-center ${
-              deviceView === 'mobile' ? 'w-[360px]' : 'w-full max-w-[720px]'
+              deviceView === 'mobile' ? 'w-[360px]' : 'w-full max-w-[640px]'
             }`}
           >
-            <span className="text-[11px] text-text-04 mb-2">하단 밀착 시뮬레이션 (r:0px)</span>
+            <span className="text-[11px] text-text-04 mb-2">하단 밀착 시뮬레이션 (r:0px / 레거시)</span>
             <FloatingButton
               state={btnState}
               onClick={() => alert('Floating CTA 클릭')}

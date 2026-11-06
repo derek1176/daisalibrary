@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HomeSection } from './components/sections/HomeSection';
 import { LayoutSection } from './components/sections/LayoutSection';
+import { WritingSection } from './components/sections/WritingSection';
 import { ColorSection } from './components/sections/ColorSection';
 import { TypographySection } from './components/sections/TypographySection';
 import { SpacingRadiusSection } from './components/sections/SpacingRadiusSection';
@@ -21,6 +22,7 @@ export const App: React.FC = () => {
   const navItems = [
     { id: 'home', label: '컴포넌트 모아보기' },
     { id: 'layout', label: '작업 규격' },
+    { id: 'writing', label: 'UX 라이팅' },
     { id: 'colors', label: '색상' },
     { id: 'typography', label: '타이포그래피' },
     { id: 'spacing-radius', label: '여백 및 라운드' },
@@ -150,6 +152,7 @@ export const App: React.FC = () => {
             <div className="max-w-[1000px] mx-auto space-y-20">
               {activeTab === 'home' && <HomeSection onSelectTab={(id) => handleNavClick(id)} />}
               {activeTab === 'layout' && <LayoutSection />}
+              {activeTab === 'writing' && <WritingSection />}
               {activeTab === 'colors' && <ColorSection />}
               {activeTab === 'typography' && <TypographySection />}
               {activeTab === 'spacing-radius' && <SpacingRadiusSection />}

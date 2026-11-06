@@ -48,7 +48,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
       id: 'buttons',
       title: '버튼',
       category: '컴포넌트',
-      desc: '플로팅 360 · 본문 312 · 모달 2분할 · 3분할 세그먼트',
+      desc: '본문 표준 Public 312(640) · 모달 2분할 · 필터 칩',
       renderPreview: () => (
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 px-6">
           <div className="w-[130px] h-[34px] bg-[#1219F7] text-white rounded-[8px] flex items-center justify-center text-[12px] font-bold shadow-xs select-none">
@@ -56,6 +56,24 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
           </div>
           <div className="w-[130px] h-[34px] bg-etc-03 text-text-02 rounded-[8px] flex items-center justify-center text-[12px] font-bold select-none">
             취소
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'writing',
+      title: 'UX 라이팅',
+      category: '보이스앤톤',
+      desc: '명확성 · 친근한 신뢰 · 문장부호 규칙 · 실무 DO & DONT',
+      renderPreview: () => (
+        <div className="w-full h-full flex flex-col items-center justify-center gap-2 px-6 select-none">
+          <div className="w-[160px] p-2 rounded-[8px] bg-emerald-50 border border-emerald-200 text-[11px] font-bold text-emerald-800 flex items-center gap-1.5 shadow-2xs">
+            <span className="text-emerald-600 font-bold">✓</span>
+            <span className="truncate">방문견적 신청하기</span>
+          </div>
+          <div className="w-[160px] p-2 rounded-[8px] bg-rose-50 border border-rose-200 text-[11px] font-bold text-rose-800 flex items-center gap-1.5 shadow-2xs opacity-80">
+            <span className="text-rose-600 font-bold">✕</span>
+            <span className="line-through decoration-rose-500 truncate">확인 / 완료!</span>
           </div>
         </div>
       ),
@@ -127,7 +145,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
       id: 'typography',
       title: '타이포그래피',
       category: '스타일',
-      desc: 'Pretendard 단일 서체 · 6단계 짝수 폰트 규격',
+      desc: 'Pretendard · 짝수 6종 (뱃지 10/11px 예외 허용)',
       renderPreview: () => (
         <div className="w-full h-full flex flex-col items-center justify-center gap-1 select-none">
           <div className="text-[32px] font-bold text-main-01 leading-none tracking-tight">

@@ -11,20 +11,19 @@ export const SpacingRadiusSection: React.FC = () => {
   };
 
   const spacingList = [
-    { token: 'sp-2', px: 2, note: '예외 초미세 여백' },
-    { token: 'sp-4', px: 4, note: '아이콘-텍스트 최소 간격' },
-    { token: 'sp-6', px: 6, note: '라벨-인풋 상하 간격' },
-    { token: 'sp-8', px: 8, note: '컴포넌트 내부 기본 gap, 모달 버튼 사이 간격' },
-    { token: 'sp-10', px: 10, note: '세그먼트 및 칩 패딩' },
-    { token: 'sp-12', px: 12, note: '카드 내부 소형 패딩' },
-    { token: 'sp-16', px: 16, note: '★ 인풋/버튼 기본 좌우 패딩, 모바일 모달 좌우 여백' },
-    { token: 'sp-20', px: 20, note: '섹션 서브 타이틀 간격' },
-    { token: 'sp-24', px: 24, note: '★ 모바일 양측 마진 (360-24x2=312), 모달 상하 패딩' },
-    { token: 'sp-28', px: 28, note: '패널 내부 기본 여백' },
-    { token: 'sp-32', px: 32, note: '태블릿 양측 마진, 섹션 간 블록 여백' },
-    { token: 'sp-40', px: 40, note: 'PC 양측 마진, 대형 섹션 구분 간격' },
-    { token: 'sp-56', px: 56, note: '★ 전사 표준 터치 타겟 높이' },
-    { token: 'sp-64', px: 64, note: '페이지 상하 헤더 여백' },
+    { token: 'sp-2', px: 2, mult: 'x1', isCore: false, note: '아이콘 미세 보정' },
+    { token: 'sp-4', px: 4, mult: 'x2', isCore: false, note: '아이콘-텍스트 최소 간격' },
+    { token: 'sp-6', px: 6, mult: 'x3', isCore: false, note: '라벨-인풋 상하 간격' },
+    { token: 'sp-8', px: 8, mult: 'x4', isCore: true, note: '컴포넌트 내부 기본 간격' },
+    { token: 'sp-10', px: 10, mult: 'x5', isCore: false, note: '세그먼트 및 칩 내부 패딩' },
+    { token: 'sp-12', px: 12, mult: 'x6', isCore: false, note: '소형 카드 내부 여백' },
+    { token: 'sp-16', px: 16, mult: 'x8', isCore: true, note: '★ 인풋/버튼 기본 패딩, 모달 좌우 여백' },
+    { token: 'sp-20', px: 20, mult: 'x10', isCore: false, note: '서브 섹션 타이틀 간격' },
+    { token: 'sp-24', px: 24, mult: 'x12', isCore: true, note: '★ 모바일 양측 마진 (360-24x2=312)' },
+    { token: 'sp-28', px: 28, mult: 'x14', isCore: false, note: '카드 패널 기본 마진' },
+    { token: 'sp-32', px: 32, mult: 'x16', isCore: false, note: '섹션 간 블록 여백' },
+    { token: 'sp-40', px: 40, mult: 'x20', isCore: false, note: '대형 섹션 구분 간격' },
+    { token: 'sp-56', px: 56, mult: 'x28', isCore: true, note: '★ 전사 표준 터치 타겟 높이' },
   ];
 
   const radiusList = [
@@ -109,29 +108,57 @@ export const SpacingRadiusSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 shadow-soft divide-y divide-etc-03">
+        {/* Legend */}
+        <div className="flex items-center gap-6 text-[13px] text-text-03">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-[3px] bg-etc-02"></span>
+            <span>일반 규격 (Basic size)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-[3px] bg-main-01"></span>
+            <span className="font-bold text-main-01">핵심 규격 (Core size)</span>
+          </div>
+        </div>
+
+        {/* Compact Horizontal Bar Spacing Scale Chart */}
+        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 shadow-soft space-y-1.5 select-none">
           {spacingList.map((item) => (
             <div
               key={item.token}
               onClick={() => copy(item.token)}
-              className="py-3.5 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[100px_90px_1fr] items-center gap-3 cursor-pointer group hover:bg-[#FAFBFD] px-2 rounded-lg transition-colors"
+              className="py-1.5 px-3 rounded-[8px] flex items-center justify-between gap-4 hover:bg-[#F8F9FB] transition-colors cursor-pointer group"
             >
-              <div className="flex items-center gap-1.5 font-mono text-[14px] font-bold text-text-01">
-                <span>{item.token}</span>
-                {copiedToken === item.token && (
-                  <Check className="w-3.5 h-3.5 text-emerald-600 inline" />
-                )}
+              {/* Left Px Label */}
+              <div className="w-[50px] shrink-0 text-right">
+                <span className={`text-[13px] font-bold ${item.isCore ? 'text-main-01 font-extrabold' : 'text-text-02'}`}>
+                  {item.px}px
+                </span>
               </div>
-              <div className="font-mono text-[13px] text-text-04 font-medium">
-                {item.px}px
-              </div>
-              <div className="flex items-center gap-4">
+
+              {/* Horizontal Bar Visualizer */}
+              <div className="flex-1 max-w-[320px] md:max-w-[420px] flex items-center">
                 <div
-                  className="h-3 rounded-full bg-main-01 transition-all group-hover:bg-[#0D14D6]"
-                  style={{ width: `${Math.min(item.px * 6, 420)}px` }}
+                  className={`h-[7px] rounded-full transition-all group-hover:opacity-90 ${
+                    item.isCore ? 'bg-main-01 shadow-2xs' : 'bg-[#E2E5EA]'
+                  }`}
+                  style={{ width: `${Math.max((item.px / 56) * 100, 2)}%` }}
                 />
-                <span className="text-[12px] text-text-03 hidden sm:inline">
+              </div>
+
+              {/* Multiplier Tag (x1, x2, x4...) */}
+              <div className="w-[45px] shrink-0">
+                <span className={`text-[12px] font-bold ${item.isCore ? 'text-main-01' : 'text-text-04'}`}>
+                  {item.mult}
+                </span>
+              </div>
+
+              {/* Usage Note */}
+              <div className="flex-1 hidden sm:flex items-center justify-between text-[12px]">
+                <span className={`${item.isCore ? 'text-text-01 font-bold' : 'text-text-03'}`}>
                   {item.note}
+                </span>
+                <span className="text-[11px] text-text-04 opacity-0 group-hover:opacity-100 transition-opacity font-mono">
+                  {copiedToken === item.token ? '복사됨!' : item.token}
                 </span>
               </div>
             </div>
