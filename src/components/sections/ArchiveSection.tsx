@@ -135,10 +135,99 @@ AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구�
 6. **앰퍼샌드(&)**: \`조건 & 혜택\` (기호 앞뒤 한 칸 띄어쓰기)
 `;
 
+interface DarangiePop {
+  id: number;
+  x: number;
+  y: number;
+}
+
+const DarangieSvg: React.FC = () => (
+  <svg
+    width="90"
+    height="90"
+    viewBox="0 0 100 100"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="drop-shadow-[0_8px_20px_rgba(18,25,247,0.28)] select-none"
+  >
+    {/* Sparkles */}
+    <path d="M12 25L15 31L21 34L15 37L12 43L9 37L3 34L9 31L12 25Z" fill="#FFD166" />
+    <path d="M88 18L90 22L94 24L90 26L88 30L86 26L82 24L86 22L88 18Z" fill="#FFD166" />
+
+    {/* Left Ear */}
+    <circle cx="28" cy="28" r="14" fill="#F49D37" />
+    <circle cx="28" cy="28" r="8" fill="#FFB4A2" />
+
+    {/* Right Ear */}
+    <circle cx="72" cy="28" r="14" fill="#F49D37" />
+    <circle cx="72" cy="28" r="8" fill="#FFB4A2" />
+
+    {/* Fluffy Tail */}
+    <ellipse cx="82" cy="62" rx="14" ry="18" transform="rotate(25 82 62)" fill="#E07A2B" />
+    <ellipse cx="80" cy="58" rx="8" ry="12" transform="rotate(25 80 58)" fill="#FFF3E0" />
+
+    {/* Main Face Body */}
+    <ellipse cx="50" cy="52" rx="34" ry="30" fill="#F49D37" />
+
+    {/* Chubby Cheeks (Cream) */}
+    <path
+      d="M22 55C22 42 34 38 50 38C66 38 78 42 78 55C78 68 64 74 50 74C36 74 22 68 22 55Z"
+      fill="#FFF8ED"
+    />
+
+    {/* Daisa Blue Cap */}
+    <path d="M34 26C34 18 42 12 50 12C58 12 66 18 66 26H34Z" fill="#1219F7" />
+    <ellipse cx="50" cy="26" rx="20" ry="4" fill="#0E15D4" />
+    <polygon points="50,16 54,18 54,23 50,25 46,23 46,18" fill="white" />
+
+    {/* Big Sparkly Eyes */}
+    <ellipse cx="38" cy="48" rx="4.5" ry="5.5" fill="#191F28" />
+    <circle cx="36.5" cy="46" r="2" fill="white" />
+    <circle cx="40" cy="50" r="0.8" fill="white" />
+
+    <ellipse cx="62" cy="48" rx="4.5" ry="5.5" fill="#191F28" />
+    <circle cx="60.5" cy="46" r="2" fill="white" />
+    <circle cx="64" cy="50" r="0.8" fill="white" />
+
+    {/* Peach Cheeks Blush */}
+    <ellipse cx="28" cy="56" rx="5" ry="3" fill="#FF6B8B" fillOpacity="0.45" />
+    <ellipse cx="72" cy="56" rx="5" ry="3" fill="#FF6B8B" fillOpacity="0.45" />
+
+    {/* Cute Nose */}
+    <polygon points="50,53 47.5,50 52.5,50" fill="#D94A56" />
+
+    {/* Smiling Mouth with tiny front tooth */}
+    <path d="M46 54Q50 58 54 54" stroke="#191F28" strokeWidth="1.5" strokeLinecap="round" />
+    <rect x="48.5" y="55" width="3" height="3" rx="0.8" fill="white" stroke="#191F28" strokeWidth="0.8" />
+
+    {/* Mini Moving Box in Hands */}
+    <g transform="translate(36, 62)">
+      <rect x="0" y="0" width="28" height="20" rx="3" fill="#D48B47" stroke="#9C591D" strokeWidth="1.2" />
+      <rect x="11" y="0" width="6" height="20" fill="#E8B47B" />
+      <circle cx="14" cy="10" r="3.5" fill="#1219F7" />
+    </g>
+
+    {/* Cute Paws */}
+    <ellipse cx="35" cy="70" rx="4" ry="5" fill="#F49D37" stroke="#9C591D" strokeWidth="1" />
+    <ellipse cx="65" cy="70" rx="4" ry="5" fill="#F49D37" stroke="#9C591D" strokeWidth="1" />
+  </svg>
+);
+
 export const ArchiveSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
+  const [darangis, setDarangis] = useState<DarangiePop[]>([]);
 
-  const handleDownload = () => {
+  const handleDownload = (e: React.MouseEvent) => {
+    // Easter Egg: Trigger cute Darangie popping at mouse click coordinates
+    const x = e.clientX;
+    const y = e.clientY;
+    const newId = Date.now() + Math.random();
+    setDarangis((prev) => [...prev, { id: newId, x, y }]);
+    setTimeout(() => {
+      setDarangis((prev) => prev.filter((d) => d.id !== newId));
+    }, 1650);
+
+    // Markdown file download
     const blob = new Blob([MARKDOWN_CONTENT], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -252,6 +341,24 @@ export const ArchiveSection: React.FC = () => {
           </pre>
         </div>
       </div>
+
+      {/* Easter Egg: Cute 2D Darangie Floats Up from Click Position */}
+      {darangis.map((item) => (
+        <div
+          key={item.id}
+          className="fixed pointer-events-none z-50 animate-darangie flex flex-col items-center select-none"
+          style={{ left: `${item.x}px`, top: `${item.y}px` }}
+        >
+          {/* Mini Cute Speech Bubble */}
+          <div className="mb-2 bg-[#191F28] text-white text-[11px] font-extrabold px-3 py-1 rounded-full whitespace-nowrap shadow-xl flex items-center gap-1.5 border border-white/20 animate-bounce">
+            <span>다랑이가 배달 완료!</span>
+            <span>📦✨</span>
+          </div>
+
+          {/* 2D Cute Mascot Darangie */}
+          <DarangieSvg />
+        </div>
+      ))}
     </section>
   );
 };
