@@ -73,7 +73,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans antialiased bg-[#EBEEF2] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
+    <div className="min-h-screen flex flex-col font-sans antialiased bg-[#EFF1F4] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
       {/* ============================================================ */}
       {/* Toss Style GNB Header (Full Width Clean White) */}
       {/* ============================================================ */}
