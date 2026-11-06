@@ -5,34 +5,24 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
   const contentWidth = isPartner ? '627px' : '640px';
   const sideMargin = isPartner ? '286.5px' : '280px';
 
-  const breakpoints = [
+  const layoutRules = [
     {
-      bp: 'base',
-      viewport: '0 - 479px',
-      columns: 'base (360px)',
-      gutters: '16px',
-      margins: '24px',
+      env: '모바일 (Mobile)',
+      canvas: '360px',
+      margin: '24px (양측 각 24px)',
+      content: '312px (360 - 48)',
+      notes: isPartner
+        ? '현장 기사님 오더 접수 및 견적 관리 콘텐츠 안전 영역'
+        : '모든 버튼·인풋·카드 등 본문 핵심 UI는 312px 이내 배치',
     },
     {
-      bp: 'sm',
-      viewport: '480 - 767px',
-      columns: 'sm',
-      gutters: '16px',
-      margins: '24px',
-    },
-    {
-      bp: 'md',
-      viewport: '768 - 1199px',
-      columns: 'md',
-      gutters: '24px',
-      margins: 'Auto',
-    },
-    {
-      bp: 'lg',
-      viewport: '1200 + px',
-      columns: `lg (${contentWidth})`,
-      gutters: '32px',
-      margins: `Auto (${sideMargin})`,
+      env: '웹 데스크톱 (Web)',
+      canvas: '1200px',
+      margin: `각 ${sideMargin}`,
+      content: `${contentWidth} (단일 중앙 열)`,
+      notes: isPartner
+        ? '1200px 캔버스 중앙에 627px 단일 오더 컨테이너 배치 (r:6)'
+        : '헤더(640px) · 본문 신청 폼(640px) · 액션 버튼(640px) 단일 열 일치',
     },
   ];
 
@@ -144,34 +134,30 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         </div>
       </div>
 
-      {/* 3. Detailed Guide Table (첨부파일 표 스타일) */}
+      {/* 3. Detailed Guide Table (환경, 캔버스, 마진, 콘텐츠 영역 공식 규칙 표) */}
       <div className="space-y-3">
-        <p className="text-[14px] text-[#4E5968] font-medium leading-relaxed px-1">
-          다이사는 Mobile First 원칙을 따릅니다. 작은 화면에서 시작하여 화면이 커짐에 따라 레이아웃이 확장됩니다.
-        </p>
-
         <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
           {/* Table Header */}
           <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#F2F4F8] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
-            <div className="col-span-2">Breakpoint</div>
-            <div className="col-span-3">Viewport</div>
-            <div className="col-span-3">Columns</div>
-            <div className="col-span-2">Gutters</div>
-            <div className="col-span-2">Margins</div>
+            <div className="col-span-3">환경</div>
+            <div className="col-span-2">캔버스</div>
+            <div className="col-span-2">마진</div>
+            <div className="col-span-2">콘텐츠 영역</div>
+            <div className="col-span-3">세부 규칙</div>
           </div>
 
           {/* Table Rows */}
           <div className="divide-y divide-[#F2F4F8]">
-            {breakpoints.map((row) => (
+            {layoutRules.map((row) => (
               <div
-                key={row.bp}
+                key={row.env}
                 className="grid grid-cols-12 px-6 py-4 items-center text-[13px] hover:bg-[#F9FAFB] transition-colors"
               >
-                <div className="col-span-2 font-medium text-[#191F28]">{row.bp}</div>
-                <div className="col-span-3 text-[#4E5968] font-mono text-[12px]">{row.viewport}</div>
-                <div className="col-span-3 font-medium text-[#191F28]">{row.columns}</div>
-                <div className="col-span-2 text-[#4E5968] font-mono text-[12px]">{row.gutters}</div>
-                <div className="col-span-2 text-[#4E5968] font-mono text-[12px]">{row.margins}</div>
+                <div className="col-span-3 font-bold text-[#191F28]">{row.env}</div>
+                <div className="col-span-2 text-[#191F28] font-mono text-[13px] font-bold">{row.canvas}</div>
+                <div className="col-span-2 text-[#4E5968] font-mono text-[12px]">{row.margin}</div>
+                <div className="col-span-2 font-bold text-[#1219F7] font-mono text-[13px]">{row.content}</div>
+                <div className="col-span-3 text-[#6B7684] text-[12px] leading-relaxed">{row.notes}</div>
               </div>
             ))}
           </div>
