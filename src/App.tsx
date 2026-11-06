@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HomeSection } from './components/sections/HomeSection';
+import { TossShowcaseSection } from './components/sections/TossShowcaseSection';
 import { LayoutSection } from './components/sections/LayoutSection';
 import { WritingSection } from './components/sections/WritingSection';
 import { ColorSection } from './components/sections/ColorSection';
@@ -21,6 +22,7 @@ export const App: React.FC = () => {
 
   const navItems = [
     { id: 'home', label: '컴포넌트 모아보기' },
+    { id: 'toss-showcase', label: '토스 화면 예시' },
     { id: 'layout', label: '작업 규격' },
     { id: 'writing', label: 'UX 라이팅' },
     { id: 'colors', label: '색상' },
@@ -151,6 +153,7 @@ export const App: React.FC = () => {
           <main className="flex-1 p-6 md:p-10 lg:p-14 overflow-x-hidden min-w-0">
             <div className="max-w-[1000px] mx-auto space-y-20">
               {activeTab === 'home' && <HomeSection onSelectTab={(id) => handleNavClick(id)} />}
+              {activeTab === 'toss-showcase' && <TossShowcaseSection />}
               {activeTab === 'layout' && <LayoutSection />}
               {activeTab === 'writing' && <WritingSection />}
               {activeTab === 'colors' && <ColorSection />}
