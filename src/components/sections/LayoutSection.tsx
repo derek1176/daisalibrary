@@ -136,9 +136,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         </div>
 
         {/* Diagram Box */}
-        <div className={`rounded-[16px] border p-6 flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden ${
-          isPartner ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-        }`}>
+        <div className="rounded-[16px] border p-6 flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden bg-[#F9FAFB] border-[#E5E8EB]">
           <div className="text-[11px] font-bold text-[#8B95A1] absolute top-3 left-4">
             전체 캔버스 1200px
           </div>
@@ -149,28 +147,20 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               <span className="text-[13px] font-bold">
                 {isPartner ? '오더 컨테이너 627px (r: 6.0)' : '중앙 정렬 640px (r: 10.0)'}
               </span>
-              <span className={`text-[11px] font-bold px-2 py-0.5 rounded ${
-                isPartner ? 'bg-[#595EF9]/30 text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-              }`}>
-                {isPartner ? 'B2B 단일 오더 열' : '단일 열 필수'}
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
+                {isPartner ? '파트너 단일 오더 열' : '단일 열 필수'}
               </span>
             </div>
 
             <div className="space-y-2">
-              <div className={`h-8 rounded-[4px] flex items-center justify-center text-[12px] font-bold ${
-                isPartner ? 'bg-[#222A3B] text-[#CBD5E1]' : 'bg-[#F2F4F6] text-[#4E5968]'
-              }`}>
+              <div className="h-8 rounded-[4px] flex items-center justify-center text-[12px] font-bold bg-[#F2F4F6] text-[#4E5968]">
                 {isPartner ? '오더 접수 헤더' : '상단 헤더'}
               </div>
-              <div className={`h-16 rounded-[4px] flex items-center justify-center text-[12px] font-bold ${
-                isPartner ? 'bg-[#222A3B] text-[#CBD5E1]' : 'bg-[#F2F4F6] text-[#4E5968]'
-              }`}>
+              <div className="h-16 rounded-[4px] flex items-center justify-center text-[12px] font-bold bg-[#F2F4F6] text-[#4E5968]">
                 {isPartner ? '견적 신청 정보 폼 블록 (r:6)' : '본문 입력 폼 블록 (r:10)'}
               </div>
-              <div className={`h-10 rounded-[6px] flex items-center justify-center text-[12px] font-bold text-white shadow-xs ${
-                isPartner ? 'bg-[#1219F7]' : 'bg-[#1219F7]'
-              }`}>
-                {isPartner ? '메인 CTA 버튼 (62px r:6)' : '본문 표준 버튼 (56px r:10)'}
+              <div className="h-10 rounded-[6px] flex items-center justify-center text-[12px] font-bold text-white shadow-xs bg-[#1219F7]">
+                {isPartner ? '메인 CTA 버튼 (56px r:6)' : '본문 표준 버튼 (56px r:10)'}
               </div>
             </div>
           </div>

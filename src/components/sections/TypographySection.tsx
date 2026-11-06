@@ -190,17 +190,17 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
       sampleText: '사다리차 진입 가능 여부 확인',
     },
     {
-      name: 'Body 1 (★ B2B 기본 본문)',
+      name: 'Body 1 (★ 파트너 기본 본문)',
       size: 18,
       weight: 'Bold',
       weightNum: 700,
       lh: '150% (27px)',
-      usage: '메인 CTA 버튼(62px), 핵심 라벨, 견적 금액 강조',
-      sampleText: '견적 제출하기 (62px r:6)',
+      usage: '메인 CTA 버튼(56px/62px), 핵심 라벨, 견적 금액 강조',
+      sampleText: '견적 제출하기 (56px r:6)',
       isBaseText: true,
     },
     {
-      name: 'Body 1 (★ B2B 기본 본문)',
+      name: 'Body 1 (★ 파트너 기본 본문)',
       size: 18,
       weight: 'Regular',
       weightNum: 400,
@@ -279,15 +279,15 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
       {isPartner && (
         <div className="bg-[#FFF8E6] border border-[#FFD666] rounded-[14px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-[8px] bg-[#0C234F] border border-[#3182F6]/40 flex items-center justify-center text-[#4B89FF] shrink-0">
+            <div className="w-10 h-10 rounded-[8px] bg-[#FFF0B3] border border-[#FFE58F] flex items-center justify-center text-[#D48806] shrink-0">
               <Info className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[15px] font-extrabold text-white flex items-center gap-2">
-                <span>파트너 B2B 2대 핵심 폰트 규칙</span>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#3182F6] text-white">Non-Negotiable</span>
+              <div className="text-[15px] font-extrabold text-[#191F28] flex items-center gap-2">
+                <span>파트너 2대 핵심 폰트 규칙</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#1219F7] text-white">Non-Negotiable</span>
               </div>
-              <p className="text-[13px] text-[#9E9EA4] mt-0.5">
+              <p className="text-[13px] text-[#4E5968] mt-0.5">
                 1) <strong>기본 본문 18px</strong>: 인풋 값, 주소, 화물 내역 기본 텍스트는 18px Bold/Regular<br />
                 2) <strong>12px 이하 절대 금지</strong>: 현장 야외 작업 시 가독성 확보를 위해 최소 폰트는 <strong>14px(Caption)</strong> 고정
               </p>

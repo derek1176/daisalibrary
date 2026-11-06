@@ -90,7 +90,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
     },
     {
       val: '6px',
-      name: '★ B2B Core Standard (파트너 전사 표준)',
+      name: '★ Core Standard (파트너 전사 표준)',
       desc: '메인 버튼(312x62), 입력창(56px), 오더 카드(627px), 모달 다이얼로그',
       tailwind: 'rounded-[6px]',
       highlight: true,
@@ -105,7 +105,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
     {
       val: '10px',
       name: '🚨 고객향 인풋/버튼 규격 (파트너 금지)',
-      desc: '파트너 B2B 직각 아이덴티티 위배로 사용 엄격 금지 (6px 준수)',
+      desc: '파트너 직각 아이덴티티 위배로 사용 엄격 금지 (6px 준수)',
       tailwind: 'rounded-[10px]',
       isBanned: true,
     },
@@ -132,7 +132,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
         </h2>
         <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
           {isPartner
-            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 B2B의 전사 코어 곡률은 Radius 6px이며, 필터 칩은 rounded-full, 고객향의 10px 및 16px 곡률은 사용이 엄격히 금지됩니다.'
+            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 전사 코어 곡률은 Radius 6px이며, 필터 칩은 rounded-full, 고객향의 10px 및 16px 곡률은 사용이 엄격히 금지됩니다.'
             : '다이사 서비스의 일관된 시각적 리듬을 위한 8의 배수 기반 스페이싱 시스템과 컴포넌트별 권장 Corner Radius 규격입니다.'}
         </p>
       </div>
@@ -155,7 +155,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
           <div className="bg-[#FFF8E6] border border-[#FFD666] rounded-[14px] p-4 flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-[#D48806] shrink-0 mt-0.5" />
             <div className="text-[13px] text-[#595959] leading-relaxed">
-              <strong className="text-[#191F28]">B2B 파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong>Radius 6px</strong>를 기본으로 사용합니다. 단, 필터 및 선택 칩은 라운드 따지지 않고 완전한 라운드(rounded-full) 형태를 적용하며, 고객향의 10px, 16px 둥근 곡률은 파트너 환경에서 사용을 엄격히 차단합니다.
+              <strong className="text-[#191F28]">파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong>Radius 6px</strong>를 기본으로 사용합니다. 단, 필터 및 선택 칩은 라운드 따지지 않고 완전한 라운드(rounded-full) 형태를 적용하며, 고객향의 10px, 16px 둥근 곡률은 파트너 환경에서 사용을 엄격히 차단합니다.
             </div>
           </div>
         )}
@@ -189,7 +189,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                     </span>
                   ) : item.highlight ? (
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#1219F7] text-white">
-                      {isPartner ? 'B2B 전사 표준' : '전사 표준'}
+                      {isPartner ? '파트너 전사 표준' : '전사 표준'}
                     </span>
                   ) : (
                     <span className="text-[11px] font-mono text-[#8B95A1]">

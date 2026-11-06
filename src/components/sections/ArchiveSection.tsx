@@ -81,7 +81,7 @@ AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구�
 | **dimmed** | \`rgba(0,0,0,0.6)\` | 모달 및 바텀시트 배경 오버레이 (60%) |
 `;
 
-const PARTNER_MD_CONTENT = `# 다이사 파트너(B2B) 디자인시스템 표준 명세서 (Daisa Partner Design System)
+const PARTNER_MD_CONTENT = `# 다이사 파트너 디자인시스템 표준 명세서 (Daisa Partner Design System)
 
 > **문서 버전**: v1.0.0 (공식 제정)  
 > **최종 갱신일**: 2026-11-06  
@@ -94,7 +94,7 @@ const PARTNER_MD_CONTENT = `# 다이사 파트너(B2B) 디자인시스템 표준
 
 ## 1. 파트너향 핵심 4대 절대 원칙 (Immutable Rules)
 
-고객향 디자인시스템이 부드러운 라운드(10px/16px)와 컴팩트한 본문(16px) 중심의 B2C 서비스라면, **파트너향 디자인시스템은 현장 기사님과 업체의 신속하고 정확한 조작성을 보장하는 고신뢰 B2B 규격**을 적용합니다.
+고객향 디자인시스템이 부드러운 라운드(10px/16px)와 컴팩트한 본문(16px) 중심의 B2C 서비스라면, **파트너향 디자인시스템은 현장 기사님과 업체의 신속하고 정확한 조작성을 보장하는 고신뢰 규격**을 적용합니다.
 
 ### 1. 모서리 곡률 (Corner Radius) 절대 기준: 6px
 * **표준 기본값**: 모든 카드 컨테이너, 폼 인풋, 메인 CTA 버튼, 모달 다이얼로그의 Corner Radius는 **\`6px\`** 고정입니다.
@@ -115,7 +115,7 @@ const PARTNER_MD_CONTENT = `# 다이사 파트너(B2B) 디자인시스템 표준
   2. **Headline (28px)**: Bold / Regular, Line Height 140% (39px) — 대분류 페이지 메인 헤더
   3. **Title (24px)**: Bold / Regular, Line Height 140% (34px) — 섹션 타이틀, 팝업 제목
   4. **Sub-Title (20px)**: Bold / Regular, Line Height 150% (30px) — 그룹 소제목, 모달 제목
-  5. **Body 1 (18px) [★ B2B 기본 본문]**: Bold / Regular, Line Height 150% (27px) — 주문 정보, 고객 견적 세부 내역, 폼 라벨, 폼 입력 텍스트
+  5. **Body 1 (18px) [★ 파트너 기본 본문]**: Bold / Regular, Line Height 150% (27px) — 주문 정보, 고객 견적 세부 내역, 폼 라벨, 폼 입력 텍스트
   6. **Body 2 (16px)**: Bold / Regular, Line Height 150% (24px) — 보조 설명문, 테이블 본문 데이터
   7. **Caption (14px)**: Bold / Regular, Line Height 150% (21px) — 각주, 약관, 날짜/시간 메타데이터 (※ 고객향 12px 극소 텍스트 사용 금지)
 
@@ -137,7 +137,7 @@ const PARTNER_MD_CONTENT = `# 다이사 파트너(B2B) 디자인시스템 표준
 
 ---
 
-### 4. 버튼 (Button) B2B 전용 규격
+### 4. 버튼 (Button) 파트너 전용 규격
 * **Primary Bottom CTA (하단 고정 및 페이지 메인 버튼)**:
   * 크기: 너비 **\`312px\`** (모바일 전폭 안전영역), 높이 **\`62px\`**
   * Corner Radius: **\`6px\`**

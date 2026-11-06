@@ -293,16 +293,16 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 3. 여백 및 라운드
     {
       id: 'spacing-radius',
-      title: '여백 및 라운드 (B2B 직각 Radius 6px)',
+      title: '여백 및 라운드 (파트너 직각 Radius 6px)',
       category: '기초 규격',
       badge: '★ Radius 6px 표준',
       icon: ShieldCheck,
-      desc: 'B2B 전사 표준 Radius 6px · 서브 4px · 고객향 10px/16px 금지',
+      desc: '파트너 전사 표준 Radius 6px · 서브 4px · 고객향 10px/16px 금지',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center gap-3 px-4 select-none">
           <div className="w-[96px] h-[64px] bg-white border-2 border-[#1219F7] rounded-[6px] flex flex-col items-center justify-center shadow-xs">
             <span className="text-[11px] font-extrabold text-[#1219F7]">r: 6px</span>
-            <span className="text-[9px] font-bold text-[#8B95A1]">B2B 전사 표준</span>
+            <span className="text-[9px] font-bold text-[#8B95A1]">파트너 전사 표준</span>
           </div>
           <div className="w-[84px] h-[64px] bg-white border border-[#D7DBE2] rounded-[4px] flex flex-col items-center justify-center shadow-xs">
             <span className="text-[11px] font-bold text-[#191F28]">r: 4px</span>
@@ -381,7 +381,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 7. 버튼
     {
       id: 'buttons',
-      title: '버튼 (B2B Public CTA)',
+      title: '버튼 (파트너 Public CTA)',
       category: '핵심 컴포넌트',
       badge: '높이 56px / r:6px',
       icon: MousePointerClick,
@@ -420,14 +420,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       category: '핵심 컴포넌트',
       badge: '너비 312px / r:6px',
       icon: Layers,
-      desc: '너비 312px · B2B 직각 Radius 6px (16px 금지) · 51px/62px 액션',
+      desc: '너비 312px · 파트너 직각 Radius 6px (16px 금지) · 51px/56px 액션',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center px-4 select-none">
           <div className="w-[170px] bg-white rounded-[6px] shadow-lg border border-[#D7DBE2] p-3 space-y-2 text-center">
-            <div className="text-[12px] font-bold text-[#191F28] leading-tight">견적을 제출하시겠습니까?</div>
-            <div className="text-[9px] text-[#8B95A1] leading-tight">제출 후 금액 수정이 불가합니다.</div>
+            <div className="text-[12px] font-bold text-[#191F28] leading-tight">작성 중인 답변이 지워집니다</div>
+            <div className="text-[9px] text-[#8B95A1] leading-tight">새로운 답변이 생성됩니다.</div>
             <div className="flex gap-1.5 pt-0.5">
-              <div className="flex-1 py-1.5 rounded-[4px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
+              <div className="flex-1 py-1.5 rounded-[4px] bg-[#F2F4F6] text-[10px] font-bold text-[#191F28]">취소</div>
               <div className="flex-1 py-1.5 rounded-[4px] bg-[#1219F7] text-[10px] font-bold text-white">제출</div>
             </div>
           </div>
