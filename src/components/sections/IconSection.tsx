@@ -217,6 +217,7 @@ interface IconMeta {
 
 export const IconSection: React.FC = () => {
   const [activeSize, setActiveSize] = useState<"24" | "20" | "16">("24");
+  const [activeStyle, setActiveStyle] = useState<"outline" | "fill">("outline");
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [downloadedName, setDownloadedName] = useState<string | null>(null);
@@ -462,7 +463,7 @@ export const IconSection: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `daisa-icon-${name.toLowerCase()}-${sizePixel}px.svg`;
+    link.download = `daisa-icon-${name.toLowerCase()}-${sizePixel}px-${activeStyle}.svg`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -483,7 +484,7 @@ export const IconSection: React.FC = () => {
           아이콘 (Icons) · 공식 200종
         </h2>
         <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-          다이사(da24) 서비스의 <strong>공식 시스템 아이콘 200종 (이사·청소·가전·인터넷 80종 + 앱 필수 공통 컨트롤러 120종)</strong>입니다. 이모지 사용을 엄격히 금지하고 정식 벡터 SVG 아이콘만 사용합니다. 아이콘 카드를 클릭하면 <strong>.svg 파일로 즉시 다운로드</strong>됩니다.
+          다이사(da24) 서비스의 <strong>공식 시스템 아이콘 200종 (선형 Outline & 면형 Fill 전수 지원)</strong>입니다. 이사·가전·청소·인터넷 80종과 앱 필수 공통 컨트롤러 120종으로 구성되며, 이모지 사용을 엄격히 금지합니다. 아이콘 카드를 클릭하면 <strong>.{activeSize}px-{activeStyle}.svg 파일로 즉시 다운로드</strong>됩니다.
         </p>
       </div>
 
@@ -504,10 +505,10 @@ export const IconSection: React.FC = () => {
         <div className="p-5 bg-[#F2F7FF] border border-[#3182F6]/30 rounded-[18px] space-y-2">
           <div className="flex items-center gap-2 text-[#1B64DA]">
             <ShieldCheck className="w-5 h-5 shrink-0" />
-            <h4 className="text-[15px] font-extrabold">System Icon 200종 기반</h4>
+            <h4 className="text-[15px] font-extrabold">선형 & 면형 200종 완비</h4>
           </div>
           <p className="text-[13px] text-[#1B64DA] leading-relaxed">
-            이사·가전·청소 80종과 앱 필수 120종의 검증된 시스템 아이콘을 최우선으로 적용합니다.
+            이사·가전 80종 및 컨트롤러 120종 전체에 Outline과 Fill 2가지 스타일을 완벽 지원합니다.
           </p>
         </div>
 
@@ -518,7 +519,7 @@ export const IconSection: React.FC = () => {
             <h4 className="text-[15px] font-extrabold">AI 신규 아이콘 제작</h4>
           </div>
           <p className="text-[13px] text-[#6B7684] leading-relaxed">
-            목록 외 추가 아이콘은 일관성을 위해 규격(24px, 1.5px, round)에 맞춰 AI로 제작합니다.
+            목록 외 추가 아이콘은 일관성을 위해 표준 규격(24px, 1.5px, round)에 맞춰 AI로 제작합니다.
           </p>
         </div>
       </div>
@@ -534,61 +535,78 @@ export const IconSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="p-4 bg-[#FAFBFD] border border-[#E5E8EB] rounded-[14px] space-y-1">
+            <span className="text-[11px] font-bold text-[#8B95A1]">스타일 규격</span>
+            <div className="text-[18px] font-extrabold text-[#1219F7]">선형 & 면형</div>
+            <p className="text-[11px] text-[#6B7684]">Outline(기본) · Fill(활성/강조)</p>
+          </div>
+
           <div className="p-4 bg-[#FAFBFD] border border-[#E5E8EB] rounded-[14px] space-y-1">
             <span className="text-[11px] font-bold text-[#8B95A1]">기본 사이즈</span>
-            <div className="text-[20px] font-extrabold text-[#191F28]">24px</div>
+            <div className="text-[18px] font-extrabold text-[#191F28]">24px</div>
             <p className="text-[11px] text-[#6B7684]">터치 타겟 및 네비게이션 전사 표준</p>
           </div>
 
           <div className="p-4 bg-[#FAFBFD] border border-[#E5E8EB] rounded-[14px] space-y-1">
             <span className="text-[11px] font-bold text-[#8B95A1]">보조 사이즈</span>
-            <div className="text-[20px] font-extrabold text-[#191F28]">20px · 16px</div>
+            <div className="text-[18px] font-extrabold text-[#191F28]">20px · 16px</div>
             <p className="text-[11px] text-[#6B7684]">인풋 내부(20px), 미니 뱃지(16px)</p>
           </div>
 
           <div className="p-4 bg-[#FAFBFD] border border-[#E5E8EB] rounded-[14px] space-y-1">
             <span className="text-[11px] font-bold text-[#8B95A1]">선 두께 (Stroke)</span>
-            <div className="text-[20px] font-extrabold text-[#1219F7]">1.5px</div>
+            <div className="text-[18px] font-extrabold text-[#191F28]">1.5px</div>
             <p className="text-[11px] text-[#6B7684]">24px 캔버스 기준 1.5px 선 굵기 통일</p>
           </div>
 
           <div className="p-4 bg-[#FAFBFD] border border-[#E5E8EB] rounded-[14px] space-y-1">
             <span className="text-[11px] font-bold text-[#8B95A1]">엔드포인트 (Cap/Join)</span>
-            <div className="text-[20px] font-extrabold text-[#191F28]">Round</div>
+            <div className="text-[18px] font-extrabold text-[#191F28]">Round</div>
             <p className="text-[11px] text-[#6B7684]">부드러운 곡선 친화적 라운드 마감</p>
           </div>
         </div>
 
         {/* AI Icon Standard Prompt */}
-        <div className="bg-[#FAFBFD] border border-[#E5E8EB] rounded-[16px] p-5 space-y-3">
+        <div className="bg-[#FAFBFD] border border-[#E5E8EB] rounded-[16px] p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-[#1219F7]" />
               <span className="text-[13px] font-bold text-[#191F28]">
-                AI 아이콘 제작 표준 프롬프트 가이드
+                AI 아이콘 제작 표준 프롬프트 가이드 (선형 & 면형)
               </span>
             </div>
             <span className="text-[11px] font-mono font-bold text-[#1B64DA] bg-[#E8F3FF] px-2.5 py-0.5 rounded-full">
-              표준 프롬프트 템플릿
+              프롬프트 템플릿
             </span>
           </div>
 
           <p className="text-[12px] text-[#6B7684] leading-relaxed">
-            Gemini, ChatGPT, Claude 등의 AI에게 아래 프롬프트를 복사하여 뒤에 원하는 아이콘(예: <em>"사다리차 아이콘", "포장이사 박스 아이콘", "세탁기 아이콘"</em>)을 요청하면, 200종 시스템 아이콘과 100% 동일한 선 두께(1.5px)와 둥근 끝점(round)의 단일 SVG 코드로 생성됩니다.
+            Gemini, ChatGPT, Claude 등 AI에게 아래 프롬프트를 복사하여 요청하면 200종 시스템 아이콘과 동일한 규격의 단일 SVG 코드로 생성됩니다.
           </p>
 
-          <code className="block text-[12px] font-mono text-[#191F28] bg-white p-3.5 rounded-[10px] border border-[#E5E8EB] overflow-x-auto select-all leading-relaxed">
-            &quot;Design a 24x24 SVG icon with a 1.5px stroke weight, round stroke-linecap, and round stroke-linejoin. Outline style only (fill=none), stroke=currentColor, minimalistic modern Korean product style. Target object: [원하는 아이콘 이름]&quot;
-          </code>
+          <div className="space-y-2.5">
+            <div>
+              <span className="text-[11px] font-bold text-[#191F28] mb-1 block">1. 선형 (Outline) 프롬프트</span>
+              <code className="block text-[11px] font-mono text-[#191F28] bg-white p-3 rounded-[10px] border border-[#E5E8EB] overflow-x-auto select-all leading-relaxed">
+                &quot;Design a 24x24 SVG icon with a 1.5px stroke weight, round stroke-linecap, and round stroke-linejoin. Outline style only (fill=none), stroke=currentColor, minimalistic modern Korean product style. Target object: [원하는 아이콘 이름]&quot;
+              </code>
+            </div>
+            <div>
+              <span className="text-[11px] font-bold text-[#191F28] mb-1 block">2. 면형 (Fill) 프롬프트</span>
+              <code className="block text-[11px] font-mono text-[#191F28] bg-white p-3 rounded-[10px] border border-[#E5E8EB] overflow-x-auto select-all leading-relaxed">
+                &quot;Design a 24x24 SVG icon in solid fill style (fill=currentColor, stroke=currentColor, stroke-width=1.5, stroke-linecap=round, stroke-linejoin=round), minimalistic modern Korean product style. Target object: [원하는 아이콘 이름]&quot;
+              </code>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Interactive Icon Showcase Grid (200 Icons with Category Tabs & Instant Search) */}
       <div className="space-y-6">
-        {/* Controls: Search, Category Filter, and Size Switcher */}
+        {/* Controls: Search, Category Filter, Style Switcher, and Size Switcher */}
         <div className="bg-white border border-[#E5E8EB] rounded-[20px] p-4 space-y-4 shadow-xs">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             {/* Category Tabs */}
             <div className="flex items-center gap-1.5 bg-[#F2F4F6] p-1 rounded-[12px] overflow-x-auto scrollbar-none">
               {(["전체", "이사·청소·홈케어", "앱 필수 공통 컨트롤러"] as const).map((cat) => {
@@ -614,15 +632,39 @@ export const IconSection: React.FC = () => {
               })}
             </div>
 
-            {/* Size Switcher */}
-            <div className="flex items-center gap-2 self-end md:self-auto">
-              <span className="text-[12px] text-[#8B95A1] font-medium hidden sm:inline">크기:</span>
+            {/* Switchers: Style & Size */}
+            <div className="flex items-center gap-2 self-end lg:self-auto flex-wrap">
+              {/* Style Switcher: Outline vs Fill */}
+              <div className="flex items-center gap-1 bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
+                <button
+                  onClick={() => setActiveStyle("outline")}
+                  className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
+                    activeStyle === "outline"
+                      ? "bg-white text-[#191F28] shadow-2xs"
+                      : "text-[#6B7684] hover:text-[#191F28]"
+                  }`}
+                >
+                  선형 (Outline)
+                </button>
+                <button
+                  onClick={() => setActiveStyle("fill")}
+                  className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
+                    activeStyle === "fill"
+                      ? "bg-white text-[#191F28] shadow-2xs"
+                      : "text-[#6B7684] hover:text-[#191F28]"
+                  }`}
+                >
+                  면형 (Fill)
+                </button>
+              </div>
+
+              {/* Size Switcher */}
               <div className="flex items-center gap-1 bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
                 {(["24", "20", "16"] as const).map((s) => (
                   <button
                     key={s}
                     onClick={() => setActiveSize(s)}
-                    className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
+                    className={`px-2.5 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
                       activeSize === s
                         ? "bg-white text-[#191F28] shadow-2xs"
                         : "text-[#6B7684] hover:text-[#191F28]"
@@ -664,7 +706,7 @@ export const IconSection: React.FC = () => {
             {searchQuery && <span className="text-[#8B95A1]"> (&apos;{searchQuery}&apos; 검색 중)</span>}
           </div>
           <span className="text-[12px] text-[#8B95A1]">
-            카드 클릭 시 <strong>.{activeSize}px.svg</strong> 파일 자동 다운로드
+            카드 클릭 시 <strong>.{activeSize}px-{activeStyle}.svg</strong> 파일 자동 다운로드
           </span>
         </div>
 
@@ -690,13 +732,14 @@ export const IconSection: React.FC = () => {
                     {item.category === "이사·청소·홈케어" ? "이사/홈케어" : "공통"}
                   </span>
 
-                  {/* Visual SVG Icon */}
+                  {/* Visual SVG Icon (Outline or Fill) */}
                   <div className="w-12 h-12 rounded-[12px] bg-[#FAFBFD] group-hover:bg-[#E8F3FF] flex items-center justify-center text-[#191F28] group-hover:text-[#1219F7] transition-colors mt-2">
                     <Icon
                       size={sizePixel}
                       strokeWidth={1.5}
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      fill={activeStyle === "fill" ? "currentColor" : "none"}
                     />
                   </div>
 
@@ -713,7 +756,7 @@ export const IconSection: React.FC = () => {
                   {isDownloaded && (
                     <div className="absolute inset-0 bg-[#1219F7] text-white rounded-[18px] flex flex-col items-center justify-center gap-1 text-[11px] font-bold animate-fadeIn z-10 shadow-md">
                       <Download className="w-4 h-4 animate-bounce" />
-                      <span>SVG 저장됨</span>
+                      <span>{activeStyle.toUpperCase()} SVG 저장</span>
                     </div>
                   )}
                 </div>

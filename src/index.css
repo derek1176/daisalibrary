@@ -113,3 +113,155 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #D1D6DB;
 }
+
+/* ============================================================ */
+/* Partner Mode - Full Dark Mode Theme Overrides */
+/* ============================================================ */
+.partner-dark {
+  background-color: #0F1117 !important;
+  color: #F9FAFB !important;
+}
+
+.partner-dark header {
+  background-color: rgba(18, 20, 26, 0.96) !important;
+  border-color: #262B35 !important;
+}
+
+.partner-dark aside {
+  background-color: #15181F !important;
+  border-color: #262B35 !important;
+}
+
+.partner-dark footer {
+  background-color: #101217 !important;
+  border-color: #262B35 !important;
+  color: #8B95A1 !important;
+}
+
+/* Background conversions */
+.partner-dark .bg-white {
+  background-color: #1A1D24 !important;
+  border-color: #2A303C !important;
+  color: #F9FAFB !important;
+}
+
+.partner-dark .bg-\[\#F9FAFB\],
+.partner-dark .bg-\[\#FAFBFD\],
+.partner-dark .bg-\[\#FAFAFA\],
+.partner-dark .bg-\[\#F8F9FB\],
+.partner-dark .bg-\[\#F4F6F9\] {
+  background-color: #13151B !important;
+}
+
+.partner-dark .bg-\[\#F2F4F6\] {
+  background-color: #21252F !important;
+}
+
+.partner-dark .bg-\[\#E8F3FF\],
+.partner-dark .bg-\[\#F2F7FF\] {
+  background-color: rgba(49, 130, 246, 0.16) !important;
+}
+
+.partner-dark .bg-\[\#FFF5F6\],
+.partner-dark .bg-\[\#FEEBED\] {
+  background-color: rgba(243, 71, 102, 0.14) !important;
+}
+
+.partner-dark .bg-\[\#FFF0EB\] {
+  background-color: rgba(229, 80, 27, 0.14) !important;
+}
+
+/* Borders */
+.partner-dark .border-\[\#E5E8EB\],
+.partner-dark .border-\[\#EBEEF2\],
+.partner-dark .border-\[\#D1D6DB\] {
+  border-color: #282E39 !important;
+}
+
+.partner-dark .border-\[\#F2F4F6\] {
+  border-color: #21252F !important;
+}
+
+/* Text Colors */
+.partner-dark .text-\[\#191F28\],
+.partner-dark .text-\[\#121212\] {
+  color: #F9FAFB !important;
+}
+
+.partner-dark .text-\[\#333D4B\],
+.partner-dark .text-\[\#4E5968\] {
+  color: #D1D6DB !important;
+}
+
+.partner-dark .text-\[\#6B7684\] {
+  color: #9AA3AF !important;
+}
+
+.partner-dark .text-\[\#8B95A1\] {
+  color: #79828E !important;
+}
+
+.partner-dark .text-\[\#1B64DA\] {
+  color: #60A5FA !important;
+}
+
+.partner-dark .text-\[\#591420\] {
+  color: #FFB3BA !important;
+}
+
+/* Hover States */
+.partner-dark .hover\:bg-\[\#F2F4F6\]:hover {
+  background-color: #272C38 !important;
+}
+
+.partner-dark .hover\:bg-white:hover {
+  background-color: #222631 !important;
+}
+
+/* Inputs & Form Elements */
+.partner-dark input,
+.partner-dark textarea,
+.partner-dark select {
+  background-color: #171A21 !important;
+  color: #F9FAFB !important;
+  border-color: #2D3340 !important;
+}
+
+.partner-dark input::placeholder,
+.partner-dark textarea::placeholder {
+  color: #6B7684 !important;
+}
+
+.partner-dark code,
+.partner-dark pre {
+  background-color: #12141A !important;
+  color: #E2E8F0 !important;
+  border-color: #282E39 !important;
+}
+
+/* Tables */
+.partner-dark table tr {
+  border-color: #282E39 !important;
+}
+.partner-dark table th {
+  background-color: #171A21 !important;
+  color: #D1D6DB !important;
+}
+.partner-dark table td {
+  border-color: #282E39 !important;
+}
+
+/* Shadows */
+.partner-dark .shadow-xs,
+.partner-dark .shadow-sm,
+.partner-dark .shadow-2xs {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Partner Mode Scrollbar */
+.partner-dark ::-webkit-scrollbar-thumb {
+  background: #2D3340;
+}
+.partner-dark ::-webkit-scrollbar-thumb:hover {
+  background: #3E475A;
+}
