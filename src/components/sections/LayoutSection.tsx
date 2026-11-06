@@ -162,11 +162,10 @@ export const LayoutSection: React.FC = () => {
                   312px 본문 버튼 (라운드 10px)
                 </div>
 
-                {/* Example 312px Segmented Button */}
-                <div className="grid grid-cols-3 gap-1 p-1 bg-etc-04 rounded-[10px] border border-etc-02 text-center text-[12px] font-bold">
-                  <div className="py-2.5 rounded-[8px] bg-white text-main-01 shadow-2xs">가정 (103)</div>
-                  <div className="py-2.5 rounded-[8px] text-text-03">원룸 (104)</div>
-                  <div className="py-2.5 rounded-[8px] text-text-03">사무실 (103)</div>
+                {/* Example 312px Card / Chip Box */}
+                <div className="p-3 bg-etc-04 rounded-[10px] border border-etc-02 flex items-center justify-between">
+                  <span className="text-[13px] font-bold text-text-02">312px 카드/박스</span>
+                  <span className="px-2.5 py-1 rounded-full bg-main-01 text-white text-[11px] font-bold">선택됨</span>
                 </div>
               </div>
 
@@ -338,6 +337,127 @@ export const LayoutSection: React.FC = () => {
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Strict Rules vs Flexible Guidelines */}
+      <div className="space-y-6 pt-4">
+        <div className="border-b border-etc-03 pb-4">
+          <h3 className="text-[20px] font-extrabold text-text-01">
+            디자인 일관성 원칙: 절대 규칙 vs 유연한 규칙
+          </h3>
+          <p className="text-[14px] text-text-03 mt-1">
+            AI 생성 및 디자이너/개발자 협업 시 브랜드 일관성을 지키기 위해 타협 불가능한 <strong>절대 규칙</strong>과 맥락에 따라 조절 가능한 <strong>유연한 규칙</strong>을 정의합니다.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Card 1: Strict Rules (Non-Negotiables) */}
+          <div className="bg-white border-2 border-main-01/30 rounded-[20px] p-6 shadow-soft space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-main-01"></span>
+              <h4 className="text-[17px] font-bold text-main-01">
+                반드시 지켜야 하는 절대 규칙 (Non-Negotiables)
+              </h4>
+            </div>
+            <p className="text-[12px] text-text-04 leading-tight">
+              어떤 화면이나 AI 자동 생성에서도 임의로 변경할 수 없는 핵심 헌법입니다.
+            </p>
+
+            <div className="space-y-3 pt-2 text-[13px] text-text-02 leading-relaxed">
+              <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
+                <strong className="text-text-01 block font-bold">1. 타이포그래피 (Pretendard & 짝수 6종)</strong>
+                <p className="text-text-03 text-[12px]">
+                  오직 Pretendard 단일 서체만 사용하며, 크기는 <strong>12, 14, 16, 18, 20, 24px</strong> 짝수 6종 외 절대 금지. 자간은 전사 <strong>-1px (-0.01em)</strong> 고정.
+                </p>
+              </div>
+
+              <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
+                <strong className="text-text-01 block font-bold">2. 모바일 360px & 24px 마진 규격</strong>
+                <p className="text-text-03 text-[12px]">
+                  모바일 화면은 프레임 360px 기준, 좌우 여백 24px을 유지하여 모든 본문 요소가 <strong>312px ($360-48$)</strong> 안전 구역 내에 안착해야 합니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
+                <strong className="text-text-01 block font-bold">3. 웹사이트 640px 단일 열 중앙 정렬</strong>
+                <p className="text-text-03 text-[12px]">
+                  1200px PC 캔버스에서 <strong>상단 헤더, 본문 신청 폼, 하단 버튼 모두 640px</strong> 단일 컬럼으로 폭을 일치시켜 중앙 정렬합니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
+                <strong className="text-text-01 block font-bold">4. 높이 56px 터치 타겟 룰</strong>
+                <p className="text-text-03 text-[12px]">
+                  모든 기본 인풋(Text, Number, Search), 셀렉트박스, 메인 버튼은 반드시 <strong>높이 56px</strong> 및 <strong>라운드 10px</strong>을 유지합니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
+                <strong className="text-text-01 block font-bold">5. 모바일 플로팅 CTA (전폭 360px & 라운드 0px)</strong>
+                <p className="text-text-03 text-[12px]">
+                  화면 하단에 부착되는 고정 플로팅 버튼은 여백 없이 <strong>360px 전폭</strong>과 <strong>Corner Radius 0px</strong>으로 화면 양 끝에 밀착합니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-main-04/50 rounded-[10px] border border-main-02/20 space-y-1">
+                <strong className="text-text-01 block font-bold">6. 시스템 컬러 토큰 준수</strong>
+                <p className="text-text-03 text-[12px]">
+                  키컬러 <strong>#1219F7</strong>, 에러 스트로크 및 문구 <strong>#F34766</strong>, 텍스트 4단계(#121212 ~ #888888)를 엄격히 사용하며 임의의 컬러 생성을 금지합니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2: Flexible Guidelines */}
+          <div className="bg-white border border-etc-02 rounded-[20px] p-6 shadow-soft space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <h4 className="text-[17px] font-bold text-text-01">
+                상황에 따라 변형 가능한 유연한 규칙 (Flexible Guidelines)
+              </h4>
+            </div>
+            <p className="text-[12px] text-text-04 leading-tight">
+              기본 원칙을 지키되, 화면 맥락과 공간 밀도에 따라 합리적 변형을 허용합니다.
+            </p>
+
+            <div className="space-y-3 pt-2 text-[13px] text-text-02 leading-relaxed">
+              <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
+                <strong className="text-text-01 block font-bold">1. 서브 및 인라인 컴팩트 버튼 (48px / 40px)</strong>
+                <p className="text-text-03 text-[12px]">
+                  기본은 56px이나, 테이블 리스트, 모달 내부 보조 버튼, 좁은 인라인 재검색 버튼 등은 <strong>48px</strong> 또는 <strong>40px</strong>(라운드 8px)로 축소 적용이 가능합니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
+                <strong className="text-text-01 block font-bold">2. 콘텐츠 카드의 높이 및 패딩 (HUG 가변)</strong>
+                <p className="text-text-03 text-[12px]">
+                  카드의 높이는 내용 길이에 따라 <strong>가변(HUG)</strong>으로 늘어납니다. 내부 여백 역시 기본 16px을 기준으로 12px ~ 24px 범위 내에서 유연하게 조절할 수 있습니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
+                <strong className="text-text-01 block font-bold">3. 태그 및 필터 칩 (라운드 8px vs 28px Pill)</strong>
+                <p className="text-text-03 text-[12px]">
+                  카테고리 칩 및 상태 태그는 UI 밀도에 따라 <strong>사각 라운드(8px)</strong> 또는 <strong>완전 둥근 Pill(28px)</strong> 형태 중 자연스러운 형태를 선택할 수 있습니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
+                <strong className="text-text-01 block font-bold">4. 멀티라인 입력창 (Textarea) 높이</strong>
+                <p className="text-text-03 text-[12px]">
+                  일반 메모는 기본 <strong>104px</strong>을 사용하지만, 장문의 후기 작성이나 상세 견적 요구사항 입력창은 <strong>128px</strong> 이상 또는 스크롤 가변 확장이 허용됩니다.
+                </p>
+              </div>
+
+              <div className="p-3 bg-etc-04/70 rounded-[10px] border border-etc-03 space-y-1">
+                <strong className="text-text-01 block font-bold">5. 데스크톱 전폭 네비게이션 (1200px GNB)</strong>
+                <p className="text-text-03 text-[12px]">
+                  신청 폼은 640px 단일 열을 고수하지만, 메인 포털이나 대시보드의 최상단 글로벌 GNB 및 푸터는 <strong>1200px 전폭</strong>으로 확장 배치할 수 있습니다.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

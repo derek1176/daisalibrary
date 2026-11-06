@@ -217,26 +217,26 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
         </p>
       </div>
 
-      {/* 3-Column Card Grid (Seed Design Style) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* 3-Column Card Grid (Seed Design Style with Elegant Shadows) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card) => (
           <div
             key={card.id + card.title}
             onClick={() => onSelectTab(card.id)}
-            className="group flex flex-col bg-white rounded-[20px] border border-[#EBEEF2] overflow-hidden hover:border-[#1219F7]/40 hover:shadow-soft transition-all duration-200 cursor-pointer select-none"
+            className="group flex flex-col bg-white rounded-[20px] border border-[#E5E8EB] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 hover:border-main-01/40 transition-all duration-200 cursor-pointer select-none"
           >
-            {/* Visual Component Preview Box (Soft Gray BG) */}
-            <div className="h-[148px] w-full bg-[#F4F5F8] border-b border-[#EBEEF2] flex items-center justify-center p-3 relative overflow-hidden group-hover:bg-[#EFF1F6] transition-colors">
+            {/* Visual Component Preview Box (Contrasting Crisp Surface) */}
+            <div className="h-[148px] w-full bg-[#F7F8FA] border-b border-[#EBEFF5] flex items-center justify-center p-3 relative overflow-hidden group-hover:bg-[#F2F4F7] transition-colors">
               {card.renderPreview()}
             </div>
 
             {/* Card Content Footer */}
-            <div className="p-4 flex flex-col gap-1">
+            <div className="p-4 flex flex-col gap-1.5 bg-white">
               <div className="flex items-center justify-between">
                 <h3 className="text-[16px] font-bold text-text-01 group-hover:text-main-01 transition-colors">
                   {card.title}
                 </h3>
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-[6px] bg-etc-04 text-text-04">
+                <span className="text-[11px] font-medium px-2 py-0.5 rounded-[6px] bg-etc-04 text-text-04 border border-etc-03">
                   {card.category}
                 </span>
               </div>

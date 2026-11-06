@@ -183,43 +183,17 @@ export const ButtonSection: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Segmented 3-Split Button */}
+      {/* 4. Pill Filter Chips */}
       <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
           <div>
-            <h3 className="text-[17px] font-bold text-text-01">4. Segmented 3-Split Button</h3>
-            <p className="text-[13px] text-text-03 mt-0.5">
-              3지 선다 옵션 전용. 좌우 마진 유지 + 가운데 버튼 1px 추가하여 312px 정렬
-            </p>
-          </div>
-          <span className="font-mono text-[12px] text-main-01 font-bold">
-            103px + 104px + 103px = 312px
-          </span>
-        </div>
-
-        <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px] gap-3">
-          <Segmented3
-            options={segmentedOptions}
-            value={segmentedVal}
-            onChange={(i) => setSegmentedVal(i)}
-          />
-          <span className="text-[13px] text-text-03">
-            선택된 옵션: <strong className="text-main-01">{segmentedOptions[segmentedVal]}</strong>
-          </span>
-        </div>
-      </div>
-
-      {/* 5. Pill Filter Chips */}
-      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
-          <div>
-            <h3 className="text-[17px] font-bold text-text-01">5. Pill Filter Chips</h3>
+            <h3 className="text-[17px] font-bold text-text-01">4. 필터 칩 & 태그 (Pill Filter Chips)</h3>
             <p className="text-[13px] text-text-03 mt-0.5">
               카테고리 다중 선택 및 필터 태그 (h:33px, Radius: 28px/Pill)
             </p>
           </div>
-          <span className="font-mono text-[12px] text-text-04">
-            h: 33px · r: 28px (Pill)
+          <span className="text-[12px] text-text-04">
+            높이 33px · 라운드 28px (Pill)
           </span>
         </div>
 
