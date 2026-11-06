@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Copy, Check, Info, ShieldCheck } from 'lucide-react';
+import { Copy, Check, Sparkles, BookOpen } from 'lucide-react';
 
-export const WritingSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
+interface WritingSectionProps {
+  mode?: 'customer' | 'partner';
+}
+
+export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer' }) => {
   const isDark = mode === 'partner';
-  const [activeTab, setActiveTab] = useState<'all' | 'title' | 'desc' | 'notice' | 'button' | 'words' | 'format'>('all');
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const copy = (txt: string) => {
@@ -12,164 +15,725 @@ export const WritingSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
     setTimeout(() => setCopiedText(null), 1200);
   };
 
-  const tabs = [
-    { id: 'all', label: '전체 보기' },
-    { id: 'title', label: '타이틀' },
-    { id: 'desc', label: '설명' },
-    { id: 'notice', label: '유의 사항 / 힌트' },
-    { id: 'button', label: '버튼' },
-    { id: 'words', label: '자주 쓰는 단어' },
-    { id: 'format', label: '그 외 표기' },
-  ];
-
   return (
-    <section id="writing" className="space-y-10">
-      {/* Section Header */}
+    <section id="writing" className="space-y-12">
+      {/* Page Header */}
       <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
-          {isDark ? '파트너 B2B 커뮤니케이션' : '다이사 / 위매치 공식 가이드'}
-        </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
+        <div className="flex items-center gap-2">
+          <span className={`text-[13px] font-bold px-2.5 py-0.5 rounded-[6px] ${
+            isDark ? 'bg-[#1C283F] text-[#4B89FF] border border-[#23427E]' : 'bg-[#E8F3FF] text-[#1B64DA]'
+          }`}>
+            공통 규격 (Shared Foundation)
+          </span>
+          <span className={`text-[12px] font-medium ${isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'}`}>
+            고객향 · 파트너향 공통 표준
+          </span>
+        </div>
+        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-2.5 ${
           isDark ? 'text-white' : 'text-[#191F28]'
         }`}>
-          {isDark ? '파트너 UX 라이팅 가이드 (B2B Writing Guide)' : 'UX 라이팅 가이드 (Writing Guide)'}
+          UX 라이팅 가이드
         </h2>
         <p className={`text-[15px] mt-2 leading-relaxed max-w-3xl ${
           isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
         }`}>
-          {isDark
-            ? '다이사 파트너(기사님·시공업체) 서비스에서 신속하고 오차 없는 현장 업무 처리를 돕는 직관적이고 명확한 텍스트 및 지시어 표기 규칙입니다.'
-            : '다이사(da24)와 위매치(wematch) 프로덕트 전반에서 고객과 소통할 때 일관된 브랜드 경험을 전달하기 위한 공식 텍스트 및 맞춤법 표기 규칙입니다.'}
+          다이사(da24)와 파트너(파트너앱·웹) 프로덕트 전반에서 고객 및 파트너와 소통할 때 일관된 브랜드 보이스와 명확성을 전달하기 위한 공식 UX 라이팅 및 표기 원칙입니다.
         </p>
       </div>
 
-      {/* Category Navigation Bar */}
-      <div className={`flex flex-wrap items-center gap-1.5 p-1.5 rounded-[12px] w-fit border ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-[#F2F4F6] border-[#E5E8EB]/60'
-      }`}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] transition-all select-none ${
-              activeTab === tab.id
-                ? isDark ? 'bg-[#292931] text-[#A5A8FC] font-bold shadow-xs border border-[#595EF9]/40' : 'bg-white text-[#191F28] font-bold shadow-2xs'
-                : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28] font-medium'
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* ============================================================ */}
+      {/* 1. 타이틀 (Title) */}
+      {/* ============================================================ */}
+      <div className="space-y-3">
+        <h3 className={`text-[20px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          타이틀
+        </h3>
+
+        <div className={`border rounded-[14px] overflow-hidden ${
+          isDark ? 'border-[#26252D] bg-[#141319]' : 'border-[#E5E8EB] bg-white'
+        }`}>
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              {/* Row 1: 해요체 */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>[해요체]</span>를 기본으로 사용합니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        출발지를 검색해 주세요
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copy('출발지를 검색해 주세요')}
+                      className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedText === '출발지를 검색해 주세요'
+                          ? 'bg-emerald-500 text-white'
+                          : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                      }`}
+                    >
+                      {copiedText === '출발지를 검색해 주세요' ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      출발지를 검색해 주십시오
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* Row 2: 온점 미사용 */}
+              <tr>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  온점을 사용하지 않습니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        이사 업체를 찾는 중이에요
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copy('이사 업체를 찾는 중이에요')}
+                      className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedText === '이사 업체를 찾는 중이에요'
+                          ? 'bg-emerald-500 text-white'
+                          : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                      }`}
+                    >
+                      {copiedText === '이사 업체를 찾는 중이에요' ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      이사업체를 찾는 중이에요.
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* 1. 타이틀 (Title) */}
-      {(activeTab === 'all' || activeTab === 'title') && (
-        <div className={`border rounded-[20px] p-6 md:p-8 space-y-4 shadow-sm ${
-          isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-        }`}>
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[18px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>1. 타이틀 (Title)</h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              {isDark ? '간결하고 명확한 지시어 · ~해 주세요 종결' : '고객의 행동을 유도하는 명확하고 부드러운 청유형 종결'}
-            </p>
-          </div>
-          <div className="space-y-3">
-            {[
-              { rule: '청유형 종결 어미', good: isDark ? '견적 제출 내역을 확인해 주세요' : '이사할 집의 주소를 검색해 주세요', bad: isDark ? '견적 확인하십시오 / 견적 확인' : '주소 입력', note: '명확하고 정중한 어조' },
-              { rule: '마침표 미사용', good: isDark ? '출발지 작업 환경을 선택해 주세요' : '정확한 견적을 위해 이사 날짜를 선택해 주세요', bad: isDark ? '출발지 작업 환경을 선택해 주세요.' : '이사 날짜를 선택해 주세요.', note: '타이틀 끝에는 마침표(.)를 찍지 않음' },
-            ].map((item, i) => (
-              <div key={i} className={`p-4 rounded-[12px] border flex flex-col md:flex-row md:items-center justify-between gap-3 ${
-                isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-              }`}>
-                <div className="space-y-1">
-                  <span className={`text-[12px] font-bold px-2 py-0.5 rounded ${
-                    isDark ? 'bg-[#292931] text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-                  }`}>{item.rule}</span>
-                  <div className={`text-[14px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>권장: "{item.good}"</div>
-                  <div className="text-[12px] text-red-400">지양: "{item.bad}"</div>
-                </div>
-                <div className={`text-[12px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'}`}>{item.note}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* ============================================================ */}
+      {/* 2. 설명 (Description) */}
+      {/* ============================================================ */}
+      <div className="space-y-3">
+        <h3 className={`text-[20px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          설명
+        </h3>
 
-      {/* 2. 버튼 (Button) */}
-      {(activeTab === 'all' || activeTab === 'button') && (
-        <div className={`border rounded-[20px] p-6 md:p-8 space-y-4 shadow-sm ${
-          isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
+        <div className={`border rounded-[14px] overflow-hidden ${
+          isDark ? 'border-[#26252D] bg-[#141319]' : 'border-[#E5E8EB] bg-white'
         }`}>
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[18px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>2. 액션 버튼 (Button)</h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              행동 지향적 '~하기' 종결 형태 고정
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-            {[
-              { action: isDark ? '견적 제출' : '견적 신청', text: isDark ? '견적 제출하기' : '견적 신청하기', desc: '메인 CTA 권장 표기' },
-              { action: '조건 변경', text: '조건 변경하기', desc: '옵션 수정 버튼' },
-              { action: isDark ? '오더 수락' : '매칭 조회', text: isDark ? '오더 수락하기' : '업체 조회하기', desc: '주요 다음 단계' },
-              { action: '닫기/취소', text: '취소', desc: '간결한 2글자 명사형' },
-            ].map((btn, i) => (
-              <div key={i} className={`p-4 rounded-[12px] border flex items-center justify-between ${
-                isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-              }`}>
-                <div>
-                  <div className={`text-[15px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>{btn.text}</div>
-                  <div className={`text-[12px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'}`}>{btn.desc}</div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => copy(btn.text)}
-                  className={`text-[11px] font-bold px-2 py-1 rounded transition-colors ${
-                    copiedText === btn.text
-                      ? 'bg-emerald-950 text-emerald-300'
-                      : isDark ? 'bg-[#292931] text-[#CBD5E1]' : 'bg-white border text-[#4E5968]'
-                  }`}
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              {/* Row 1: 해요체 */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>[해요체]</span>를 기본으로 사용합니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        업체에게 모든걸 맡기세요!
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copy('업체에게 모든걸 맡기세요!')}
+                      className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedText === '업체에게 모든걸 맡기세요!'
+                          ? 'bg-emerald-500 text-white'
+                          : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                      }`}
+                    >
+                      {copiedText === '업체에게 모든걸 맡기세요!' ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      업체에게 모든걸 맡기십시오!
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* Row 2: 온점 사용 */}
+              <tr>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  온점을 사용합니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        선택 후에도 업체와 조율이 가능해요.
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copy('선택 후에도 업체와 조율이 가능해요.')}
+                      className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedText === '선택 후에도 업체와 조율이 가능해요.'
+                          ? 'bg-emerald-500 text-white'
+                          : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                      }`}
+                    >
+                      {copiedText === '선택 후에도 업체와 조율이 가능해요.' ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      선택 후에도 업체와 조율이 가능합니다
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* 3. 유의 사항, 힌트메시지 */}
+      {/* ============================================================ */}
+      <div className="space-y-3">
+        <h3 className={`text-[20px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          유의 사항, 힌트메시지
+        </h3>
+
+        <div className={`border rounded-[14px] overflow-hidden ${
+          isDark ? 'border-[#26252D] bg-[#141319]' : 'border-[#E5E8EB] bg-white'
+        }`}>
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              {/* Row 1: ~입니다체 */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>[~입니다체]</span>를 기본으로 사용합니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        이벤트 신청은 이사 한 건 당 한 번만 가능합니다.
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copy('이벤트 신청은 이사 한 건 당 한 번만 가능합니다.')}
+                      className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedText === '이벤트 신청은 이사 한 건 당 한 번만 가능합니다.'
+                          ? 'bg-emerald-500 text-white'
+                          : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                      }`}
+                    >
+                      {copiedText === '이벤트 신청은 이사 한 건 당 한 번만 가능합니다.' ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      이벤트 신청은 이사 한 건 당 한 번만 가능해요.
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* Row 2: 온점 사용 */}
+              <tr>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  온점을 사용합니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        가정이사 업체 한정 이벤트입니다.
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copy('가정이사 업체 한정 이벤트입니다.')}
+                      className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                        copiedText === '가정이사 업체 한정 이벤트입니다.'
+                          ? 'bg-emerald-500 text-white'
+                          : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                      }`}
+                    >
+                      {copiedText === '가정이사 업체 한정 이벤트입니다.' ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      가정이사 업체 한정 이벤트입니다
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* 4. 버튼 (Button) */}
+      {/* ============================================================ */}
+      <div className="space-y-3">
+        <h3 className={`text-[20px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          버튼
+        </h3>
+
+        <div className={`border rounded-[14px] overflow-hidden ${
+          isDark ? 'border-[#26252D] bg-[#141319]' : 'border-[#E5E8EB] bg-white'
+        }`}>
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              {/* Row 1: ~하기체 */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>[~하기체]</span>를 기본으로 사용합니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        설정하러 가기, 자세히 보기, 추천업체 바로 신청하기
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              {/* Row 2: 명사형 종결 */}
+              <tr>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
+                  isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
+                }`}>
+                  [~하기체]가 적용되지 않거나 너무 길어지는 경우 명사로 끝냅니다.
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        신청 정보 확인 완료, 고객 상태 변경
+                      </span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* 5. 자주 쓰는 단어 표기 */}
+      {/* ============================================================ */}
+      <div className="space-y-3">
+        <h3 className={`text-[20px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          자주 쓰는 단어 표기
+        </h3>
+
+        <div className={`border rounded-[14px] overflow-hidden ${
+          isDark ? 'border-[#26252D] bg-[#141319]' : 'border-[#E5E8EB] bg-white'
+        }`}>
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              {[
+                {
+                  id: '1. 이사 종류',
+                  do: '가정이사, 원룸이사, 사무실이사',
+                  dont: '가정 이사, 원룸 이사, 사무실 이사',
+                },
+                {
+                  id: '2. 업체 종류',
+                  do: '이사업체, 청소업체, 추천업체, 입주 청소업체',
+                  dont: '이사 업체, 청소 업체',
+                },
+                {
+                  id: '3. 방문 견적 희망일',
+                  do: '방문 견적 희망일',
+                  dont: '방문견적 희망일',
+                },
+                {
+                  id: '4. 일시 정지',
+                  do: '일시 정지',
+                  dont: '일시정지',
+                },
+                {
+                  id: '5. 이사 지원금',
+                  do: '이사 지원금 이벤트',
+                  dont: '이사진원금 이벤트',
+                },
+                {
+                  id: '6. 견적 신청',
+                  do: '견적 신청 가능 날짜',
+                  dont: '견적신청 가능 날짜',
+                },
+                {
+                  id: '7. 매칭 완료',
+                  do: '청소업체 매칭 완료',
+                  dont: '청소업체 매칭완료',
+                },
+              ].map((item, idx, arr) => (
+                <tr
+                  key={item.id}
+                  className={idx !== arr.length - 1 ? `border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}` : ''}
                 >
-                  {copiedText === btn.text ? '복사됨' : '복사'}
-                </button>
-              </div>
-            ))}
-          </div>
+                  <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                    isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                  }`}>
+                    {item.id}
+                  </td>
+                  <td className="p-4 md:p-5 space-y-2.5">
+                    <div className="flex items-center justify-between gap-3 group">
+                      <div className="flex items-center gap-3">
+                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                          isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                        }`}>
+                          Do
+                        </span>
+                        <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                          {item.do}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => copy(item.do)}
+                        className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
+                          copiedText === item.do
+                            ? 'bg-emerald-500 text-white'
+                            : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
+                        }`}
+                      >
+                        {copiedText === item.do ? '복사됨' : '복사'}
+                      </button>
+                    </div>
+                    {item.dont && (
+                      <div className="flex items-center gap-3">
+                        <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                          isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                        }`}>
+                          Don't
+                        </span>
+                        <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                          {item.dont}
+                        </span>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+      </div>
 
-      {/* 3. 자주 쓰는 단어 (Standard Words) */}
-      {(activeTab === 'all' || activeTab === 'words') && (
-        <div className={`border rounded-[20px] p-6 md:p-8 space-y-4 shadow-sm ${
-          isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
+      {/* ============================================================ */}
+      {/* 6. 그 외 표기 */}
+      {/* ============================================================ */}
+      <div className="space-y-3">
+        <h3 className={`text-[20px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          그 외 표기
+        </h3>
+
+        <div className={`border rounded-[14px] overflow-hidden ${
+          isDark ? 'border-[#26252D] bg-[#141319]' : 'border-[#E5E8EB] bg-white'
         }`}>
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[18px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>3. 자주 쓰는 공식 용어 7종</h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              혼용하기 쉬운 단어의 공식 단일 표준 표기
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-            {[
-              { word: '포장이사', ban: '포장 이사 (띄어쓰기 금지)', desc: '단일 명사로 붙여쓰기' },
-              { word: '보관이사', ban: '보관 이사', desc: '단일 명사로 붙여쓰기' },
-              { word: '사다리차', ban: '사다리 차', desc: '단일 명사로 붙여쓰기' },
-              { word: '원룸이사', ban: '원룸 이사 / 소형이사', desc: '공식 서비스 명칭' },
-              { word: '견적 신청', ban: '견적신청 / 견적요청', desc: '신청은 띄어쓰기 적용' },
-              { word: '출발지 / 도착지', ban: '보내는 곳 / 받는 곳', desc: '전문 용어 통일' },
-            ].map((w, i) => (
-              <div key={i} className={`p-4 rounded-[12px] border space-y-1.5 ${
-                isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-              }`}>
-                <div className={`text-[15px] font-extrabold ${isDark ? 'text-[#A5A8FC]' : 'text-[#1219F7]'}`}>
-                  {w.word}
-                </div>
-                <div className="text-[12px] text-red-400">지양: {w.ban}</div>
-                <div className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'}`}>{w.desc}</div>
-              </div>
-            ))}
-          </div>
+          <table className="w-full text-left border-collapse">
+            <tbody>
+              {/* 1. 금액 표기 */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                  isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                }`}>
+                  1. 금액 표기
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        48만 원, 총 200만 원, 340,000원
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      48만원, 총200만원, 340000원
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* 2. 날짜 표기 */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                  isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                }`}>
+                  2. 날짜 표기
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        2024.07.06
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      24.07.06, 24-07-06
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* 3. / [슬래시] */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                  isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                }`}>
+                  3. / [슬래시]
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        슬래시 앞뒤에는 띄어쓰기 없이 ex) 알림톡/mms
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      슬래시 앞 뒤 띄어쓰기 쓰기 ex) 알림톡 / mms
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* 4. () [괄호] */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                  isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                }`}>
+                  4. () [괄호]
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                    }`}>
+                      Do
+                    </span>
+                    <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                      괄호 앞에 영문/숫자가 올때는 띄어쓰기 | <span className="font-semibold text-emerald-600 dark:text-emerald-400">oneroom (9평 이하)</span>
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                    }`}>
+                      Do
+                    </span>
+                    <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                      괄호 앞에 국문이 올때는 붙여쓰기 | <span className="font-semibold text-emerald-600 dark:text-emerald-400">원룸/오피스텔(9평 이하)</span>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* 5. : [대] */}
+              <tr className={`border-b ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                  isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                }`}>
+                  5. : [대]
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        글자와 : 를 붙여 쓰기 | <span className="font-semibold text-emerald-600 dark:text-emerald-400">1:1 (일대일)</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      글자와 : 를 띄어 쓰기 | 1 : 1 (일 대 일)
+                    </span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* 6. & */}
+              <tr>
+                <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-bold ${
+                  isDark ? 'text-white bg-[#17161E]' : 'text-[#191F28] bg-[#F9FAFB]'
+                }`}>
+                  6. &
+                </td>
+                <td className="p-4 md:p-5 space-y-2.5">
+                  <div className="flex items-center justify-between gap-3 group">
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                        isDark ? 'bg-[#064E3B]/70 text-[#34D399] border border-[#065F46]' : 'bg-[#E8F8F0] text-[#00A86B]'
+                      }`}>
+                        Do
+                      </span>
+                      <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+                        글자와 & 를 띄어 쓰기 | <span className="font-semibold text-emerald-600 dark:text-emerald-400">조건 & 혜택</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`px-2 py-0.5 rounded text-[11px] font-bold tracking-wide select-none ${
+                      isDark ? 'bg-[#7F1D1D]/60 text-[#F87171] border border-[#991B1B]' : 'bg-[#FEECEB] text-[#F04438]'
+                    }`}>
+                      Don't
+                    </span>
+                    <span className={`text-[14px] ${isDark ? 'text-[#8E8E93]' : 'text-[#8B95A1]'}`}>
+                      글자와 & 를 붙여 쓰기 | 조건&혜택
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      )}
+      </div>
     </section>
   );
 };

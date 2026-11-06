@@ -290,10 +290,10 @@ export const App: React.FC = () => {
                 {[
                   { id: 'colors', label: '색상 토큰' },
                   { id: 'typography', label: '타이포그래피' },
-                  { id: 'icons', label: '아이콘' },
+                  { id: 'icons', label: '아이콘', isShared: true },
                   { id: 'spacing-radius', label: '여백 및 라운드' },
                   { id: 'layout', label: '작업 규격' },
-                  { id: 'writing', label: '라이팅 가이드' },
+                  { id: 'writing', label: '라이팅 가이드', isShared: true },
                 ].map((item) => {
                   const isActive = activeTab === item.id;
                   return (
@@ -310,7 +310,16 @@ export const App: React.FC = () => {
                           : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
                       }`}
                     >
-                      <span>{item.label}</span>
+                      <div className="flex items-center gap-2">
+                        <span>{item.label}</span>
+                        {item.isShared && (
+                          <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded ${
+                            isDark ? 'bg-[#292931] text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
+                          }`}>
+                            공통
+                          </span>
+                        )}
+                      </div>
                       {isActive && <ChevronRight className={`w-4 h-4 ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`} />}
                     </button>
                   );
