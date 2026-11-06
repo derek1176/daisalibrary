@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-main-01: #1219F7;
+    --color-main-02: #595EF9;
+    --color-main-04: #F4F5FF;
+    --color-text-01: #121212;
+    --color-text-02: #333333;
+    --color-text-03: #666666;
+    --color-text-04: #888888;
+    --color-etc-02: #D7DBE2;
+    --color-etc-03: #EBEEF2;
+    --color-etc-04: #F7F8FA;
+    --color-error: #F34765;
+  }
+
+  * {
+    letter-spacing: -0.01em; /* -1px fixed rule */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    color: var(--color-text-01);
+    background-color: #F8F9FA;
+  }
+}
+
+/* Custom scrollbars like Seed Design */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D7DBE2;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888888;
+}
