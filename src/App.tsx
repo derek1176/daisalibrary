@@ -9,6 +9,7 @@ import { ButtonSection } from './components/sections/ButtonSection';
 import { InputSection } from './components/sections/InputSection';
 import { ModalSection } from './components/sections/ModalSection';
 import { ArchiveSection } from './components/sections/ArchiveSection';
+import { IconSection } from './components/sections/IconSection';
 
 import {
   Menu,
@@ -31,11 +32,12 @@ export const App: React.FC = () => {
   const navItems = [
     { id: 'home', label: '컴포넌트 모아보기', category: '대시보드' },
     { id: 'archive', label: '자료실', category: '자료실' },
-    { id: 'layout', label: '작업 규격', category: '기초 규격' },
-    { id: 'writing', label: 'UX 라이팅 가이드', category: '기초 규격' },
     { id: 'colors', label: '색상 토큰', category: '기초 규격' },
     { id: 'typography', label: '타이포그래피', category: '기초 규격' },
     { id: 'spacing-radius', label: '여백 및 라운드', category: '기초 규격' },
+    { id: 'layout', label: '작업 규격', category: '기초 규격' },
+    { id: 'writing', label: '라이팅 가이드', category: '기초 규격' },
+    { id: 'icons', label: '아이콘', category: '기초 규격' },
     { id: 'buttons', label: '버튼', category: '핵심 컴포넌트' },
     { id: 'inputs', label: '입력창', category: '핵심 컴포넌트' },
     { id: 'modals', label: '모달 및 바텀시트', category: '핵심 컴포넌트' },
@@ -258,11 +260,12 @@ export const App: React.FC = () => {
                 </div>
                 <div className="space-y-0.5">
                   {[
-                    { id: 'layout', label: '작업 규격' },
-                    { id: 'writing', label: 'UX 라이팅 가이드' },
                     { id: 'colors', label: '색상 토큰' },
                     { id: 'typography', label: '타이포그래피' },
                     { id: 'spacing-radius', label: '여백 및 라운드' },
+                    { id: 'layout', label: '작업 규격' },
+                    { id: 'writing', label: '라이팅 가이드' },
+                    { id: 'icons', label: '아이콘' },
                   ].map((item) => {
                     const isActive = activeTab === item.id;
                     return (
@@ -332,11 +335,12 @@ export const App: React.FC = () => {
             <div className="max-w-[1040px] mx-auto space-y-16">
               {activeTab === 'home' && <HomeSection onSelectTab={(id) => handleNavClick(id)} />}
               {activeTab === 'archive' && <ArchiveSection />}
-              {activeTab === 'layout' && <LayoutSection />}
-              {activeTab === 'writing' && <WritingSection />}
               {activeTab === 'colors' && <ColorSection />}
               {activeTab === 'typography' && <TypographySection />}
               {activeTab === 'spacing-radius' && <SpacingRadiusSection />}
+              {activeTab === 'layout' && <LayoutSection />}
+              {activeTab === 'writing' && <WritingSection />}
+              {activeTab === 'icons' && <IconSection />}
               {activeTab === 'buttons' && <ButtonSection />}
               {activeTab === 'inputs' && <InputSection />}
               {activeTab === 'modals' && <ModalSection />}
