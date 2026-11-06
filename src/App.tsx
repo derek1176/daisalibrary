@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LayoutSection } from './components/sections/LayoutSection';
 import { ColorSection } from './components/sections/ColorSection';
 import { TypographySection } from './components/sections/TypographySection';
 import { SpacingRadiusSection } from './components/sections/SpacingRadiusSection';
@@ -7,17 +8,16 @@ import { InputSection } from './components/sections/InputSection';
 import { ModalSection } from './components/sections/ModalSection';
 
 import {
-  ExternalLink,
   Menu,
   X
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('all');
+  const [activeTab, setActiveTab] = useState<string>('layout');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: 'all', label: '전체 보기' },
+    { id: 'layout', label: '작업 규격' },
     { id: 'colors', label: '색상' },
     { id: 'typography', label: '타이포그래피' },
     { id: 'spacing-radius', label: '여백 및 라운드' },
@@ -47,7 +47,7 @@ export const App: React.FC = () => {
 
           {/* Moderate Scaled Official Logo */}
           <div
-            onClick={() => handleNavClick('all')}
+            onClick={() => handleNavClick('layout')}
             className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
             <img
@@ -61,26 +61,8 @@ export const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Meta Info */}
-        <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center gap-2 text-[13px] text-text-04 font-medium">
-            <span>Pretendard</span>
-            <span>·</span>
-            <span>토스 스타일</span>
-            <span>·</span>
-            <span className="text-main-01 font-bold">다이사 표준</span>
-          </div>
-
-          <a
-            href="https://www.figma.com/design/csWoLlTCHOtuE7oAMswuL7"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[13px] font-bold text-text-02 hover:text-main-01 hover:bg-etc-04 transition-colors border border-etc-02 bg-white shadow-2xs"
-          >
-            <span>피그마 원본</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-        </div>
+        {/* Right Header Area (Clean & Minimal) */}
+        <div></div>
       </header>
 
       {/* Main Body with Left Sidebar Navigation */}
@@ -123,17 +105,7 @@ export const App: React.FC = () => {
         {/* Right Main Content Panel */}
         <main className="flex-1 p-6 md:p-10 lg:p-14 overflow-x-hidden min-w-0">
           <div className="max-w-[1000px] mx-auto space-y-20">
-            {activeTab === 'all' && (
-              <>
-                <ColorSection />
-                <TypographySection />
-                <SpacingRadiusSection />
-                <ButtonSection />
-                <InputSection />
-                <ModalSection />
-              </>
-            )}
-
+            {activeTab === 'layout' && <LayoutSection />}
             {activeTab === 'colors' && <ColorSection />}
             {activeTab === 'typography' && <TypographySection />}
             {activeTab === 'spacing-radius' && <SpacingRadiusSection />}
