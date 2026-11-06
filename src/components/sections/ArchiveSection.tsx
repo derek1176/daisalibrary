@@ -356,7 +356,6 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
           }`}
         >
           <span>파트너향 명세서 (DAISA_PARTNER_DESIGN_SYSTEM.md)</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded bg-black/20 text-white font-extrabold">B2B</span>
         </button>
       </div>
 
@@ -382,7 +381,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
                   ? 'bg-[#595EF9]/30 text-[#A5A8FC] border border-[#595EF9]/50'
                   : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
               }`}>
-                {selectedDoc === 'partner' ? 'B2B 파트너 공식 v1.0.0' : '고객향 프로덕션 v1.0.0'}
+                {selectedDoc === 'partner' ? '파트너 공식 v1.0.0' : '고객향 프로덕션 v1.0.0'}
               </span>
             </div>
             <p className={`text-[13px] leading-relaxed max-w-xl ${

@@ -60,7 +60,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         {/* State Toggle Buttons */}
         <div className="flex items-center gap-1.5">
           <span className="text-[12px] font-medium mr-1 text-[#8B95A1]">상태:</span>
-          {(['normal', 'loading', 'disable', 'error'] as ButtonState[]).map((st) => (
+          {(['normal', 'loading', 'disable'] as ButtonState[]).map((st) => (
             <button
               key={st}
               type="button"
@@ -127,36 +127,56 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
           <div className="flex items-center justify-between border-b pb-3 border-[#F2F4F6]">
             <div>
               <h3 className="text-[17px] font-extrabold text-[#191F28]">
-                {isPartner ? '2. 파트너 서브 액션 버튼 (Secondary Action 51px)' : '2. 모달 버튼 (Modal Buttons)'}
+                {isPartner ? '2. 파트너 서브 액션 버튼 (Secondary & Modal Action 51px)' : '2. 모달 버튼 (Modal Buttons)'}
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
-                  ? 'Figma [개발] v1.2 node 1:130 규격: 280x51 r:4 / 51px r:6 아웃라인 및 솔리드 보조 버튼'
+                  ? 'Figma [개발] v1.1 node 9053:6921 공식: 취소(회색 배경 #F2F4F6, 텍스트 #191F28) + 메인(블루 #1219F7) 51px r:6 2분할 버튼'
                   : '너비 280px (136px + 8px + 136px 2분할) · 높이 56px 또는 48px · Corner Radius 10px'}
               </p>
             </div>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
-              {isPartner ? '높이 51px / r:4~6' : '높이 56px / 48px'}
+              {isPartner ? '높이 51px / r:6' : '높이 56px / 48px'}
             </span>
           </div>
 
-          <div className="rounded-[16px] p-8 flex items-center justify-center gap-3 border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div className="rounded-[16px] p-8 flex flex-col items-center justify-center gap-4 border bg-[#F9FAFB] border-[#E5E8EB]">
             {isPartner ? (
-              <div className="flex items-center gap-3 w-[312px]">
-                <PartnerSecondaryButton
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => alert('보조 액션')}
-                >
-                  상세 조회 (51px)
-                </PartnerSecondaryButton>
-                <PartnerSecondaryButton
-                  variant="solid"
-                  className="flex-1"
-                  onClick={() => alert('조건 변경')}
-                >
-                  조건 변경
-                </PartnerSecondaryButton>
+              <div className="space-y-4 w-full max-w-[340px]">
+                {/* Visual Pair from node 9053:6921 */}
+                <div className="flex items-center gap-2.5 w-full">
+                  <PartnerSecondaryButton
+                    variant="cancel"
+                    className="flex-1"
+                    onClick={() => alert('취소 클릭')}
+                  >
+                    취소
+                  </PartnerSecondaryButton>
+                  <button
+                    type="button"
+                    onClick={() => alert('답변 생성')}
+                    className="flex-1 h-[51px] px-5 rounded-[6px] text-[16px] font-bold inline-flex items-center justify-center bg-[#1219F7] hover:bg-[#0E15D4] text-white transition-colors"
+                  >
+                    답변 생성
+                  </button>
+                </div>
+                {/* Outline Sub Action */}
+                <div className="flex items-center gap-2.5 w-full">
+                  <PartnerSecondaryButton
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => alert('상세 조회')}
+                  >
+                    상세 조회 (51px)
+                  </PartnerSecondaryButton>
+                  <PartnerSecondaryButton
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => alert('조건 변경')}
+                  >
+                    조건 변경
+                  </PartnerSecondaryButton>
+                </div>
               </div>
             ) : (
               <div className="w-[280px]">

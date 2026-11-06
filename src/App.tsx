@@ -18,8 +18,7 @@ import {
   ChevronRight,
   Layers,
   FolderDown,
-  Building2,
-  CheckCircle2
+  Building2
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -29,27 +28,10 @@ export const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
 
-  // Toast State
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [toastVisible, setToastVisible] = useState(false);
-
   const handleServiceModeChange = (newMode: 'customer' | 'partner') => {
     if (serviceMode === newMode) return;
     setServiceMode(newMode);
-    const msg = newMode === 'customer'
-      ? '고객향 디자인시스템으로 전환되었습니다.'
-      : '파트너향 디자인시스템으로 전환되었습니다.';
-    setToastMessage(msg);
-    setToastVisible(true);
   };
-
-  useEffect(() => {
-    if (!toastVisible) return;
-    const timer = setTimeout(() => {
-      setToastVisible(false);
-    }, 2400);
-    return () => clearTimeout(timer);
-  }, [toastVisible]);
 
   const navItems = [
     { id: 'home', label: '컴포넌트 모아보기', category: '대시보드' },
@@ -94,16 +76,6 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col font-sans antialiased bg-[#F9FAFB] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
-      {/* ============================================================ */}
-      {/* Toast Notification (Bottom Center) */}
-      {/* ============================================================ */}
-      {toastVisible && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-5 py-3 rounded-full bg-[#191F28] text-white shadow-[0_10px_35px_rgba(0,0,0,0.25)] border border-[#333D4B] animate-bounce-short select-none">
-          <CheckCircle2 className="w-4 h-4 text-[#3182F6] shrink-0" />
-          <span className="text-[14px] font-bold tracking-tight">{toastMessage}</span>
-        </div>
-      )}
-
       {/* ============================================================ */}
       {/* Toss Style GNB Header (Full Width Clean White) */}
       {/* ============================================================ */}

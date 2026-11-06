@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Smartphone, Monitor, Search, AlertCircle, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { Smartphone, Monitor, Search, ChevronDown, CheckCircle2 } from 'lucide-react';
 
 export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -163,7 +163,6 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                     isPartner ? 'text-[18px]' : 'text-[16px]'
                   }`}
                 />
-                <AlertCircle className="w-5 h-5 text-[#F34766] shrink-0 ml-2" />
               </div>
               <span className="text-[14px] font-medium text-[#F34766] block pt-0.5">
                 {isPartner

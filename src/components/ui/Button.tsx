@@ -1,13 +1,11 @@
 import React from 'react';
 import { IconLoading } from './Icons';
 
-export type ButtonState = 'normal' | 'loading' | 'disable' | 'error';
+export type ButtonState = 'normal' | 'loading' | 'disable';
 
 const stateBg = (state: ButtonState) =>
   state === 'disable'
     ? 'bg-etc-02 cursor-not-allowed'
-    : state === 'error'
-    ? 'bg-sub-02'
     : 'bg-main-01 hover:bg-[#0E14D4] active:bg-[#0B10B0]';
 
 /**
@@ -58,11 +56,12 @@ export const PartnerPrimaryButton: React.FC<{
 
 /**
  * partner-secondary-button
- * Figma G5JiHI51FV6XFImlsyON6u node 1:130: h48/h51 · radius 4 or 6 · 16px Bold
+ * Figma KLDA7nLwHvbDCIHS6y0MgT node 9053:6921 & G5JiHI51FV6XFImlsyON6u node 1:130
+ * h48/h51 · radius 6 · 취소(bg-[#F2F4F6] text-[#191F28]) / outline / ghost
  */
 export const PartnerSecondaryButton: React.FC<{
   state?: ButtonState;
-  variant?: 'outline' | 'ghost' | 'solid';
+  variant?: 'outline' | 'ghost' | 'solid' | 'cancel';
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
@@ -72,11 +71,11 @@ export const PartnerSecondaryButton: React.FC<{
     disabled={state === 'disable'}
     onClick={onClick}
     className={`h-[51px] px-5 rounded-[6px] text-[16px] font-bold inline-flex items-center justify-center transition-colors ${
-      variant === 'outline'
+      variant === 'cancel' || variant === 'solid'
+        ? 'bg-[#F2F4F6] text-[#191F28] hover:bg-[#E5E8EB]'
+        : variant === 'outline'
         ? 'border border-[#595EF9] text-[#595EF9] bg-transparent hover:bg-[#595EF9]/10'
-        : variant === 'ghost'
-        ? 'text-[#94A3B8] hover:bg-white/5 hover:text-white'
-        : 'bg-[#1E2536] text-[#E5E8EB] hover:bg-[#252E42]'
+        : 'text-[#6B7684] hover:bg-[#F2F4F6] hover:text-[#191F28]'
     } ${className}`}
   >
     {children}
