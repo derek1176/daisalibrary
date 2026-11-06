@@ -44,7 +44,7 @@ export const SpacingRadiusSection: React.FC = () => {
     {
       val: '8px',
       name: 'SM (서브/칩)',
-      desc: '소형 셀렉트(104x40), 세그먼트 블록',
+      desc: '소형 서브 카드(312x94), 컴팩트 칩 블록',
       tailwind: 'rounded-[8px]',
       highlight: false,
     },

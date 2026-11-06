@@ -4,8 +4,7 @@ import {
   InputMemo,
   InputSearch,
   InputNumber,
-  SelectText,
-  Stepper
+  SelectText
 } from '../ui/Input';
 import { Smartphone, Monitor } from 'lucide-react';
 
@@ -21,8 +20,6 @@ export const InputSection: React.FC = () => {
   const [numVal, setNumVal] = useState('369369');
   const [numStatus, setNumStatus] = useState<'none' | 'success' | 'error'>('none');
   const [selectVal, setSelectVal] = useState('');
-  const [stepperLargeVal, setStepperLargeVal] = useState(1);
-  const [stepperSmallVal, setStepperSmallVal] = useState(1);
 
   const floorOptions = [
     '1층 (단독주택/저층)',
@@ -194,56 +191,24 @@ export const InputSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 4. Select Dropdown & Stepper */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Select Text */}
-          <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-            <div className="border-b border-[#F2F4F6] pb-3">
-              <h3 className="text-[17px] font-bold text-[#191F28]">선택 드롭다운 (select-text)</h3>
-              <p className="text-[13px] text-[#6B7684] mt-0.5">
-                높이 56px · 라운드 10px · 우측 화살표 아이콘
-              </p>
-            </div>
-            <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center justify-center border border-[#E5E8EB]">
-              <div className="w-[312px] max-w-full">
-                <SelectText
-                  fluid
-                  label="출발지 층수 선택"
-                  placeholder="층수를 선택해 주세요"
-                  options={floorOptions}
-                  value={selectVal}
-                  onChange={(val) => setSelectVal(val)}
-                />
-              </div>
-            </div>
+        {/* 4. Select Dropdown */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="border-b border-[#F2F4F6] pb-3">
+            <h3 className="text-[18px] font-bold text-[#191F28]">선택 드롭다운 (select-text)</h3>
+            <p className="text-[13px] text-[#6B7684] mt-0.5">
+              높이 56px · 라운드 10px · 패딩 16px · 우측 드롭다운 화살표 아이콘 (셀렉터 넘버 미사용)
+            </p>
           </div>
-
-          {/* Stepper */}
-          <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-            <div className="border-b border-[#F2F4F6] pb-3">
-              <h3 className="text-[17px] font-bold text-[#191F28]">수량 증감기 (Stepper)</h3>
-              <p className="text-[13px] text-[#6B7684] mt-0.5">
-                방 개수, 주요 가전 수량 조절용 +/- 컨트롤러 (48px / 40px)
-              </p>
-            </div>
-            <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center justify-center gap-6 border border-[#E5E8EB]">
-              <div className="flex items-center justify-between w-[312px] bg-white p-3 rounded-[12px] border border-[#E5E8EB]">
-                <span className="text-[14px] font-bold text-[#191F28]">방 개수 (표준 48px)</span>
-                <Stepper
-                  value={stepperLargeVal}
-                  onChange={(v) => setStepperLargeVal(v)}
-                  size="large"
-                />
-              </div>
-
-              <div className="flex items-center justify-between w-[312px] bg-white p-3 rounded-[12px] border border-[#E5E8EB]">
-                <span className="text-[14px] font-bold text-[#191F28]">침대 수량 (서브 40px)</span>
-                <Stepper
-                  value={stepperSmallVal}
-                  onChange={(v) => setStepperSmallVal(v)}
-                  size="small"
-                />
-              </div>
+          <div className="p-8 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center justify-center border border-[#E5E8EB]">
+            <div className={`${currentWidthClass} max-w-full`}>
+              <SelectText
+                fluid
+                label="출발지 층수 선택"
+                placeholder="층수를 선택해 주세요"
+                options={floorOptions}
+                value={selectVal}
+                onChange={(val) => setSelectVal(val)}
+              />
             </div>
           </div>
         </div>

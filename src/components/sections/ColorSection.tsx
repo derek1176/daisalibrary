@@ -83,54 +83,6 @@ export const ColorSection: React.FC = () => {
         </p>
       </div>
 
-      {/* 3 Core Highlight Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Main Blue */}
-        <div className="bg-[#1219F7] text-white rounded-[22px] p-6 space-y-4 shadow-md flex flex-col justify-between">
-          <div>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white inline-block mb-2">
-              Primary Key Color
-            </span>
-            <h3 className="text-[24px] font-extrabold tracking-tight">main-01</h3>
-            <p className="text-[13px] text-white/80 mt-1">CTA 버튼, 활성 탭, 브랜드 핵심 포인트</p>
-          </div>
-          <div className="pt-3 border-t border-white/20 flex items-center justify-between font-mono text-[14px] font-bold">
-            <span>#1219F7</span>
-            <span className="text-[11px] text-white/70">클릭 복사</span>
-          </div>
-        </div>
-
-        {/* Secondary Blue */}
-        <div className="bg-[#595EF9] text-white rounded-[22px] p-6 space-y-4 shadow-md flex flex-col justify-between">
-          <div>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white inline-block mb-2">
-              Secondary Color
-            </span>
-            <h3 className="text-[24px] font-extrabold tracking-tight">main-02</h3>
-            <p className="text-[13px] text-white/80 mt-1">보조 버튼, 서브 하이라이트, 칩 뱃지</p>
-          </div>
-          <div className="pt-3 border-t border-white/20 flex items-center justify-between font-mono text-[14px] font-bold">
-            <span>#595EF9</span>
-            <span className="text-[11px] text-white/70">클릭 복사</span>
-          </div>
-        </div>
-
-        {/* Error Red */}
-        <div className="bg-[#F34766] text-white rounded-[22px] p-6 space-y-4 shadow-md flex flex-col justify-between">
-          <div>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white inline-block mb-2">
-              System Feedback
-            </span>
-            <h3 className="text-[24px] font-extrabold tracking-tight">error</h3>
-            <p className="text-[13px] text-white/80 mt-1">인풋 에러 테두리 스트로크 & 피드백 텍스트</p>
-          </div>
-          <div className="pt-3 border-t border-white/20 flex items-center justify-between font-mono text-[14px] font-bold">
-            <span>#F34766</span>
-            <span className="text-[11px] text-white/70">클릭 복사</span>
-          </div>
-        </div>
-      </div>
-
       {/* Category 1: Main Colors */}
       <div className="space-y-4">
         <div className="flex items-center gap-2 border-b border-[#F2F4F6] pb-2">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   Layers,
@@ -30,6 +30,27 @@ interface ComponentCard {
 }
 
 export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
+  // First-visit detection for living staggered fill-up animation (Only runs once per browser session)
+  const [isFirstVisit, setIsFirstVisit] = useState(false);
+  const [loadingShimmer, setLoadingShimmer] = useState(false);
+
+  useEffect(() => {
+    try {
+      const hasAnimated = sessionStorage.getItem('daisa_intro_animated');
+      if (!hasAnimated) {
+        setIsFirstVisit(true);
+        setLoadingShimmer(true);
+        const timer = setTimeout(() => {
+          setLoadingShimmer(false);
+          sessionStorage.setItem('daisa_intro_animated', 'true');
+        }, 350);
+        return () => clearTimeout(timer);
+      }
+    } catch {
+      // Fallback if sessionStorage is blocked
+    }
+  }, []);
+
   const cards: ComponentCard[] = [
     // 1. 색상 토큰
     {
@@ -151,9 +172,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
       id: 'icons',
       title: '아이콘 (Icons)',
       category: '기초 규격',
-      badge: '24px · 1.5px',
+      badge: '24px · SVG 다운로드',
       icon: Sparkles,
-      desc: '이모지 사용 금지 · 시스템 아이콘 기반 · 1.5px 라운드 스트로크',
+      desc: '이모지 사용 금지 · 공식 시스템 28종 · 클릭 시 SVG 다운로드',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center gap-3 select-none px-4">
           <div className="w-10 h-10 rounded-[10px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#191F28] shadow-2xs">
@@ -229,7 +250,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
   return (
     <div className="space-y-8">
       {/* Intro Header: Toss Style */}
-      <div className="space-y-2">
+      <div className={`space-y-2 ${isFirstVisit ? 'animate-fadeIn' : ''}`}>
         <h1 className="text-[32px] md:text-[38px] font-extrabold text-[#191F28] tracking-tight leading-tight">
           컴포넌트 모아보기
         </h1>
@@ -238,54 +259,74 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
         </p>
       </div>
 
-      {/* Grid of Component Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {cards.map((card) => {
-          const Icon = card.icon;
-          return (
+      {/* Grid of Component Cards with Staggered Living Fill-up Motion */}
+      {loadingShimmer ? (
+        // Living Shimmer Skeleton for smooth entrance
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 9 }).map((_, i) => (
             <div
-              key={card.id}
-              onClick={() => onSelectTab(card.id)}
-              className="group bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden hover:border-[#1219F7]/40 hover:shadow-[0_12px_32px_rgba(18,25,247,0.08)] transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+              key={i}
+              className="bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden p-5 space-y-4 animate-pulse"
             >
-              {/* Preview Window Area */}
-              <div className="h-[160px] bg-[#F9FAFB] border-b border-[#F2F4F6] flex items-center justify-center p-4 relative group-hover:bg-[#F4F6F9] transition-colors">
-                {card.badge && (
-                  <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#191F28] border border-[#E5E8EB] shadow-2xs">
-                    {card.badge}
-                  </span>
-                )}
-                {card.renderPreview()}
-              </div>
-
-              {/* Card Bottom Content Area */}
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <div className="w-7 h-7 rounded-[8px] bg-[#F2F4F6] flex items-center justify-center text-[#4E5968] group-hover:bg-[#E8F3FF] group-hover:text-[#1219F7] transition-colors">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-[12px] font-bold text-[#8B95A1]">
-                      {card.category}
-                    </span>
-                  </div>
-                  <h3 className="text-[17px] font-extrabold text-[#191F28] group-hover:text-[#1219F7] transition-colors tracking-tight">
-                    {card.title}
-                  </h3>
-                  <p className="text-[13px] text-[#6B7684] mt-1.5 line-clamp-2 leading-relaxed">
-                    {card.desc}
-                  </p>
-                </div>
-
-                <div className="pt-4 mt-2 border-t border-[#F2F4F6] flex items-center justify-between text-[13px] font-bold text-[#4E5968] group-hover:text-[#1219F7] transition-colors">
-                  <span>자세히 보기</span>
-                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
+              <div className="h-[140px] bg-[#F2F4F6] rounded-[16px]" />
+              <div className="h-4 bg-[#F2F4F6] rounded w-1/3" />
+              <div className="h-5 bg-[#E5E8EB] rounded w-2/3" />
+              <div className="h-3 bg-[#F2F4F6] rounded w-full" />
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cards.map((card, idx) => {
+            const Icon = card.icon;
+            return (
+              <div
+                key={card.id}
+                onClick={() => onSelectTab(card.id)}
+                style={isFirstVisit ? { animationDelay: `${idx * 55}ms` } : undefined}
+                className={`group bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden hover:border-[#1219F7]/40 hover:shadow-[0_12px_32px_rgba(18,25,247,0.08)] transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04)] ${
+                  isFirstVisit ? 'animate-fillUp' : ''
+                }`}
+              >
+                {/* Preview Window Area */}
+                <div className="h-[160px] bg-[#F9FAFB] border-b border-[#F2F4F6] flex items-center justify-center p-4 relative group-hover:bg-[#F4F6F9] transition-colors">
+                  {card.badge && (
+                    <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-[#191F28] border border-[#E5E8EB] shadow-2xs">
+                      {card.badge}
+                    </span>
+                  )}
+                  {card.renderPreview()}
+                </div>
+
+                {/* Card Bottom Content Area */}
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <div className="w-7 h-7 rounded-[8px] bg-[#F2F4F6] flex items-center justify-center text-[#4E5968] group-hover:bg-[#E8F3FF] group-hover:text-[#1219F7] transition-colors">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-[12px] font-bold text-[#8B95A1]">
+                        {card.category}
+                      </span>
+                    </div>
+                    <h3 className="text-[17px] font-extrabold text-[#191F28] group-hover:text-[#1219F7] transition-colors tracking-tight">
+                      {card.title}
+                    </h3>
+                    <p className="text-[13px] text-[#6B7684] mt-1.5 line-clamp-2 leading-relaxed">
+                      {card.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 mt-2 border-t border-[#F2F4F6] flex items-center justify-between text-[13px] font-bold text-[#4E5968] group-hover:text-[#1219F7] transition-colors">
+                    <span>자세히 보기</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
