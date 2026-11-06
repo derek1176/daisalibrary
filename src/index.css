@@ -5,18 +5,19 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 32px;
+    scroll-padding-top: 40px;
   }
   * {
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
   body {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    color: #121212;
-    background: #ffffff;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    color: #191F28;
+    background: #F9FAFB;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'tnum';
+    word-break: keep-all;
   }
   button {
     -webkit-tap-highlight-color: transparent;
@@ -36,17 +37,34 @@
   to { opacity: 1; }
 }
 @keyframes pop-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes sheet-up {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
-.anim-fade { animation: fade-in 0.18s ease-out; }
-.anim-pop { animation: pop-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.anim-sheet { animation: sheet-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes scale-up {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #D7DBE2; border-radius: 999px; border: 2px solid #fff; }
+.animate-fadeIn { animation: fade-in 0.15s ease-out; }
+.animate-scaleUp { animation: scale-up 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-slideUp { animation: sheet-up 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* Toss Style Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5E8EB;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D1D6DB;
+}

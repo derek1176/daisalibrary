@@ -14,6 +14,8 @@ export const InputSection: React.FC = () => {
 
   // Input states
   const [textVal, setTextVal] = useState('서울시 강남구 테헤란로 123');
+  const [errorTextVal, setErrorTextVal] = useState('잘못된 건물명 입력');
+  const [disabledTextVal, setDisabledTextVal] = useState('자동 입력 완료된 주소 (수정 불가)');
   const [memoVal, setMemoVal] = useState('사다리차 진입 가능한 주차공간이 있으며, 냉장고 분해 조립 요청드립니다.');
   const [searchVal, setSearchVal] = useState('광명시');
   const [numVal, setNumVal] = useState('369369');
@@ -32,232 +34,238 @@ export const InputSection: React.FC = () => {
     '지하 1층',
   ];
 
+  const currentWidthClass = deviceView === 'mobile' ? 'w-[312px]' : 'w-[640px]';
+
   return (
-    <section id="inputs" className="space-y-12">
-      {/* Section Header */}
-      <div className="border-b border-etc-03 pb-6">
-        <span className="text-[13px] font-bold text-main-01">
+    <section id="inputs" className="space-y-10">
+      {/* Section Header: Toss Style */}
+      <div className="border-b border-[#E5E8EB] pb-6">
+        <span className="text-[13px] font-bold text-[#3182F6]">
           입력 폼
         </span>
-        <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          입력창 컴포넌트
+        <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
+          입력창 컴포넌트 (Form Inputs)
         </h2>
-        <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
+        <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
           모바일 기준 <strong>너비 312px, 높이 56px, Corner Radius 10px, 좌우 패딩 16px</strong>의 정형화된 규격을 유지합니다. PC에서는 콘텐츠 영역 <strong>640px</strong>로 정렬됩니다. 에러 상태 시 테두리 스트로크와 하단 에러 문구는 공식 컬러 <strong>#F34766</strong>을 사용합니다.
         </p>
       </div>
 
-      {/* Device Control Bar */}
-      <div className="bg-white border border-[#EBEEF2] rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 shadow-soft">
-        <div className="flex items-center gap-1.5 bg-etc-04 p-1 rounded-[10px] border border-etc-02">
+      {/* Device Control Bar: Toss Pill Segment */}
+      <div className="bg-white border border-[#E5E8EB] rounded-[20px] p-4 flex flex-wrap items-center justify-between gap-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center gap-1.5 bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
           <button
+            type="button"
             onClick={() => setDeviceView('mobile')}
-            className={`px-3 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
-              deviceView === 'mobile' ? 'bg-white text-main-01 shadow-xs' : 'text-text-03 hover:text-text-01'
+            className={`px-3.5 py-1.5 rounded-[9px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+              deviceView === 'mobile' ? 'bg-white text-[#191F28] shadow-2xs' : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" /> 모바일 (312px)
           </button>
           <button
+            type="button"
             onClick={() => setDeviceView('pc')}
-            className={`px-3 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
-              deviceView === 'pc' ? 'bg-white text-main-01 shadow-xs' : 'text-text-03 hover:text-text-01'
+            className={`px-3.5 py-1.5 rounded-[9px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+              deviceView === 'pc' ? 'bg-white text-[#191F28] shadow-2xs' : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
             <Monitor className="w-3.5 h-3.5" /> 웹/PC (640px)
           </button>
         </div>
 
-        <span className="text-[13px] text-text-03">
-          현재 뷰: <strong>{deviceView === 'mobile' ? 'Mobile 312px 그리드' : 'PC 640px 단일 열 그리드'}</strong>
+        <span className="text-[12px] text-[#8B95A1] font-medium">
+          에러 상태 보더 및 피드백 문구: <strong className="text-[#F34766]">#F34766</strong>
         </span>
       </div>
 
-      {/* Grid of Clean Input Cards */}
+      {/* Input Gallery Grid */}
       <div className="grid grid-cols-1 gap-8">
-        {/* 1. input-text */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
-            <div>
-              <h3 className="text-[17px] font-bold text-text-01">1. input-text (기본 텍스트 인풋)</h3>
-              <p className="text-[13px] text-text-03 mt-0.5">
-                기본 테두리 #D7DBE2 · 포커스 시 #1219F7 · 비활성 시 #F7F8FA 배경
-              </p>
-            </div>
-            <span className="font-mono text-[12px] text-text-04">312x56 · r:10px · pad:16px</span>
+        {/* 1. Input Text (Normal, Focus, Error) */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="border-b border-[#F2F4F6] pb-3">
+            <h3 className="text-[18px] font-bold text-[#191F28]">기본 텍스트 인풋 (input-text)</h3>
+            <p className="text-[13px] text-[#6B7684] mt-0.5">
+              높이 56px · Radius 10px · 포커스 시 키컬러 테두리 활성화 · 에러 시 #F34766 적용
+            </p>
           </div>
 
-          <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center gap-6">
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
+          <div className="p-8 bg-[#F9FAFB] rounded-[16px] space-y-6 flex flex-col items-center border border-[#E5E8EB]">
+            <div className={`${currentWidthClass} max-w-full`}>
               <InputText
-                label="출발지 주소 (Normal)"
-                placeholder="동/읍/면 또는 도로명 입력"
+                fluid
+                label="출발지 주소 (기본 상태)"
+                placeholder="도로명 또는 지번 주소를 입력하세요"
                 value={textVal}
-                onChange={(v) => setTextVal(v)}
-                fluid={deviceView === 'pc'}
+                onChange={(val) => setTextVal(val)}
               />
             </div>
 
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
+            <div className={`${currentWidthClass} max-w-full`}>
               <InputText
-                label="에러 상태 (Error - stroke & text #F34766)"
-                value="잘못된 주소 형식입니다"
-                onChange={() => {}}
-                error="정확한 도로명 주소를 2글자 이상 입력해주세요 (#F34766)"
-                fluid={deviceView === 'pc'}
+                fluid
+                label="상세 주소 (에러 상태 예시)"
+                placeholder="동/호수를 정확히 입력하세요"
+                value={errorTextVal}
+                onChange={(val) => setErrorTextVal(val)}
+                error="정확한 상세 주소를 입력해주세요 (#F34766)"
               />
             </div>
 
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
+            <div className={`${currentWidthClass} max-w-full`}>
               <InputText
-                label="비활성 상태 (Disabled)"
-                value="수정 불가 항목"
-                onChange={() => {}}
+                fluid
+                label="비활성 인풋 (Disabled)"
+                value={disabledTextVal}
+                onChange={(val) => setDisabledTextVal(val)}
                 disabled
-                fluid={deviceView === 'pc'}
               />
             </div>
           </div>
         </div>
 
-        {/* 2. input-text (Memo 104px) */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
-            <div>
-              <h3 className="text-[17px] font-bold text-text-01">2. input-text (Memo 멀티라인 텍스트에어리어)</h3>
-              <p className="text-[13px] text-text-03 mt-0.5">
-                상세 요청사항, 전달 메모 입력 전용. 높이 104px 고정
-              </p>
-            </div>
-            <span className="text-[12px] text-text-04">312x104 · 라운드 10px · 패딩 16px</span>
+        {/* 2. Input Search */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="border-b border-[#F2F4F6] pb-3">
+            <h3 className="text-[18px] font-bold text-[#191F28]">검색 인풋 (input-search)</h3>
+            <p className="text-[13px] text-[#6B7684] mt-0.5">
+              좌측 돋보기 아이콘 (24x24) · 우측 원터치 텍스트 삭제(X) 아이콘 탑재
+            </p>
           </div>
 
-          <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center">
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
-              <InputMemo
-                label="업체 전달 메모 작성(선택)"
-                placeholder="업체 전달 메모 작성(선택)"
-                value={memoVal}
-                onChange={(v) => setMemoVal(v)}
-                fluid={deviceView === 'pc'}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* 3. input-search */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
-            <div>
-              <h3 className="text-[17px] font-bold text-text-01">3. input-search (검색 전용 인풋)</h3>
-              <p className="text-[13px] text-text-03 mt-0.5">
-                우측 돋보기 아이콘 고정 · 텍스트 입력 및 포커스 시 즉시 지우기(X) 원형 아이콘 노출
-              </p>
-            </div>
-            <span className="font-mono text-[12px] text-text-04">312x56 · gap:8px</span>
-          </div>
-
-          <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center">
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
+          <div className="p-8 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center border border-[#E5E8EB]">
+            <div className={`${currentWidthClass} max-w-full`}>
               <InputSearch
-                label="지역 검색"
-                placeholder="도로명, 지번, 건물명(2글자 이상)"
+                fluid
+                label="이사 지역 또는 아파트명 검색"
+                placeholder="지역명(동/읍/면) 또는 아파트명을 검색하세요"
                 value={searchVal}
-                onChange={(v) => setSearchVal(v)}
-                fluid={deviceView === 'pc'}
+                onChange={(val) => setSearchVal(val)}
               />
             </div>
           </div>
         </div>
 
-        {/* 4. input-number & Validation */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
+        {/* 3. Number Input with Validation State */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#F2F4F6] pb-3">
             <div>
-              <h3 className="text-[17px] font-bold text-text-01">4. input-number (숫자 인풋 & 검증 피드백)</h3>
-              <p className="text-[13px] text-text-03 mt-0.5">
-                인증번호, 평수 등 숫자 입력. Success(#333333 잠금) 및 Error(#F34766 보더 스트로크 + 문구)
+              <h3 className="text-[18px] font-bold text-[#191F28]">숫자/인증번호 인풋 (input-number)</h3>
+              <p className="text-[13px] text-[#6B7684] mt-0.5">
+                숫자 전용 키패드 호출 · 유효성 검증 아이콘 (체크/에러) 피드백 제공
               </p>
             </div>
-            <div className="flex items-center gap-1.5 bg-etc-04 p-1 rounded-md text-[12px]">
-              {(['none', 'success', 'error'] as const).map((st) => (
-                <button
-                  key={st}
-                  onClick={() => setNumStatus(st)}
-                  className={`px-2.5 py-0.5 rounded font-bold capitalize transition-colors ${
-                    numStatus === st ? 'bg-white text-main-01 shadow-2xs' : 'text-text-03'
-                  }`}
-                >
-                  {st}
-                </button>
-              ))}
+            <div className="flex items-center gap-1.5 bg-[#F2F4F6] p-1 rounded-[10px] text-[12px] font-bold">
+              <button
+                type="button"
+                onClick={() => setNumStatus('none')}
+                className={`px-2 py-0.5 rounded-[6px] ${numStatus === 'none' ? 'bg-white text-[#191F28] shadow-2xs' : 'text-[#8B95A1]'}`}
+              >
+                일반
+              </button>
+              <button
+                type="button"
+                onClick={() => setNumStatus('success')}
+                className={`px-2 py-0.5 rounded-[6px] ${numStatus === 'success' ? 'bg-white text-[#1B64DA] shadow-2xs' : 'text-[#8B95A1]'}`}
+              >
+                성공
+              </button>
+              <button
+                type="button"
+                onClick={() => setNumStatus('error')}
+                className={`px-2 py-0.5 rounded-[6px] ${numStatus === 'error' ? 'bg-white text-[#D93442] shadow-2xs' : 'text-[#8B95A1]'}`}
+              >
+                에러
+              </button>
             </div>
           </div>
 
-          <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center">
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
+          <div className="p-8 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center border border-[#E5E8EB]">
+            <div className={`${currentWidthClass} max-w-full`}>
               <InputNumber
-                label="인증번호 입력"
-                placeholder="숫자 6자리 입력"
+                fluid
+                label="휴대폰 인증번호 6자리"
+                placeholder="인증번호를 입력하세요"
                 value={numVal}
-                onChange={(v) => setNumVal(v)}
+                onChange={(val) => setNumVal(val)}
                 status={numStatus}
-                statusText={
-                  numStatus === 'success'
-                    ? '인증이 완료되었습니다'
-                    : numStatus === 'error'
-                    ? '인증번호가 일치하지 않습니다 (#F34766)'
-                    : undefined
-                }
-                fluid={deviceView === 'pc'}
               />
             </div>
           </div>
         </div>
 
-        {/* 5. select-text & Stepper */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
-            <div>
-              <h3 className="text-[17px] font-bold text-text-01">5. select-text & select-number (Stepper)</h3>
-              <p className="text-[13px] text-text-03 mt-0.5">
-                드롭다운 선택창(Chevron 회전) 및 수량 증감 스테퍼 (Large 312x56 r:10 / Small 104x40 r:8)
+        {/* 4. Select Dropdown & Stepper */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Select Text */}
+          <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="border-b border-[#F2F4F6] pb-3">
+              <h3 className="text-[17px] font-bold text-[#191F28]">선택 드롭다운 (select-text)</h3>
+              <p className="text-[13px] text-[#6B7684] mt-0.5">
+                높이 56px · 라운드 10px · 우측 화살표 아이콘
               </p>
             </div>
-            <span className="text-[12px] text-text-04">Large 라운드 10px · Small 라운드 8px</span>
+            <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center justify-center border border-[#E5E8EB]">
+              <div className="w-[312px] max-w-full">
+                <SelectText
+                  fluid
+                  label="출발지 층수 선택"
+                  placeholder="층수를 선택해 주세요"
+                  options={floorOptions}
+                  value={selectVal}
+                  onChange={(val) => setSelectVal(val)}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center gap-6">
-            <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
-              <SelectText
-                label="출발지 층수 선택 (select-text)"
-                placeholder="선택해주세요"
-                options={floorOptions}
-                value={selectVal}
-                onChange={(v) => setSelectVal(v)}
-                fluid={deviceView === 'pc'}
-              />
+          {/* Stepper */}
+          <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+            <div className="border-b border-[#F2F4F6] pb-3">
+              <h3 className="text-[17px] font-bold text-[#191F28]">수량 증감기 (Stepper)</h3>
+              <p className="text-[13px] text-[#6B7684] mt-0.5">
+                방 개수, 주요 가전 수량 조절용 +/- 컨트롤러 (48px / 40px)
+              </p>
             </div>
-
-            <div className="flex flex-col sm:flex-row items-center gap-6">
-              <div className="flex flex-col gap-1.5 items-center">
-                <span className="text-[13px] font-bold text-text-02">Large Stepper (312x56, r:10)</span>
+            <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center justify-center gap-6 border border-[#E5E8EB]">
+              <div className="flex items-center justify-between w-[312px] bg-white p-3 rounded-[12px] border border-[#E5E8EB]">
+                <span className="text-[14px] font-bold text-[#191F28]">방 개수 (표준 48px)</span>
                 <Stepper
-                  size="large"
                   value={stepperLargeVal}
                   onChange={(v) => setStepperLargeVal(v)}
-                  unit="대"
+                  size="large"
                 />
               </div>
 
-              <div className="flex flex-col gap-1.5 items-center">
-                <span className="text-[13px] font-bold text-text-02">Small Stepper (104x40, r:8)</span>
+              <div className="flex items-center justify-between w-[312px] bg-white p-3 rounded-[12px] border border-[#E5E8EB]">
+                <span className="text-[14px] font-bold text-[#191F28]">침대 수량 (서브 40px)</span>
                 <Stepper
-                  size="small"
                   value={stepperSmallVal}
                   onChange={(v) => setStepperSmallVal(v)}
+                  size="small"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 5. Textarea Memo */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="border-b border-[#F2F4F6] pb-3">
+            <h3 className="text-[18px] font-bold text-[#191F28]">멀티라인 요청사항 메모 (input-memo)</h3>
+            <p className="text-[13px] text-[#6B7684] mt-0.5">
+              높이 104px (모바일 기본) · 라운드 10px · 패딩 16px · 실시간 글자수 카운터 (최대 200자)
+            </p>
+          </div>
+
+          <div className="p-8 bg-[#F9FAFB] rounded-[16px] flex flex-col items-center border border-[#E5E8EB]">
+            <div className={`${currentWidthClass} max-w-full`}>
+              <InputMemo
+                fluid
+                label="기사님께 전달할 특별 요청사항"
+                placeholder="엘리베이터 유무, 사다리차 진입 가능 여부 등을 자유롭게 적어주세요"
+                value={memoVal}
+                onChange={(val) => setMemoVal(val)}
+              />
             </div>
           </div>
         </div>

@@ -93,35 +93,35 @@ export const SpacingRadiusSection: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-12">
       {/* 03 — SPACING */}
       <section id="spacing" className="space-y-8">
-        <div className="border-b border-etc-03 pb-6">
-          <span className="text-[13px] font-bold text-main-01">
+        <div className="border-b border-[#E5E8EB] pb-6">
+          <span className="text-[13px] font-bold text-[#3182F6]">
             간격 체계
           </span>
-          <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
+          <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
             여백 (Spacing Scale)
           </h2>
-          <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
+          <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
             기본은 <strong>4의 배수</strong> 체계를 따릅니다. 컴포넌트 내부 여백과 화면 레이아웃 마진은 엄격히 통일된 스케일을 적용합니다.
           </p>
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-6 text-[13px] text-text-03">
+        <div className="flex items-center gap-6 text-[13px] text-[#6B7684]">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-[3px] bg-etc-02"></span>
+            <span className="w-3 h-3 rounded-[3px] bg-[#E5E8EB]"></span>
             <span>일반 규격 (Basic size)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-[3px] bg-main-01"></span>
-            <span className="font-bold text-main-01">핵심 규격 (Core size)</span>
+            <span className="w-3 h-3 rounded-[3px] bg-[#1219F7]"></span>
+            <span className="font-bold text-[#1219F7]">핵심 규격 (Core size)</span>
           </div>
         </div>
 
         {/* Compact Horizontal Bar Spacing Scale Chart */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 shadow-soft space-y-1.5 select-none">
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)] space-y-1.5 select-none">
           {spacingList.map((item) => (
             <div
               key={item.token}
@@ -168,14 +168,14 @@ export const SpacingRadiusSection: React.FC = () => {
 
       {/* 04 — RADIUS */}
       <section id="radius" className="space-y-8">
-        <div className="border-b border-etc-03 pb-6">
-          <span className="text-[13px] font-bold text-main-01">
+        <div className="border-b border-[#E5E8EB] pb-6">
+          <span className="text-[13px] font-bold text-[#3182F6]">
             모서리 곡률
           </span>
-          <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
+          <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
             라운드 (Corner Radius 8단계)
           </h2>
-          <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
+          <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
             다이사는 컴포넌트의 크기와 위계에 따라 8단계의 라운드 체계를 유지합니다. <strong>인풋/버튼은 10px</strong>, <strong>모달은 16px</strong>, <strong>하단 고정 CTA는 0px</strong>가 절대 원칙입니다.
           </p>
         </div>
@@ -185,10 +185,10 @@ export const SpacingRadiusSection: React.FC = () => {
             <div
               key={r.val}
               onClick={() => copy(r.tailwind)}
-              className={`p-5 rounded-[18px] border flex flex-col justify-between h-[190px] cursor-pointer transition-all duration-150 select-none ${
+              className={`p-5 rounded-[20px] border flex flex-col justify-between h-[190px] cursor-pointer transition-all duration-200 select-none ${
                 r.highlight
-                  ? 'bg-main-04 border-main-02/40 shadow-soft'
-                  : 'bg-white border-[#EBEEF2] hover:border-[#D7DBE2] hover:shadow-soft'
+                  ? 'bg-[#E8F3FF] border-[#3182F6]/40 shadow-[0_4px_16px_rgba(49,130,246,0.12)]'
+                  : 'bg-white border-[#E5E8EB] hover:border-[#3182F6] hover:shadow-[0_12px_28px_rgba(0,0,0,0.06)] hover:-translate-y-0.5'
               }`}
             >
               <div className="flex items-center justify-between">

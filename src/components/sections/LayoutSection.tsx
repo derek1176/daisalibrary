@@ -3,16 +3,16 @@ import { Smartphone, Monitor, Info, CheckCircle2 } from 'lucide-react';
 
 export const LayoutSection: React.FC = () => {
   return (
-    <section id="layout" className="space-y-12">
-      {/* Section Header */}
-      <div className="border-b border-etc-03 pb-6">
-        <span className="text-[13px] font-bold text-main-01">
+    <section id="layout" className="space-y-10">
+      {/* Section Header: Toss Style */}
+      <div className="border-b border-[#E5E8EB] pb-6">
+        <span className="text-[13px] font-bold text-[#3182F6]">
           화면 레이아웃
         </span>
-        <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
           작업 규격 (모바일 & 웹)
         </h2>
-        <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
+        <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
           다이사(da24) 서비스의 <strong>모바일(360px)</strong> 및 <strong>웹/PC(1200px)</strong> 공식 작업 규격입니다.
           모바일은 좌우 24px 여백(콘텐츠 312px)을 사용하며, 웹사이트는 1200px 캔버스 내에서 <strong>헤더, 본문, 버튼 모두 640px</strong> 단일 컬럼 규격을 엄격히 준수합니다.
         </p>
@@ -21,73 +21,73 @@ export const LayoutSection: React.FC = () => {
       {/* Quick Spec Card Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Mobile Spec Summary */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[18px] p-6 shadow-soft flex flex-col justify-between">
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)] flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 text-main-01 mb-3">
+            <div className="flex items-center gap-2.5 text-[#3182F6] mb-3">
               <Smartphone className="w-5 h-5" />
-              <h3 className="text-[18px] font-bold text-text-01">모바일 작업 규격</h3>
+              <h3 className="text-[18px] font-bold text-[#191F28]">모바일 작업 규격</h3>
             </div>
-            <div className="space-y-2.5 text-[14px] text-text-02">
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">기본 프레임 너비</span>
-                <span className="font-bold text-text-01">360px</span>
+            <div className="space-y-2.5 text-[14px] text-[#333D4B]">
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">기본 프레임 너비</span>
+                <span className="font-bold text-[#191F28]">360px</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">좌우 마진 (여백)</span>
-                <span className="font-bold text-main-01">24px (양측 각 24px)</span>
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">좌우 마진 (여백)</span>
+                <span className="font-bold text-[#1219F7]">24px (양측 각 24px)</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">안전 콘텐츠 너비</span>
-                <span className="font-bold text-main-01">312px (360 - 48)</span>
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">안전 콘텐츠 너비</span>
+                <span className="font-bold text-[#1219F7]">312px (360 - 48)</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">상단 헤더 높이</span>
-                <span className="font-bold text-text-01">56px</span>
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">상단 헤더 높이</span>
+                <span className="font-bold text-[#191F28]">56px</span>
               </div>
               <div className="flex justify-between py-1.5">
-                <span className="text-text-03">하단 플로팅 CTA</span>
-                <span className="font-bold text-text-01">360px (좌우여백 0px, r:0)</span>
+                <span className="text-[#6B7684]">하단 플로팅 CTA</span>
+                <span className="font-bold text-[#191F28]">360px (좌우여백 0px, r:0)</span>
               </div>
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-etc-03 flex items-center gap-2 text-[12px] text-text-04">
-            <CheckCircle2 className="w-4 h-4 text-main-01 shrink-0" />
+          <div className="mt-4 pt-3 border-t border-[#F2F4F6] flex items-center gap-2 text-[12px] text-[#8B95A1]">
+            <CheckCircle2 className="w-4 h-4 text-[#3182F6] shrink-0" />
             <span>피그마 노드 384:1369 (여백 및 팝업 규격) 공식 기준</span>
           </div>
         </div>
 
         {/* Web Spec Summary */}
-        <div className="bg-white border border-[#EBEEF2] rounded-[18px] p-6 shadow-soft flex flex-col justify-between">
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)] flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2.5 text-main-01 mb-3">
+            <div className="flex items-center gap-2.5 text-[#3182F6] mb-3">
               <Monitor className="w-5 h-5" />
-              <h3 className="text-[18px] font-bold text-text-01">웹/PC 작업 규격</h3>
+              <h3 className="text-[18px] font-bold text-[#191F28]">웹/PC 작업 규격</h3>
             </div>
-            <div className="space-y-2.5 text-[14px] text-text-02">
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">전체 캔버스 너비</span>
-                <span className="font-bold text-text-01">1200px</span>
+            <div className="space-y-2.5 text-[14px] text-[#333D4B]">
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">전체 캔버스 너비</span>
+                <span className="font-bold text-[#191F28]">1200px</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">상단 헤더 너비</span>
-                <span className="font-bold text-main-01">640px (중앙 정렬)</span>
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">상단 헤더 너비</span>
+                <span className="font-bold text-[#1219F7]">640px (중앙 정렬)</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">본문 및 신청 폼 너비</span>
-                <span className="font-bold text-main-01">640px (중앙 정렬)</span>
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">본문 및 신청 폼 너비</span>
+                <span className="font-bold text-[#1219F7]">640px (중앙 정렬)</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">하단 액션 버튼 너비</span>
-                <span className="font-bold text-main-01">640px (중앙 정렬)</span>
+              <div className="flex justify-between py-1.5 border-b border-[#F2F4F6]">
+                <span className="text-[#6B7684]">하단 액션 버튼 너비</span>
+                <span className="font-bold text-[#1219F7]">640px (중앙 정렬)</span>
               </div>
               <div className="flex justify-between py-1.5">
-                <span className="text-text-03">좌우 여백 (안전 마진)</span>
-                <span className="font-bold text-text-01">280px (1200 - 640 / 2)</span>
+                <span className="text-[#6B7684]">좌우 여백 (안전 마진)</span>
+                <span className="font-bold text-[#191F28]">280px (1200 - 640 / 2)</span>
               </div>
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-etc-03 flex items-center gap-2 text-[12px] text-text-04">
-            <CheckCircle2 className="w-4 h-4 text-main-01 shrink-0" />
+          <div className="mt-4 pt-3 border-t border-[#F2F4F6] flex items-center gap-2 text-[12px] text-[#8B95A1]">
+            <CheckCircle2 className="w-4 h-4 text-[#3182F6] shrink-0" />
             <span>웹사이트 640px 단일 컬럼 표준 정렬 적용</span>
           </div>
         </div>

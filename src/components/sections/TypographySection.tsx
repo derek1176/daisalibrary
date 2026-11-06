@@ -136,51 +136,51 @@ export const TypographySection: React.FC = () => {
 
   return (
     <section id="typography" className="space-y-10">
-      {/* Section Header */}
-      <div className="border-b border-etc-03 pb-6">
-        <span className="text-[13px] font-bold text-main-01">
+      {/* Section Header: Toss Style */}
+      <div className="border-b border-[#E5E8EB] pb-6">
+        <span className="text-[13px] font-bold text-[#3182F6]">
           타이포그래피
         </span>
-        <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          서체 및 글꼴 규격
+        <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
+          서체 및 글꼴 규격 (Typography)
         </h2>
-        <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
+        <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
           Pretendard Bold (700) · Regular (400) 2개 두께만 사용합니다. 사이즈는 <strong>12 · 14 · 16 · 18 · 20 · 24</strong> 짝수 6개 기본 원칙이며, 뱃지(Badge) 제작 시에 한하여 예외적으로 <strong>10px 또는 11px</strong> 사용이 허용됩니다. 모든 텍스트에 <strong>자간 -1px (-0.01em)</strong>을 고정 적용합니다.
         </p>
       </div>
 
-      {/* Typeface Family Card */}
-      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-8 flex flex-col md:flex-row items-start md:items-center gap-8 shadow-soft">
-        <div className="text-[88px] font-bold text-main-01 leading-none tracking-tighter select-none">
+      {/* Typeface Family Card: Toss Card */}
+      <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-8 flex flex-col md:flex-row items-start md:items-center gap-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="text-[88px] font-extrabold text-[#191F28] leading-none tracking-tighter select-none">
           다Aa
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <h3 className="text-[22px] font-extrabold text-text-01">Pretendard (프리텐다드)</h3>
-            <span className="px-2.5 py-0.5 rounded-full text-[12px] font-bold bg-main-04 text-main-01">
+            <h3 className="text-[22px] font-extrabold text-[#191F28]">Pretendard (프리텐다드)</h3>
+            <span className="px-2.5 py-0.5 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
               단일 서체
             </span>
           </div>
-          <p className="text-[14px] text-text-03 leading-relaxed">
+          <p className="text-[14px] text-[#6B7684] leading-relaxed">
             한글과 라틴 문자 모두 최상의 가독성과 밸런스를 제공하는 산세리프 서체입니다. 다이사의 모든 프로덕트 화면에 단일하게 적용됩니다.
           </p>
           <div className="flex flex-wrap gap-2 pt-1 font-mono text-[12px]">
-            <span className="px-2.5 py-1 rounded-[6px] bg-etc-04 text-text-02 font-medium">400 Regular</span>
-            <span className="px-2.5 py-1 rounded-[6px] bg-etc-04 text-text-02 font-bold">700 Bold</span>
-            <span className="px-2.5 py-1 rounded-[6px] bg-main-04 text-main-01 font-bold">Letter-spacing: -1px</span>
+            <span className="px-2.5 py-1 rounded-[8px] bg-[#F2F4F6] text-[#4E5968] font-medium">400 Regular</span>
+            <span className="px-2.5 py-1 rounded-[8px] bg-[#F2F4F6] text-[#191F28] font-bold">700 Bold</span>
+            <span className="px-2.5 py-1 rounded-[8px] bg-[#E8F3FF] text-[#1B64DA] font-bold">Letter-spacing: -1px</span>
           </div>
         </div>
       </div>
 
-      {/* Live Text Sandbox */}
-      <div className="bg-white border border-[#EBEEF2] rounded-[16px] p-5 space-y-2 shadow-xs">
+      {/* Live Text Sandbox: Toss Style */}
+      <div className="bg-white border border-[#E5E8EB] rounded-[18px] p-5 space-y-2 shadow-2xs">
         <div className="flex items-center justify-between">
-          <span className="text-[13px] font-bold text-text-02 flex items-center gap-1.5">
-            <Type className="w-4 h-4 text-main-01" /> 타이포그래피 실시간 문구 테스트
+          <span className="text-[13px] font-bold text-[#191F28] flex items-center gap-1.5">
+            <Type className="w-4 h-4 text-[#3182F6]" /> 타이포그래피 실시간 문구 테스트
           </span>
           <button
             onClick={() => setTestText('내 주변 모든 이사업체 찾기, 다이사')}
-            className="text-[12px] text-text-04 hover:text-main-01 transition-colors"
+            className="text-[12px] text-[#8B95A1] hover:text-[#191F28] transition-colors"
           >
             기본값 복원
           </button>
@@ -190,12 +190,12 @@ export const TypographySection: React.FC = () => {
           value={testText}
           onChange={(e) => setTestText(e.target.value)}
           placeholder="테스트할 문구를 입력하세요"
-          className="w-full h-[46px] px-3.5 rounded-[10px] bg-etc-04 border border-etc-02 text-[15px] text-text-01 outline-none focus:border-main-01 focus:bg-white transition-all"
+          className="w-full h-[46px] px-3.5 rounded-[12px] bg-[#F9FAFB] border border-[#E5E8EB] text-[15px] text-[#191F28] outline-none focus:border-[#3182F6] focus:bg-white transition-all font-medium"
         />
       </div>
 
       {/* Type Rows Table Panel */}
-      <div className="bg-white border border-[#EBEEF2] rounded-[20px] divide-y divide-[#EBEEF2] shadow-soft overflow-hidden">
+      <div className="bg-white border border-[#E5E8EB] rounded-[22px] divide-y divide-[#F2F4F6] shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
         {typeSpecs.map((spec, idx) => (
           <div key={idx} className="p-6 md:p-7 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:bg-[#FAFBFD] transition-colors">
             {/* Meta Info */}

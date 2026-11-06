@@ -23,10 +23,10 @@ const SwatchCard: React.FC<SwatchProps> = ({ token, hex, note, textColor = '#121
   return (
     <div
       onClick={handleCopy}
-      className="group relative flex flex-col bg-white rounded-[16px] border border-[#EBEEF2] overflow-hidden hover:border-[#D7DBE2] hover:shadow-soft transition-all duration-150 cursor-pointer select-none"
+      className="group relative flex flex-col bg-white rounded-[18px] border border-[#E5E8EB] overflow-hidden hover:border-[#3182F6] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer select-none"
     >
       <div
-        className={`h-[92px] w-full flex items-start justify-end p-2.5 ${border ? 'border-b border-[#EBEEF2]' : ''}`}
+        className={`h-[92px] w-full flex items-start justify-end p-2.5 ${border ? 'border-b border-[#F2F4F6]' : ''}`}
         style={{
           background: isGradient
             ? 'linear-gradient(135deg, #1219F7 0%, #595EF9 100%)'
@@ -43,15 +43,15 @@ const SwatchCard: React.FC<SwatchProps> = ({ token, hex, note, textColor = '#121
       </div>
       <div className="p-3.5 flex flex-col gap-0.5">
         <div className="flex items-center justify-between">
-          <span className="text-[14px] font-bold text-text-01 font-mono tracking-tight">{token}</span>
+          <span className="text-[14px] font-bold text-[#191F28] font-mono tracking-tight">{token}</span>
           {copied ? (
             <Check className="w-3.5 h-3.5 text-emerald-600" />
           ) : (
-            <Copy className="w-3.5 h-3.5 text-text-04 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <Copy className="w-3.5 h-3.5 text-[#8B95A1] opacity-0 group-hover:opacity-100 transition-opacity" />
           )}
         </div>
-        <span className="text-[12px] font-mono font-medium text-text-04 tracking-wider">{hex}</span>
-        <span className="text-[11px] text-text-03 mt-1 leading-tight">{note}</span>
+        <span className="text-[12px] font-mono font-semibold text-[#333D4B] tracking-wider">{hex}</span>
+        <span className="text-[11px] text-[#6B7684] mt-1 leading-tight">{note}</span>
       </div>
     </div>
   );
@@ -59,17 +59,17 @@ const SwatchCard: React.FC<SwatchProps> = ({ token, hex, note, textColor = '#121
 
 export const ColorSection: React.FC = () => {
   return (
-    <section id="colors" className="space-y-12">
-      {/* Section Header */}
-      <div className="border-b border-etc-03 pb-6">
-        <span className="text-[13px] font-bold text-main-01">
-          색상 시스템
+    <section id="colors" className="space-y-10">
+      {/* Section Header: Toss Style */}
+      <div className="border-b border-[#E5E8EB] pb-6">
+        <span className="text-[13px] font-bold text-[#3182F6]">
+          스타일 파운데이션
         </span>
-        <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          색상 (Color Palette)
+        <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
+          색상 시스템 (Color Tokens)
         </h2>
-        <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
-          컬러는 브랜드를 대표하고 다양한 제품을 하나로 묶어주는 중요한 역할을 합니다. 정의되지 않은 새로운 컬러 사용을 엄격히 제한합니다.
+        <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
+          다이사(da24)의 시맨틱 컬러 토큰입니다. 카드를 클릭하면 Hex 코드가 클립보드에 자동 복사됩니다.
         </p>
       </div>
 
