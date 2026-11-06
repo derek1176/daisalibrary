@@ -24,11 +24,11 @@ export const ModalSection: React.FC = () => {
     <section id="modals" className="space-y-12">
       {/* Section Header */}
       <div className="border-b border-etc-03 pb-6">
-        <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-          08 — OVERLAYS / MODALS & SHEETS
+        <span className="text-[13px] font-bold text-main-01">
+          오버레이 컴포넌트
         </span>
         <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          Modals & Bottom Sheets
+          모달 및 바텀시트
         </h2>
         <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
           사용자의 맥락을 차단하고 집중시키는 중앙 모달 다이얼로그와 모바일 옵션 선택을 위한 바텀시트 규격입니다. 배경 딤드는 <strong>rgba(0, 0, 0, 0.6) 60%</strong>를 적용합니다.

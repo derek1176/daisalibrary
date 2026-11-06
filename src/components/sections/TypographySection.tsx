@@ -129,11 +129,11 @@ export const TypographySection: React.FC = () => {
     <section id="typography" className="space-y-10">
       {/* Section Header */}
       <div className="border-b border-etc-03 pb-6">
-        <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-          02 — TYPOGRAPHY
+        <span className="text-[13px] font-bold text-main-01">
+          타이포그래피
         </span>
         <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          Type
+          서체 및 글꼴 규격
         </h2>
         <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
           Pretendard Bold (700) · Regular (400) 2개 두께만 사용합니다. 사이즈는 <strong>12 · 14 · 16 · 18 · 20 · 24</strong> 짝수 6개로 한정하며, 모든 텍스트에 <strong>자간 -1px (-0.01em)</strong>을 고정 적용합니다.

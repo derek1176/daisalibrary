@@ -98,11 +98,11 @@ export const SpacingRadiusSection: React.FC = () => {
       {/* 03 — SPACING */}
       <section id="spacing" className="space-y-8">
         <div className="border-b border-etc-03 pb-6">
-          <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-            03 — SPACING
+          <span className="text-[13px] font-bold text-main-01">
+            간격 체계
           </span>
           <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-            Spacing Scale
+            여백 (Spacing Scale)
           </h2>
           <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
             기본은 <strong>4의 배수</strong> 체계를 따릅니다. 컴포넌트 내부 여백과 화면 레이아웃 마진은 엄격히 통일된 스케일을 적용합니다.
@@ -142,11 +142,11 @@ export const SpacingRadiusSection: React.FC = () => {
       {/* 04 — RADIUS */}
       <section id="radius" className="space-y-8">
         <div className="border-b border-etc-03 pb-6">
-          <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-            04 — CORNER RADIUS
+          <span className="text-[13px] font-bold text-main-01">
+            모서리 곡률
           </span>
           <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-            Radius (8단계 라운드 규칙)
+            라운드 (Corner Radius 8단계)
           </h2>
           <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
             다이사는 컴포넌트의 크기와 위계에 따라 8단계의 라운드 체계를 유지합니다. <strong>인풋/버튼은 10px</strong>, <strong>모달은 16px</strong>, <strong>하단 고정 CTA는 0px</strong>가 절대 원칙입니다.
@@ -207,11 +207,11 @@ export const SpacingRadiusSection: React.FC = () => {
       {/* 05 — ELEVATION & SHADOW */}
       <section id="shadow" className="space-y-8">
         <div className="border-b border-etc-03 pb-6">
-          <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-            05 — ELEVATION & SHADOW
+          <span className="text-[13px] font-bold text-main-01">
+            그림자 및 깊이감
           </span>
           <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-            Elevation
+            그림자 (Elevation)
           </h2>
           <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
             입체감은 과도한 그림자 대신 명확한 보더라인과 은은한 분리감을 중심으로 설계합니다. 모달 및 팝오버는 딤드 오버레이(60%)와 함께 배치됩니다.

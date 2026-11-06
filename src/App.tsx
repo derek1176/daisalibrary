@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HomeSection } from './components/sections/HomeSection';
 import { LayoutSection } from './components/sections/LayoutSection';
 import { ColorSection } from './components/sections/ColorSection';
 import { TypographySection } from './components/sections/TypographySection';
@@ -13,10 +14,11 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('layout');
+  const [activeTab, setActiveTab] = useState<string>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
+    { id: 'home', label: '컴포넌트 모아보기' },
     { id: 'layout', label: '작업 규격' },
     { id: 'colors', label: '색상' },
     { id: 'typography', label: '타이포그래피' },
@@ -47,7 +49,7 @@ export const App: React.FC = () => {
 
           {/* Moderate Scaled Official Logo */}
           <div
-            onClick={() => handleNavClick('layout')}
+            onClick={() => handleNavClick('home')}
             className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
             <img
@@ -75,7 +77,7 @@ export const App: React.FC = () => {
         >
           <div className="space-y-1">
             <div className="px-3 py-2 text-[11px] font-bold text-text-04 tracking-wider">
-              컴포넌트
+              메뉴
             </div>
             {navItems.map((item) => {
               const isActive = activeTab === item.id;
@@ -105,6 +107,7 @@ export const App: React.FC = () => {
         {/* Right Main Content Panel */}
         <main className="flex-1 p-6 md:p-10 lg:p-14 overflow-x-hidden min-w-0">
           <div className="max-w-[1000px] mx-auto space-y-20">
+            {activeTab === 'home' && <HomeSection onSelectTab={(id) => handleNavClick(id)} />}
             {activeTab === 'layout' && <LayoutSection />}
             {activeTab === 'colors' && <ColorSection />}
             {activeTab === 'typography' && <TypographySection />}

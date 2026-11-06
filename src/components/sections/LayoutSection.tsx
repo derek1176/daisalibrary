@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import { Smartphone, Monitor, Info, CheckCircle2 } from 'lucide-react';
 
 export const LayoutSection: React.FC = () => {
-  const [selectedView, setSelectedView] = useState<'all' | 'mobile' | 'web'>('all');
-
   return (
     <section id="layout" className="space-y-12">
       {/* Section Header */}
       <div className="border-b border-etc-03 pb-6">
-        <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-          01 — FOUNDATION / LAYOUT SPEC
+        <span className="text-[13px] font-bold text-main-01">
+          화면 레이아웃
         </span>
         <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          작업 규격 (레이아웃)
+          작업 규격 (모바일 & 웹)
         </h2>
         <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
-          다이사(da24) 서비스의 <strong>모바일(360px)</strong> 및 <strong>웹/PC(1200px)</strong> 기본 프레임 작업 규격입니다.
-          모바일은 좌우 24px 여백(콘텐츠 312px), 웹사이트는 1200px 캔버스 내 640px 중앙 집중형 콘텐츠 규격을 준수합니다.
+          다이사(da24) 서비스의 <strong>모바일(360px)</strong> 및 <strong>웹/PC(1200px)</strong> 공식 작업 규격입니다.
+          모바일은 좌우 24px 여백(콘텐츠 312px)을 사용하며, 웹사이트는 1200px 캔버스 내에서 <strong>헤더, 본문, 버튼 모두 640px</strong> 단일 컬럼 규격을 엄격히 준수합니다.
         </p>
       </div>
 
@@ -32,23 +30,23 @@ export const LayoutSection: React.FC = () => {
             <div className="space-y-2.5 text-[14px] text-text-02">
               <div className="flex justify-between py-1.5 border-b border-etc-03">
                 <span className="text-text-03">기본 프레임 너비</span>
-                <span className="font-mono font-bold text-text-01">360px</span>
+                <span className="font-bold text-text-01">360px</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-etc-03">
                 <span className="text-text-03">좌우 마진 (여백)</span>
-                <span className="font-mono font-bold text-main-01">24px (양측 각 24px)</span>
+                <span className="font-bold text-main-01">24px (양측 각 24px)</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-etc-03">
                 <span className="text-text-03">안전 콘텐츠 너비</span>
-                <span className="font-mono font-bold text-main-01">312px (360 - 48)</span>
+                <span className="font-bold text-main-01">312px (360 - 48)</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-etc-03">
                 <span className="text-text-03">상단 헤더 높이</span>
-                <span className="font-mono font-bold text-text-01">56px</span>
+                <span className="font-bold text-text-01">56px</span>
               </div>
               <div className="flex justify-between py-1.5">
                 <span className="text-text-03">하단 플로팅 CTA</span>
-                <span className="font-mono font-bold text-text-01">360px (좌우여백 0px, r:0)</span>
+                <span className="font-bold text-text-01">360px (좌우여백 0px, r:0)</span>
               </div>
             </div>
           </div>
@@ -68,29 +66,29 @@ export const LayoutSection: React.FC = () => {
             <div className="space-y-2.5 text-[14px] text-text-02">
               <div className="flex justify-between py-1.5 border-b border-etc-03">
                 <span className="text-text-03">전체 캔버스 너비</span>
-                <span className="font-mono font-bold text-text-01">1200px</span>
+                <span className="font-bold text-text-01">1200px</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">신청 폼/콘텐츠 영역</span>
-                <span className="font-mono font-bold text-main-01">640px (중앙 정렬)</span>
+                <span className="text-text-03">상단 헤더 너비</span>
+                <span className="font-bold text-main-01">640px (중앙 정렬)</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">버튼 래퍼 바 너비</span>
-                <span className="font-mono font-bold text-text-01">720px (좌우 패딩 40px)</span>
+                <span className="text-text-03">본문 및 신청 폼 너비</span>
+                <span className="font-bold text-main-01">640px (중앙 정렬)</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-etc-03">
-                <span className="text-text-03">상단 GNB 규격</span>
-                <span className="font-mono font-bold text-text-01">992px x 72px (또는 1200px)</span>
+                <span className="text-text-03">하단 액션 버튼 너비</span>
+                <span className="font-bold text-main-01">640px (중앙 정렬)</span>
               </div>
               <div className="flex justify-between py-1.5">
                 <span className="text-text-03">좌우 여백 (안전 마진)</span>
-                <span className="font-mono font-bold text-text-01">280px (1200 - 640 / 2)</span>
+                <span className="font-bold text-text-01">280px (1200 - 640 / 2)</span>
               </div>
             </div>
           </div>
           <div className="mt-4 pt-3 border-t border-etc-03 flex items-center gap-2 text-[12px] text-text-04">
             <CheckCircle2 className="w-4 h-4 text-main-01 shrink-0" />
-            <span>피그마 노드 6178:2247 / 7349:334 공식 규격 검증 완료</span>
+            <span>웹사이트 640px 단일 컬럼 표준 정렬 적용</span>
           </div>
         </div>
       </div>
@@ -100,15 +98,15 @@ export const LayoutSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-etc-03 pb-4">
           <div>
             <h3 className="text-[18px] font-bold text-text-01 flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-[6px] bg-main-04 text-main-01 text-[12px] font-mono font-bold">MOBILE</span>
+              <span className="px-2 py-0.5 rounded-[6px] bg-main-04 text-main-01 text-[12px] font-bold">모바일</span>
               모바일 레이아웃 시각화 (360px × 가변)
             </h3>
             <p className="text-[13px] text-text-03 mt-1">
               양측 <strong>24px 마진(분홍 영역)</strong>을 제외한 중앙 <strong>312px(파란 점선)</strong> 내에 모든 텍스트, 인풋, 카드가 배치됩니다.
             </p>
           </div>
-          <span className="text-[12px] font-mono text-text-04 bg-etc-04 px-3 py-1.5 rounded-[8px] self-start sm:self-auto">
-            Width: 360px | Margin: 24px | Content: 312px
+          <span className="text-[12px] text-text-04 bg-etc-04 px-3 py-1.5 rounded-[8px] self-start sm:self-auto font-medium">
+            전체: 360px · 여백: 24px · 본문: 312px
           </span>
         </div>
 
@@ -116,7 +114,7 @@ export const LayoutSection: React.FC = () => {
         <div className="flex justify-center py-6 bg-[#F8F9FA] rounded-[14px] border border-etc-03 overflow-x-auto">
           <div className="relative w-[360px] min-h-[520px] bg-white rounded-[24px] shadow-lg border-2 border-text-01/10 flex flex-col justify-between overflow-hidden">
             {/* Top Device Notch Bar */}
-            <div className="h-6 bg-white flex items-center justify-between px-6 text-[10px] text-text-04 font-mono select-none">
+            <div className="h-6 bg-white flex items-center justify-between px-6 text-[10px] text-text-04 select-none">
               <span>9:41</span>
               <div className="flex gap-1.5 items-center">
                 <span>5G</span>
@@ -130,14 +128,14 @@ export const LayoutSection: React.FC = () => {
                 <div className="w-5 h-5 rounded-[4px] bg-main-01/20 flex items-center justify-center text-main-01 text-[11px] font-bold">←</div>
                 <span className="text-[16px] font-bold text-text-01">서비스 신청</span>
               </div>
-              <span className="text-[11px] font-mono font-bold text-text-04">H: 56px</span>
+              <span className="text-[11px] font-bold text-text-04">높이 56px</span>
             </div>
 
             {/* Content Area with 24px Left/Right Margin Guides */}
             <div className="relative flex-1 py-6 flex">
               {/* Left Margin Indicator (24px) */}
               <div className="w-[24px] bg-rose-500/10 border-r border-dashed border-rose-400 flex flex-col items-center justify-center shrink-0 group relative select-none">
-                <span className="text-[10px] font-mono font-bold text-rose-500 [writing-mode:vertical-lr] rotate-180">
+                <span className="text-[10px] font-bold text-[#F34766] [writing-mode:vertical-lr] rotate-180">
                   24px
                 </span>
               </div>
@@ -145,7 +143,7 @@ export const LayoutSection: React.FC = () => {
               {/* Center Content Box (312px) */}
               <div className="w-[312px] px-1 space-y-4">
                 <div className="bg-main-04 border border-dashed border-main-01/50 rounded-[10px] p-3 text-center">
-                  <span className="text-[12px] font-mono font-bold text-main-01 block">
+                  <span className="text-[12px] font-bold text-main-01 block">
                     콘텐츠 영역 (312px)
                   </span>
                   <span className="text-[11px] text-text-03 mt-0.5 block">
@@ -156,12 +154,12 @@ export const LayoutSection: React.FC = () => {
                 {/* Example 312px Input */}
                 <div className="h-[56px] rounded-[10px] border border-etc-02 bg-white px-4 flex items-center justify-between shadow-2xs">
                   <span className="text-[14px] text-text-03">312px × 56px 인풋 박스</span>
-                  <span className="text-[11px] font-mono text-text-04">r: 10px</span>
+                  <span className="text-[11px] text-text-04">라운드 10px</span>
                 </div>
 
                 {/* Example 312px Public Button */}
                 <div className="h-[56px] rounded-[10px] bg-main-01 text-white font-bold text-[15px] flex items-center justify-center shadow-2xs">
-                  312px 본문 버튼 (Radius: 10px)
+                  312px 본문 버튼 (라운드 10px)
                 </div>
 
                 {/* Example 312px Segmented Button */}
@@ -174,7 +172,7 @@ export const LayoutSection: React.FC = () => {
 
               {/* Right Margin Indicator (24px) */}
               <div className="w-[24px] bg-rose-500/10 border-l border-dashed border-rose-400 flex flex-col items-center justify-center shrink-0 group relative select-none">
-                <span className="text-[10px] font-mono font-bold text-rose-500 [writing-mode:vertical-lr] rotate-180">
+                <span className="text-[10px] font-bold text-[#F34766] [writing-mode:vertical-lr] rotate-180">
                   24px
                 </span>
               </div>
@@ -183,7 +181,7 @@ export const LayoutSection: React.FC = () => {
             {/* Bottom Floating CTA Button (360x56, r:0px) */}
             <div className="relative">
               <div className="h-[56px] w-[360px] bg-main-01 text-white font-bold text-[16px] flex items-center justify-center select-none shadow-lg">
-                하단 고정 플로팅 버튼 (360px × 56px / Radius: 0px)
+                하단 고정 플로팅 버튼 (360px × 56px / 라운드 0px)
               </div>
             </div>
           </div>
@@ -204,20 +202,20 @@ export const LayoutSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Visual Blueprint 2: Web / Desktop Layout (1200px Canvas & 640px Content) */}
+      {/* Visual Blueprint 2: Web / Desktop Layout (1200px Canvas & 640px Strict Column) */}
       <div className="bg-white border border-[#EBEEF2] rounded-[18px] p-6 md:p-8 shadow-soft space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-etc-03 pb-4">
           <div>
             <h3 className="text-[18px] font-bold text-text-01 flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-[6px] bg-main-04 text-main-01 text-[12px] font-mono font-bold">WEB / PC</span>
-              웹사이트 디자인 규격 (1200px 캔버스 & 640px 안쪽 설계)
+              <span className="px-2 py-0.5 rounded-[6px] bg-main-04 text-main-01 text-[12px] font-bold">웹 / PC</span>
+              웹사이트 디자인 규격 (1200px 캔버스 내 640px 규격)
             </h3>
             <p className="text-[13px] text-text-03 mt-1">
-              전체 캔버스는 <strong>1200px</strong>이며, 서비스 신청 및 핵심 입력 폼은 가독성과 전환율을 위해 <strong>640px</strong> 컨테이너 안에서만 설계합니다.
+              전체 캔버스는 <strong>1200px</strong>이며, <strong>상단 헤더, 본문 폼, 하단 버튼 모두 640px</strong> 단일 열 안에서 일치되게 설계합니다.
             </p>
           </div>
-          <span className="text-[12px] font-mono text-text-04 bg-etc-04 px-3 py-1.5 rounded-[8px] self-start sm:self-auto">
-            Canvas: 1200px | Content: 640px | Button: 720px
+          <span className="text-[12px] text-text-04 bg-etc-04 px-3 py-1.5 rounded-[8px] self-start sm:self-auto font-medium">
+            캔버스: 1200px · 헤더: 640px · 본문: 640px · 버튼: 640px
           </span>
         </div>
 
@@ -226,32 +224,35 @@ export const LayoutSection: React.FC = () => {
           {/* 1200px Outer Canvas Representation */}
           <div className="min-w-[680px] max-w-[880px] mx-auto bg-white rounded-[16px] border-2 border-text-01/15 p-5 shadow-md space-y-4">
             {/* Canvas Header Badge */}
-            <div className="flex items-center justify-between border-b border-etc-03 pb-3 text-[12px] font-mono text-text-04">
+            <div className="flex items-center justify-between border-b border-etc-03 pb-3 text-[12px] text-text-04">
               <span className="font-bold text-text-01">웹/PC 캔버스 (전체 너비 1200px)</span>
-              <span className="bg-etc-04 px-2 py-0.5 rounded text-[11px]">Desktop Safe Frame</span>
+              <span className="bg-etc-04 px-2 py-0.5 rounded text-[11px] font-medium">데스크톱 기준 프레임</span>
             </div>
 
-            {/* GNB Area (992x72) */}
-            <div className="w-[82%] mx-auto h-[48px] bg-etc-04 border border-dashed border-etc-02 rounded-[8px] flex items-center justify-between px-4 text-[12px] font-mono text-text-03">
-              <span className="font-bold text-main-01">GNB Header (992px × 72px)</span>
-              <span>메뉴 / 마이페이지 / 파트너 가입</span>
+            {/* 640px Header Area */}
+            <div className="w-[74%] max-w-[640px] mx-auto h-[48px] bg-white border-2 border-main-01 rounded-[10px] flex items-center justify-between px-4 text-[12px] text-text-02 shadow-2xs">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-main-01"></span>
+                <span className="font-bold text-main-01">헤더 (640px 규격)</span>
+              </div>
+              <span className="text-[11px] text-text-04 font-medium">로고 / 뒤로가기 / 닫기</span>
             </div>
 
             {/* 640px Central Focused Form Area */}
-            <div className="relative py-4 flex justify-center">
+            <div className="relative py-2 flex justify-center">
               {/* Left Empty Space (280px representation) */}
-              <div className="hidden md:flex flex-1 items-center justify-center text-[11px] font-mono text-text-04">
+              <div className="hidden md:flex flex-1 items-center justify-center text-[11px] text-text-04">
                 좌측 여백 280px
               </div>
 
               {/* 640px Core Content Box */}
-              <div className="w-[70%] max-w-[560px] bg-main-04/50 border-2 border-main-01 rounded-[14px] p-5 space-y-3.5 shadow-2xs">
+              <div className="w-[74%] max-w-[640px] bg-main-04/50 border-2 border-main-01 rounded-[14px] p-5 space-y-3.5 shadow-2xs">
                 <div className="flex items-center justify-between border-b border-main-02/20 pb-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-main-01"></span>
-                    <span className="text-[13px] font-bold text-main-01">핵심 콘텐츠 구역 (640px 규격)</span>
+                    <span className="text-[13px] font-bold text-main-01">본문 콘텐츠 (640px 규격)</span>
                   </div>
-                  <span className="text-[11px] font-mono font-bold text-main-01">W: 640px</span>
+                  <span className="text-[11px] font-bold text-main-01">너비 640px</span>
                 </div>
 
                 <div className="text-[12px] text-text-03 leading-relaxed">
@@ -261,31 +262,29 @@ export const LayoutSection: React.FC = () => {
                 {/* Mock Form Inputs inside 640px */}
                 <div className="space-y-2">
                   <div className="h-[44px] rounded-[10px] bg-white border border-etc-02 px-3 flex items-center justify-between text-[13px] text-text-03">
-                    <span>출발지 주소 입력 (input-search 640px)</span>
-                    <span className="text-[11px] font-mono text-text-04">640 × 56</span>
+                    <span>출발지 주소 입력</span>
+                    <span className="text-[11px] text-text-04">640 × 56</span>
                   </div>
                   <div className="h-[44px] rounded-[10px] bg-white border border-etc-02 px-3 flex items-center justify-between text-[13px] text-text-03">
-                    <span>도착지 주소 입력 (input-search 640px)</span>
-                    <span className="text-[11px] font-mono text-text-04">640 × 56</span>
+                    <span>도착지 주소 입력</span>
+                    <span className="text-[11px] text-text-04">640 × 56</span>
                   </div>
                 </div>
               </div>
 
               {/* Right Empty Space (280px representation) */}
-              <div className="hidden md:flex flex-1 items-center justify-center text-[11px] font-mono text-text-04">
+              <div className="hidden md:flex flex-1 items-center justify-center text-[11px] text-text-04">
                 우측 여백 280px
               </div>
             </div>
 
-            {/* 720px Action Bar / Button Wrapper */}
-            <div className="w-[78%] max-w-[620px] mx-auto pt-2">
-              <div className="bg-white border-2 border-dashed border-etc-02 rounded-[12px] p-2 flex flex-col items-center gap-1.5">
-                <div className="w-full h-[48px] rounded-[10px] bg-main-01 text-white font-bold text-[14px] flex items-center justify-center shadow-xs">
-                  하단 액션 버튼 바 (720px 규격 / 좌우 패딩 포함)
-                </div>
-                <span className="text-[11px] font-mono text-text-04">
-                  Public Button Wrapper: 720px (본문 640px + 양측 40px 확장 래퍼)
-                </span>
+            {/* 640px Action Button Bar */}
+            <div className="w-[74%] max-w-[640px] mx-auto pt-1">
+              <div className="w-full h-[52px] rounded-[10px] bg-main-01 text-white font-bold text-[15px] flex items-center justify-center shadow-xs">
+                하단 액션 버튼 (640px 규격)
+              </div>
+              <div className="text-center mt-1.5 text-[11px] text-text-04 font-medium">
+                헤더·본문·버튼 모두 동일한 640px 가로폭으로 완벽히 정렬됩니다.
               </div>
             </div>
           </div>
@@ -298,10 +297,9 @@ export const LayoutSection: React.FC = () => {
             웹/PC 작업 가이드라인
           </div>
           <ul className="list-disc pl-5 space-y-1 text-text-03">
-            <li>피그마 PC 디자인 캔버스는 기본 <strong>1200px</strong>으로 통일하여 작업합니다.</li>
-            <li>이사/청소/인터넷 등 <strong>핵심 신청 폼 및 인풋 필드는 640px 폭</strong>으로 중앙에 배치하여 시선 분산을 막고 모바일과의 컴포넌트 일관성을 유지합니다.</li>
-            <li>하단 CTA 버튼이나 배경 박스 래퍼는 필요 시 <strong>720px</strong>까지 확장하여 안정적인 레이아웃을 형성합니다.</li>
-            <li>상단 네비게이션(GNB)은 <strong>992px x 72px</strong> 또는 <strong>1200px 전폭</strong>으로 배치합니다.</li>
+            <li>피그마 PC 디자인 캔버스는 기본 <strong>1200px</strong>으로 작업합니다.</li>
+            <li>이사/청소/인터넷 등 <strong>웹 화면의 헤더, 본문 폼, 하단 버튼은 모두 640px</strong> 너비로 통일하여 중앙에 정렬합니다.</li>
+            <li>좌우 280px은 안전 여백(Blank Margin)으로 두어 어떤 모니터 해상도에서도 안정적인 시각적 집중도를 보장합니다.</li>
           </ul>
         </div>
       </div>
@@ -312,31 +310,31 @@ export const LayoutSection: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[13px] tracking-da24 border-collapse">
             <thead>
-              <tr className="border-b border-etc-03 text-text-04 font-mono text-[11px] uppercase">
+              <tr className="border-b border-etc-03 text-text-04 text-[12px]">
                 <th className="py-3 px-4">구분</th>
                 <th className="py-3 px-4">프레임 너비</th>
                 <th className="py-3 px-4">좌우 여백 (Margin)</th>
-                <th className="py-3 px-4">실제 콘텐츠 너비</th>
+                <th className="py-3 px-4">헤더 규격</th>
+                <th className="py-3 px-4">본문 콘텐츠 너비</th>
                 <th className="py-3 px-4">버튼 규격</th>
-                <th className="py-3 px-4">헤더 높이</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-etc-03 text-text-02 font-medium">
               <tr className="hover:bg-etc-04/50 transition-colors">
                 <td className="py-3.5 px-4 font-bold text-text-01">모바일 (Mobile)</td>
-                <td className="py-3.5 px-4 font-mono font-bold text-main-01">360px</td>
-                <td className="py-3.5 px-4 font-mono">24px (좌우 각 24)</td>
-                <td className="py-3.5 px-4 font-mono font-bold text-main-01">312px</td>
+                <td className="py-3.5 px-4 font-bold text-main-01">360px</td>
+                <td className="py-3.5 px-4">24px (좌우 각 24)</td>
+                <td className="py-3.5 px-4">360px × 56px</td>
+                <td className="py-3.5 px-4 font-bold text-main-01">312px</td>
                 <td className="py-3.5 px-4">플로팅 360px (r:0) / 본문 312px (r:10)</td>
-                <td className="py-3.5 px-4 font-mono">56px</td>
               </tr>
               <tr className="hover:bg-etc-04/50 transition-colors">
                 <td className="py-3.5 px-4 font-bold text-text-01">웹/PC (Desktop)</td>
-                <td className="py-3.5 px-4 font-mono font-bold text-main-01">1200px</td>
-                <td className="py-3.5 px-4 font-mono">280px (중앙 집중)</td>
-                <td className="py-3.5 px-4 font-mono font-bold text-main-01">640px</td>
-                <td className="py-3.5 px-4">하단 바 720px / 인풋 640px (r:10)</td>
-                <td className="py-3.5 px-4 font-mono">72px (GNB: 992)</td>
+                <td className="py-3.5 px-4 font-bold text-main-01">1200px</td>
+                <td className="py-3.5 px-4">280px (중앙 집중)</td>
+                <td className="py-3.5 px-4 font-bold text-main-01">640px</td>
+                <td className="py-3.5 px-4 font-bold text-main-01">640px</td>
+                <td className="py-3.5 px-4 font-bold text-main-01">640px (r:10)</td>
               </tr>
             </tbody>
           </table>

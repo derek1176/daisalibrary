@@ -62,11 +62,11 @@ export const ColorSection: React.FC = () => {
     <section id="colors" className="space-y-12">
       {/* Section Header */}
       <div className="border-b border-etc-03 pb-6">
-        <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-          01 — COLOR PALETTE
+        <span className="text-[13px] font-bold text-main-01">
+          색상 시스템
         </span>
         <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          Color
+          색상 (Color Palette)
         </h2>
         <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
           컬러는 브랜드를 대표하고 다양한 제품을 하나로 묶어주는 중요한 역할을 합니다. 정의되지 않은 새로운 컬러 사용을 엄격히 제한합니다.

@@ -3,7 +3,7 @@ import { IconCancel, IconChevron, IconMinus, IconPlus, IconSearch } from './Icon
 
 /* ──────────────────────────────────────────────────────────────
  * Form 공통 규격 (Figma: [고객향] 스타일가이드 > form 9899:6841)
- *  · mobile 312×56 / pc 720×56 · radius 10 · padding 16
+ *  · mobile 312×56 / pc 640×56 · radius 10 · padding 16
  *  · text 16px Regular · lh 24 · 값 #333333 / placeholder #888888
  *  · normal  : bg #FFFFFF · border #D7DBE2
  *  · focus   : bg #FFFFFF · border #1219F7
@@ -19,7 +19,7 @@ const boxClass = ({ focused, disabled, error }: BoxState) =>
     disabled
       ? 'bg-etc-04 border-etc-02 text-text-04 cursor-not-allowed'
       : error
-      ? 'bg-white border-sub-02'
+      ? 'bg-white border-[#F34766]'
       : focused
       ? 'bg-white border-main-01'
       : 'bg-white border-etc-02 hover:border-etc-01',
@@ -39,7 +39,9 @@ export const Field: React.FC<{
     {label && <span className="text-[14px] leading-[21px] font-bold text-text-02">{label}</span>}
     {children}
     {message && (
-      <span className={`text-[14px] leading-[21px] ${tone === 'error' ? 'text-sub-02' : 'text-text-03'}`}>{message}</span>
+      <span className={`text-[14px] leading-[21px] font-medium ${tone === 'error' ? 'text-[#F34766]' : 'text-text-03'}`}>
+        {message}
+      </span>
     )}
   </div>
 );

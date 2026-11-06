@@ -17,14 +17,14 @@ export const ButtonSection: React.FC = () => {
     <section id="buttons" className="space-y-12">
       {/* Section Header */}
       <div className="border-b border-etc-03 pb-6">
-        <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
-          06 — COMPONENTS / BUTTONS
+        <span className="text-[13px] font-bold text-main-01">
+          버튼 컴포넌트
         </span>
         <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-          Buttons
+          버튼 4대 규격
         </h2>
         <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
-          화면 위치와 역할에 따라 4가지 규격(Floating CTA, Public In-Content, Modal, Segmented 3-Split)을 철저히 구분하여 사용합니다.
+          화면 위치와 역할에 따라 4가지 규격(하단 플로팅, 본문 인라인, 모달 버튼, 3분할 세그먼트)을 철저히 구분하여 사용합니다.
         </p>
       </div>
 
@@ -38,7 +38,7 @@ export const ButtonSection: React.FC = () => {
               deviceView === 'mobile' ? 'bg-white text-main-01 shadow-xs' : 'text-text-03 hover:text-text-01'
             }`}
           >
-            <Smartphone className="w-3.5 h-3.5" /> Mobile (312px)
+            <Smartphone className="w-3.5 h-3.5" /> 모바일 (312px)
           </button>
           <button
             onClick={() => setDeviceView('pc')}
@@ -46,7 +46,7 @@ export const ButtonSection: React.FC = () => {
               deviceView === 'pc' ? 'bg-white text-main-01 shadow-xs' : 'text-text-03 hover:text-text-01'
             }`}
           >
-            <Monitor className="w-3.5 h-3.5" /> PC (672px/720px)
+            <Monitor className="w-3.5 h-3.5" /> 웹/PC (640px)
           </button>
         </div>
 
@@ -73,18 +73,18 @@ export const ButtonSection: React.FC = () => {
       <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
           <div>
-            <h3 className="text-[17px] font-bold text-text-01">1. Public In-Content Button</h3>
+            <h3 className="text-[17px] font-bold text-text-01">1. 본문 인라인 버튼 (Public Button)</h3>
             <p className="text-[13px] text-text-03 mt-0.5">
               본문 콘텐츠 영역 안에서 폼 제출, 다음 단계 진행에 사용되는 기본 표준 버튼
             </p>
           </div>
-          <span className="font-mono text-[12px] text-text-04">
-            모바일 312x56 · PC 672x56 · r:10px
+          <span className="text-[12px] text-text-04">
+            모바일 312x56 · 웹 640x56 · 라운드 10px
           </span>
         </div>
 
         <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px]">
-          <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[672px]'}>
+          <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[640px]'}>
             <PublicButton
               state={btnState}
               fluid={deviceView === 'pc'}
