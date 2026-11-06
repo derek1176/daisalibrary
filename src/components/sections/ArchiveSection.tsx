@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Download, Copy, Check, FileText, CheckCircle2 } from 'lucide-react';
+import { Download, Copy, Check, FileText, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
 
-const MARKDOWN_CONTENT = `# 다이사(da24) 공식 디자인시스템 명세서 (daisalibrary)
+const CUSTOMER_MD_CONTENT = `# 다이사(da24) 공식 디자인시스템 명세서 (daisalibrary)
 
 > **기준**: 고객향 프로덕션 표준 규격  
 
@@ -58,181 +58,251 @@ AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구�
    * **보더 & 배경**: 순수 흰색 \`#FFFFFF\` 배경 및 \`1px solid #E5E8EB\` 기본, 불필요하게 두껍거나 튀는 보더 지양
    * **그림자**: 없거나 은은한 소프트 섀도우(\`0 2px 8px rgba(0,0,0,0.04)\`)만 허용, 짙은 그림자 금지
 
-7. **아이콘(Icon) 시스템 절대 규칙 (이모지 일절 금지)**
-   * **이모지 사용 금지**: 라벨, 배지, 버튼, 설명글 등 프로덕트 UI 전반에서 **이모지 사용을 엄격히 금지**하며, 모든 시각 심볼은 정식 SVG 아이콘으로 대체합니다.
-   * **System Icon 우선 사용**: 피그마 스타일가이드에 등록된 공식 **\`system icon\`**을 기본으로 사용합니다.
-   * **AI 신규 아이콘 제작 원칙**: 스타일가이드 외 추가 아이콘이 필요한 경우, 직접 AI를 통해 제작 후 사용합니다.
-   * **아이콘 규격 및 가이드**:
-     * **기본 사이즈**: **\`24px\`** (상황 및 밀도에 따라 **\`20px\`**, **\`16px\`** 사용 가능)
-     * **선 두께 (Stroke)**: 24px 기준 **\`1.5px\`** 고정
-     * **엔드포인트 (Cap/Join)**: 모서리와 끝점은 반드시 **\`round\`** 형태 (\`stroke-linecap="round" stroke-linejoin="round"\`)를 적용하여 부드럽고 일관된 톤을 유지합니다.
-
-8. **오버레이 및 팝업 절대 규격**
-   * Alert/Confirm 모달: 너비 **\`312px\`** (모바일 좌우 24px 여백), Corner Radius **\`16px\`**, 배경 딤드 **\`rgba(0, 0, 0, 0.6) 60%\`**.
-   * 바텀시트: 너비 **\`360px\`** 전폭, 상단 모서리 라운드 **\`16px\`** or **\`24px\`**.
-
 ---
 
-## 10. 크로스 플랫폼 오버레이 반응형 절대 규칙 (Modal & Bottom Sheet)
+## 🎨 공식 시맨틱 컬러 토큰 (Semantic Colors)
 
-다이사 서비스에서 **주소 검색, 층수/옵션 선택, 약관 안내, 확인 다이얼로그** 등 선택형 오버레이는 뷰포트 너비 **\`1200px\` 분기점**을 기준으로 자동 전환됩니다.
-
-| 디바이스 구분 | 화면 너비 (Viewport) | 오버레이 형태 | 세부 규격 | 동작 방식 |
-| :--- | :--- | :--- | :--- | :--- |
-| **모바일 & 태블릿** | **\`360px ~ 1199px\`** | **바텀시트 (Bottom Sheet)** | 너비 \`100%\` (최대 \`640px\`), 상단 Corner Radius \`16px\` | 화면 하단에서 밀려 올라오는 슬라이드업 형태, 한 손 조작 최적화 |
-| **데스크톱 (Web)** | **\`1200px 이상\`** | **중앙 고정 모달 (Center Modal)** | 너비 **\`440px\` 고정**, Corner Radius \`16px\` | 화면 정중앙 고정 다이얼로그, 마우스 클릭 및 대화면 시선 집중 |
-
-> 🚨 **공통 규칙**: 배경 딤드(Dimmed)는 일관되게 **\`rgba(0, 0, 0, 0.6) (60% 블랙)\`**을 적용합니다.
-
----
-
-## 11. 아이콘 시스템 (Icon Specifications)
-
-* **이모지(Emoji) 일절 사용 금지**:
-  * 제품의 신뢰도와 일관된 톤앤매너 유지를 위해 **텍스트 라벨, 배지, 버튼, 툴팁 등 모든 UI에서 이모지 사용을 엄격히 금지**합니다.
-  * 모든 시각적 기호는 공식 벡터(SVG) 아이콘으로 대체합니다.
-* **공식 System Icon 우선 원칙 (공식 100종 체계)**:
-  * 다이사 서비스 전반에 사용되는 **공식 100종 아이콘 (이사/청소 특화 30종 + 앱 필수 공통 70종)**을 1차 기본 아이콘으로 사용합니다.
-  * 웹사이트의 [아이콘] 섹션에서 실시간 검색 및 SVG 다운로드를 지원합니다.
-* **AI 신규 아이콘 제작 가이드**:
-  * 피그마 스타일가이드에 존재하지 않는 신규 아이콘이 필요할 경우, **디자인 일관성을 위해 AI를 통해 직접 생성**하여 사용합니다.
-  * **크기 규격**:
-    * **기본 표준**: **\`24px\`** (인라인 터치 타겟 및 네비게이션 표준)
-    * **상황별 보조 규격**: 컴팩트 영역은 **\`20px\`**, 뱃지/소형 칩은 **\`16px\`** 허용
-  * **스타일 규칙**:
-    * 선 두께 (Stroke Weight): 24px 기준 **\`1.5px\`** 고정
-    * 끝점 및 모서리 (Cap & Join): 반드시 **\`round\`** 형태 (\`stroke-linecap="round" stroke-linejoin="round"\`)
-    * 채우기: 기본 아웃라인(\`fill="none"\`) 원칙 (상태 표현 시에만 예외)
-    * 색상: 시맨틱 텍스트 컬러 토큰 상속 (\`currentColor\`)
-
----
-
-## 12. UX 라이팅 가이드 (공식 표기 규칙)
-
-위매치 및 다이사 실무 노션 원본에 기반한 **절대적 문장 체계 및 띄어쓰기·단어 표기 표준**입니다.
-
-### 11.1. 컴포넌트별 문체 및 온점(.) 규칙
-* **타이틀**: **[해요체]** 기본 사용 / **온점(.) 미사용** (\`출발지를 검색해 주세요\`)
-* **설명**: **[해요체]** 기본 사용 / **온점(.) 필수 사용** (\`업체에게 모든걸 맡기세요.\`)
-* **유의 사항 / 힌트**: **[~입니다체]** 기본 사용 / **온점(.) 필수 사용** (\`가정이사 업체 한정 이벤트입니다.\`)
-* **버튼**: **[~하기체]** 기본 사용 / 어떤 일이 일어나는지 명확한 동사형 (\`설정하러 가기\`, \`자세히 보기\`, \`추천업체 바로 신청하기\`)
-
-### 11.2. 자주 쓰는 단어 표기 (7대 표준)
-1. **이사 종류**: \`가정이사\`, \`원룸이사\`, \`사무실이사\` (붙여쓰기)
-2. **업체 종류**: \`이사업체\`, \`청소업체\`, \`추천업체\`, \`입주 청소업체\` (붙여쓰기)
-3. **방문 견적 희망일**: \`방문 견적 희망일\` (띄어쓰기)
-4. **일시 정지**: \`일시 정지\` (띄어쓰기)
-5. **이사 지원금**: \`이사 지원금 이벤트\` (띄어쓰기)
-6. **견적 신청**: \`견적 신청 가능 날짜\` (띄어쓰기)
-7. **매칭 완료**: \`청소업체 매칭 완료\` (띄어쓰기)
-
-### 11.3. 그 외 기호 및 숫자 표기 규칙 (6대 표준)
-1. **금액 표기**: \`48만 원\`, \`총 200만 원\`, \`340,000원\` ('만'과 '원' 사이 공백)
-2. **날짜 표기**: \`2024.07.06\` (4자리 연도, 온점 구분)
-3. **슬래시(/)**: \`알림톡/mms\` (앞뒤 공백 없이 붙여쓰기)
-4. **괄호(())**: 영문/숫자 앞 띄어쓰기 \`oneroom (9평 이하)\` / 국문 앞 붙여쓰기 \`원룸/오피스텔(9평 이하)\`
-5. **대(:)**: \`1:1 (일대일)\` (글자와 콜론 붙여쓰기)
-6. **앰퍼샌드(&)**: \`조건 & 혜택\` (기호 앞뒤 한 칸 띄어쓰기)
+| 토큰명 | Hex 코드 | 권장 용도 |
+| :--- | :--- | :--- |
+| **main-01** | \`#1219F7\` | 전사 메인 브랜드 블루 (Primary CTA, 포커스 테두리) |
+| **main-02** | \`#595EF9\` | 보조 블루 포인트 (서브 버튼, 선택 칩 테두리) |
+| **main-03** | \`#1219F7 ~ #595EF9\` | 프로모션 배너 및 브랜드 강조 그라디언트 |
+| **main-04** | \`#F4F5FF\` | 키컬러 배경 틴트 (상태 뱃지, 안내 박스 배경) |
+| **sub-02** | \`#F34766\` | 에러 스트로크 및 오류 피드백 텍스트 |
+| **text-01** | \`#121212\` | 페이지 대제목, 섹션 헤드라인 |
+| **text-02** | \`#333333\` | 본문 기본 텍스트, 인풋 입력 값, 라벨 |
+| **text-03** | \`#666666\` | 보조 설명문, 입력 힌트, 안내 문구 |
+| **text-04** | \`#888888\` | 인풋 플레이스홀더, 비활성 텍스트, 각주 약관 |
+| **etc-01** | \`#FFFFFF\` | 카드 컨테이너 배경, 인풋 필드 배경 |
+| **etc-02** | \`#D7DBE2\` | 기본 보더 스트로크, 카드 라인 구분선 |
+| **etc-03** | \`#EBEEF2\` | 영역 구분선, 취소/보조 버튼 배경 |
+| **etc-04** | \`#F7F8FA\` | 비활성 인풋 배경, 탭바 컨테이너 배경 |
+| **etc-05** | \`#FAFAFA\` | 전체 대시보드 및 서비스 기본 배경 |
+| **dimmed** | \`rgba(0,0,0,0.6)\` | 모달 및 바텀시트 배경 오버레이 (60%) |
 `;
 
-interface DarangiePop {
+const PARTNER_MD_CONTENT = `# 다이사 파트너(B2B) 디자인시스템 표준 명세서 (Daisa Partner Design System)
+
+> **문서 버전**: v1.0.0 (공식 제정)  
+> **최종 갱신일**: 2026-11-06  
+> **적용 대상**: 다이사(da24) 및 위매치(wematch) 파트너(이사업체, 청소업체, 기사님, 시공업체) 모바일 웹 & PC 파트너 관리 콘솔  
+> **기준 피그마**:  
+> 1. \`[파트너] 스타일가이드\` (\`loNec9fjF6nIEgkwxH7aSN\`) - 노드: \`0:1\`, \`1:9\` (Typography), \`1:305\` (Color), \`18:38\` (Mobile 360x780), \`18:76\` (Web 1200x780)  
+> 2. \`[개발] v1.2\` (\`G5JiHI51FV6XFImlsyON6u\`) - 노드: \`1:130\` (파트너향 회원가입), \`8289:17503\` (파트너향 CPQ 바로견적)
+
+---
+
+## 1. 파트너향 핵심 4대 절대 원칙 (Immutable Rules)
+
+고객향 디자인시스템이 부드러운 라운드(10px/16px)와 컴팩트한 본문(16px) 중심의 B2C 서비스라면, **파트너향 디자인시스템은 현장 기사님과 업체의 신속하고 정확한 조작성을 보장하는 고신뢰 B2B 규격**을 적용합니다.
+
+### 1. 모서리 곡률 (Corner Radius) 절대 기준: 6px
+* **표준 기본값**: 모든 카드 컨테이너, 폼 인풋, 메인 CTA 버튼, 모달 다이얼로그의 Corner Radius는 **\`6px\`** 고정입니다.
+* **서브 컴포넌트 허용값**: 좁은 테이블 인라인 액션 버튼, 작은 태그 칩은 **\`4px\`** 적용 가능.
+* 🚨 **엄격한 금지 규격 (Anti-Pattern)**:
+  * 고객향에서 쓰이는 둥근 라운드(**10px, 16px**) 사용 절대 금지.
+  * 20px 이상의 과도한 곡률(Pill 제외) 및 0px 완전 직각 컨테이너 사용 금지.
+  * 파트너 화면은 **\`Radius 6px\`**을 기본 아이덴티티로 통일하여 단단하고 신뢰감 있는 인터페이스를 유지합니다.
+
+---
+
+### 2. 타이포그래피 (Typography) 가독성 절대 기준: 기본 18px (Body 1)
+현장 이동 중이거나 야외 채광 환경에서 모바일 및 태블릿을 주로 다루는 기사님의 특성을 반영하여, **기본 본문 텍스트를 18px로 대폭 상향**합니다.
+
+* **기본 폰트**: Noto Sans KR / Pretendard (Letter Spacing \`-1px / -0.01em\` 통일)
+* **타이포그래피 스케일 7단계**:
+  1. **Display (32px)**: Bold / Regular, Line Height 140% (45px) — 환영 메시지, 핵심 성과 지표
+  2. **Headline (28px)**: Bold / Regular, Line Height 140% (39px) — 대분류 페이지 메인 헤더
+  3. **Title (24px)**: Bold / Regular, Line Height 140% (34px) — 섹션 타이틀, 팝업 제목
+  4. **Sub-Title (20px)**: Bold / Regular, Line Height 150% (30px) — 그룹 소제목, 모달 제목
+  5. **Body 1 (18px) [★ B2B 기본 본문]**: Bold / Regular, Line Height 150% (27px) — 주문 정보, 고객 견적 세부 내역, 폼 라벨, 폼 입력 텍스트
+  6. **Body 2 (16px)**: Bold / Regular, Line Height 150% (24px) — 보조 설명문, 테이블 본문 데이터
+  7. **Caption (14px)**: Bold / Regular, Line Height 150% (21px) — 각주, 약관, 날짜/시간 메타데이터 (※ 고객향 12px 극소 텍스트 사용 금지)
+
+---
+
+### 3. 작업 규격 (Canvas & Content Grid System)
+다이사 파트너향은 **모바일 현장 뷰(w360)**와 **PC 관리자 콘솔 뷰(w1200)** 2대 반응형 뷰포트를 표준으로 삼습니다.
+
+* **모바일 (Mobile)**:
+  * 캔버스 너비: **\`360px\`**
+  * 콘텐츠 안전 너비: **\`312px\`** (좌우 균등 마진 **\`24px\`** 필수)
+  * 상단 네비게이션: 헤더 높이 **\`56px\`**
+* **웹 관리자 콘솔 (Web Desktop)**:
+  * 캔버스 너비: **\`1200px\`**
+  * 글로벌 네비게이션(GNB): 높이 **\`80px\`** (전폭 1200px)
+  * **콘텐츠 카드 단일 안전 너비: \`627px\`** (Order Container 규격)
+    * 1200px 캔버스 중앙에 \`627px\` 단일 열 카드를 배치하고 모서리 라운드 **\`6px\`** 적용.
+    * 내부 컨테이너 여백: 기본 패딩 **\`24px\`**.
+
+---
+
+### 4. 버튼 (Button) B2B 전용 규격
+* **Primary Bottom CTA (하단 고정 및 페이지 메인 버튼)**:
+  * 크기: 너비 **\`312px\`** (모바일 전폭 안전영역), 높이 **\`62px\`**
+  * Corner Radius: **\`6px\`**
+  * 타이포그래피: **\`18px Bold\`** (White \`#FFFFFF\`, 배경 \`#1219F7\`)
+  * 고객향(56px, Radius 10px, 16px 폰트) 대비 손가락 터치 타겟과 시인성을 대폭 강화.
+* **Secondary / Inline 액션 버튼 (통화하기, 채팅하기, 수정하기 등)**:
+  * 크기: 높이 **\`48px\`** 또는 **\`51px\`**
+  * Corner Radius: **\`4px\`** 또는 **\`6px\`**
+  * 타이포그래피: **\`16px\`** or **\`18px Bold\`**
+* **복사/조회 마이크로 버튼**:
+  * 크기: 높이 **\`26px\`**, 패딩 8px, Corner Radius **\`4px\`**
+
+---
+
+### 5. 폼 인풋 (Form Input) 규격
+* **표준 인풋 (Text, Number, Select)**:
+  * 너비: **\`312px\`** (모바일 콘텐츠 전폭)
+  * 높이: **\`56px\`** (패딩 좌우 16px)
+  * Corner Radius: **\`6px\`**
+  * 텍스트 크기: **\`18px\`** (입력값 Text-01 \`#121212\`, Placeholder Text-04 \`#888888\`)
+  * 보더 스타일: 기본 \`#D7DBE2\` (1px solid), 포커스 시 \`#1219F7\` (2px solid), 에러 시 \`#F34766\`
+  * 비활성 상태: 배경 \`#F7F8FA\`, 보더 \`#EBEEF2\`
+
+---
+
+## 2. 공식 컬러 토큰 (Color Tokens)
+
+| 토큰명 | 헥스 코드 (HEX) | 용도 및 설명 |
+| :--- | :--- | :--- |
+| **main-01** | \`#1219F7\` | 메인 키컬러 (메인 CTA, 주요 활성 상태, 승인 완료) |
+| **main-02** | \`#595EF9\` | 서브 블루 (보조 인터랙션, 그래픽 강조 포인트) |
+| **sub-01** | \`#F7D915\` | 서브 옐로우 (주의 알림, 배차 추천 하이라이트) |
+| **sub-02** | \`#F34766\` | 서브 레드 / 에러 (취소, 경고 피드백, 반려) |
+| **text-01** | \`#121212\` | 타이틀, 견적 금액, 주문 번호 등 주요 정보 |
+| **text-02** | \`#333333\` | 본문, 폼 입력 텍스트, 고객명, 주소 라벨 |
+| **text-03** | \`#666666\` | 보조 설명, 견적 일시, 부가 정보 안내문 |
+| **text-04** | \`#888888\` | 캡션, 인풋 플레이스홀더, 비활성 텍스트 |
+| **etc-01** | \`#FFFFFF\` | 카드 컨테이너 배경, 인풋 필드 배경 |
+| **etc-02** | \`#D7DBE2\` | 기본 보더 (인풋창, 카드 외곽 테두리 1px) |
+| **etc-03** | \`#EBEEF2\` | 연한 구분선 Divider, 비활성 버튼 배경 |
+| **etc-04** | \`#F7F8FA\` | 비활성 배경, 카드 배경 |
+| **etc-05** | \`#FAFAFA\` | 전체 서비스 기본 배경 |
+| **notused-01/02**| \`#1E25F8\` / \`#EBEEF2\` | 🚫 레거시 폐기 색상 (사용 엄격 금지) |
+`;
+
+// 2D Cute Darang-i Mascot Component
+const DarangieSvg: React.FC = () => (
+  <svg
+    width="84"
+    height="92"
+    viewBox="0 0 100 110"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="filter drop-shadow-[0_12px_24px_rgba(18,25,247,0.35)]"
+  >
+    <path
+      d="M22 42C12 30 10 12 24 15C36 18 36 34 36 38"
+      fill="#FFE175"
+      stroke="#191F28"
+      strokeWidth="4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M78 42C88 30 90 12 76 15C64 18 64 34 64 38"
+      fill="#FFE175"
+      stroke="#191F28"
+      strokeWidth="4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M22 23C18 20 18 16 22 17" stroke="#FFA353" strokeWidth="3" strokeLinecap="round" />
+    <path d="M78 23C82 20 82 16 78 17" stroke="#FFA353" strokeWidth="3" strokeLinecap="round" />
+    <ellipse cx="50" cy="56" rx="42" ry="38" fill="#FFF4AA" stroke="#191F28" strokeWidth="4" />
+    <path
+      d="M26 48C34 52 66 52 74 48C74 72 64 88 50 88C36 88 26 72 26 48Z"
+      fill="#FFFFFF"
+      opacity="0.9"
+    />
+    <ellipse cx="38" cy="50" rx="4" ry="5.5" fill="#191F28" />
+    <circle cx="36.5" cy="48" r="1.5" fill="#FFFFFF" />
+    <ellipse cx="62" cy="50" rx="4" ry="5.5" fill="#191F28" />
+    <circle cx="60.5" cy="48" r="1.5" fill="#FFFFFF" />
+    <ellipse cx="28" cy="58" rx="5" ry="3.5" fill="#FF8383" opacity="0.8" />
+    <ellipse cx="72" cy="58" rx="5" ry="3.5" fill="#FF8383" opacity="0.8" />
+    <ellipse cx="50" cy="54" rx="2.5" ry="2" fill="#FFA353" />
+    <path
+      d="M45 58C47 62 53 62 55 58"
+      stroke="#191F28"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M48 60C48 64 52 64 52 60"
+      fill="#FF4B72"
+      stroke="#191F28"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <rect
+      x="32"
+      y="68"
+      width="36"
+      height="26"
+      rx="4"
+      fill="#E5A663"
+      stroke="#191F28"
+      strokeWidth="3.5"
+    />
+    <rect x="46" y="68" width="8" height="26" fill="#F7D493" stroke="#191F28" strokeWidth="2" />
+    <path d="M32 78L68 78" stroke="#D18742" strokeWidth="2.5" />
+    <path
+      d="M28 72C22 72 18 78 24 82C28 84 32 80 32 76"
+      fill="#FFF4AA"
+      stroke="#191F28"
+      strokeWidth="3.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M72 72C78 72 82 78 76 82C72 84 68 80 68 76"
+      fill="#FFF4AA"
+      stroke="#191F28"
+      strokeWidth="3.5"
+      strokeLinecap="round"
+    />
+    <ellipse cx="36" cy="94" rx="8" ry="5" fill="#FFA353" stroke="#191F28" strokeWidth="3.5" />
+    <ellipse cx="64" cy="94" rx="8" ry="5" fill="#FFA353" stroke="#191F28" strokeWidth="3.5" />
+  </svg>
+);
+
+interface DarangiItem {
   id: number;
   x: number;
   y: number;
 }
 
-const DarangieSvg: React.FC = () => (
-  <svg
-    width="90"
-    height="90"
-    viewBox="0 0 100 100"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="drop-shadow-[0_8px_20px_rgba(18,25,247,0.28)] select-none"
-  >
-    {/* Sparkles */}
-    <path d="M12 25L15 31L21 34L15 37L12 43L9 37L3 34L9 31L12 25Z" fill="#FFD166" />
-    <path d="M88 18L90 22L94 24L90 26L88 30L86 26L82 24L86 22L88 18Z" fill="#FFD166" />
-
-    {/* Left Ear */}
-    <circle cx="28" cy="28" r="14" fill="#F49D37" />
-    <circle cx="28" cy="28" r="8" fill="#FFB4A2" />
-
-    {/* Right Ear */}
-    <circle cx="72" cy="28" r="14" fill="#F49D37" />
-    <circle cx="72" cy="28" r="8" fill="#FFB4A2" />
-
-    {/* Fluffy Tail */}
-    <ellipse cx="82" cy="62" rx="14" ry="18" transform="rotate(25 82 62)" fill="#E07A2B" />
-    <ellipse cx="80" cy="58" rx="8" ry="12" transform="rotate(25 80 58)" fill="#FFF3E0" />
-
-    {/* Main Face Body */}
-    <ellipse cx="50" cy="52" rx="34" ry="30" fill="#F49D37" />
-
-    {/* Chubby Cheeks (Cream) */}
-    <path
-      d="M22 55C22 42 34 38 50 38C66 38 78 42 78 55C78 68 64 74 50 74C36 74 22 68 22 55Z"
-      fill="#FFF8ED"
-    />
-
-    {/* Daisa Blue Cap */}
-    <path d="M34 26C34 18 42 12 50 12C58 12 66 18 66 26H34Z" fill="#1219F7" />
-    <ellipse cx="50" cy="26" rx="20" ry="4" fill="#0E15D4" />
-    <polygon points="50,16 54,18 54,23 50,25 46,23 46,18" fill="white" />
-
-    {/* Big Sparkly Eyes */}
-    <ellipse cx="38" cy="48" rx="4.5" ry="5.5" fill="#191F28" />
-    <circle cx="36.5" cy="46" r="2" fill="white" />
-    <circle cx="40" cy="50" r="0.8" fill="white" />
-
-    <ellipse cx="62" cy="48" rx="4.5" ry="5.5" fill="#191F28" />
-    <circle cx="60.5" cy="46" r="2" fill="white" />
-    <circle cx="64" cy="50" r="0.8" fill="white" />
-
-    {/* Peach Cheeks Blush */}
-    <ellipse cx="28" cy="56" rx="5" ry="3" fill="#FF6B8B" fillOpacity="0.45" />
-    <ellipse cx="72" cy="56" rx="5" ry="3" fill="#FF6B8B" fillOpacity="0.45" />
-
-    {/* Cute Nose */}
-    <polygon points="50,53 47.5,50 52.5,50" fill="#D94A56" />
-
-    {/* Smiling Mouth with tiny front tooth */}
-    <path d="M46 54Q50 58 54 54" stroke="#191F28" strokeWidth="1.5" strokeLinecap="round" />
-    <rect x="48.5" y="55" width="3" height="3" rx="0.8" fill="white" stroke="#191F28" strokeWidth="0.8" />
-
-    {/* Mini Moving Box in Hands */}
-    <g transform="translate(36, 62)">
-      <rect x="0" y="0" width="28" height="20" rx="3" fill="#D48B47" stroke="#9C591D" strokeWidth="1.2" />
-      <rect x="11" y="0" width="6" height="20" fill="#E8B47B" />
-      <circle cx="14" cy="10" r="3.5" fill="#1219F7" />
-    </g>
-
-    {/* Cute Paws */}
-    <ellipse cx="35" cy="70" rx="4" ry="5" fill="#F49D37" stroke="#9C591D" strokeWidth="1" />
-    <ellipse cx="65" cy="70" rx="4" ry="5" fill="#F49D37" stroke="#9C591D" strokeWidth="1" />
-  </svg>
-);
-
-export const ArchiveSection: React.FC = () => {
+export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
+  const isDark = mode === 'partner';
+  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isDark ? 'partner' : 'customer');
   const [copied, setCopied] = useState(false);
-  const [darangis, setDarangis] = useState<DarangiePop[]>([]);
+  const [darangis, setDarangis] = useState<DarangiItem[]>([]);
+
+  const activeContent = selectedDoc === 'partner' ? PARTNER_MD_CONTENT : CUSTOMER_MD_CONTENT;
+  const activeFileName = selectedDoc === 'partner' ? 'DAISA_PARTNER_DESIGN_SYSTEM.md' : 'DAISA_DESIGN_SYSTEM.md';
+
+  const triggerDarangie = (e: React.MouseEvent) => {
+    const newDarangi: DarangiItem = {
+      id: Date.now(),
+      x: e.clientX,
+      y: e.clientY - 40,
+    };
+    setDarangis((prev) => [...prev, newDarangi]);
+    setTimeout(() => {
+      setDarangis((prev) => prev.filter((item) => item.id !== newDarangi.id));
+    }, 1900);
+  };
 
   const handleDownload = (e: React.MouseEvent) => {
-    // Easter Egg: Trigger cute Darangie popping at mouse click coordinates
-    const x = e.clientX;
-    const y = e.clientY;
-    const newId = Date.now() + Math.random();
-    setDarangis((prev) => [...prev, { id: newId, x, y }]);
-    setTimeout(() => {
-      setDarangis((prev) => prev.filter((d) => d.id !== newId));
-    }, 1650);
-
-    // Markdown file download
-    const blob = new Blob([MARKDOWN_CONTENT], { type: 'text/markdown;charset=utf-8' });
+    triggerDarangie(e);
+    const blob = new Blob([activeContent], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DAISA_DESIGN_SYSTEM.md';
+    link.download = activeFileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -240,90 +310,139 @@ export const ArchiveSection: React.FC = () => {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(MARKDOWN_CONTENT);
+    navigator.clipboard.writeText(activeContent);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <section id="archive" className="space-y-10">
-      {/* Section Header: Toss Style */}
-      <div className="border-b border-[#E5E8EB] pb-6">
-        <span className="text-[13px] font-bold text-[#3182F6]">
-          공식 문서 및 자료
+    <section id="archive" className="space-y-10 relative">
+      {/* Section Header */}
+      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+          자료실 & 공식 명세서
         </span>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-          자료실
+        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
+          isDark ? 'text-white' : 'text-[#191F28]'
+        }`}>
+          {isDark ? '파트너 B2B 디자인시스템 명세서 자료실' : '디자인시스템 명세서 자료실'}
         </h2>
-        <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-          다이사(da24) 디자인시스템의 공식 명세서 원본(DAISA_DESIGN_SYSTEM.md)을 다운로드하고 원문 마크다운 코드를 즉시 열람 및 복사할 수 있습니다.
+        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
+          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+        }`}>
+          다이사(da24) 디자인시스템의 공식 규칙과 피그마 토큰 규격을 마크다운 파일로 다운로드하거나 원문을 복사하여 프로젝트에 즉시 활용할 수 있습니다.
         </p>
       </div>
 
-      {/* Top CTA Banner */}
-      <div className="bg-gradient-to-br from-white via-white to-[#F2F7FF] border border-[#E5E8EB] rounded-[24px] p-6 md:p-8 space-y-6 shadow-[0_2px_16px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
-                <FileText className="w-3.5 h-3.5" />
-                공식 명세서
-              </span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#F2F4F6] text-[#4E5968]">
-                Markdown (.md)
-              </span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#F2F4F6] text-[#8B95A1]">
-                약 14KB
+      {/* Document Selector Segment */}
+      <div className={`flex items-center p-1.5 rounded-[12px] border w-fit ${
+        isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-[#F2F4F6] border-[#E5E8EB]'
+      }`}>
+        <button
+          type="button"
+          onClick={() => setSelectedDoc('customer')}
+          className={`px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all ${
+            selectedDoc === 'customer'
+              ? isDark ? 'bg-[#1E2536] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
+              : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+          }`}
+        >
+          고객향 명세서 (DAISA_DESIGN_SYSTEM.md)
+        </button>
+        <button
+          type="button"
+          onClick={() => setSelectedDoc('partner')}
+          className={`px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all flex items-center gap-1.5 ${
+            selectedDoc === 'partner'
+              ? isDark ? 'bg-[#595EF9] text-white shadow-xs' : 'bg-white text-[#1219F7] shadow-2xs'
+              : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+          }`}
+        >
+          <span>파트너향 명세서 (DAISA_PARTNER_DESIGN_SYSTEM.md)</span>
+          <span className="text-[10px] px-1.5 py-0.2 rounded bg-black/20 text-white font-extrabold">B2B</span>
+        </button>
+      </div>
+
+      {/* Main Download Card */}
+      <div className={`border rounded-[22px] p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm ${
+        isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-white border-[#E5E8EB]'
+      }`}>
+        <div className="flex items-start gap-4">
+          <div className={`w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0 shadow-sm ${
+            isDark ? 'bg-[#1E2536] text-[#7075FA] border border-[#3A4560]' : 'bg-[#E8F3FF] text-[#1219F7]'
+          }`}>
+            <FileText className="w-7 h-7" />
+          </div>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className={`text-[18px] font-extrabold font-mono tracking-tight ${
+                isDark ? 'text-white' : 'text-[#191F28]'
+              }`}>
+                {activeFileName}
+              </h3>
+              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                selectedDoc === 'partner'
+                  ? 'bg-[#595EF9]/30 text-[#A5A8FC] border border-[#595EF9]/50'
+                  : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+              }`}>
+                {selectedDoc === 'partner' ? 'B2B 파트너 공식 v1.0.0' : '고객향 프로덕션 v1.0.0'}
               </span>
             </div>
-
-            <h3 className="text-[22px] md:text-[24px] font-extrabold text-[#191F28] tracking-tight">
-              DAISA_DESIGN_SYSTEM.md
-            </h3>
-
-            <p className="text-[14px] text-[#6B7684] leading-relaxed max-w-xl">
-              AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구현할 때 일관된 디자인을 유지하기 위한 <strong>헌법적 절대 규칙(Non-Negotiables)</strong>, 작업 규격(360px/1200px), UX 라이팅 가이드 6대 표가 수록된 단일 진실 공급원입니다.
+            <p className={`text-[13px] leading-relaxed max-w-xl ${
+              isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'
+            }`}>
+              {selectedDoc === 'partner'
+                ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반. 62px CTA 버튼, 6px 모서리 곡률, 18px 기본 본문 및 360x312 / 1200x627 레이아웃 규격 총망라.'
+                : 'Pretendard 짝수 6종, 기본 radius 10px, 모바일 360/312 & 웹 1200/640 규격 및 컴포넌트 표준 총망라.'}
             </p>
           </div>
+        </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-            <button
-              type="button"
-              onClick={handleDownload}
-              className="h-[52px] px-6 rounded-[14px] bg-[#3182F6] hover:bg-[#1B64DA] text-white font-bold text-[15px] flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
-            >
-              <Download className="w-4 h-4" />
-              <span>DAISA_DESIGN_SYSTEM.md 다운로드</span>
-            </button>
+        {/* Buttons */}
+        <div className="flex items-center gap-3 shrink-0">
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="h-[46px] px-5 rounded-[12px] bg-[#1219F7] hover:bg-[#0E15D4] text-white font-bold text-[14px] flex items-center gap-2 shadow-[0_4px_16px_rgba(18,25,247,0.35)] transition-all active:scale-[0.98]"
+          >
+            <Download className="w-4 h-4" />
+            <span>.md 파일 다운로드</span>
+          </button>
 
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="h-[46px] px-5 rounded-[12px] bg-white hover:bg-[#F2F4F6] text-[#333D4B] font-bold text-[14px] border border-[#E5E8EB] flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4 text-emerald-600" />
-                  <span className="text-emerald-700 font-bold">마크다운 복사 완료!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4 text-[#8B95A1]" />
-                  <span>마크다운 전체 복사</span>
-                </>
-              )}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className={`h-[46px] px-5 rounded-[12px] font-bold text-[14px] border flex items-center justify-center gap-2 transition-all active:scale-[0.98] ${
+              isDark
+                ? 'bg-[#1E2536] hover:bg-[#252E42] text-[#CBD5E1] border-[#3A4560]'
+                : 'bg-white hover:bg-[#F2F4F6] text-[#333D4B] border-[#E5E8EB]'
+            }`}
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-500" />
+                <span className="text-emerald-500 font-bold">복사 완료!</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4 text-[#8B95A1]" />
+                <span>원문 전체 복사</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
 
-      {/* Raw Markdown Viewer (Default & Only View) */}
-      <div className="bg-[#191F28] border border-[#2B323D] rounded-[24px] overflow-hidden shadow-xl">
-        <div className="px-6 py-4 border-b border-[#2B323D] flex items-center justify-between bg-[#14181F]">
+      {/* Raw Markdown Viewer */}
+      <div className={`border rounded-[22px] overflow-hidden shadow-xl ${
+        isDark ? 'bg-[#10141D] border-[#262F40]' : 'bg-[#191F28] border-[#2B323D]'
+      }`}>
+        <div className={`px-6 py-4 border-b flex items-center justify-between ${
+          isDark ? 'bg-[#141822] border-[#262F40]' : 'bg-[#14181F] border-[#2B323D]'
+        }`}>
           <div className="flex items-center gap-2 text-[13px] font-bold text-white">
-            <FileText className="w-4 h-4 text-[#3182F6]" />
-            <span>DAISA_DESIGN_SYSTEM.md (원문 마크다운 미리보기)</span>
+            <FileText className="w-4 h-4 text-[#595EF9]" />
+            <span>{activeFileName} (원문 미리보기)</span>
           </div>
           <button
             type="button"
@@ -337,7 +456,7 @@ export const ArchiveSection: React.FC = () => {
 
         <div className="p-6 md:p-8 overflow-x-auto text-[13px] font-mono leading-relaxed text-[#D1D6DB] max-h-[720px] overflow-y-auto">
           <pre className="whitespace-pre">
-            <code>{MARKDOWN_CONTENT}</code>
+            <code>{activeContent}</code>
           </pre>
         </div>
       </div>
@@ -349,13 +468,10 @@ export const ArchiveSection: React.FC = () => {
           className="fixed pointer-events-none z-50 animate-darangie flex flex-col items-center select-none"
           style={{ left: `${item.x}px`, top: `${item.y}px` }}
         >
-          {/* Mini Cute Speech Bubble */}
           <div className="mb-2 bg-[#191F28] text-white text-[11px] font-extrabold px-3 py-1 rounded-full whitespace-nowrap shadow-xl flex items-center gap-1.5 border border-white/20 animate-bounce">
             <span>다랑이가 배달 완료!</span>
             <span>📦✨</span>
           </div>
-
-          {/* 2D Cute Mascot Darangie */}
           <DarangieSvg />
         </div>
       ))}

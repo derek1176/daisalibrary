@@ -34,6 +34,56 @@ export const PublicButton: React.FC<{
 );
 
 /**
+ * partner-primary-button
+ * Figma loNec9fjF6nIEgkwxH7aSN node 18:38: mobile 312×62 / pc 627×62 · radius 6 · 18px Bold White
+ */
+export const PartnerPrimaryButton: React.FC<{
+  state?: ButtonState;
+  fluid?: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}> = ({ state = 'normal', fluid, children, onClick, className = '' }) => (
+  <button
+    type="button"
+    disabled={state === 'disable' || state === 'loading'}
+    onClick={onClick}
+    className={`${fluid ? 'w-full' : 'w-[312px]'} h-[62px] px-4 rounded-[6px] text-white text-[18px] leading-[26px] font-bold inline-flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-01 ${stateBg(
+      state,
+    )} ${className}`}
+  >
+    {state === 'loading' ? <IconLoading /> : children}
+  </button>
+);
+
+/**
+ * partner-secondary-button
+ * Figma G5JiHI51FV6XFImlsyON6u node 1:130: h48/h51 · radius 4 or 6 · 16px Bold
+ */
+export const PartnerSecondaryButton: React.FC<{
+  state?: ButtonState;
+  variant?: 'outline' | 'ghost' | 'solid';
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}> = ({ state = 'normal', variant = 'outline', children, onClick, className = '' }) => (
+  <button
+    type="button"
+    disabled={state === 'disable'}
+    onClick={onClick}
+    className={`h-[51px] px-5 rounded-[6px] text-[16px] font-bold inline-flex items-center justify-center transition-colors ${
+      variant === 'outline'
+        ? 'border border-[#595EF9] text-[#595EF9] bg-transparent hover:bg-[#595EF9]/10'
+        : variant === 'ghost'
+        ? 'text-[#94A3B8] hover:bg-white/5 hover:text-white'
+        : 'bg-[#1E2536] text-[#E5E8EB] hover:bg-[#252E42]'
+    } ${className}`}
+  >
+    {children}
+  </button>
+);
+
+/**
  * floating-button
  * Figma: mobile 360×56 / pc 720×56 · radius 0 · padding 16 · 16px Bold White
  */

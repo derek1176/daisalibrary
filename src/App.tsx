@@ -29,6 +29,8 @@ export const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
 
+  const isDark = serviceMode === 'partner';
+
   const navItems = [
     { id: 'home', label: '컴포넌트 모아보기', category: '대시보드' },
     { id: 'archive', label: '자료실', category: '자료실' },
@@ -71,42 +73,62 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9FAFB] text-[#191F28] font-sans antialiased selection:bg-[#E8F3FF] selection:text-[#1B64DA]">
+    <div className={`min-h-screen flex flex-col font-sans antialiased transition-colors duration-200 ${
+      isDark
+        ? 'bg-[#0C0E14] text-[#F3F4F6] selection:bg-[#1E2638] selection:text-[#595EF9]'
+        : 'bg-[#F9FAFB] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA]'
+    }`}>
       {/* ============================================================ */}
       {/* Toss-Style Minimal GNB Header (Full Width) */}
       {/* ============================================================ */}
-      <header className="sticky top-0 z-40 h-[60px] bg-white/95 backdrop-blur-md border-b border-[#E5E8EB] px-6 lg:px-8 flex items-center justify-between transition-all w-full">
+      <header className={`sticky top-0 z-40 h-[60px] backdrop-blur-md border-b px-6 lg:px-8 flex items-center justify-between transition-colors w-full ${
+        isDark
+          ? 'bg-[#121620]/95 border-[#232936]'
+          : 'bg-white/95 border-[#E5E8EB]'
+      }`}>
         <div className="flex items-center gap-6">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 -ml-2 rounded-[8px] text-[#4E5968] hover:bg-[#F2F4F6] transition-colors"
+            className={`md:hidden p-2 -ml-2 rounded-[8px] transition-colors ${
+              isDark
+                ? 'text-[#94A3B8] hover:bg-[#1E2536]'
+                : 'text-[#4E5968] hover:bg-[#F2F4F6]'
+            }`}
             aria-label="메뉴 열기"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Official Logo (Shifted -4px to align with sidebar menu items) */}
+          {/* Official Logo (White in Partner Dark, Dark in Customer Light) */}
           <div
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-3 cursor-pointer select-none group -ml-1"
           >
             <img
-              src="/logo-dark.png"
+              src={isDark ? '/logo-white.png' : '/logo-dark.png'}
               alt="daisalibrary logo"
               className="h-[24px] md:h-[26px] w-auto object-contain transition-transform group-hover:scale-102"
             />
-            <span className="hidden sm:inline-block text-[13px] font-bold pl-2 border-l border-[#E5E8EB] text-[#8B95A1]">
-              디자인시스템
+            <span className={`hidden sm:inline-block text-[13px] font-bold pl-2 border-l ${
+              isDark ? 'border-[#2B3548] text-[#94A3B8]' : 'border-[#E5E8EB] text-[#8B95A1]'
+            }`}>
+              {isDark ? '파트너 B2B 시스템' : '고객향 디자인시스템'}
             </span>
           </div>
         </div>
 
         {/* Center: Search Bar */}
         <div className="relative hidden md:block w-[280px] lg:w-[320px]">
-          <div className={`flex items-center gap-2.5 px-3.5 py-2 rounded-[12px] bg-[#F2F4F6] transition-all border ${
-            searchFocused ? 'bg-white border-[#3182F6] ring-2 ring-[#3182F6]/10' : 'border-transparent hover:bg-[#E5E8EB]/70'
+          <div className={`flex items-center gap-2.5 px-3.5 py-2 rounded-[12px] transition-all border ${
+            isDark
+              ? searchFocused
+                ? 'bg-[#182030] border-[#595EF9] ring-2 ring-[#595EF9]/20'
+                : 'bg-[#161B26] border-[#262F40] hover:border-[#3A4560]'
+              : searchFocused
+              ? 'bg-white border-[#3182F6] ring-2 ring-[#3182F6]/10'
+              : 'bg-[#F2F4F6] border-transparent hover:bg-[#E5E8EB]/70'
           }`}>
-            <Search className="w-4 h-4 text-[#8B95A1]" />
+            <Search className={`w-4 h-4 ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`} />
             <input
               id="toss-search-input"
               type="text"
@@ -115,13 +137,15 @@ export const App: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
-              className="w-full bg-transparent text-[13px] text-[#191F28] placeholder-[#8B95A1] outline-none font-medium"
+              className={`w-full bg-transparent text-[13px] outline-none font-medium ${
+                isDark ? 'text-white placeholder-[#64748B]' : 'text-[#191F28] placeholder-[#8B95A1]'
+              }`}
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="text-[#8B95A1] hover:text-[#191F28] text-[12px]"
+                className={`text-[12px] ${isDark ? 'text-[#64748B] hover:text-white' : 'text-[#8B95A1] hover:text-[#191F28]'}`}
               >
                 ✕
               </button>
@@ -130,22 +154,28 @@ export const App: React.FC = () => {
 
           {/* Search Dropdown Results */}
           {searchFocused && searchQuery && (
-            <div className="absolute top-[48px] left-0 right-0 bg-white rounded-[16px] shadow-[0_12px_36px_rgba(0,0,0,0.12)] border border-[#E5E8EB] p-2 space-y-1 z-50 animate-scaleUp">
+            <div className={`absolute top-[48px] left-0 right-0 rounded-[16px] shadow-[0_12px_36px_rgba(0,0,0,0.3)] border p-2 space-y-1 z-50 animate-scaleUp ${
+              isDark ? 'bg-[#161B26] border-[#2B3548]' : 'bg-white border-[#E5E8EB]'
+            }`}>
               {filteredNavItems.length > 0 ? (
                 filteredNavItems.map(item => (
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
-                    className="w-full px-3.5 py-2.5 rounded-[10px] text-left hover:bg-[#F2F4F6] flex items-center justify-between text-[13px] transition-colors"
+                    className={`w-full px-3.5 py-2.5 rounded-[10px] text-left flex items-center justify-between text-[13px] transition-colors ${
+                      isDark ? 'hover:bg-[#1E2536]' : 'hover:bg-[#F2F4F6]'
+                    }`}
                   >
-                    <span className="font-bold text-[#191F28]">{item.label}</span>
-                    <span className="text-[11px] text-[#8B95A1] bg-[#F2F4F6] px-2 py-0.5 rounded-full font-medium">
+                    <span className={`font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>{item.label}</span>
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                      isDark ? 'bg-[#222A3B] text-[#94A3B8]' : 'bg-[#F2F4F6] text-[#8B95A1]'
+                    }`}>
                       {item.category}
                     </span>
                   </button>
                 ))
               ) : (
-                <div className="p-4 text-center text-[13px] text-[#8B95A1]">
+                <div className={`p-4 text-center text-[13px] ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
                   검색 결과가 없습니다.
                 </div>
               )}
@@ -155,13 +185,15 @@ export const App: React.FC = () => {
 
         {/* Right Header Area: Customer / Partner Segmented Toggle */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
+          <div className={`flex items-center p-1 rounded-[12px] border ${
+            isDark ? 'bg-[#161B26] border-[#2B3548]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
+          }`}>
             <button
               onClick={() => setServiceMode('customer')}
               className={`px-3.5 py-1.5 rounded-[9px] text-[13px] transition-all select-none ${
                 serviceMode === 'customer'
                   ? 'bg-white text-[#191F28] font-bold shadow-[0_1px_4px_rgba(0,0,0,0.06)]'
-                  : 'text-[#6B7684] hover:text-[#191F28] font-medium'
+                  : isDark ? 'text-[#94A3B8] hover:text-white font-medium' : 'text-[#6B7684] hover:text-[#191F28] font-medium'
               }`}
             >
               고객향
@@ -170,13 +202,17 @@ export const App: React.FC = () => {
               onClick={() => setServiceMode('partner')}
               className={`px-3.5 py-1.5 rounded-[9px] text-[13px] transition-all select-none flex items-center gap-1.5 ${
                 serviceMode === 'partner'
-                  ? 'bg-white text-[#191F28] font-bold shadow-[0_1px_4px_rgba(0,0,0,0.06)]'
-                  : 'text-[#6B7684] hover:text-[#191F28] font-medium'
+                  ? 'bg-[#595EF9] text-white font-bold shadow-xs'
+                  : isDark ? 'text-[#94A3B8] hover:text-white font-medium' : 'text-[#6B7684] hover:text-[#191F28] font-medium'
               }`}
             >
               <span>파트너향</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 bg-[#E5E8EB] text-[#4E5968] rounded-full">
-                준비중
+              <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
+                serviceMode === 'partner'
+                  ? 'bg-black/30 text-white'
+                  : isDark ? 'bg-[#222A3B] text-[#94A3B8]' : 'bg-[#E5E8EB] text-[#4E5968]'
+              }`}>
+                B2B 다크
               </span>
             </button>
           </div>
@@ -184,48 +220,27 @@ export const App: React.FC = () => {
       </header>
 
       {/* ============================================================ */}
-      {/* Main Body Layout (Left Sidebar Anchored to Left Screen Edge) */}
+      {/* Main Body Layout (Left Sidebar + Right Main Content) */}
       {/* ============================================================ */}
-      {serviceMode === 'partner' ? (
-        /* Partner Mode Dedicated Coming Soon Screen */
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center min-h-[70vh] max-w-lg mx-auto space-y-5">
-          <div className="w-16 h-16 rounded-[22px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#3182F6] shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
-            <Building2 className="w-8 h-8" />
-          </div>
-          <div className="space-y-2">
-            <div className="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
-              파트너향 전용 디자인시스템 (준비 중)
-            </div>
-            <h2 className="text-[22px] font-extrabold text-[#191F28] tracking-tight">
-              파트너(B2B) 디자인시스템 준비 중
-            </h2>
-            <p className="text-[14px] text-[#6B7684] leading-relaxed max-w-md">
-              고객향 디자인시스템과 완전히 분리된 <strong>파트너(기사님·시공업체) 전용 디자인시스템</strong>이 곧 추가될 예정입니다.<br />
-              곧이어 파트너향 전용 화면 및 컴포넌트 분석 작업이 시작됩니다.
-            </p>
-          </div>
-          <button
-            onClick={() => setServiceMode('customer')}
-            className="px-6 py-3 rounded-[14px] bg-[#3182F6] text-white font-bold text-[14px] hover:bg-[#1B64DA] transition-all shadow-sm active:scale-98"
-          >
-            고객향 디자인시스템 보기
-          </button>
-        </div>
-      ) : (
-        /* Customer Mode: Full Design System */
-        <div className="flex-1 flex w-full">
-          {/* ============================================================ */}
-          {/* Left Sticky Sidebar (Anchored to Left Screen Edge) */}
-          {/* ============================================================ */}
-          <aside
-            className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto bg-white border-r border-[#E5E8EB] p-4 shrink-0 transition-transform duration-200 ${
-              mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-            }`}
-          >
+      <div className="flex-1 flex w-full">
+        {/* ============================================================ */}
+        {/* Left Sticky Sidebar (Anchored to Left Screen Edge) */}
+        {/* ============================================================ */}
+        <aside
+          className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto border-r p-4 shrink-0 transition-transform duration-200 ${
+            isDark
+              ? 'bg-[#121620] border-[#232936]'
+              : 'bg-white border-[#E5E8EB]'
+          } ${
+            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+          }`}
+        >
           <div className="space-y-6">
             {/* Group 1: 전체 개요 & 자료실 */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B95A1] tracking-wider">
+              <div className={`px-3 py-1.5 text-[11px] font-bold tracking-wider ${
+                isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'
+              }`}>
                 대시보드 & 자료
               </div>
               <div className="space-y-0.5">
@@ -233,37 +248,47 @@ export const App: React.FC = () => {
                   onClick={() => handleNavClick('home')}
                   className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                     activeTab === 'home'
-                      ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                      ? isDark
+                        ? 'bg-[#1A2234] text-[#A5A8FC] font-bold border-l-2 border-[#595EF9]'
+                        : 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                      : isDark
+                      ? 'text-[#94A3B8] font-semibold hover:bg-[#182030] hover:text-white'
                       : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <Layers className="w-4 h-4 text-[#8B95A1]" />
+                    <Layers className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#8B95A1]'}`} />
                     <span>컴포넌트 모아보기</span>
                   </div>
-                  {activeTab === 'home' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                  {activeTab === 'home' && <ChevronRight className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#1B64DA]'}`} />}
                 </button>
 
                 <button
                   onClick={() => handleNavClick('archive')}
                   className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                     activeTab === 'archive'
-                      ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                      ? isDark
+                        ? 'bg-[#1A2234] text-[#A5A8FC] font-bold border-l-2 border-[#595EF9]'
+                        : 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                      : isDark
+                      ? 'text-[#94A3B8] font-semibold hover:bg-[#182030] hover:text-white'
                       : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <FolderDown className="w-4 h-4 text-[#3182F6]" />
+                    <FolderDown className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`} />
                     <span>자료실</span>
                   </div>
-                  {activeTab === 'archive' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                  {activeTab === 'archive' && <ChevronRight className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#1B64DA]'}`} />}
                 </button>
               </div>
             </div>
 
-            {/* Group 2: 파운데이션 / 기초 규격 (한글 전용) */}
+            {/* Group 2: 파운데이션 / 기초 규격 */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B95A1] tracking-wider">
+              <div className={`px-3 py-1.5 text-[11px] font-bold tracking-wider ${
+                isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'
+              }`}>
                 기초 규격 & 원칙
               </div>
               <div className="space-y-0.5">
@@ -282,21 +307,27 @@ export const App: React.FC = () => {
                       onClick={() => handleNavClick(item.id)}
                       className={`w-full h-[38px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                         isActive
-                          ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                          ? isDark
+                            ? 'bg-[#1A2234] text-[#A5A8FC] font-bold border-l-2 border-[#595EF9]'
+                            : 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                          : isDark
+                          ? 'text-[#94A3B8] font-medium hover:bg-[#182030] hover:text-white'
                           : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
                       }`}
                     >
                       <span>{item.label}</span>
-                      {isActive && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                      {isActive && <ChevronRight className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#1B64DA]'}`} />}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Group 3: 핵심 컴포넌트 (한글 전용) */}
+            {/* Group 3: 핵심 컴포넌트 */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B95A1] tracking-wider">
+              <div className={`px-3 py-1.5 text-[11px] font-bold tracking-wider ${
+                isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'
+              }`}>
                 핵심 컴포넌트
               </div>
               <div className="space-y-0.5">
@@ -312,12 +343,16 @@ export const App: React.FC = () => {
                       onClick={() => handleNavClick(item.id)}
                       className={`w-full h-[38px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                         isActive
-                          ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                          ? isDark
+                            ? 'bg-[#1A2234] text-[#A5A8FC] font-bold border-l-2 border-[#595EF9]'
+                            : 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
+                          : isDark
+                          ? 'text-[#94A3B8] font-medium hover:bg-[#182030] hover:text-white'
                           : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
                       }`}
                     >
                       <span>{item.label}</span>
-                      {isActive && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                      {isActive && <ChevronRight className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#1B64DA]'}`} />}
                     </button>
                   );
                 })}
@@ -326,54 +361,63 @@ export const App: React.FC = () => {
           </div>
 
           {/* Sidebar Bottom Status */}
-          <div className="mt-8 pt-5 border-t border-[#F2F4F6] px-3 space-y-1 text-[12px] text-[#8B95A1]">
-            <div className="font-bold text-[#4E5968]">daisalibrary</div>
-            <div>다이사(da24) 디자인시스템</div>
-            <div className="text-[11px] text-[#B0B8C1] pt-1 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-              <span>Pretendard 공식 표준 규격</span>
+          <div className={`mt-8 pt-5 border-t px-3 space-y-1 text-[12px] ${
+            isDark ? 'border-[#232936] text-[#64748B]' : 'border-[#F2F4F6] text-[#8B95A1]'
+          }`}>
+            <div className={`font-bold ${isDark ? 'text-[#CBD5E1]' : 'text-[#4E5968]'}`}>daisalibrary</div>
+            <div>{isDark ? '다이사 파트너 B2B 시스템' : '다이사(da24) 디자인시스템'}</div>
+            <div className="text-[11px] pt-1 flex items-center gap-1.5">
+              <span className={`w-2 h-2 rounded-full inline-block ${isDark ? 'bg-[#595EF9]' : 'bg-emerald-500'}`} />
+              <span className={isDark ? 'text-[#94A3B8]' : 'text-[#B0B8C1]'}>
+                {isDark ? 'B2B 다크모드 규격' : 'Pretendard 공식 표준 규격'}
+              </span>
             </div>
           </div>
         </aside>
 
         {/* ============================================================ */}
-        {/* Right Main Content Panel (Spans remaining screen width) */}
+        {/* Right Main Content Panel */}
         {/* ============================================================ */}
         <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
           <div className="max-w-[1040px] mx-auto space-y-16">
-            {activeTab === 'home' && <HomeSection onSelectTab={(id) => handleNavClick(id)} />}
-            {activeTab === 'archive' && <ArchiveSection />}
-            {activeTab === 'colors' && <ColorSection />}
-            {activeTab === 'typography' && <TypographySection />}
-            {activeTab === 'icons' && <IconSection />}
-            {activeTab === 'spacing-radius' && <SpacingRadiusSection />}
-            {activeTab === 'layout' && <LayoutSection />}
-            {activeTab === 'writing' && <WritingSection />}
-            {activeTab === 'buttons' && <ButtonSection />}
-            {activeTab === 'inputs' && <InputSection />}
-            {activeTab === 'modals' && <ModalSection />}
+            {activeTab === 'home' && <HomeSection mode={serviceMode} onSelectTab={(id) => handleNavClick(id)} />}
+            {activeTab === 'archive' && <ArchiveSection mode={serviceMode} />}
+            {activeTab === 'colors' && <ColorSection mode={serviceMode} />}
+            {activeTab === 'typography' && <TypographySection mode={serviceMode} />}
+            {activeTab === 'icons' && <IconSection mode={serviceMode} />}
+            {activeTab === 'spacing-radius' && <SpacingRadiusSection mode={serviceMode} />}
+            {activeTab === 'layout' && <LayoutSection mode={serviceMode} />}
+            {activeTab === 'writing' && <WritingSection mode={serviceMode} />}
+            {activeTab === 'buttons' && <ButtonSection mode={serviceMode} />}
+            {activeTab === 'inputs' && <InputSection mode={serviceMode} />}
+            {activeTab === 'modals' && <ModalSection mode={serviceMode} />}
           </div>
         </main>
       </div>
-      )}
 
       {/* ============================================================ */}
       {/* Footer */}
       {/* ============================================================ */}
-      <footer className="bg-white border-t border-[#E5E8EB] py-8 px-6 text-[#6B7684] text-[13px] w-full">
+      <footer className={`border-t py-8 px-6 text-[13px] w-full transition-colors ${
+        isDark
+          ? 'bg-[#121620] border-[#232936] text-[#94A3B8]'
+          : 'bg-white border-[#E5E8EB] text-[#6B7684]'
+      }`}>
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
-              src="/logo-dark.png"
+              src={isDark ? '/logo-white.png' : '/logo-dark.png'}
               alt="daisalibrary logo"
               className="h-[20px] w-auto object-contain opacity-90"
             />
-            <span>© 2026 다이사 (da24) 디자인시스템</span>
+            <span>
+              {isDark ? '© 2026 다이사 파트너(da24) B2B 디자인시스템' : '© 2026 다이사 (da24) 디자인시스템'}
+            </span>
           </div>
-          <div className="flex items-center gap-4 text-[#8B95A1] text-[12px]">
-            <span>Pretendard 공식 서체</span>
+          <div className={`flex items-center gap-4 text-[12px] ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
+            <span>{isDark ? 'Noto Sans KR / Pretendard' : 'Pretendard 공식 서체'}</span>
             <span>•</span>
-            <span>고객향 프로덕션 규격</span>
+            <span>{isDark ? '파트너 B2B 프로덕션 규격 (다크모드)' : '고객향 프로덕션 규격'}</span>
           </div>
         </div>
       </footer>

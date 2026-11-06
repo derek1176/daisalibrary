@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, AlertOctagon, ShieldCheck, Info } from 'lucide-react';
 
-export const SpacingRadiusSection: React.FC = () => {
+export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
+  const isDark = mode === 'partner';
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
 
   const copy = (val: string) => {
@@ -23,10 +24,11 @@ export const SpacingRadiusSection: React.FC = () => {
     { token: 'sp-28', px: 28, mult: 'x14', isCore: false, note: '카드 패널 기본 마진' },
     { token: 'sp-32', px: 32, mult: 'x16', isCore: false, note: '섹션 간 블록 여백' },
     { token: 'sp-40', px: 40, mult: 'x20', isCore: false, note: '대형 섹션 구분 간격' },
-    { token: 'sp-56', px: 56, mult: 'x28', isCore: true, note: '★ 전사 표준 터치 타겟 높이' },
+    { token: 'sp-56', px: 56, mult: 'x28', isCore: true, note: isDark ? '★ 파트너 입력창 표준 높이 (56px)' : '★ 전사 표준 터치 타겟 높이 (56px)' },
+    ...(isDark ? [{ token: 'sp-62', px: 62, mult: 'x31', isCore: true, note: '★ 파트너 메인 CTA 버튼 높이 (62px)' }] : []),
   ];
 
-  const radiusList = [
+  const customerRadiusList = [
     {
       val: '0px',
       name: 'None (직각)',
@@ -58,292 +60,271 @@ export const SpacingRadiusSection: React.FC = () => {
     {
       val: '12px',
       name: 'LG (중형 카드)',
-      desc: '프로모션 카드, 요금비교 서브 카드',
+      desc: '중형 컨테이너 패널, 모달 확인 버튼',
       tailwind: 'rounded-[12px]',
       highlight: false,
     },
     {
       val: '16px',
-      name: 'XL (대형 섹션)',
-      desc: '모달 다이얼로그(312x344), 옵션 컨테이너',
+      name: 'XL (대형/모달)',
+      desc: 'Alert 및 Confirm 모달 다이얼로그 바디',
       tailwind: 'rounded-[16px]',
-      highlight: true,
+      highlight: false,
     },
     {
       val: '20px',
-      name: '2XL (캡슐 링크)',
-      desc: '서브 링크 캡슐 버튼 (125x38)',
-      tailwind: 'rounded-[20px]',
-      highlight: false,
-    },
-    {
-      val: '24px',
-      name: '3XL (바텀시트)',
-      desc: '바텀시트 상단 모서리, 서랍 팝업',
-      tailwind: 'rounded-t-[24px]',
-      highlight: false,
-    },
-    {
-      val: '28px / Pill',
-      name: 'Pill (완전 둥근)',
-      desc: '카테고리 칩 필터, 헤더 액션 링크',
-      tailwind: 'rounded-full',
+      name: '2XL (바텀시트)',
+      desc: '바텀시트 최상단 라운드 (상단 좌우 모서리)',
+      tailwind: 'rounded-t-[20px]',
       highlight: false,
     },
   ];
 
+  const partnerRadiusList = [
+    {
+      val: '0px',
+      name: 'None (하단 밀착)',
+      desc: '하단 고정 밀착형 CTA 버튼 (여백 없이 접촉)',
+      tailwind: 'rounded-none',
+      highlight: false,
+    },
+    {
+      val: '4px',
+      name: 'Sub-Component (보조 버튼/태그)',
+      desc: '서브 액션 버튼(280x51), 컴팩트 칩, 인라인 태그',
+      tailwind: 'rounded-[4px]',
+      highlight: false,
+    },
+    {
+      val: '6px',
+      name: '★ B2B Core Standard (전사 핵심 표준)',
+      desc: '메인 버튼(312x62), 입력창(56px), 오더 카드(627px), 폼 박스, 모달',
+      tailwind: 'rounded-[6px]',
+      highlight: true,
+    },
+    {
+      val: '10px',
+      name: '🚨 고객향 규격 (파트너 금지)',
+      desc: '파트너 B2B 현장 직각 아이덴티티 위배로 사용 금지',
+      tailwind: 'rounded-[10px]',
+      isBanned: true,
+    },
+    {
+      val: '16px',
+      name: '🚨 고객향 모달 규격 (파트너 금지)',
+      desc: '파트너 모달은 6px 직각 규격 준수 (16px 과도한 라운드 금지)',
+      tailwind: 'rounded-[16px]',
+      isBanned: true,
+    },
+  ];
+
+  const radiusList = isDark ? partnerRadiusList : customerRadiusList;
+
   return (
-    <div className="space-y-12">
-      {/* 03 — SPACING */}
-      <section id="spacing" className="space-y-8">
-        <div className="border-b border-[#E5E8EB] pb-6">
-          <span className="text-[13px] font-bold text-[#3182F6]">
-            간격 체계
+    <section id="spacing-radius" className="space-y-10">
+      {/* Section Header */}
+      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+          {isDark ? '파트너 B2B 공간 파운데이션' : '기초 규격'}
+        </span>
+        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
+          isDark ? 'text-white' : 'text-[#191F28]'
+        }`}>
+          {isDark ? '파트너 여백 및 라운드 규격 (Spacing & Radius 6px)' : '여백 및 라운드 (Spacing & Radius)'}
+        </h2>
+        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
+          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+        }`}>
+          {isDark
+            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 B2B의 전사 코어 곡률은 Radius 6px이며, 보조 4px 외에 고객향의 10px 및 16px 곡률은 사용이 엄격히 금지됩니다.'
+            : '다이사 서비스의 일관된 시각적 리듬을 위한 8의 배수 기반 스페이싱 시스템과 컴포넌트별 권장 Corner Radius 규격입니다.'}
+        </p>
+      </div>
+
+      {/* Part 1: Corner Radius */}
+      <div className="space-y-4">
+        <div className={`flex items-center justify-between border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]"></span>
+            <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+              {isDark ? '코너 라운드 규격 (Corner Radius: 기본 6px)' : '코너 라운드 규격 (Corner Radius: 기본 10px)'}
+            </h3>
+          </div>
+          <span className={`text-[12px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+            {isDark ? '핵심 표준: 6px / 금지: 10px, 16px' : '핵심 표준: 10px (카드·버튼·인풋)'}
           </span>
-          <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-            여백 (Spacing Scale)
-          </h2>
-          <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-            기본은 <strong>4의 배수</strong> 체계를 따릅니다. 컴포넌트 내부 여백과 화면 레이아웃 마진은 엄격히 통일된 스케일을 적용합니다.
-          </p>
         </div>
 
-        {/* Legend */}
-        <div className="flex items-center gap-6 text-[13px] text-[#6B7684]">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-[3px] bg-[#E5E8EB]"></span>
-            <span>일반 규격 (Basic size)</span>
+        {isDark && (
+          <div className="bg-[#161B26] border border-[#595EF9]/40 rounded-[14px] p-4 flex items-start gap-3">
+            <ShieldCheck className="w-5 h-5 text-[#7075FA] shrink-0 mt-0.5" />
+            <div className="text-[13px] text-[#94A3B8] leading-relaxed">
+              <strong className="text-white">B2B 파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong>Radius 6px</strong>를 기본으로 사용합니다. 고객향의 10px, 16px 둥근 곡률은 파트너 환경에서 사용을 엄격히 차단합니다.
+            </div>
           </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {radiusList.map((item, idx) => (
+            <div
+              key={idx}
+              className={`rounded-[16px] border p-5 flex flex-col justify-between transition-all select-none ${
+                (item as any).isBanned
+                  ? isDark
+                    ? 'bg-[#1E1922] border-red-900/50 opacity-75'
+                    : 'bg-red-50/50 border-red-200 opacity-75'
+                  : item.highlight
+                  ? isDark
+                    ? 'bg-[#1A2234] border-[#595EF9] shadow-[0_4px_20px_rgba(89,94,249,0.2)]'
+                    : 'bg-[#F4F8FF] border-[#3182F6] shadow-sm'
+                  : isDark
+                  ? 'bg-[#161B26] border-[#262F40]'
+                  : 'bg-white border-[#E5E8EB]'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className={`text-[16px] font-black ${
+                    (item as any).isBanned
+                      ? 'text-red-400'
+                      : item.highlight
+                      ? isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'
+                      : isDark ? 'text-white' : 'text-[#191F28]'
+                  }`}>
+                    {item.val}
+                  </span>
+                  {(item as any).isBanned ? (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-950/60 text-red-300 border border-red-800">
+                      사용 금지
+                    </span>
+                  ) : item.highlight ? (
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                      isDark ? 'bg-[#595EF9] text-white' : 'bg-[#1219F7] text-white'
+                    }`}>
+                      {isDark ? 'B2B 전사 표준' : '전사 표준'}
+                    </span>
+                  ) : (
+                    <span className={`text-[11px] font-mono ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
+                      {item.tailwind}
+                    </span>
+                  )}
+                </div>
+
+                {/* Visual Box Preview */}
+                <div className={`h-16 rounded-[8px] flex items-center justify-center mb-3 border ${
+                  isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
+                }`}>
+                  <div
+                    style={{ borderRadius: item.val }}
+                    className={`w-20 h-10 border-2 flex items-center justify-center font-bold text-[11px] ${
+                      (item as any).isBanned
+                        ? 'border-dashed border-red-500/60 text-red-400 bg-red-500/10'
+                        : item.highlight
+                        ? isDark ? 'border-[#595EF9] text-[#7075FA] bg-[#595EF9]/10' : 'border-[#1219F7] text-[#1219F7] bg-white'
+                        : isDark ? 'border-[#3A4560] text-[#CBD5E1] bg-[#161B26]' : 'border-[#D7DBE2] text-[#4E5968] bg-white'
+                    }`}
+                  >
+                    {item.val}
+                  </div>
+                </div>
+
+                <div className={`text-[13px] font-bold ${isDark ? 'text-[#E5E8EB]' : 'text-[#191F28]'}`}>
+                  {item.name}
+                </div>
+                <p className={`text-[12px] mt-1 leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
+                  {item.desc}
+                </p>
+              </div>
+
+              {!(item as any).isBanned && (
+                <div className={`mt-4 pt-3 border-t flex justify-end ${isDark ? 'border-[#222A3A]' : 'border-[#F2F4F6]'}`}>
+                  <button
+                    type="button"
+                    onClick={() => copy(item.tailwind)}
+                    className={`text-[11px] font-bold px-2 py-1 rounded-[6px] flex items-center gap-1 transition-colors ${
+                      copiedToken === item.tailwind
+                        ? 'bg-emerald-950 text-emerald-300'
+                        : isDark
+                        ? 'bg-[#1E2536] text-[#94A3B8] hover:text-white'
+                        : 'bg-[#F2F4F6] text-[#6B7684] hover:text-[#191F28]'
+                    }`}
+                  >
+                    {copiedToken === item.tailwind ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copiedToken === item.tailwind ? '복사됨' : item.tailwind}
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Part 2: Spacing Tokens (Grid) */}
+      <div className="space-y-4">
+        <div className={`flex items-center justify-between border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-[3px] bg-[#1219F7]"></span>
-            <span className="font-bold text-[#1219F7]">핵심 규격 (Core size)</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]"></span>
+            <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+              여백 토큰 (Spacing Tokens)
+            </h3>
           </div>
+          <span className={`text-[12px] font-mono ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
+            Base 8px Grid
+          </span>
         </div>
 
-        {/* Compact Horizontal Bar Spacing Scale Chart */}
-        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)] space-y-1.5 select-none">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
           {spacingList.map((item) => (
             <div
               key={item.token}
-              onClick={() => copy(item.token)}
-              className="py-1.5 px-3 rounded-[8px] flex items-center justify-between gap-4 hover:bg-[#F8F9FB] transition-colors cursor-pointer group"
-            >
-              {/* Left Px Label */}
-              <div className="w-[50px] shrink-0 text-right">
-                <span className={`text-[13px] font-bold ${item.isCore ? 'text-main-01 font-extrabold' : 'text-text-02'}`}>
-                  {item.px}px
-                </span>
-              </div>
-
-              {/* Horizontal Bar Visualizer */}
-              <div className="flex-1 max-w-[320px] md:max-w-[420px] flex items-center">
-                <div
-                  className={`h-[7px] rounded-full transition-all group-hover:opacity-90 ${
-                    item.isCore ? 'bg-main-01 shadow-2xs' : 'bg-[#E2E5EA]'
-                  }`}
-                  style={{ width: `${Math.max((item.px / 56) * 100, 2)}%` }}
-                />
-              </div>
-
-              {/* Multiplier Tag (x1, x2, x4...) */}
-              <div className="w-[45px] shrink-0">
-                <span className={`text-[12px] font-bold ${item.isCore ? 'text-main-01' : 'text-text-04'}`}>
-                  {item.mult}
-                </span>
-              </div>
-
-              {/* Usage Note */}
-              <div className="flex-1 hidden sm:flex items-center justify-between text-[12px]">
-                <span className={`${item.isCore ? 'text-text-01 font-bold' : 'text-text-03'}`}>
-                  {item.note}
-                </span>
-                <span className="text-[11px] text-text-04 opacity-0 group-hover:opacity-100 transition-opacity font-mono">
-                  {copiedToken === item.token ? '복사됨!' : item.token}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 04 — RADIUS */}
-      <section id="radius" className="space-y-8">
-        <div className="border-b border-[#E5E8EB] pb-6">
-          <span className="text-[13px] font-bold text-[#3182F6]">
-            모서리 곡률
-          </span>
-          <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-            라운드 (Corner Radius 8단계)
-          </h2>
-          <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-            다이사는 컴포넌트의 크기와 위계에 따라 8단계의 라운드 체계를 유지합니다. <strong>인풋/버튼은 10px</strong>, <strong>모달은 16px</strong>, <strong>하단 고정 CTA는 0px</strong>가 절대 원칙입니다.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-          {radiusList.map((r) => (
-            <div
-              key={r.val}
-              onClick={() => copy(r.tailwind)}
-              className={`p-5 rounded-[20px] border flex flex-col justify-between h-[190px] cursor-pointer transition-all duration-200 select-none ${
-                r.highlight
-                  ? 'bg-[#E8F3FF] border-[#3182F6]/40 shadow-[0_4px_16px_rgba(49,130,246,0.12)]'
-                  : 'bg-white border-[#E5E8EB] hover:border-[#3182F6] hover:shadow-[0_12px_28px_rgba(0,0,0,0.06)] hover:-translate-y-0.5'
+              onClick={() => copy(`${item.px}px`)}
+              className={`rounded-[14px] border p-3.5 flex items-center justify-between transition-all cursor-pointer select-none ${
+                item.isCore
+                  ? isDark
+                    ? 'bg-[#1A2234] border-[#595EF9]/60 hover:border-[#595EF9]'
+                    : 'bg-[#F4F8FF] border-[#3182F6]/60 hover:border-[#3182F6]'
+                  : isDark
+                  ? 'bg-[#161B26] border-[#262F40] hover:border-[#3B475E]'
+                  : 'bg-white border-[#E5E8EB] hover:border-[#3182F6]'
               }`}
             >
-              <div className="flex items-center justify-between">
-                <span className={`text-[12px] font-bold ${r.highlight ? 'text-main-01' : 'text-text-04'}`}>
-                  {r.name.split(' ')[0]}
-                </span>
-                {copiedToken === r.tailwind ? (
-                  <Check className="w-3.5 h-3.5 text-emerald-600" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5 text-text-04 opacity-0 group-hover:opacity-100" />
-                )}
-              </div>
-
-              {/* Visual Box with exact radius */}
-              <div className="flex items-center justify-center my-auto">
-                <div
-                  className={`w-14 h-14 border-2 transition-transform hover:scale-105 flex items-center justify-center ${
-                    r.highlight
-                      ? 'bg-main-01 text-white border-main-01'
-                      : 'bg-white text-text-01 border-main-01/60'
-                  }`}
-                  style={{
-                    borderRadius: r.val.includes('Pill')
-                      ? '9999px'
-                      : r.val.includes('t-[24')
-                      ? '20px 20px 0 0'
-                      : r.val,
-                  }}
-                >
-                  <span className="text-[12px] font-mono font-bold">{r.val.split(' ')[0]}</span>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[14px] font-mono font-extrabold ${
+                    item.isCore
+                      ? isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'
+                      : isDark ? 'text-white' : 'text-[#191F28]'
+                  }`}>
+                    {item.px}px
+                  </span>
+                  <span className={`text-[11px] font-mono font-bold px-1.5 py-0.2 rounded ${
+                    isDark ? 'bg-[#1E2536] text-[#94A3B8]' : 'bg-[#F2F4F6] text-[#6B7684]'
+                  }`}>
+                    {item.token}
+                  </span>
+                </div>
+                <div className={`text-[11px] truncate max-w-[170px] ${
+                  isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'
+                }`}>
+                  {item.note}
                 </div>
               </div>
 
-              <div className="space-y-0.5 pt-1">
-                <div className="text-[12px] font-bold text-text-01">{r.name}</div>
-                <div className="text-[11px] text-text-03 leading-tight line-clamp-1">{r.desc}</div>
+              {/* Visual Bar representation */}
+              <div className="flex items-center gap-2">
+                <div
+                  style={{ width: `${Math.min(item.px, 48)}px` }}
+                  className={`h-2 rounded-full ${
+                    item.isCore
+                      ? isDark ? 'bg-[#595EF9]' : 'bg-[#1219F7]'
+                      : isDark ? 'bg-[#3A4560]' : 'bg-[#CBD5E1]'
+                  }`}
+                />
               </div>
             </div>
           ))}
         </div>
-
-        {/* Card UI Guidelines Block */}
-        <div className="mt-8 bg-white border border-[#E5E8EB] rounded-[24px] p-6 md:p-8 space-y-6 shadow-xs">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
-              카드 디자인 원칙
-            </div>
-            <h3 className="text-[20px] md:text-[22px] font-extrabold text-[#191F28] tracking-tight">
-              카드(Card) UI 규격 및 일관성 원칙
-            </h3>
-            <p className="text-[14px] text-[#4E5968] leading-relaxed">
-              견적 정보, 업체 정보, 요약 블록 등 콘텐츠를 묶어주는 카드는 버튼 및 인풋과 시각적 조화를 이루도록 <strong>기본 Corner Radius 10px(rounded-[10px])</strong>을 원칙으로 합니다.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* 1. Small Card */}
-            <div className="bg-[#FAFBFD] border border-[#E5E8EB] rounded-[8px] p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-[#8B95A1]">소형 서브 카드</span>
-                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-white border border-[#E5E8EB] text-[#4E5968]">
-                  r: 8px
-                </span>
-              </div>
-              <div className="text-[13px] font-bold text-[#191F28]">이사 희망일 선택 칩</div>
-              <p className="text-[11px] text-[#6B7684] leading-relaxed">
-                선택 옵션, 작은 상태 블록 등 가벼운 정보 단위에 제한적으로 적용
-              </p>
-            </div>
-
-            {/* 2. Standard Card (Recommended) */}
-            <div className="bg-white border-2 border-[#1219F7] rounded-[10px] p-4 space-y-2 shadow-xs relative">
-              <span className="absolute -top-2.5 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#1219F7] text-white">
-                ★ 전사 기본 표준
-              </span>
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-[#1219F7]">표준 콘텐츠 카드</span>
-                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                  r: 10px
-                </span>
-              </div>
-              <div className="text-[13px] font-bold text-[#191F28]">견적 업체 상세 카드</div>
-              <p className="text-[11px] text-[#6B7684] leading-relaxed">
-                버튼(r10), 인풋(r10)과 일치시켜 화면 전체에 정돈된 일관성 제공
-              </p>
-            </div>
-
-            {/* 3. Large Section Card */}
-            <div className="bg-[#FAFBFD] border border-[#E5E8EB] rounded-[16px] p-4 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-[#8B95A1]">대형 섹션 그룹</span>
-                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-white border border-[#E5E8EB] text-[#4E5968]">
-                  r: 16px
-                </span>
-              </div>
-              <div className="text-[13px] font-bold text-[#191F28]">신청 내역 요약 패널</div>
-              <p className="text-[11px] text-[#6B7684] leading-relaxed">
-                모달 다이얼로그(r16)처럼 독립된 대형 구역 컨테이너에 한하여 허용
-              </p>
-            </div>
-          </div>
-
-          {/* Anti-Pattern Warning */}
-          <div className="bg-[#FFF5F6] border border-[#F34766]/30 rounded-[14px] p-4 text-[13px] text-[#8C1D2F] space-y-1">
-            <div className="font-bold flex items-center gap-1.5 text-[#F34766]">
-              <span>🚨</span>
-              <span>카드 UI 규격 일관성 금지 규칙 (Anti-Pattern)</span>
-            </div>
-            <p className="text-[12px] leading-relaxed text-[#591420]">
-              화면 내 다른 UI들과 너무 달라 보이는 규격(예: <strong>4px 직각 느낌, 20px 이상 과도한 둥글기, 두껍거나 제각각인 보더 두께</strong>)은 사용을 엄격히 금지합니다. 크기에 따라 조절하되 <strong>기본 10px을 중심축으로 통일</strong>하세요.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 05 — ELEVATION & SHADOW */}
-      <section id="shadow" className="space-y-8">
-        <div className="border-b border-etc-03 pb-6">
-          <span className="text-[13px] font-bold text-main-01">
-            그림자 및 깊이감
-          </span>
-          <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
-            그림자 (Elevation)
-          </h2>
-          <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
-            입체감은 과도한 그림자 대신 명확한 보더라인과 은은한 분리감을 중심으로 설계합니다. 모달 및 팝오버는 딤드 오버레이(60%)와 함께 배치됩니다.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-6 bg-white border border-[#EBEEF2] rounded-[18px] shadow-soft space-y-2">
-            <span className="text-[12px] font-mono font-bold text-main-01">shadow-soft</span>
-            <h4 className="text-[16px] font-bold text-text-01">카드 패널 표면</h4>
-            <p className="text-[13px] text-text-03 leading-relaxed">
-              기본 카드 컨테이너, 폼 그룹 표면에 적용되는 은은한 그림자
-            </p>
-          </div>
-
-          <div className="p-6 bg-white border border-[#EBEEF2] rounded-[18px] shadow-pop space-y-2">
-            <span className="text-[12px] font-mono font-bold text-main-01">shadow-pop</span>
-            <h4 className="text-[16px] font-bold text-text-01">모달 & 드롭다운</h4>
-            <p className="text-[13px] text-text-03 leading-relaxed">
-              Select 팝오버 메뉴, Alert/Confirm 모달 팝업의 공중에 뜬 깊이감
-            </p>
-          </div>
-
-          <div className="p-6 bg-[#1219F7] text-white rounded-[18px] shadow-[0_8px_24px_rgba(18,25,247,0.3)] space-y-2">
-            <span className="text-[12px] font-mono font-bold text-white/80">shadow-brand</span>
-            <h4 className="text-[16px] font-bold text-white">키컬러 CTA 버튼</h4>
-            <p className="text-[13px] text-white/80 leading-relaxed">
-              최우선 전환 버튼과 이벤트 배너에 사용되는 브랜드 블루 강조 그림자
-            </p>
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
