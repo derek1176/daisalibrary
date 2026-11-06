@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { OverviewShowcase } from './components/showcase/OverviewShowcase';
+import { RadiusShowcase } from './components/showcase/RadiusShowcase';
 import { ColorsShowcase } from './components/showcase/ColorsShowcase';
 import { TypographyShowcase } from './components/showcase/TypographyShowcase';
 import { ButtonsShowcase } from './components/showcase/ButtonsShowcase';
@@ -21,13 +22,31 @@ import {
   X,
   Compass,
   Boxes,
-  Sparkles
+  Sparkles,
+  Maximize2,
+  FileCode2
 } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Keyboard shortcut (⌘K or / to focus search)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      } else if (e.key === '/' && document.activeElement !== searchInputRef.current) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const navGroups = [
     {
@@ -41,6 +60,7 @@ export const App: React.FC = () => {
       group: 'FOUNDATION',
       icon: Boxes,
       items: [
+        { id: 'radius', label: 'Corner Radius (8단계 라운드)', icon: Maximize2, tag: '0~28px' },
         { id: 'colors', label: 'Colors (컬러 팔레트)', icon: Palette, tag: '12 Tokens' },
         { id: 'typography', label: 'Typography (6대 규격)', icon: Type, tag: 'Pretendard' },
       ],
@@ -69,55 +89,60 @@ export const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const filteredNavGroups = navGroups.map((g) => ({
-    ...g,
-    items: g.items.filter((item) =>
-      item.label.toLowerCase().includes(searchQuery.toLowerCase())
-    ),
-  })).filter((g) => g.items.length > 0);
+  const filteredNavGroups = navGroups
+    .map((g) => ({
+      ...g,
+      items: g.items.filter((item) =>
+        item.label.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8F9FB] text-text-01">
       {/* Top Sticky Header */}
-      <header className="sticky top-0 z-40 h-[64px] bg-white border-b border-etc-03 px-4 md:px-8 flex items-center justify-between">
+      <header className="sticky top-0 z-40 h-[64px] bg-white border-b border-etc-03 px-4 md:px-8 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-4">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-text-02 hover:bg-etc-04"
+            className="md:hidden p-2 rounded-lg text-text-02 hover:bg-etc-04 transition-colors"
+            aria-label="메뉴 열기"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Logo & Version */}
+          {/* Official daisalibrary Logo */}
           <div
             onClick={() => handleNavClick('overview')}
-            className="flex items-center gap-2.5 cursor-pointer select-none"
+            className="flex items-center gap-2 cursor-pointer select-none group"
           >
-            <div className="w-8 h-8 rounded-[8px] bg-main-01 text-white font-black flex items-center justify-center text-[18px] tracking-tighter shadow-sm">
-              24
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[18px] font-extrabold tracking-da24 text-text-01">
-                daisalibrary
-              </span>
-              <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-main-04 text-main-01 border border-main-02/20">
-                v1.2 Seed
-              </span>
-            </div>
+            <img
+              src="/logo-dark.png"
+              alt="daisalibrary logo"
+              className="h-7 md:h-8 object-contain transition-transform group-hover:scale-102"
+            />
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-main-04 text-main-01 border border-main-02/20">
+              v1.2 Seed
+            </span>
           </div>
         </div>
 
         {/* Header Search & External Links */}
         <div className="flex items-center gap-3">
+          {/* Search Bar with ⌘K Badge */}
           <div className="hidden sm:flex items-center w-[220px] lg:w-[280px] h-[38px] px-3 rounded-[8px] bg-etc-04 border border-etc-02 focus-within:border-main-01 focus-within:bg-white transition-colors">
             <Search className="w-4 h-4 text-text-04 mr-2 shrink-0" />
             <input
+              ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="컴포넌트 검색..."
-              className="w-full bg-transparent text-[13px] outline-none text-text-01 placeholder:text-text-04"
+              className="w-full bg-transparent text-[13px] outline-none text-text-01 placeholder:text-text-04 tracking-da24"
             />
+            <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-medium text-text-04 bg-white border border-etc-02 rounded shadow-2xs">
+              ⌘K
+            </kbd>
           </div>
 
           <a
@@ -180,7 +205,7 @@ export const App: React.FC = () => {
           <div className="mt-8 pt-4 border-t border-etc-03 px-3 text-[12px] text-text-04 leading-[18px]">
             <div><strong>다이사(da24)</strong> 디자인시스템</div>
             <div>벤치마크: 당근 Seed Design</div>
-            <div className="mt-1 text-[11px]">Strict 6 Even Typography System</div>
+            <div className="mt-1 text-[11px]">Strict 6 Even Scale • 8-Stage Radii</div>
           </div>
         </aside>
 
@@ -188,6 +213,7 @@ export const App: React.FC = () => {
         <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
           <div className="max-w-[1040px] mx-auto">
             {activeTab === 'overview' && <OverviewShowcase onNavigate={handleNavClick} />}
+            {activeTab === 'radius' && <RadiusShowcase />}
             {activeTab === 'colors' && <ColorsShowcase />}
             {activeTab === 'typography' && <TypographyShowcase />}
             {activeTab === 'buttons' && <ButtonsShowcase />}
@@ -201,8 +227,8 @@ export const App: React.FC = () => {
       {/* Footer */}
       <footer className="bg-white border-t border-etc-03 py-8 px-6 text-center text-text-03 text-[13px] tracking-da24">
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-main-01">daisalibrary</span>
+          <div className="flex items-center gap-3">
+            <img src="/logo-dark.png" alt="daisalibrary logo" className="h-6 object-contain" />
             <span>© 2026 다이사 (da24) Design System. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-4 text-text-04 text-[12px]">
@@ -210,7 +236,7 @@ export const App: React.FC = () => {
             <span>•</span>
             <span>Pretendard Typography</span>
             <span>•</span>
-            <span>React + Tailwind CSS</span>
+            <span>Vite + React + Tailwind CSS</span>
           </div>
         </div>
       </footer>
