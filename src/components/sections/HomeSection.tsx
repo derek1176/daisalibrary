@@ -13,7 +13,8 @@ import {
   CheckCircle2,
   MapPin,
   Sparkles,
-  AlertTriangle
+  AlertTriangle,
+  Smile
 } from 'lucide-react';
 
 interface HomeSectionProps {
@@ -161,21 +162,21 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 6. 아이콘
     {
       id: 'icons',
-      title: '아이콘 (Icons)',
+      title: '아이콘 (공식 300종)',
       category: '기초 규격',
-      badge: '200종 SVG',
+      badge: 'SVG 다운로드',
       icon: Sparkles,
-      desc: '이모지 사용 금지 · stroke 1.5px · 선형 & 면형 SVG 다운로드',
+      desc: '이사·청소·파트너 150종 + 컨트롤러 150종 · 이모지 금지',
       renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-3 select-none px-4">
-          <div className="w-10 h-10 rounded-[10px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#191F28] shadow-2xs">
-            <Search size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+        <div className="w-full h-full flex items-center justify-center gap-4 select-none">
+          <div className="w-10 h-10 rounded-[10px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
+            <Sparkles className="w-5 h-5" />
           </div>
-          <div className="w-10 h-10 rounded-[10px] bg-[#E8F3FF] border border-[#3182F6]/30 flex items-center justify-center text-[#1219F7] shadow-xs">
-            <CheckCircle2 size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+          <div className="w-10 h-10 rounded-[10px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
+            <Search className="w-5 h-5" />
           </div>
-          <div className="w-10 h-10 rounded-[10px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#191F28] shadow-2xs">
-            <MapPin size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+          <div className="w-10 h-10 rounded-[10px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
+            <CheckCircle2 className="w-5 h-5" />
           </div>
         </div>
       ),
@@ -186,12 +187,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       id: 'buttons',
       title: '버튼 (Public Button)',
       category: '핵심 컴포넌트',
-      badge: '표준 56px',
+      badge: '56px 인라인 표준',
       icon: MousePointerClick,
-      desc: '본문 표준 Public 312(640) · Corner Radius 10px · 키컬러 #1219F7',
+      desc: '높이 56px · Corner Radius 10px · 본문 인라인 Public CTA',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-[190px] h-[46px] bg-[#1219F7] hover:bg-[#0E15D4] text-white rounded-[10px] flex items-center justify-center text-[14px] font-bold shadow-[0_4px_14px_rgba(18,25,247,0.25)] transition-transform group-hover:scale-102">
+          <div className="w-full max-w-[210px] h-[48px] bg-[#1219F7] rounded-[10px] flex items-center justify-center text-white text-[14px] font-bold shadow-md hover:bg-[#0E15D4] transition-colors">
             견적 신청하기
           </div>
         </div>
@@ -201,14 +202,15 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 8. 입력창
     {
       id: 'inputs',
-      title: '입력창 (Form Input)',
+      title: '입력창 (Input Fields)',
       category: '핵심 컴포넌트',
+      badge: '높이 56px / r:10px',
       icon: Sliders,
-      desc: '높이 56px · 포커스 블루 · 에러(#F34766) 스트로크',
+      desc: '높이 56px · Corner Radius 10px · 패딩 16px · 에러 #F34766',
       renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-5">
-          <div className="w-full max-w-[210px] h-[46px] bg-white rounded-[10px] border-2 border-[#1219F7] px-3.5 flex items-center justify-between text-[13px] shadow-[0_2px_8px_rgba(18,25,247,0.08)]">
-            <span className="text-[#191F28] font-medium">출발지를 입력해 주세요</span>
+        <div className="w-full h-full flex items-center justify-center select-none px-6">
+          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[10px] border-2 border-[#1219F7] px-3.5 flex items-center justify-between text-[14px] shadow-xs">
+            <span className="text-[#191F28] font-medium">강남구 역삼동</span>
             <Search className="w-4 h-4 text-[#1219F7] shrink-0" />
           </div>
         </div>
@@ -220,17 +222,17 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       id: 'modals',
       title: '모달 및 바텀시트',
       category: '핵심 컴포넌트',
-      badge: '반응형 1200px',
+      badge: '312px 카드 / 360px 시트',
       icon: Layers,
-      desc: '1200px 이상 중앙 고정 모달 & 360~1199px 바텀시트',
+      desc: '얼럿/컨펌 모달 (너비 312px) · 바텀시트 (너비 360px · 높이 56px)',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center px-4 select-none">
-          <div className="w-[170px] bg-white rounded-[14px] shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-[#E5E8EB] p-3 space-y-2 text-center">
-            <div className="text-[11px] font-bold text-[#191F28] leading-tight">신청을 취소할까요?</div>
-            <div className="text-[9px] text-[#8B95A1] leading-tight">작성 중인 내용은 저장되지 않아요.</div>
+          <div className="w-[170px] bg-white rounded-[14px] shadow-lg border border-[#E5E8EB] p-3 space-y-2 text-center">
+            <div className="text-[12px] font-bold text-[#191F28] leading-tight">신청을 취소하시겠습니까?</div>
+            <div className="text-[9px] text-[#8B95A1] leading-tight">작성 중인 정보가 사라집니다.</div>
             <div className="flex gap-1.5 pt-0.5">
-              <div className="flex-1 py-1 rounded-[6px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
-              <div className="flex-1 py-1 rounded-[6px] bg-[#1219F7] text-[10px] font-bold text-white">확인</div>
+              <div className="flex-1 py-1.5 rounded-[8px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
+              <div className="flex-1 py-1.5 rounded-[8px] bg-[#1219F7] text-[10px] font-bold text-white">확인</div>
             </div>
           </div>
         </div>
@@ -249,20 +251,20 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center gap-3 px-6 select-none">
           <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#1219F7] shadow-sm border border-white/10" />
-            <span className="text-[10px] font-bold text-[#94A3B8]">#1219F7</span>
+            <div className="w-10 h-10 rounded-[6px] bg-[#1219F7] shadow-sm" />
+            <span className="text-[10px] font-bold text-[#8B95A1]">#1219F7</span>
           </div>
           <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#595EF9] shadow-sm border border-white/10" />
-            <span className="text-[10px] font-bold text-[#94A3B8]">#595EF9</span>
+            <div className="w-10 h-10 rounded-[6px] bg-[#595EF9] shadow-sm" />
+            <span className="text-[10px] font-bold text-[#8B95A1]">#595EF9</span>
           </div>
           <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#F7D915] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#94A3B8]">#F7D915</span>
+            <div className="w-10 h-10 rounded-[6px] bg-[#F7D915] shadow-sm border border-[#E5E8EB]" />
+            <span className="text-[10px] font-bold text-[#8B95A1]">#F7D915</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <div className="w-10 h-10 rounded-[6px] bg-[#F34766] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#94A3B8]">#F34766</span>
+            <span className="text-[10px] font-bold text-[#8B95A1]">#F34766</span>
           </div>
         </div>
       ),
@@ -278,11 +280,11 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       desc: '현장 기사님 가독성 특화 · 기본 Body 1 18px · 최소 14px 캡션',
       renderPreview: () => (
         <div className="w-full h-full flex flex-col items-center justify-center gap-1.5 select-none">
-          <div className="text-[34px] font-black text-white leading-none tracking-tight">
+          <div className="text-[34px] font-black text-[#191F28] leading-none tracking-tight">
             파트너 18px
           </div>
-          <div className="text-[11px] font-bold text-[#595EF9] tracking-wide bg-[#595EF9]/10 px-2.5 py-0.5 rounded-[4px] border border-[#595EF9]/30">
-            기본 본문 18px / 12px 이하 사용 절대 금지
+          <div className="text-[11px] font-bold text-[#1219F7] tracking-wide bg-[#E8F3FF] px-2.5 py-0.5 rounded-[4px] border border-[#3182F6]/30">
+            기본 본문 18px / 12px 이하 사용 엄격 금지
           </div>
         </div>
       ),
@@ -298,13 +300,13 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       desc: 'B2B 전사 표준 Radius 6px · 서브 4px · 고객향 10px/16px 금지',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center gap-3 px-4 select-none">
-          <div className="w-[96px] h-[64px] bg-[#161B26] border-2 border-[#595EF9] rounded-[6px] flex flex-col items-center justify-center shadow-xs">
-            <span className="text-[11px] font-extrabold text-[#595EF9]">r: 6px</span>
-            <span className="text-[9px] font-bold text-[#94A3B8]">B2B 전사 표준</span>
+          <div className="w-[96px] h-[64px] bg-white border-2 border-[#1219F7] rounded-[6px] flex flex-col items-center justify-center shadow-xs">
+            <span className="text-[11px] font-extrabold text-[#1219F7]">r: 6px</span>
+            <span className="text-[9px] font-bold text-[#8B95A1]">B2B 전사 표준</span>
           </div>
-          <div className="w-[84px] h-[64px] bg-[#161B26] border border-[#3A4560] rounded-[4px] flex flex-col items-center justify-center">
-            <span className="text-[11px] font-bold text-[#E5E8EB]">r: 4px</span>
-            <span className="text-[9px] text-[#64748B]">보조 버튼/태그</span>
+          <div className="w-[84px] h-[64px] bg-white border border-[#D7DBE2] rounded-[4px] flex flex-col items-center justify-center shadow-xs">
+            <span className="text-[11px] font-bold text-[#191F28]">r: 4px</span>
+            <span className="text-[9px] text-[#8B95A1]">보조 버튼/태그</span>
           </div>
         </div>
       ),
@@ -320,16 +322,16 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       desc: '모바일 360px (콘텐츠 312px) · 웹 1200px (오더 컨테이너 627px r:6)',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center gap-4 select-none">
-          <div className="w-[52px] h-[80px] bg-[#161B26] rounded-[6px] border border-[#595EF9] flex flex-col justify-between p-1.5 shadow-2xs">
-            <span className="text-[8px] font-bold text-[#94A3B8] text-center">312</span>
-            <div className="h-1.5 bg-[#595EF9] rounded-[2px] w-full" />
+          <div className="w-[52px] h-[80px] bg-white rounded-[6px] border-2 border-[#1219F7] flex flex-col justify-between p-1.5 shadow-2xs">
+            <span className="text-[8px] font-bold text-[#8B95A1] text-center">312</span>
+            <div className="h-1.5 bg-[#1219F7] rounded-[2px] w-full" />
           </div>
-          <div className="w-[108px] h-[80px] bg-[#121620] rounded-[6px] border border-dashed border-[#2B3342] flex items-center justify-center p-1 relative">
-            <div className="w-[58px] h-full bg-[#161B26] rounded-[6px] border-2 border-[#1219F7] flex flex-col justify-between p-1.5 shadow-2xs">
-              <span className="text-[8px] font-bold text-[#595EF9] text-center">627</span>
+          <div className="w-[108px] h-[80px] bg-[#FAFBFD] rounded-[6px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-1 relative">
+            <div className="w-[58px] h-full bg-white rounded-[6px] border-2 border-[#1219F7] flex flex-col justify-between p-1.5 shadow-2xs">
+              <span className="text-[8px] font-bold text-[#1219F7] text-center">627</span>
               <div className="h-1.5 bg-[#1219F7] rounded-[2px] w-full" />
             </div>
-            <span className="absolute bottom-1 right-1.5 text-[7px] font-bold text-[#64748B]">1200</span>
+            <span className="absolute bottom-1 right-1.5 text-[7px] font-bold text-[#8B95A1]">1200</span>
           </div>
         </div>
       ),
@@ -338,16 +340,16 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 5. 라이팅 가이드
     {
       id: 'writing',
-      title: '라이팅 가이드 (파트너 업무 문구)',
+      title: '라이팅 가이드 (공통 표준)',
       category: '기초 규격',
-      badge: '현장 업무 특화',
+      badge: '노션 6대 표준',
       icon: MessageSquare,
-      desc: '기사님/시공업체 현장 업무에 최적화된 명확하고 직관적인 지시어',
+      desc: '타이틀/설명/유의사항/버튼(~하기) · 자주 쓰는 단어 7종 표기',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center select-none px-4">
-          <div className="px-4 py-2.5 rounded-[6px] bg-[#1A2234] border border-[#595EF9]/40 text-[13px] font-bold text-[#7075FA] flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#595EF9]" />
-            <span>견적 접수 내역을 확인해 주세요</span>
+          <div className="px-4 py-2.5 rounded-[6px] bg-[#E8F3FF] border border-[#3182F6]/30 text-[13px] font-bold text-[#1B64DA] flex items-center gap-2 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#3182F6]" />
+            <span>출발지를 검색해 주세요</span>
           </div>
         </div>
       ),
@@ -358,19 +360,19 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       id: 'icons',
       title: '아이콘 (공식 300종)',
       category: '기초 규격',
-      badge: '300종 SVG',
+      badge: 'SVG 다운로드',
       icon: Sparkles,
-      desc: '이모지 사용 금지 · stroke 1.5px · 서비스 150종 & 공통 150종',
+      desc: '이사·청소·파트너 150종 + 컨트롤러 150종 · 이모지 금지',
       renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-3 select-none px-4">
-          <div className="w-10 h-10 rounded-[6px] bg-[#141319] border border-[#2B2A34] flex items-center justify-center text-white shadow-2xs">
-            <Search size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+        <div className="w-full h-full flex items-center justify-center gap-4 select-none">
+          <div className="w-10 h-10 rounded-[6px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
+            <Sparkles className="w-5 h-5" />
           </div>
-          <div className="w-10 h-10 rounded-[6px] bg-[#0C234F] border border-[#3182F6]/50 flex items-center justify-center text-[#4B89FF] shadow-xs">
-            <CheckCircle2 size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+          <div className="w-10 h-10 rounded-[6px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
+            <Search className="w-5 h-5" />
           </div>
-          <div className="w-10 h-10 rounded-[6px] bg-[#141319] border border-[#2B2A34] flex items-center justify-center text-white shadow-2xs">
-            <MapPin size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+          <div className="w-10 h-10 rounded-[6px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
+            <CheckCircle2 className="w-5 h-5" />
           </div>
         </div>
       ),
@@ -379,15 +381,15 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 7. 버튼
     {
       id: 'buttons',
-      title: '버튼 (Partner CTA 62px)',
+      title: '버튼 (B2B Public CTA)',
       category: '핵심 컴포넌트',
-      badge: '높이 62px / r:6px',
+      badge: '높이 56px / r:6px',
       icon: MousePointerClick,
-      desc: '메인 CTA 62px (w:312/627, r:6, 18px Bold) · 서브 48/51px',
+      desc: '높이 56px · Corner Radius 6px · 18px Bold 서체 · 파트너 표준',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-[190px] h-[50px] bg-[#1219F7] hover:bg-[#0E15D4] text-white rounded-[6px] flex items-center justify-center text-[15px] font-bold shadow-[0_4px_16px_rgba(18,25,247,0.4)] transition-transform group-hover:scale-102">
-            견적 제출하기 (62px)
+          <div className="w-full max-w-[210px] h-[48px] bg-[#1219F7] rounded-[6px] flex items-center justify-center text-white text-[15px] font-bold shadow-md hover:bg-[#0E15D4] transition-colors">
+            오더 수락하기
           </div>
         </div>
       ),
@@ -396,16 +398,16 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 8. 입력창
     {
       id: 'inputs',
-      title: '입력창 (Form Inputs 56px r:6)',
+      title: '입력창 (Partner Inputs)',
       category: '핵심 컴포넌트',
       badge: '높이 56px / r:6px',
       icon: Sliders,
       desc: '높이 56px · Corner Radius 6px · 18px 텍스트 · 에러 #F34766',
       renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-5">
-          <div className="w-full max-w-[210px] h-[48px] bg-[#121620] rounded-[6px] border-2 border-[#595EF9] px-3.5 flex items-center justify-between text-[14px]">
-            <span className="text-[#F3F4F6] font-medium">견적 금액 입력</span>
-            <Search className="w-4 h-4 text-[#595EF9] shrink-0" />
+        <div className="w-full h-full flex items-center justify-center select-none px-6">
+          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[6px] border-2 border-[#1219F7] px-3.5 flex items-center justify-between text-[14px] shadow-xs">
+            <span className="text-[#191F28] font-medium">견적 금액 입력</span>
+            <Search className="w-4 h-4 text-[#1219F7] shrink-0" />
           </div>
         </div>
       ),
@@ -418,14 +420,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       category: '핵심 컴포넌트',
       badge: '너비 312px / r:6px',
       icon: Layers,
-      desc: '너비 312px · B2B 직각 Radius 6px (16px 금지) · 51/62px 액션',
+      desc: '너비 312px · B2B 직각 Radius 6px (16px 금지) · 56px 액션',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center px-4 select-none">
-          <div className="w-[170px] bg-[#161B26] rounded-[6px] shadow-[0_8px_24px_rgba(0,0,0,0.5)] border border-[#2B3548] p-3 space-y-2 text-center">
-            <div className="text-[12px] font-bold text-white leading-tight">견적을 제출하시겠습니까?</div>
-            <div className="text-[9px] text-[#94A3B8] leading-tight">제출 후 금액 수정이 불가합니다.</div>
+          <div className="w-[170px] bg-white rounded-[6px] shadow-lg border border-[#E5E8EB] p-3 space-y-2 text-center">
+            <div className="text-[12px] font-bold text-[#191F28] leading-tight">견적을 제출하시겠습니까?</div>
+            <div className="text-[9px] text-[#8B95A1] leading-tight">제출 후 금액 수정이 불가합니다.</div>
             <div className="flex gap-1.5 pt-0.5">
-              <div className="flex-1 py-1.5 rounded-[4px] bg-[#222A3B] text-[10px] font-bold text-[#CBD5E1]">취소</div>
+              <div className="flex-1 py-1.5 rounded-[4px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
               <div className="flex-1 py-1.5 rounded-[4px] bg-[#1219F7] text-[10px] font-bold text-white">제출</div>
             </div>
           </div>
@@ -440,43 +442,28 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     <div className="space-y-8">
       {/* Intro Header */}
       <div className="space-y-2 animate-fadeIn">
-        <div className="flex items-center gap-2">
-          {isPartner && (
-            <span className="px-2.5 py-0.5 rounded-[6px] text-[12px] font-bold bg-[#595EF9]/20 text-[#7075FA] border border-[#595EF9]/40">
-              파트너향 B2B 전용 (다크모드)
-            </span>
-          )}
-        </div>
-        <h1 className={`text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight ${
-          isPartner ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          {isPartner ? '파트너(B2B) 컴포넌트 모아보기' : '컴포넌트 모아보기'}
+        <h1 className="text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight text-[#191F28]">
+          컴포넌트 모아보기
         </h1>
-        <p className={`text-[15px] md:text-[16px] max-w-2xl leading-relaxed ${
-          isPartner ? 'text-[#94A3B8]' : 'text-[#4E5968]'
-        }`}>
+        <p className="text-[15px] md:text-[16px] max-w-2xl leading-relaxed text-[#4E5968]">
           {isPartner
-            ? '다이사 파트너(기사님·시공업체) 서비스에 적용되는 전용 다크 UI 규격, 62px CTA 버튼, 6px 라운드, 18px 기본 폰트 및 360x312 / 1200x627 레이아웃 규격을 탐색하세요.'
+            ? '다이사 파트너(기사님·시공업체) 서비스에 적용되는 Radius 6px, 기본 18px 타이포그래피, 파트너 전용 버튼/인풋 및 작업 규격을 한눈에 탐색하세요.'
             : '다이사(da24) 서비스에 적용되는 레이아웃 규격, 버튼, 모달, 입력창, 컬러 및 타이포그래피 토큰을 한눈에 탐색하고 세부 규칙을 확인하세요.'}
         </p>
       </div>
 
-      {/* Grid of Component Cards with Staggered Living Fill-up Motion */}
+      {/* Grid of Component Cards with Staggered Living Fill-up Motion & Soft Shadow */}
       {loadingShimmer ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 9 }).map((_, i) => (
             <div
               key={i}
-              className={`rounded-[20px] border overflow-hidden p-5 space-y-4 animate-pulse shadow-sm ${
-                isPartner
-                  ? 'bg-[#1C1B22] border-[#26252D]'
-                  : 'bg-white border-[#E5E8EB]'
-              }`}
+              className="rounded-[20px] border border-[#E5E8EB] bg-white overflow-hidden p-5 space-y-4 animate-pulse shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
             >
-              <div className={`h-[140px] rounded-[12px] ${isPartner ? 'bg-[#141319]' : 'bg-[#F2F4F6]'}`} />
-              <div className={`h-4 rounded w-1/3 ${isPartner ? 'bg-[#141319]' : 'bg-[#F2F4F6]'}`} />
-              <div className={`h-5 rounded w-2/3 ${isPartner ? 'bg-[#292931]' : 'bg-[#E5E8EB]'}`} />
-              <div className={`h-3 rounded w-full ${isPartner ? 'bg-[#141319]' : 'bg-[#F2F4F6]'}`} />
+              <div className="h-[140px] rounded-[12px] bg-[#F2F4F6]" />
+              <div className="h-4 rounded w-1/3 bg-[#F2F4F6]" />
+              <div className="h-5 rounded w-2/3 bg-[#E5E8EB]" />
+              <div className="h-3 rounded w-full bg-[#F2F4F6]" />
             </div>
           ))}
         </div>
@@ -489,24 +476,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
                 key={card.id}
                 onClick={() => onSelectTab(card.id)}
                 style={{ animationDelay: `${idx * 45}ms` }}
-                className={`group rounded-[20px] border overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between animate-fillUp ${
-                  isPartner
-                    ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#3182F6] hover:bg-[#201F26] hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]'
-                    : 'bg-white border-[#E5E8EB] hover:border-[#1219F7]/40 hover:shadow-[0_12px_32px_rgba(18,25,247,0.08)]'
-                }`}
+                className="group rounded-[20px] border border-[#E5E8EB] bg-white overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between animate-fillUp shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] hover:border-[#3182F6]/50"
               >
                 {/* Preview Window Area */}
-                <div className={`h-[160px] border-b flex items-center justify-center p-4 relative transition-colors ${
-                  isPartner
-                    ? 'bg-[#141319] border-[#222129] group-hover:bg-[#18171E]'
-                    : 'bg-[#F9FAFB] border-[#F2F4F6] group-hover:bg-[#F4F6F9]'
-                }`}>
+                <div className="h-[160px] border-b border-[#F2F4F6] bg-[#F9FAFB] group-hover:bg-[#F4F6F9] flex items-center justify-center p-4 relative transition-colors">
                   {card.badge && (
-                    <span className={`absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-[4px] border ${
-                      isPartner
-                        ? 'bg-[#292931] text-[#E5E5E8] border-[#383745]'
-                        : 'bg-white text-[#191F28] border-[#E5E8EB]'
-                    }`}>
+                    <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-[4px] border border-[#E5E8EB] bg-white text-[#191F28] shadow-2xs">
                       {card.badge}
                     </span>
                   )}
@@ -517,38 +492,22 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center gap-2 mb-1.5">
-                      <div className={`w-7 h-7 rounded-[6px] flex items-center justify-center transition-colors ${
-                        isPartner
-                          ? 'bg-[#292931] text-[#9E9EA4] group-hover:bg-[#0C234F] group-hover:text-[#4B89FF]'
-                          : 'bg-[#F2F4F6] text-[#4E5968] group-hover:bg-[#E8F3FF] group-hover:text-[#1219F7]'
-                      }`}>
+                      <div className="w-7 h-7 rounded-[6px] flex items-center justify-center transition-colors bg-[#F2F4F6] text-[#4E5968] group-hover:bg-[#E8F3FF] group-hover:text-[#1219F7]">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className={`text-[12px] font-bold ${
-                        isPartner ? 'text-[#65656E]' : 'text-[#8B95A1]'
-                      }`}>
+                      <span className="text-[12px] font-bold text-[#8B95A1]">
                         {card.category}
                       </span>
                     </div>
-                    <h3 className={`text-[17px] font-extrabold tracking-tight transition-colors ${
-                      isPartner
-                        ? 'text-white group-hover:text-[#4B89FF]'
-                        : 'text-[#191F28] group-hover:text-[#1219F7]'
-                    }`}>
+                    <h3 className="text-[17px] font-extrabold tracking-tight transition-colors text-[#191F28] group-hover:text-[#1219F7]">
                       {card.title}
                     </h3>
-                    <p className={`text-[13px] mt-1.5 line-clamp-2 leading-relaxed ${
-                      isPartner ? 'text-[#9E9EA4]' : 'text-[#6B7684]'
-                    }`}>
+                    <p className="text-[13px] mt-1.5 line-clamp-2 leading-relaxed text-[#6B7684]">
                       {card.desc}
                     </p>
                   </div>
 
-                  <div className={`pt-4 mt-2 border-t flex items-center justify-between text-[13px] font-bold transition-colors ${
-                    isPartner
-                      ? 'border-[#222129] text-[#9E9EA4] group-hover:text-[#4B89FF]'
-                      : 'border-[#F2F4F6] text-[#4E5968] group-hover:text-[#1219F7]'
-                  }`}>
+                  <div className="pt-4 mt-2 border-t border-[#F2F4F6] flex items-center justify-between text-[13px] font-bold transition-colors text-[#4E5968] group-hover:text-[#1219F7]">
                     <span>자세히 보기</span>
                     <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                   </div>

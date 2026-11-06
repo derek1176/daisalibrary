@@ -276,8 +276,9 @@ interface DarangiItem {
 }
 
 export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
-  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isDark ? 'partner' : 'customer');
+  const isPartner = mode === 'partner';
+  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
+  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isPartner ? 'partner' : 'customer');
   const [copied, setCopied] = useState(false);
   const [darangis, setDarangis] = useState<DarangiItem[]>([]);
 
@@ -318,18 +319,14 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
   return (
     <section id="archive" className="space-y-10 relative">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
+      <div className="border-b pb-6 border-[#E5E8EB]">
+        <span className="text-[13px] font-bold text-[#3182F6]">
           자료실 & 공식 명세서
         </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          {isDark ? '파트너 B2B 디자인시스템 명세서 자료실' : '디자인시스템 명세서 자료실'}
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
+          {isPartner ? '파트너향 디자인시스템 명세서 자료실' : '디자인시스템 명세서 자료실'}
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
+        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
           다이사(da24) 디자인시스템의 공식 규칙과 피그마 토큰 규격을 마크다운 파일로 다운로드하거나 원문을 복사하여 프로젝트에 즉시 활용할 수 있습니다.
         </p>
       </div>

@@ -6,7 +6,7 @@ interface WritingSectionProps {
 }
 
 export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
+  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const copy = (txt: string) => {

@@ -298,16 +298,42 @@ import {
 
 export type CategoryType = "전체" | "이사·청소·파트너 서비스" | "앱 필수 공통 컨트롤러";
 
+// Custom Review Management Icon (말풍선 안에 별이 빛나는 정통 후기 관리 아이콘)
+const ReviewStarIcon: React.FC<{
+  size?: number | string;
+  strokeWidth?: number | string;
+  className?: string;
+  [key: string]: any;
+}> = ({ size = 24, strokeWidth = 1.5, className = '', ...props }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    {...props}
+  >
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    <polygon points="12 6.5 13.2 9.2 16.2 9.5 13.9 11.6 14.6 14.5 12 13 9.4 14.5 10.1 11.6 7.8 9.5 10.8 9.2 12 6.5" />
+  </svg>
+);
+
 interface IconMeta {
   name: string;
   label: string;
-  icon: LucideIcon;
+  icon: any;
   category: CategoryType;
   desc: string;
 }
 
 export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
+  // 파트너향도 고객향과 동일하게 눈이 편안한 라이트모드로 통일
+  const isDark = false;
   const [activeSize, setActiveSize] = useState<"24" | "20" | "16">("24");
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("전체");
   const [searchQuery, setSearchQuery] = useState("");
@@ -322,7 +348,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
     { name: "Zap", label: "하이패스 바로연결", icon: Zap, category: "이사·청소·파트너 서비스", desc: "우선 배차 및 하이패스 즉시 연결" },
     { name: "CalendarClock", label: "일정관리", icon: CalendarClock, category: "이사·청소·파트너 서비스", desc: "기사님 현장 작업 일정 스케줄러" },
     { name: "MessagesSquare", label: "채팅목록", icon: MessagesSquare, category: "이사·청소·파트너 서비스", desc: "고객 1:1 견적 상담 채팅 목록" },
-    { name: "StarHalf", label: "받은 후기 관리", icon: StarHalf, category: "이사·청소·파트너 서비스", desc: "고객 시공 후기 및 평점 리뷰 관리" },
+    { name: "ReviewStarIcon", label: "받은 후기 관리", icon: ReviewStarIcon, category: "이사·청소·파트너 서비스", desc: "고객 시공 후기 및 평점 리뷰 관리" },
     { name: "Receipt", label: "포인트 내역", icon: Receipt, category: "이사·청소·파트너 서비스", desc: "충전 적립금 및 오더 차감 내역" },
     { name: "Store", label: "업체 정보설정", icon: Store, category: "이사·청소·파트너 서비스", desc: "기사님 업체 소개 및 사업자 정보 설정" },
     { name: "CreditCard", label: "결제정보 관리", icon: CreditCard, category: "이사·청소·파트너 서비스", desc: "정산 계좌 등록 및 세금계산서 관리" },
@@ -672,18 +698,19 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
   return (
     <div className="space-y-10">
       {/* Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
-          {isDark ? '파트너 B2B 시스템 아이콘' : '파운데이션 / 기초 규격'}
-        </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
+      <div className="border-b pb-6 border-[#E5E8EB]">
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] font-bold px-2.5 py-0.5 rounded-[6px] bg-[#E8F3FF] text-[#1B64DA]">
+            공통 규격 (Shared Foundation)
+          </span>
+          <span className="text-[12px] font-medium text-[#8B95A1]">
+            고객향 · 파트너향 공통 표준
+          </span>
+        </div>
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-2.5 text-[#191F28]">
           아이콘 (Icons) · 공식 300종
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
+        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
           다이사(da24) 및 파트너 서비스의 <strong>공식 시스템 아이콘 300종</strong>입니다. 이사·청소·파트너 서비스 150종과 앱 필수 공통 컨트롤러 150종으로 구성되며, 이모지 사용을 엄격히 금지합니다. 아이콘 카드를 클릭하면 <strong>.{activeSize}px.svg 파일로 즉시 다운로드</strong>됩니다.
         </p>
       </div>

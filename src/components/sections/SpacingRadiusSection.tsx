@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Copy, Check, AlertOctagon, ShieldCheck, Info } from 'lucide-react';
 
 export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
+  const isPartner = mode === 'partner';
+  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
 
   const copy = (val: string) => {
@@ -24,8 +25,8 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
     { token: 'sp-28', px: 28, mult: 'x14', isCore: false, note: '카드 패널 기본 마진' },
     { token: 'sp-32', px: 32, mult: 'x16', isCore: false, note: '섹션 간 블록 여백' },
     { token: 'sp-40', px: 40, mult: 'x20', isCore: false, note: '대형 섹션 구분 간격' },
-    { token: 'sp-56', px: 56, mult: 'x28', isCore: true, note: isDark ? '★ 파트너 입력창 표준 높이 (56px)' : '★ 전사 표준 터치 타겟 높이 (56px)' },
-    ...(isDark ? [{ token: 'sp-62', px: 62, mult: 'x31', isCore: true, note: '★ 파트너 메인 CTA 버튼 높이 (62px)' }] : []),
+    { token: 'sp-56', px: 56, mult: 'x28', isCore: true, note: isPartner ? '★ 파트너 입력창 표준 높이 (56px)' : '★ 전사 표준 터치 타겟 높이 (56px)' },
+    ...(isPartner ? [{ token: 'sp-62', px: 62, mult: 'x31', isCore: true, note: '★ 파트너 메인 CTA 버튼 높이 (62px)' }] : []),
   ];
 
   const customerRadiusList = [
@@ -118,24 +119,20 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
     },
   ];
 
-  const radiusList = isDark ? partnerRadiusList : customerRadiusList;
+  const radiusList = isPartner ? partnerRadiusList : customerRadiusList;
 
   return (
     <section id="spacing-radius" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
-          {isDark ? '파트너 B2B 공간 파운데이션' : '기초 규격'}
+      <div className="border-b pb-6 border-[#E5E8EB]">
+        <span className="text-[13px] font-bold text-[#3182F6]">
+          {isPartner ? '파트너향 디자인시스템' : '기초 규격'}
         </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          {isDark ? '파트너 여백 및 라운드 규격 (Spacing & Radius 6px)' : '여백 및 라운드 (Spacing & Radius)'}
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
+          {isPartner ? '파트너 여백 및 라운드 규격 (Spacing & Radius 6px)' : '여백 및 라운드 (Spacing & Radius)'}
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
-          {isDark
+        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
+          {isPartner
             ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 B2B의 전사 코어 곡률은 Radius 6px이며, 보조 4px 외에 고객향의 10px 및 16px 곡률은 사용이 엄격히 금지됩니다.'
             : '다이사 서비스의 일관된 시각적 리듬을 위한 8의 배수 기반 스페이싱 시스템과 컴포넌트별 권장 Corner Radius 규격입니다.'}
         </p>

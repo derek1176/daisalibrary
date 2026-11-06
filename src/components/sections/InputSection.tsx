@@ -9,11 +9,12 @@ import {
 import { Smartphone, Monitor, Search, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
+  const isPartner = mode === 'partner';
+  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
 
   // Input states
-  const [textVal, setTextVal] = useState(isDark ? '서울시 강남구 테헤란로 123 (역삼동)' : '서울시 강남구 테헤란로 123');
+  const [textVal, setTextVal] = useState(isPartner ? '서울시 강남구 테헤란로 123 (역삼동)' : '서울시 강남구 테헤란로 123');
   const [errorTextVal, setErrorTextVal] = useState('잘못된 사업자등록번호 입력');
   const [disabledTextVal, setDisabledTextVal] = useState('인증 완료된 기사 정보 (수정 불가)');
   const [memoVal, setMemoVal] = useState('사다리차 진입 가능한 주차공간 확보 완료. 5톤 탑차 진입 가능.');
@@ -21,25 +22,21 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   const [selectVal, setSelectVal] = useState('');
 
   const currentWidthStyle = {
-    width: deviceView === 'mobile' ? '312px' : isDark ? '627px' : '640px',
+    width: deviceView === 'mobile' ? '312px' : isPartner ? '627px' : '640px',
   };
 
   return (
     <section id="inputs" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
-          {isDark ? '파트너 B2B 폼 컴포넌트' : '입력 폼'}
+      <div className="border-b pb-6 border-[#E5E8EB]">
+        <span className="text-[13px] font-bold text-[#3182F6]">
+          {isPartner ? '파트너향 디자인시스템' : '입력 폼'}
         </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          {isDark ? '파트너 입력창 규격 (높이 56px / Radius 6px / 18px 텍스트)' : '입력창 컴포넌트 (Form Inputs)'}
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
+          {isPartner ? '파트너 입력창 규격 (높이 56px · Radius 6px · 18px 텍스트)' : '입력창 컴포넌트 (Form Inputs)'}
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
-          {isDark
+        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
+          {isPartner
             ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 및 실제 화면(G5JiHI51FV6XFImlsyON6u node 1:130) 기반 규격입니다. 높이 56px, Radius 6px, 패딩 16px, 기본 입력 폰트 18px(Body 1)을 적용합니다.'
             : '모바일 기준 너비 312px, 높이 56px, Corner Radius 10px, 좌우 패딩 16px의 정형화된 규격을 유지합니다. PC에서는 콘텐츠 영역 640px로 정렬됩니다. 에러 상태 시 공식 컬러 #F34766을 사용합니다.'}
         </p>

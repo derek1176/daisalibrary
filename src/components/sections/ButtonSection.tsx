@@ -3,7 +3,8 @@ import { PublicButton, PartnerPrimaryButton, PartnerSecondaryButton, ModalButton
 import { Smartphone, Monitor, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
+  const isPartner = mode === 'partner';
+  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [btnState, setBtnState] = useState<ButtonState>('normal');
   const [activeChip, setActiveChip] = useState('가정이사 (포장)');
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
@@ -15,20 +16,16 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
   return (
     <section id="buttons" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
-          {isDark ? '파트너 B2B 버튼 컴포넌트' : '버튼 컴포넌트'}
+      <div className="border-b pb-6 border-[#E5E8EB]">
+        <span className="text-[13px] font-bold text-[#3182F6]">
+          {isPartner ? '파트너향 디자인시스템' : '버튼 컴포넌트'}
         </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          {isDark ? '파트너 버튼 규격 (메인 CTA 62px r:6 / 서브 51px)' : '버튼'}
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
+          {isPartner ? '파트너 버튼 규격 (메인 CTA 56px r:6 · 18px Bold)' : '버튼'}
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
-          {isDark
-            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 전사 메인 CTA 버튼은 높이 62px, Radius 6px, 18px Bold 텍스트를 사용하며, 보조 액션 버튼은 48px/51px(r:4~6)을 적용합니다.'
+        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
+          {isPartner
+            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 메인 CTA 버튼은 높이 56px, Corner Radius 6px, 18px Bold 텍스트를 기본으로 적용하며, 보조 액션 버튼은 48px/51px(r:4~6)을 적용합니다.'
             : '다이사 서비스 전반에서 사용하는 본문 표준 Public Button, 모달 다이얼로그 버튼, 필터 칩 규격입니다.'}
         </p>
       </div>
@@ -91,35 +88,31 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       }`}>
         {/* 1. Main Button Section */}
         <div className="space-y-4">
-          <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
+          <div className="flex items-center justify-between border-b pb-3 border-[#F2F4F6]">
             <div>
-              <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-                {isDark ? '1. 파트너 메인 CTA 버튼 (Primary Button 62px)' : '1. 본문 표준 버튼 (Public Button)'}
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                {isPartner ? '1. 파트너 메인 CTA 버튼 (Primary Button 56px)' : '1. 본문 표준 버튼 (Public Button)'}
               </h3>
-              <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-                {isDark
-                  ? `높이 62px · 너비 ${deviceView === 'mobile' ? '312px' : '627px'} · Corner Radius 6px · 폰트 18px Bold`
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                {isPartner
+                  ? `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '627px'} · Corner Radius 6px · 폰트 18px Bold`
                   : `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '640px'} · Corner Radius 10px · 폰트 16px Bold`}
               </p>
             </div>
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded ${
-              isDark ? 'bg-[#595EF9]/30 text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-            }`}>
-              {isDark ? '높이 62px / r:6' : '높이 56px / r:10'}
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
+              {isPartner ? '높이 56px / r:6' : '높이 56px / r:10'}
             </span>
           </div>
 
-          <div className={`rounded-[16px] p-8 flex items-center justify-center border ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-          }`}>
-            {isDark ? (
+          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+            {isPartner ? (
               <div style={{ width: deviceView === 'mobile' ? '312px' : '627px' }}>
                 <PartnerPrimaryButton
                   state={btnState}
                   fluid
                   onClick={() => alert('파트너 견적 제출')}
                 >
-                  견적 제출하기 (62px)
+                  견적 제출하기 (56px)
                 </PartnerPrimaryButton>
               </div>
             ) : (
@@ -140,26 +133,22 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         <div className="space-y-4">
           <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
             <div>
-              <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-                {isDark ? '2. 파트너 서브 액션 버튼 (Secondary Action 51px)' : '2. 모달 버튼 (Modal Buttons)'}
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                {isPartner ? '2. 파트너 서브 액션 버튼 (Secondary Action 51px)' : '2. 모달 버튼 (Modal Buttons)'}
               </h3>
-              <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-                {isDark
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                {isPartner
                   ? 'Figma [개발] v1.2 node 1:130 규격: 280x51 r:4 / 51px r:6 아웃라인 및 솔리드 보조 버튼'
                   : '너비 280px (136px + 8px + 136px 2분할) · 높이 56px 또는 48px · Corner Radius 10px'}
               </p>
             </div>
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded ${
-              isDark ? 'bg-[#595EF9]/30 text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-            }`}>
-              {isDark ? '높이 51px / r:4~6' : '높이 56px / 48px'}
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
+              {isPartner ? '높이 51px / r:4~6' : '높이 56px / 48px'}
             </span>
           </div>
 
-          <div className={`rounded-[16px] p-8 flex items-center justify-center gap-3 border ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-          }`}>
-            {isDark ? (
+          <div className="rounded-[16px] p-8 flex items-center justify-center gap-3 border bg-[#F9FAFB] border-[#E5E8EB]">
+            {isPartner ? (
               <div className="flex items-center gap-3 w-[312px]">
                 <PartnerSecondaryButton
                   variant="outline"

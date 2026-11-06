@@ -14,8 +14,9 @@ interface TypeRowProps {
 }
 
 export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
-  const isDark = mode === 'partner';
-  const defaultSample = isDark
+  const isPartner = mode === 'partner';
+  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
+  const defaultSample = isPartner
     ? '다이사 파트너 현장 견적 및 오더 접수 시스템'
     : '내 주변 모든 이사업체 찾기, 다이사';
 
@@ -248,7 +249,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
     },
   ];
 
-  const typeSpecs = isDark ? partnerSpecs : customerSpecs;
+  const typeSpecs = isPartner ? partnerSpecs : customerSpecs;
 
   const copyCode = (spec: TypeRowProps, idx: number) => {
     const code = `text-[${spec.size}px] font-[${spec.weightNum}] leading-[${spec.lh.split(' ')[0]}]`;
@@ -260,27 +261,23 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
   return (
     <section id="typography" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
-          {isDark ? '파트너 B2B 타이포그래피 파운데이션' : '타이포그래피'}
+      <div className="border-b pb-6 border-[#E5E8EB]">
+        <span className="text-[13px] font-bold text-[#3182F6]">
+          {isPartner ? '파트너향 디자인시스템' : '타이포그래피'}
         </span>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          {isDark ? '파트너 타이포그래피 (Partner Typography)' : '타이포그래피 시스템 (Typography)'}
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
+          {isPartner ? '파트너 타이포그래피 (18px 기본 표준)' : '타이포그래피 시스템 (Typography)'}
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
-          {isDark
+        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
+          {isPartner
             ? '피그마 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 공식 규격입니다. 현장 기사님의 시인성을 위해 기본 본문은 18px(Body 1)이며, 14px 캡션이 최소 폰트입니다 (12px 이하 사용 엄격 금지).'
             : '다이사 서비스의 표준 타이포그래피 체계입니다. 서체는 Pretendard 단일 서체만을 사용하며, 짝수 6종 크기(12, 14, 16, 18, 20, 24px)와 자간 -1px 고정 룰을 엄격히 준수합니다.'}
         </p>
       </div>
 
       {/* Critical Rule Banner for Partner */}
-      {isDark && (
-        <div className="bg-[#1C1B22] border border-[#26252D] rounded-[14px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+      {isPartner && (
+        <div className="bg-[#FFF8E6] border border-[#FFD666] rounded-[14px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-[8px] bg-[#0C234F] border border-[#3182F6]/40 flex items-center justify-center text-[#4B89FF] shrink-0">
               <Info className="w-5 h-5" />
