@@ -13,9 +13,7 @@ interface HomeSectionProps {
 
 interface ComponentItem {
   id: string;
-  category: 'Foundations' | 'Components';
   name: string;
-  subName: string;
   renderThumbnail: () => React.ReactNode;
 }
 
@@ -36,11 +34,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   const renderColorThumbnail = () => (
     <div className="w-full h-full flex items-center justify-center select-none">
       <div className="relative flex items-center justify-center">
-        {/* Soft background ambient glow */}
-        <div className="absolute w-28 h-28 rounded-full bg-[#1219F7]/8 blur-xl pointer-events-none" />
-        
-        {/* Overlapping smooth color discs */}
-        <div className="flex items-center -space-x-3.5">
+        <div className="absolute w-24 h-24 rounded-full bg-[#1219F7]/8 blur-xl pointer-events-none" />
+        <div className="flex items-center -space-x-3">
           <div
             className={`w-14 h-14 ${
               isPartner ? 'rounded-[8px]' : 'rounded-2xl'
@@ -86,9 +81,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   // ============================================================
   const renderTypographyThumbnail = () => (
     <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="flex flex-col items-center justify-center gap-2.5">
+      <div className="flex flex-col items-center justify-center gap-2">
         <div className="flex items-baseline gap-1.5">
-          <span className="text-[46px] font-black text-[#191F28] leading-none tracking-tight">
+          <span className="text-[44px] font-black text-[#191F28] leading-none tracking-tight">
             Aa
           </span>
           <span
@@ -115,12 +110,11 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   const renderSpacingRadiusThumbnail = () => (
     <div className="w-full h-full flex items-center justify-center select-none">
       <div className="relative flex items-center justify-center">
-        {/* Outer dashed container */}
-        <div className="w-36 h-24 rounded-[16px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-2 bg-white/40">
+        <div className="w-36 h-24 rounded-[14px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-2 bg-white/40">
           <div
             className={`w-24 h-16 bg-white border-2 border-[#1219F7] ${
               isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
-            } shadow-sm flex flex-col items-center justify-center gap-0.5 transition-transform duration-300 group-hover:scale-105`}
+            } shadow-xs flex flex-col items-center justify-center gap-0.5 transition-transform duration-300 group-hover:scale-105`}
           >
             <span className="text-[12px] font-extrabold text-[#1219F7]">
               r: {isPartner ? '6px' : '10px'}
@@ -130,7 +124,6 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
             </span>
           </div>
         </div>
-        {/* Soft spacing badge */}
         <div className="absolute -top-2 right-1 text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7] border border-[#1219F7]/20 shadow-2xs">
           8 · 16px
         </div>
@@ -144,21 +137,17 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   const renderLayoutThumbnail = () => (
     <div className="w-full h-full flex items-center justify-center select-none">
       <div className="flex items-center gap-3">
-        {/* Mobile Screen 360 */}
         <div
-          className={`w-14 h-22 bg-white border-2 border-[#191F28] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+          className={`w-13 h-20 bg-white border-2 border-[#191F28] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
           } p-1.5 flex flex-col justify-between shadow-xs transition-transform duration-300 group-hover:-translate-y-1`}
         >
-          <div className="w-full flex justify-between items-center text-[7px] font-bold text-[#8B95A1]">
-            <span>360</span>
-          </div>
+          <span className="text-[7px] font-bold text-[#8B95A1] text-center">360</span>
           <div className="w-full h-1 bg-[#1219F7] rounded-full" />
         </div>
-        {/* Desktop Container 640/627 inside 1200 */}
         <div
-          className={`w-28 h-22 bg-white border border-[#D1D6DB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+          className={`w-28 h-20 bg-white border border-[#D1D6DB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
           } p-1.5 flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:-translate-y-1`}
         >
           <div
@@ -200,28 +189,28 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     <div className="w-full h-full flex items-center justify-center select-none">
       <div className="grid grid-cols-2 gap-2">
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
             isPartner ? 'rounded-[6px]' : 'rounded-xl'
           } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
         >
           <Sparkles className="w-5 h-5 text-[#1219F7]" />
         </div>
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
             isPartner ? 'rounded-[6px]' : 'rounded-xl'
           } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
         >
           <Search className="w-5 h-5 text-[#3182F6]" />
         </div>
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
             isPartner ? 'rounded-[6px]' : 'rounded-xl'
           } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
         >
           <CheckCircle2 className="w-5 h-5 text-emerald-500" />
         </div>
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
             isPartner ? 'rounded-[6px]' : 'rounded-xl'
           } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
         >
@@ -240,7 +229,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
         <div
           className={`w-full h-11 bg-[#1219F7] ${
             isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
-          } flex items-center justify-center text-white text-[13px] font-bold shadow-md shadow-[#1219F7]/20 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#1219F7]/30 group-hover:scale-[1.02]`}
+          } flex items-center justify-center text-white text-[13px] font-bold shadow-md shadow-[#1219F7]/20 transition-all duration-300 group-hover:scale-[1.02]`}
         >
           <span>{isPartner ? '오더 수락하기' : '견적 신청하기'}</span>
         </div>
@@ -289,7 +278,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       <div className="relative">
         <div
           className={`w-40 bg-white ${
-            isPartner ? 'rounded-[8px]' : 'rounded-[16px]'
+            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
           } border border-[#E5E8EB] p-3.5 shadow-lg shadow-black/5 space-y-2 text-center transition-transform duration-300 group-hover:scale-105`}
         >
           <div className="text-[11px] font-bold text-[#191F28] leading-tight">
@@ -298,94 +287,72 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
           <div className="flex gap-1.5 pt-0.5">
             <div
               className={`flex-1 py-1 ${
-                isPartner ? 'rounded-[4px]' : 'rounded-[8px]'
+                isPartner ? 'rounded-[4px]' : 'rounded-[6px]'
               } bg-[#F2F4F6] text-[9px] font-bold text-[#4E5968]`}
             >
               취소
             </div>
             <div
               className={`flex-1 py-1 ${
-                isPartner ? 'rounded-[4px]' : 'rounded-[8px]'
+                isPartner ? 'rounded-[4px]' : 'rounded-[6px]'
               } bg-[#1219F7] text-[9px] font-bold text-white`}
             >
               확인
             </div>
           </div>
         </div>
-        {/* Soft bottom sheet indicator */}
         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-[#D1D6DB] rounded-full" />
       </div>
     </div>
   );
 
   // ============================================================
-  // Component Items Data (Foundations + Components)
+  // Component Items Data
   // ============================================================
   const componentItems: ComponentItem[] = [
-    // Foundations
     {
       id: 'colors',
-      category: 'Foundations',
       name: 'Colors',
-      subName: isPartner ? '색상 토큰 · 파트너 키컬러 & 서브' : '색상 토큰 · 12개 시맨틱 컬러',
       renderThumbnail: renderColorThumbnail,
     },
     {
       id: 'typography',
-      category: 'Foundations',
       name: 'Typography',
-      subName: isPartner ? '타이포그래피 · 기본 본문 18px' : '타이포그래피 · Pretendard 6종 룰',
       renderThumbnail: renderTypographyThumbnail,
     },
     {
       id: 'spacing-radius',
-      category: 'Foundations',
       name: 'Spacing & Radius',
-      subName: isPartner ? '여백 및 라운드 · Radius 6px' : '여백 및 라운드 · Radius 10px',
       renderThumbnail: renderSpacingRadiusThumbnail,
     },
     {
       id: 'layout',
-      category: 'Foundations',
       name: 'Layout',
-      subName: isPartner ? '작업 규격 · 모바일 360 & 627px' : '작업 규격 · 모바일 360 & 640px',
       renderThumbnail: renderLayoutThumbnail,
     },
     {
       id: 'writing',
-      category: 'Foundations',
       name: 'Writing Guide',
-      subName: '라이팅 가이드 · 6대 작성 원칙',
       renderThumbnail: renderWritingThumbnail,
     },
     {
       id: 'icons',
-      category: 'Foundations',
       name: 'Icons',
-      subName: '아이콘 · 공식 심볼 300종',
       renderThumbnail: renderIconsThumbnail,
     },
-
-    // Components
     {
       id: 'buttons',
-      category: 'Components',
       name: 'Buttons',
-      subName: isPartner ? '버튼 · 파트너 Public CTA 56px' : '버튼 · 인라인 Public CTA 56px',
       renderThumbnail: renderButtonsThumbnail,
     },
     {
       id: 'inputs',
-      category: 'Components',
       name: 'Input Fields',
-      subName: isPartner ? '입력창 · 18px 텍스트 필드' : '입력창 · 56px 텍스트 필드',
       renderThumbnail: renderInputsThumbnail,
     },
     {
       id: 'modals',
-      category: 'Components',
       name: 'Dialog & Sheet',
-      subName: isPartner ? '모달 및 바텀시트 · Radius 6px' : '모달 및 바텀시트 · 얼럿 & 컨펌',
       renderThumbnail: renderModalsThumbnail,
     },
   ];
@@ -398,52 +365,39 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
           Components
         </h1>
         <p className="text-[15px] md:text-[16px] max-w-2xl leading-relaxed text-[#6B7684]">
-          daisa의 모든 컴포넌트를 둘러보세요.
+          다이사의 모든 컴포넌트를 둘러보세요.
         </p>
       </div>
 
-      {/* Grid of Component Cards (Seed Design Style: Thumbnail + Name) */}
+      {/* Grid of Component Cards (Seed Design Style: 독립된 흰색 썸네일 박스 + 하단 큰 타이틀 하나만) */}
       {loadingShimmer ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
           {Array.from({ length: 9 }).map((_, i) => (
-            <div
-              key={i}
-              className="rounded-[18px] border border-[#E5E8EB] bg-white overflow-hidden p-4 space-y-3 animate-pulse shadow-xs"
-            >
-              <div className="h-[180px] rounded-[12px] bg-[#F2F4F6]" />
-              <div className="h-3.5 rounded w-1/4 bg-[#F2F4F6]" />
-              <div className="h-5 rounded w-2/3 bg-[#E5E8EB]" />
-              <div className="h-3 rounded w-1/2 bg-[#F2F4F6]" />
+            <div key={i} className="space-y-3 animate-pulse">
+              <div className="h-[190px] rounded-[16px] bg-white border border-[#E5E8EB]" />
+              <div className="h-5 rounded w-1/2 bg-[#E5E8EB]" />
             </div>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
           {componentItems.map((item, idx) => (
             <div
               key={item.id}
               onClick={() => onSelectTab(item.id)}
-              style={{ animationDelay: `${idx * 40}ms` }}
-              className="group rounded-[18px] border border-[#E5E8EB] bg-white overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-xs hover:shadow-md hover:border-[#1219F7]/40 animate-fillUp"
+              style={{ animationDelay: `${idx * 30}ms` }}
+              className="group cursor-pointer select-none animate-fillUp"
             >
-              {/* Thumbnail Window (당근 디자인 시스템 썸네일 스타일) */}
-              <div className="h-[180px] bg-[#F7F8FA] border-b border-[#F0F2F5] flex items-center justify-center p-4 relative group-hover:bg-[#F2F4F8] transition-colors overflow-hidden">
+              {/* 1. 상단 썸네일 박스 (배경 흰색, 부드러운 라운드 16px, 테두리 및 그림자) */}
+              <div className="w-full h-[190px] bg-white rounded-[16px] border border-[#E5E8EB] shadow-xs flex items-center justify-center p-4 transition-all duration-200 group-hover:border-[#1219F7]/40 group-hover:shadow-md overflow-hidden">
                 {item.renderThumbnail()}
               </div>
 
-              {/* Card Bottom Area (Name + Category + Subtitle) */}
-              <div className="p-5 flex flex-col justify-between flex-1">
-                <div className="space-y-1">
-                  <div className="text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">
-                    {item.category}
-                  </div>
-                  <h3 className="text-[18px] font-bold tracking-tight text-[#191F28] group-hover:text-[#1219F7] transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-[13px] text-[#6B7684] truncate">
-                    {item.subName}
-                  </p>
-                </div>
+              {/* 2. 썸네일 아래 큰 타이틀 하나만 (당근 스타일) */}
+              <div className="mt-3 px-0.5">
+                <h3 className="text-[17px] font-bold tracking-tight text-[#191F28] group-hover:text-[#1219F7] transition-colors">
+                  {item.name}
+                </h3>
               </div>
             </div>
           ))}
