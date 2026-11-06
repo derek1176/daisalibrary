@@ -83,10 +83,10 @@ export const App: React.FC = () => {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Official Logo */}
+          {/* Official Logo (Shifted -4px to align with sidebar menu items) */}
           <div
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-3 cursor-pointer select-none group"
+            className="flex items-center gap-3 cursor-pointer select-none group -ml-1"
           >
             <img
               src="/logo-dark.png"
