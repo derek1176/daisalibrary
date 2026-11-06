@@ -3,7 +3,6 @@ import { Smartphone, Monitor, Info, CheckCircle2, ShieldCheck, Layers } from 'lu
 
 export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
 
   return (
     <section id="layout" className="space-y-10">
@@ -145,11 +144,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
           </div>
 
           {/* 627px / 640px Centered Box */}
-          <div className={`w-full max-w-[560px] rounded-[6px] border-2 p-5 space-y-4 shadow-md ${
-            isDark
-              ? 'bg-[#1C1B22] border-[#595EF9] text-white'
-              : 'bg-white border-[#1219F7] text-[#191F28]'
-          }`}>
+          <div className="w-full max-w-[560px] rounded-[6px] border border-[#1219F7] p-5 space-y-4 shadow-md bg-white text-[#191F28]">
             <div className="flex items-center justify-between border-b pb-2">
               <span className="text-[13px] font-bold">
                 {isPartner ? '오더 컨테이너 627px (r: 6.0)' : '중앙 정렬 640px (r: 10.0)'}

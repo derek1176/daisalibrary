@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
-import {
-  InputText,
-  InputMemo,
-  InputSearch,
-  InputNumber,
-  SelectText
-} from '../ui/Input';
-import { Smartphone, Monitor, Search, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Smartphone, Monitor, Search, AlertCircle, ChevronDown, CheckCircle2 } from 'lucide-react';
 
 export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
 
   // Input states
   const [textVal, setTextVal] = useState(isPartner ? '서울시 강남구 테헤란로 123 (역삼동)' : '서울시 강남구 테헤란로 123');
-  const [errorTextVal, setErrorTextVal] = useState('잘못된 사업자등록번호 입력');
-  const [disabledTextVal, setDisabledTextVal] = useState('인증 완료된 기사 정보 (수정 불가)');
-  const [memoVal, setMemoVal] = useState('사다리차 진입 가능한 주차공간 확보 완료. 5톤 탑차 진입 가능.');
-  const [numVal, setNumVal] = useState('1200000');
-  const [selectVal, setSelectVal] = useState('');
+  const [errorTextVal, setErrorTextVal] = useState(isPartner ? '123-45-67890' : '998877');
+  const [searchVal, setSearchVal] = useState('포장이사');
+  const [memoVal, setMemoVal] = useState(
+    isPartner
+      ? '사다리차 진입 가능한 주차 공간 확보 완료. 5톤 탑차 진입 가능.'
+      : '엘리베이터 사용 가능하며 관리사무소에 사전 예약 완료했습니다.'
+  );
+  const [selectVal, setSelectVal] = useState(isPartner ? '5톤 탑차 (추천)' : '가정이사 (포장)');
 
-  const currentWidthStyle = {
-    width: deviceView === 'mobile' ? '312px' : isPartner ? '627px' : '640px',
-  };
+  // Responsive Width calculation based on official md
+  // Customer: Mobile 312px / PC 640px
+  // Partner: Mobile 312px / PC 627px (Order Container)
+  const currentWidth = deviceView === 'mobile' ? '312px' : isPartner ? '627px' : '640px';
 
   return (
     <section id="inputs" className="space-y-10">
@@ -33,29 +29,27 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
           {isPartner ? '파트너향 디자인시스템' : '입력 폼'}
         </span>
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
-          {isPartner ? '파트너 입력창 규격 (높이 56px · Radius 6px · 18px 텍스트)' : '입력창 컴포넌트 (Form Inputs)'}
+          {isPartner
+            ? '파트너 입력창 규격 (높이 56px · Radius 6px · 18px 텍스트)'
+            : '입력창 컴포넌트 (높이 56px · Radius 10px · 16px 텍스트)'}
         </h2>
         <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
           {isPartner
-            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 및 실제 화면(G5JiHI51FV6XFImlsyON6u node 1:130) 기반 규격입니다. 높이 56px, Radius 6px, 패딩 16px, 기본 입력 폰트 18px(Body 1)을 적용합니다.'
-            : '모바일 기준 너비 312px, 높이 56px, Corner Radius 10px, 좌우 패딩 16px의 정형화된 규격을 유지합니다. PC에서는 콘텐츠 영역 640px로 정렬됩니다. 에러 상태 시 공식 컬러 #F34766을 사용합니다.'}
+            ? '피그마 공식 [파트너] 스타일가이드 및 화면 명세 기준입니다. 모바일 312px / PC 627px, 높이 56px, Corner Radius 6px, 라벨 16px, 본문 18px Regular를 적용합니다.'
+            : '다이사 고객향 디자인시스템 공식 명세서(DAISA_DESIGN_SYSTEM.md) 기준입니다. 모바일 312px / PC 640px, 높이 56px, Corner Radius 10px, 라벨 14px, 본문 16px Regular를 적용합니다.'}
         </p>
       </div>
 
       {/* Device Control Bar */}
-      <div className={`border rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-      }`}>
-        <div className={`flex items-center gap-1.5 p-1 rounded-[10px] border ${
-          isDark ? 'bg-[#121620] border-[#2B2A34]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
-        }`}>
+      <div className="border border-[#E5E8EB] rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white shadow-sm">
+        <div className="flex items-center gap-1.5 p-1 rounded-[10px] border bg-[#F2F4F6] border-[#E5E8EB]/50">
           <button
             type="button"
             onClick={() => setDeviceView('mobile')}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all select-none ${
               deviceView === 'mobile'
-                ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                ? 'bg-white text-[#191F28] shadow-2xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" /> 모바일 (312px)
@@ -63,60 +57,68 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
           <button
             type="button"
             onClick={() => setDeviceView('pc')}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all select-none ${
               deviceView === 'pc'
-                ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                ? 'bg-white text-[#191F28] shadow-2xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
-            <Monitor className="w-3.5 h-3.5" /> {isDark ? '웹/데스크톱 (627px)' : '웹/PC (640px)'}
+            <Monitor className="w-3.5 h-3.5" /> {isPartner ? '웹/데스크톱 (627px)' : '웹/PC (640px)'}
           </button>
         </div>
 
-        <div className={`text-[12px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1219F7]'}`}>
-          {isDark ? '★ 파트너 코어: Radius 6px & 폰트 18px' : '★ 고객향 코어: Radius 10px & 폰트 16px'}
+        <div className="text-[12px] font-bold text-[#1219F7]">
+          {isPartner
+            ? '★ 파트너 코어: Radius 6px · 기본 18px 텍스트 (Stroke 1px)'
+            : '★ 고객향 코어: Radius 10px · 기본 16px 텍스트 (Stroke 1px)'}
         </div>
       </div>
 
       {/* Inputs Showcase Card */}
-      <div className={`border rounded-[20px] p-6 md:p-8 space-y-8 ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-      }`}>
-        {/* 1. Text Input */}
+      <div className="border border-[#E5E8EB] rounded-[20px] p-6 md:p-8 space-y-8 bg-white shadow-sm">
+        {/* 1. Standard Text Input */}
         <div className="space-y-4">
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-              1. 기본 텍스트 입력창 (Text Input)
-            </h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              {isDark
-                ? '높이 56px · Radius 6px · 좌우 패딩 16px · 18px Bold 라벨 & 18px Regular 값'
-                : '높이 56px · Radius 10px · 좌우 패딩 16px · 14px Bold 라벨 & 16px Regular 값'}
-            </p>
+          <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-3">
+            <div>
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                1. 기본 텍스트 입력창 (Text Input)
+              </h3>
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                {isPartner
+                  ? '높이 56px · Corner Radius 6px · 1px stroke · 라벨 16px Bold · 입력값 18px Regular'
+                  : '높이 56px · Corner Radius 10px · 1px stroke · 라벨 14px Bold · 입력값 16px Regular'}
+              </p>
+            </div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
+              {isPartner ? 'Radius 6px / 18px' : 'Radius 10px / 16px'}
+            </span>
           </div>
 
-          <div className={`rounded-[16px] p-8 flex items-center justify-center border ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-          }`}>
-            <div style={currentWidthStyle} className="space-y-2">
-              <label className={`block font-bold ${isDark ? 'text-[16px] text-[#E5E8EB]' : 'text-[14px] text-[#191F28]'}`}>
-                {isDark ? '현장 주소 입력' : '출발지 주소'}
+          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+            <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
+              <label
+                className={`block font-bold text-[#191F28] ${
+                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                }`}
+              >
+                {isPartner ? '현장 작업 주소' : '출발지 주소'}
               </label>
-              <div className={`h-[56px] px-4 border flex items-center justify-between transition-colors ${
-                isDark
-                  ? 'bg-[#121620] border-[#2B2A34] rounded-[6px] focus-within:border-[#595EF9]'
-                  : 'bg-white border-[#D7DBE2] rounded-[10px] focus-within:border-[#1219F7]'
-              }`}>
+              {/* 1px stroke 고정: border border-[#D7DBE2] (두꺼운 border-2 제거) */}
+              <div
+                className={`h-[56px] px-4 border border-[#D7DBE2] bg-white flex items-center justify-between transition-colors focus-within:border-[#1219F7] ${
+                  isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+                }`}
+              >
                 <input
                   type="text"
                   value={textVal}
                   onChange={(e) => setTextVal(e.target.value)}
                   placeholder="주소를 입력해 주세요"
-                  className={`w-full bg-transparent outline-none font-medium ${
-                    isDark ? 'text-[18px] text-white placeholder-[#65656E]' : 'text-[16px] text-[#191F28] placeholder-[#888888]'
+                  className={`w-full bg-transparent outline-none font-medium text-[#191F28] placeholder-[#888888] ${
+                    isPartner ? 'text-[18px]' : 'text-[16px]'
                   }`}
                 />
-                <Search className={`w-5 h-5 shrink-0 ${isDark ? 'text-[#4B89FF]' : 'text-[#1219F7]'}`} />
+                <Search className="w-5 h-5 text-[#888888] shrink-0 ml-2" />
               </div>
             </div>
           </div>
@@ -124,68 +126,133 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
         {/* 2. Error State Input */}
         <div className="space-y-4">
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-              2. 에러 상태 입력창 (Error Input)
-            </h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              보더 스트로크 및 하단 안내 문구에 공식 에러 컬러 <strong>#F34766</strong> 적용
-            </p>
+          <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-3">
+            <div>
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                2. 에러 상태 입력창 (Error Input)
+              </h3>
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                공식 에러 컬러 <strong>#F34766</strong> 적용 · 1px solid stroke 유지 및 하단 14px 에러 메시지
+              </p>
+            </div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-red-50 text-[#F34766] border border-red-200">
+              Error #F34766
+            </span>
           </div>
 
-          <div className={`rounded-[16px] p-8 flex items-center justify-center border ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-          }`}>
-            <div style={currentWidthStyle} className="space-y-2">
-              <label className={`block font-bold ${isDark ? 'text-[16px] text-[#E5E8EB]' : 'text-[14px] text-[#191F28]'}`}>
-                {isDark ? '사업자등록번호' : '인증번호'}
+          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+            <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
+              <label
+                className={`block font-bold text-[#191F28] ${
+                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                }`}
+              >
+                {isPartner ? '사업자등록번호 입력' : '인증번호 입력'}
               </label>
-              <div className={`h-[56px] px-4 border-2 border-[#F34766] flex items-center justify-between ${
-                isDark ? 'bg-[#121620] rounded-[6px]' : 'bg-white rounded-[10px]'
-              }`}>
+              {/* 1px stroke 고정: border border-[#F34766] */}
+              <div
+                className={`h-[56px] px-4 border border-[#F34766] bg-white flex items-center justify-between ${
+                  isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+                }`}
+              >
                 <input
                   type="text"
                   value={errorTextVal}
                   onChange={(e) => setErrorTextVal(e.target.value)}
-                  className={`w-full bg-transparent outline-none font-medium ${
-                    isDark ? 'text-[18px] text-[#F34766]' : 'text-[16px] text-[#F34766]'
+                  className={`w-full bg-transparent outline-none font-medium text-[#F34766] ${
+                    isPartner ? 'text-[18px]' : 'text-[16px]'
                   }`}
                 />
-                <AlertCircle className="w-5 h-5 text-[#F34766] shrink-0" />
+                <AlertCircle className="w-5 h-5 text-[#F34766] shrink-0 ml-2" />
               </div>
-              <span className="text-[13px] font-bold text-[#F34766] block">
-                등록되지 않은 사업자등록번호입니다. 확인 후 다시 입력해 주세요.
+              <span className="text-[14px] font-medium text-[#F34766] block pt-0.5">
+                {isPartner
+                  ? '등록되지 않은 사업자등록번호입니다. 확인 후 다시 입력해 주세요.'
+                  : '인증번호가 일치하지 않습니다. 다시 확인해 주세요.'}
               </span>
             </div>
           </div>
         </div>
 
-        {/* 3. Textarea / Memo */}
+        {/* 3. Dropdown Select Input */}
         <div className="space-y-4">
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-              3. 작업 특이사항 메모 (Textarea)
-            </h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              {isDark ? '최소 높이 112px · Radius 6px · 패딩 16px' : '최소 높이 112px · Radius 10px · 패딩 16px'}
-            </p>
+          <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-3">
+            <div>
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                3. 선택 드롭다운 (Select Input)
+              </h3>
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                높이 56px · 1px stroke · 우측 드롭다운 화살표
+              </p>
+            </div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
+              {isPartner ? 'Radius 6px' : 'Radius 10px'}
+            </span>
           </div>
 
-          <div className={`rounded-[16px] p-8 flex items-center justify-center border ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-          }`}>
-            <div style={currentWidthStyle} className="space-y-2">
-              <label className={`block font-bold ${isDark ? 'text-[16px] text-[#E5E8EB]' : 'text-[14px] text-[#191F28]'}`}>
-                특이사항 및 메모
+          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+            <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
+              <label
+                className={`block font-bold text-[#191F28] ${
+                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                }`}
+              >
+                {isPartner ? '작업 차량 종류' : '이사 서비스 선택'}
+              </label>
+              <div
+                className={`h-[56px] px-4 border border-[#D7DBE2] bg-white flex items-center justify-between cursor-pointer hover:border-[#1219F7] transition-colors ${
+                  isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+                }`}
+              >
+                <span
+                  className={`font-medium text-[#191F28] ${
+                    isPartner ? 'text-[18px]' : 'text-[16px]'
+                  }`}
+                >
+                  {selectVal}
+                </span>
+                <ChevronDown className="w-5 h-5 text-[#888888] shrink-0" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. Textarea / Memo */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-3">
+            <div>
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                4. 특이사항 메모 (Textarea Memo)
+              </h3>
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                {isPartner
+                  ? '파트너 작업 메모 규격: 높이 112px · Corner Radius 6px · 1px stroke · 18px 텍스트'
+                  : '고객 전달 메모 규격: 높이 104px · Corner Radius 10px · 1px stroke · 16px 텍스트'}
+              </p>
+            </div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
+              {isPartner ? '높이 112px / r:6' : '높이 104px / r:10'}
+            </span>
+          </div>
+
+          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+            <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
+              <label
+                className={`block font-bold text-[#191F28] ${
+                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                }`}
+              >
+                특이사항 및 전달 메모
               </label>
               <textarea
                 value={memoVal}
                 onChange={(e) => setMemoVal(e.target.value)}
                 rows={3}
-                className={`w-full p-4 border outline-none font-medium resize-none ${
-                  isDark
-                    ? 'bg-[#121620] border-[#2B2A34] rounded-[6px] text-white text-[16px] focus:border-[#595EF9]'
-                    : 'bg-white border-[#D7DBE2] rounded-[10px] text-[#191F28] text-[15px] focus:border-[#1219F7]'
+                style={{ height: isPartner ? '112px' : '104px' }}
+                className={`w-full p-4 border border-[#D7DBE2] bg-white outline-none font-medium resize-none text-[#191F28] placeholder-[#888888] focus:border-[#1219F7] transition-colors ${
+                  isPartner
+                    ? 'rounded-[6px] text-[18px]'
+                    : 'rounded-[10px] text-[16px]'
                 }`}
               />
             </div>

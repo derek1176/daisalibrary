@@ -206,12 +206,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       category: '핵심 컴포넌트',
       badge: '높이 56px / r:10px',
       icon: Sliders,
-      desc: '높이 56px · Corner Radius 10px · 패딩 16px · 에러 #F34766',
+      desc: '높이 56px · Corner Radius 10px · 패딩 16px · 1px stroke',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[10px] border-2 border-[#1219F7] px-3.5 flex items-center justify-between text-[14px] shadow-xs">
-            <span className="text-[#191F28] font-medium">강남구 역삼동</span>
-            <Search className="w-4 h-4 text-[#1219F7] shrink-0" />
+          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[10px] border border-[#D7DBE2] px-3.5 flex items-center justify-between text-[14px] shadow-xs">
+            <span className="text-[#191F28] font-medium">강남구 역삼동 (16px)</span>
+            <Search className="w-4 h-4 text-[#888888] shrink-0" />
           </div>
         </div>
       ),
@@ -220,19 +220,19 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 9. 모달 및 바텀시트
     {
       id: 'modals',
-      title: '모달 및 바텀시트',
+      title: '모달 및 바텀시트 (Radius 16px)',
       category: '핵심 컴포넌트',
-      badge: '312px 카드 / 360px 시트',
+      badge: '312px / r:16px',
       icon: Layers,
-      desc: '얼럿/컨펌 모달 (너비 312px) · 바텀시트 (너비 360px · 높이 56px)',
+      desc: '얼럿/컨펌 모달 (너비 312px · Radius 16px) · 바텀시트 상단 16px',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center px-4 select-none">
-          <div className="w-[170px] bg-white rounded-[14px] shadow-lg border border-[#E5E8EB] p-3 space-y-2 text-center">
+          <div className="w-[170px] bg-white rounded-[16px] shadow-lg border border-[#E5E8EB] p-3 space-y-2 text-center">
             <div className="text-[12px] font-bold text-[#191F28] leading-tight">신청을 취소하시겠습니까?</div>
-            <div className="text-[9px] text-[#8B95A1] leading-tight">작성 중인 정보가 사라집니다.</div>
+            <div className="text-[9px] text-[#8B95A1] leading-tight">작성 중인 정보가 저장되지 않습니다.</div>
             <div className="flex gap-1.5 pt-0.5">
-              <div className="flex-1 py-1.5 rounded-[8px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
-              <div className="flex-1 py-1.5 rounded-[8px] bg-[#1219F7] text-[10px] font-bold text-white">확인</div>
+              <div className="flex-1 py-1.5 rounded-[10px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
+              <div className="flex-1 py-1.5 rounded-[10px] bg-[#1219F7] text-[10px] font-bold text-white">확인</div>
             </div>
           </div>
         </div>
@@ -402,12 +402,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       category: '핵심 컴포넌트',
       badge: '높이 56px / r:6px',
       icon: Sliders,
-      desc: '높이 56px · Corner Radius 6px · 18px 텍스트 · 에러 #F34766',
+      desc: '높이 56px · Corner Radius 6px · 18px 텍스트 · 1px stroke',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[6px] border-2 border-[#1219F7] px-3.5 flex items-center justify-between text-[14px] shadow-xs">
-            <span className="text-[#191F28] font-medium">견적 금액 입력</span>
-            <Search className="w-4 h-4 text-[#1219F7] shrink-0" />
+          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[6px] border border-[#D7DBE2] px-3.5 flex items-center justify-between text-[15px] shadow-xs">
+            <span className="text-[#191F28] font-bold">견적 금액 입력 (18px)</span>
+            <Search className="w-4 h-4 text-[#888888] shrink-0" />
           </div>
         </div>
       ),
@@ -420,10 +420,10 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       category: '핵심 컴포넌트',
       badge: '너비 312px / r:6px',
       icon: Layers,
-      desc: '너비 312px · B2B 직각 Radius 6px (16px 금지) · 56px 액션',
+      desc: '너비 312px · B2B 직각 Radius 6px (16px 금지) · 51px/62px 액션',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center px-4 select-none">
-          <div className="w-[170px] bg-white rounded-[6px] shadow-lg border border-[#E5E8EB] p-3 space-y-2 text-center">
+          <div className="w-[170px] bg-white rounded-[6px] shadow-lg border border-[#D7DBE2] p-3 space-y-2 text-center">
             <div className="text-[12px] font-bold text-[#191F28] leading-tight">견적을 제출하시겠습니까?</div>
             <div className="text-[9px] text-[#8B95A1] leading-tight">제출 후 금액 수정이 불가합니다.</div>
             <div className="flex gap-1.5 pt-0.5">

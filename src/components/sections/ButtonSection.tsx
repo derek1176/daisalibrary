@@ -4,7 +4,6 @@ import { Smartphone, Monitor, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [btnState, setBtnState] = useState<ButtonState>('normal');
   const [activeChip, setActiveChip] = useState('가정이사 (포장)');
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
@@ -31,49 +30,45 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       </div>
 
       {/* State & Device Control Bar */}
-      <div className={`border rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-      }`}>
+      <div className="border border-[#E5E8EB] rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white shadow-sm">
         {/* Device Switcher */}
-        <div className={`flex items-center gap-1.5 p-1 rounded-[10px] border ${
-          isDark ? 'bg-[#121620] border-[#2B2A34]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
-        }`}>
+        <div className="flex items-center gap-1.5 p-1 rounded-[10px] border bg-[#F2F4F6] border-[#E5E8EB]/50">
           <button
             type="button"
             onClick={() => setDeviceView('mobile')}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all select-none ${
               deviceView === 'mobile'
-                ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                ? 'bg-white text-[#191F28] shadow-2xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
-            <Smartphone className="w-3.5 h-3.5" /> {isDark ? '모바일 (312px)' : '모바일 (312px)'}
+            <Smartphone className="w-3.5 h-3.5" /> 모바일 (312px)
           </button>
           <button
             type="button"
             onClick={() => setDeviceView('pc')}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+            className={`px-3.5 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all select-none ${
               deviceView === 'pc'
-                ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                ? 'bg-white text-[#191F28] shadow-2xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
-            <Monitor className="w-3.5 h-3.5" /> {isDark ? '웹/데스크톱 (627px)' : '웹/PC (640px)'}
+            <Monitor className="w-3.5 h-3.5" /> {isPartner ? '웹/데스크톱 (627px)' : '웹/PC (640px)'}
           </button>
         </div>
 
         {/* State Toggle Buttons */}
         <div className="flex items-center gap-1.5">
-          <span className={`text-[12px] font-medium mr-1 ${isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'}`}>상태:</span>
+          <span className="text-[12px] font-medium mr-1 text-[#8B95A1]">상태:</span>
           {(['normal', 'loading', 'disable', 'error'] as ButtonState[]).map((st) => (
             <button
               key={st}
               type="button"
               onClick={() => setBtnState(st)}
-              className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all select-none ${
                 btnState === st
-                  ? isDark ? 'bg-[#595EF9] text-white shadow-xs' : 'bg-[#1219F7] text-white shadow-2xs'
-                  : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968] hover:bg-[#E5E8EB]'
+                  ? 'bg-[#1219F7] text-white shadow-2xs'
+                  : 'bg-[#F2F4F6] text-[#4E5968] hover:bg-[#E5E8EB]'
               }`}
             >
               {st}
@@ -83,9 +78,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       </div>
 
       {/* Button Showcase Card */}
-      <div className={`border rounded-[20px] p-6 md:p-8 space-y-8 ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-      }`}>
+      <div className="border border-[#E5E8EB] rounded-[20px] p-6 md:p-8 space-y-8 bg-white shadow-sm">
         {/* 1. Main Button Section */}
         <div className="space-y-4">
           <div className="flex items-center justify-between border-b pb-3 border-[#F2F4F6]">
@@ -131,7 +124,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
         {/* 2. Secondary Action Buttons */}
         <div className="space-y-4">
-          <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
+          <div className="flex items-center justify-between border-b pb-3 border-[#F2F4F6]">
             <div>
               <h3 className="text-[17px] font-extrabold text-[#191F28]">
                 {isPartner ? '2. 파트너 서브 액션 버튼 (Secondary Action 51px)' : '2. 모달 버튼 (Modal Buttons)'}
@@ -182,20 +175,16 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
         {/* 3. Filter Chips */}
         <div className="space-y-4">
-          <div className={`border-b pb-3 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
-            <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+          <div className="border-b pb-3 border-[#F2F4F6]">
+            <h3 className="text-[17px] font-extrabold text-[#191F28]">
               3. 필터 및 선택 칩 (Filter Chips)
             </h3>
-            <p className={`text-[13px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              {isDark
-                ? 'Radius 4px / 6px · 폰트 16px · 활성 시 키컬러 테두리 및 배경 하이라이트'
-                : '높이 38px · Corner Radius 10px · 패딩 14px · 14px Medium'}
+            <p className="text-[13px] mt-0.5 text-[#6B7684]">
+              고객향 · 파트너향 공통: 라운드 규격(6px/10px)에 구애받지 않고 전사 공통 <strong>완전한 라운드 형태 (rounded-full / Pill)</strong>를 적용합니다.
             </p>
           </div>
 
-          <div className={`rounded-[16px] p-6 flex flex-wrap gap-2.5 border ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
-          }`}>
+          <div className="rounded-[16px] p-6 flex flex-wrap gap-2.5 border bg-[#F9FAFB] border-[#E5E8EB]">
             {chips.map((chip) => {
               const active = activeChip === chip;
               return (
@@ -203,14 +192,10 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   key={chip}
                   type="button"
                   onClick={() => setActiveChip(chip)}
-                  className={`px-4 py-2 rounded-[6px] text-[14px] font-bold transition-all ${
+                  className={`h-[36px] px-4 rounded-full text-[14px] font-semibold transition-all border ${
                     active
-                      ? isDark
-                        ? 'bg-[#595EF9]/20 text-[#A5A8FC] border border-[#595EF9]'
-                        : 'bg-[#1219F7] text-white'
-                      : isDark
-                      ? 'bg-[#292931] text-[#CBD5E1] border border-[#2B2A34] hover:border-[#2B2A34]'
-                      : 'bg-white text-[#4E5968] border border-[#E5E8EB] hover:bg-[#F2F4F6]'
+                      ? 'bg-[#1219F7] text-white border-[#1219F7] shadow-xs'
+                      : 'bg-white text-[#4E5968] border-[#D7DBE2] hover:border-[#1219F7] hover:text-[#191F28]'
                   }`}
                 >
                   {chip}
