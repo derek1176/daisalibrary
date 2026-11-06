@@ -30,25 +30,15 @@ interface ComponentCard {
 }
 
 export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
-  // First-visit detection for living staggered fill-up animation (Only runs once per browser session)
-  const [isFirstVisit, setIsFirstVisit] = useState(false);
-  const [loadingShimmer, setLoadingShimmer] = useState(false);
+  // Staggered living fill-up motion (Triggers on every page load/refresh)
+  const [loadingShimmer, setLoadingShimmer] = useState(true);
 
   useEffect(() => {
-    try {
-      const hasAnimated = sessionStorage.getItem('daisa_intro_animated');
-      if (!hasAnimated) {
-        setIsFirstVisit(true);
-        setLoadingShimmer(true);
-        const timer = setTimeout(() => {
-          setLoadingShimmer(false);
-          sessionStorage.setItem('daisa_intro_animated', 'true');
-        }, 350);
-        return () => clearTimeout(timer);
-      }
-    } catch {
-      // Fallback if sessionStorage is blocked
-    }
+    // Quick, snappy shimmer before living fill-up stagger
+    const timer = setTimeout(() => {
+      setLoadingShimmer(false);
+    }, 180);
+    return () => clearTimeout(timer);
   }, []);
 
   const cards: ComponentCard[] = [
@@ -250,7 +240,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
   return (
     <div className="space-y-8">
       {/* Intro Header: Toss Style */}
-      <div className={`space-y-2 ${isFirstVisit ? 'animate-fadeIn' : ''}`}>
+      <div className="space-y-2 animate-fadeIn">
         <h1 className="text-[32px] md:text-[38px] font-extrabold text-[#191F28] tracking-tight leading-tight">
           컴포넌트 모아보기
         </h1>
@@ -266,7 +256,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
           {Array.from({ length: 9 }).map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden p-5 space-y-4 animate-pulse"
+              className="bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden p-5 space-y-4 animate-pulse shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
             >
               <div className="h-[140px] bg-[#F2F4F6] rounded-[16px]" />
               <div className="h-4 bg-[#F2F4F6] rounded w-1/3" />
@@ -283,10 +273,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab }) => {
               <div
                 key={card.id}
                 onClick={() => onSelectTab(card.id)}
-                style={isFirstVisit ? { animationDelay: `${idx * 55}ms` } : undefined}
-                className={`group bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden hover:border-[#1219F7]/40 hover:shadow-[0_12px_32px_rgba(18,25,247,0.08)] transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04)] ${
-                  isFirstVisit ? 'animate-fillUp' : ''
-                }`}
+                style={{ animationDelay: `${idx * 45}ms` }}
+                className="group bg-white rounded-[24px] border border-[#E5E8EB] overflow-hidden hover:border-[#1219F7]/40 hover:shadow-[0_12px_32px_rgba(18,25,247,0.08)] transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-[0_2px_12px_rgba(0,0,0,0.04)] animate-fillUp"
               >
                 {/* Preview Window Area */}
                 <div className="h-[160px] bg-[#F9FAFB] border-b border-[#F2F4F6] flex items-center justify-center p-4 relative group-hover:bg-[#F4F6F9] transition-colors">
