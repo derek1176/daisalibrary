@@ -15,10 +15,7 @@ import {
   Menu,
   X,
   Search,
-  ChevronRight,
-  Layers,
-  FolderDown,
-  Building2
+  ChevronRight
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -34,23 +31,24 @@ export const App: React.FC = () => {
   };
 
   const navItems = [
-    { id: 'home', label: '컴포넌트 모아보기', category: '대시보드' },
-    { id: 'archive', label: '자료실', category: '자료실' },
-    { id: 'colors', label: '색상 토큰', category: '기초 규격' },
-    { id: 'typography', label: '타이포그래피', category: '기초 규격' },
-    { id: 'icons', label: '아이콘', category: '기초 규격' },
-    { id: 'spacing-radius', label: '여백 및 라운드', category: '기초 규격' },
-    { id: 'layout', label: '작업 규격', category: '기초 규격' },
-    { id: 'writing', label: '라이팅 가이드', category: '기초 규격' },
-    { id: 'buttons', label: '버튼', category: '핵심 컴포넌트' },
-    { id: 'inputs', label: '입력창', category: '핵심 컴포넌트' },
-    { id: 'modals', label: '모달 및 바텀시트', category: '핵심 컴포넌트' },
+    { id: 'home', label: 'Components', category: 'Overview', koLabel: '컴포넌트 모아보기' },
+    { id: 'archive', label: 'Resources', category: 'Overview', koLabel: '자료실' },
+    { id: 'colors', label: 'Colors', category: 'Foundations', koLabel: '색상 토큰' },
+    { id: 'typography', label: 'Typography', category: 'Foundations', koLabel: '타이포그래피' },
+    { id: 'icons', label: 'Icons', category: 'Foundations', koLabel: '아이콘' },
+    { id: 'spacing-radius', label: 'Spacing & Radius', category: 'Foundations', koLabel: '여백 및 라운드' },
+    { id: 'layout', label: 'Layout', category: 'Foundations', koLabel: '작업 규격' },
+    { id: 'writing', label: 'Writing Guide', category: 'Foundations', koLabel: '라이팅 가이드' },
+    { id: 'buttons', label: 'Buttons', category: 'Components', koLabel: '버튼' },
+    { id: 'inputs', label: 'Inputs', category: 'Components', koLabel: '입력창' },
+    { id: 'modals', label: 'Dialog & Sheet', category: 'Components', koLabel: '모달 및 바텀시트' },
   ];
 
   // Quick search filter
   const filteredNavItems = navItems.filter(item =>
     item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+    item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.koLabel.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleNavClick = (id: string) => {
@@ -144,7 +142,10 @@ export const App: React.FC = () => {
                     onClick={() => handleNavClick(item.id)}
                     className="w-full px-3.5 py-2.5 rounded-[10px] text-left flex items-center justify-between text-[13px] hover:bg-[#F2F4F6] transition-colors"
                   >
-                    <span className="font-bold text-[#191F28]">{item.label}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-[#191F28]">{item.label}</span>
+                      <span className="text-[11px] text-[#8B95A1]">({item.koLabel})</span>
+                    </div>
                     <span className="text-[11px] px-2 py-0.5 rounded-full font-medium bg-[#F2F4F6] text-[#8B95A1]">
                       {item.category}
                     </span>
@@ -199,10 +200,10 @@ export const App: React.FC = () => {
           }`}
         >
           <div className="space-y-6">
-            {/* Group 1: 전체 개요 & 자료실 */}
+            {/* Group 1: OVERVIEW (아이콘 삭제 및 영어 이름 적용) */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1]">
-                대시보드 & 자료
+              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">
+                Overview
               </div>
               <div className="space-y-0.5">
                 <button
@@ -213,11 +214,7 @@ export const App: React.FC = () => {
                       : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    {/* 통일된 시그니처 블루 아이콘 컬러 text-[#3182F6] */}
-                    <Layers className="w-4 h-4 text-[#3182F6]" />
-                    <span>컴포넌트 모아보기</span>
-                  </div>
+                  <span>Components</span>
                   {activeTab === 'home' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
                 </button>
 
@@ -229,28 +226,25 @@ export const App: React.FC = () => {
                       : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <FolderDown className="w-4 h-4 text-[#3182F6]" />
-                    <span>자료실</span>
-                  </div>
+                  <span>Resources</span>
                   {activeTab === 'archive' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
                 </button>
               </div>
             </div>
 
-            {/* Group 2: 파운데이션 / 기초 규격 */}
+            {/* Group 2: FOUNDATIONS */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1]">
-                기초 규격 & 원칙
+              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">
+                Foundations
               </div>
               <div className="space-y-0.5">
                 {[
-                  { id: 'colors', label: '색상 토큰' },
-                  { id: 'typography', label: '타이포그래피' },
-                  { id: 'icons', label: '아이콘', isShared: true },
-                  { id: 'spacing-radius', label: '여백 및 라운드' },
-                  { id: 'layout', label: '작업 규격' },
-                  { id: 'writing', label: '라이팅 가이드', isShared: true },
+                  { id: 'colors', label: 'Colors' },
+                  { id: 'typography', label: 'Typography' },
+                  { id: 'icons', label: 'Icons', isShared: true },
+                  { id: 'spacing-radius', label: 'Spacing & Radius' },
+                  { id: 'layout', label: 'Layout' },
+                  { id: 'writing', label: 'Writing Guide', isShared: true },
                 ].map((item) => {
                   const isActive = activeTab === item.id;
                   return (
@@ -267,7 +261,7 @@ export const App: React.FC = () => {
                         <span>{item.label}</span>
                         {item.isShared && (
                           <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#E8F3FF] text-[#1B64DA]">
-                            공통
+                            Shared
                           </span>
                         )}
                       </div>
@@ -278,16 +272,16 @@ export const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Group 3: 핵심 컴포넌트 */}
+            {/* Group 3: COMPONENTS */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1]">
-                핵심 컴포넌트
+              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">
+                Components
               </div>
               <div className="space-y-0.5">
                 {[
-                  { id: 'buttons', label: '버튼' },
-                  { id: 'inputs', label: '입력창' },
-                  { id: 'modals', label: '모달 및 바텀시트' },
+                  { id: 'buttons', label: 'Buttons' },
+                  { id: 'inputs', label: 'Inputs' },
+                  { id: 'modals', label: 'Dialog & Sheet' },
                 ].map((item) => {
                   const isActive = activeTab === item.id;
                   return (

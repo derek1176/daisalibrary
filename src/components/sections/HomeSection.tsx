@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ArrowRight,
-  Layers,
-  Sliders,
-  Type,
-  Palette,
-  MousePointerClick,
-  MessageSquare,
-  Maximize2,
-  ShieldCheck,
+  Sparkles,
   Search,
   CheckCircle2,
-  MapPin,
-  Sparkles,
-  AlertTriangle,
-  Smile
+  MapPin
 } from 'lucide-react';
 
 interface HomeSectionProps {
@@ -22,14 +11,12 @@ interface HomeSectionProps {
   mode?: 'customer' | 'partner';
 }
 
-interface ComponentCard {
+interface ComponentItem {
   id: string;
-  title: string;
-  category: string;
-  desc: string;
-  badge?: string;
-  icon: React.ComponentType<{ className?: string }>;
-  renderPreview: () => React.ReactNode;
+  category: 'Foundations' | 'Components';
+  name: string;
+  subName: string;
+  renderThumbnail: () => React.ReactNode;
 }
 
 export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'customer' }) => {
@@ -39,484 +26,431 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoadingShimmer(false);
-    }, 180);
+    }, 120);
     return () => clearTimeout(timer);
   }, [mode]);
 
-  const customerCards: ComponentCard[] = [
-    // 1. 색상 토큰
+  // ============================================================
+  // 1. Color Tokens Thumbnail
+  // ============================================================
+  const renderColorThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <div className="relative flex items-center justify-center">
+        {/* Soft background ambient glow */}
+        <div className="absolute w-28 h-28 rounded-full bg-[#1219F7]/8 blur-xl pointer-events-none" />
+        
+        {/* Overlapping smooth color discs */}
+        <div className="flex items-center -space-x-3.5">
+          <div
+            className={`w-14 h-14 ${
+              isPartner ? 'rounded-[8px]' : 'rounded-2xl'
+            } bg-[#1219F7] shadow-lg shadow-[#1219F7]/25 flex items-center justify-center transform -rotate-6 transition-transform duration-300 group-hover:-translate-y-1.5`}
+          >
+            <span className="text-white/90 text-[10px] font-extrabold tracking-wider">#12</span>
+          </div>
+
+          <div
+            className={`w-16 h-16 ${
+              isPartner ? 'rounded-[8px]' : 'rounded-2xl'
+            } bg-[#595EF9] shadow-lg shadow-[#595EF9]/25 flex items-center justify-center z-10 transition-transform duration-300 group-hover:-translate-y-2.5`}
+          >
+            <div className="w-5 h-5 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-white/80" />
+            </div>
+          </div>
+
+          <div
+            className={`w-14 h-14 ${
+              isPartner ? 'rounded-[8px]' : 'rounded-2xl'
+            } ${
+              isPartner ? 'bg-[#F7D915]' : 'bg-[#F34766]'
+            } shadow-lg ${
+              isPartner ? 'shadow-[#F7D915]/25' : 'shadow-[#F34766]/25'
+            } flex items-center justify-center transform rotate-6 transition-transform duration-300 group-hover:-translate-y-1.5`}
+          >
+            <span
+              className={`text-[10px] font-extrabold tracking-wider ${
+                isPartner ? 'text-[#191F28]' : 'text-white/90'
+              }`}
+            >
+              {isPartner ? 'Sub' : 'Err'}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 2. Typography Thumbnail
+  // ============================================================
+  const renderTypographyThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <div className="flex flex-col items-center justify-center gap-2.5">
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-[46px] font-black text-[#191F28] leading-none tracking-tight">
+            Aa
+          </span>
+          <span
+            className={`text-[11px] font-bold px-1.5 py-0.5 ${
+              isPartner
+                ? 'rounded-[4px] bg-[#E8F3FF] text-[#1219F7]'
+                : 'rounded-full bg-[#F2F4F6] text-[#6B7684]'
+            }`}
+          >
+            {isPartner ? '18px' : 'Pretendard'}
+          </span>
+        </div>
+        <div className="w-28 space-y-1.5">
+          <div className="h-1.5 w-full bg-[#191F28]/15 rounded-full" />
+          <div className="h-1.5 w-3/4 bg-[#1219F7]/30 rounded-full mx-auto" />
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 3. Spacing & Radius Thumbnail
+  // ============================================================
+  const renderSpacingRadiusThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <div className="relative flex items-center justify-center">
+        {/* Outer dashed container */}
+        <div className="w-36 h-24 rounded-[16px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-2 bg-white/40">
+          <div
+            className={`w-24 h-16 bg-white border-2 border-[#1219F7] ${
+              isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+            } shadow-sm flex flex-col items-center justify-center gap-0.5 transition-transform duration-300 group-hover:scale-105`}
+          >
+            <span className="text-[12px] font-extrabold text-[#1219F7]">
+              r: {isPartner ? '6px' : '10px'}
+            </span>
+            <span className="text-[9px] font-semibold text-[#8B95A1]">
+              {isPartner ? 'Partner Rule' : 'Standard'}
+            </span>
+          </div>
+        </div>
+        {/* Soft spacing badge */}
+        <div className="absolute -top-2 right-1 text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7] border border-[#1219F7]/20 shadow-2xs">
+          8 · 16px
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 4. Layout Thumbnail
+  // ============================================================
+  const renderLayoutThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <div className="flex items-center gap-3">
+        {/* Mobile Screen 360 */}
+        <div
+          className={`w-14 h-22 bg-white border-2 border-[#191F28] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+          } p-1.5 flex flex-col justify-between shadow-xs transition-transform duration-300 group-hover:-translate-y-1`}
+        >
+          <div className="w-full flex justify-between items-center text-[7px] font-bold text-[#8B95A1]">
+            <span>360</span>
+          </div>
+          <div className="w-full h-1 bg-[#1219F7] rounded-full" />
+        </div>
+        {/* Desktop Container 640/627 inside 1200 */}
+        <div
+          className={`w-28 h-22 bg-white border border-[#D1D6DB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+          } p-1.5 flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:-translate-y-1`}
+        >
+          <div
+            className={`w-16 h-full bg-[#E8F3FF] border border-[#1219F7]/30 ${
+              isPartner ? 'rounded-[4px]' : 'rounded-[6px]'
+            } p-1 flex flex-col justify-between`}
+          >
+            <span className="text-[8px] font-black text-[#1219F7] text-center">
+              {isPartner ? '627px' : '640px'}
+            </span>
+            <div className="w-full h-1 bg-[#1219F7] rounded-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 5. Writing Guide Thumbnail
+  // ============================================================
+  const renderWritingThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <div className="flex flex-col gap-2 w-44">
+        <div className="self-start bg-[#E8F3FF] border border-[#1219F7]/20 px-3 py-1.5 rounded-2xl rounded-tl-xs text-[11px] font-bold text-[#1219F7] shadow-xs flex items-center gap-1.5 transition-transform duration-300 group-hover:scale-102">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />
+          <span>출발지를 검색해 주세요</span>
+        </div>
+        <div className="self-end bg-white border border-[#E5E8EB] px-3 py-1.5 rounded-2xl rounded-tr-xs text-[11px] font-medium text-[#4E5968] shadow-xs transition-transform duration-300 group-hover:scale-102">
+          신청하기
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 6. Icons Thumbnail
+  // ============================================================
+  const renderIconsThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <div className="grid grid-cols-2 gap-2">
+        <div
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-xl'
+          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+        >
+          <Sparkles className="w-5 h-5 text-[#1219F7]" />
+        </div>
+        <div
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-xl'
+          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+        >
+          <Search className="w-5 h-5 text-[#3182F6]" />
+        </div>
+        <div
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-xl'
+          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+        >
+          <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+        </div>
+        <div
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-xl'
+          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+        >
+          <MapPin className="w-5 h-5 text-[#F34766]" />
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 7. Buttons Thumbnail
+  // ============================================================
+  const renderButtonsThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none px-4">
+      <div className="w-48 flex flex-col gap-2">
+        <div
+          className={`w-full h-11 bg-[#1219F7] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+          } flex items-center justify-center text-white text-[13px] font-bold shadow-md shadow-[#1219F7]/20 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#1219F7]/30 group-hover:scale-[1.02]`}
+        >
+          <span>{isPartner ? '오더 수락하기' : '견적 신청하기'}</span>
+        </div>
+        <div
+          className={`w-full h-8 bg-white border border-[#D7DBE2] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
+          } flex items-center justify-center text-[#4E5968] text-[11px] font-semibold`}
+        >
+          보조 버튼
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 8. Inputs Thumbnail
+  // ============================================================
+  const renderInputsThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none px-4">
+      <div className="w-48 flex flex-col gap-1.5">
+        <div className="flex justify-between items-center text-[10px] font-bold text-[#6B7684]">
+          <span>{isPartner ? '금액' : '출발지'}</span>
+        </div>
+        <div
+          className={`w-full h-11 bg-white border-2 border-[#1219F7] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+          } px-3 flex items-center justify-between shadow-xs transition-all duration-300 group-hover:scale-[1.02]`}
+        >
+          <div className="flex items-center gap-1.5">
+            <span className="text-[12px] font-medium text-[#191F28]">
+              {isPartner ? '견적 금액 입력' : '강남구 역삼동'}
+            </span>
+            <span className="w-0.5 h-3.5 bg-[#1219F7] animate-pulse" />
+          </div>
+          <Search className="w-4 h-4 text-[#8B95A1]" />
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // 9. Modals Thumbnail
+  // ============================================================
+  const renderModalsThumbnail = () => (
+    <div className="w-full h-full flex items-center justify-center select-none px-4">
+      <div className="relative">
+        <div
+          className={`w-40 bg-white ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[16px]'
+          } border border-[#E5E8EB] p-3.5 shadow-lg shadow-black/5 space-y-2 text-center transition-transform duration-300 group-hover:scale-105`}
+        >
+          <div className="text-[11px] font-bold text-[#191F28] leading-tight">
+            {isPartner ? '작업을 승인할까요?' : '신청을 취소할까요?'}
+          </div>
+          <div className="flex gap-1.5 pt-0.5">
+            <div
+              className={`flex-1 py-1 ${
+                isPartner ? 'rounded-[4px]' : 'rounded-[8px]'
+              } bg-[#F2F4F6] text-[9px] font-bold text-[#4E5968]`}
+            >
+              취소
+            </div>
+            <div
+              className={`flex-1 py-1 ${
+                isPartner ? 'rounded-[4px]' : 'rounded-[8px]'
+              } bg-[#1219F7] text-[9px] font-bold text-white`}
+            >
+              확인
+            </div>
+          </div>
+        </div>
+        {/* Soft bottom sheet indicator */}
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-[#D1D6DB] rounded-full" />
+      </div>
+    </div>
+  );
+
+  // ============================================================
+  // Component Items Data (Foundations + Components)
+  // ============================================================
+  const componentItems: ComponentItem[] = [
+    // Foundations
     {
       id: 'colors',
-      title: '색상 토큰 (Color Tokens)',
-      category: '기초 규격',
-      icon: Palette,
-      desc: '키컬러 #1219F7 · 에러 #F34766 · 12개 시맨틱 토큰',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-3 px-6 select-none">
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-full bg-[#1219F7] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#1219F7</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-full bg-[#595EF9] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#595EF9</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-full bg-[#F34766] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#F34766</span>
-          </div>
-        </div>
-      ),
+      category: 'Foundations',
+      name: 'Colors',
+      subName: isPartner ? '색상 토큰 · 파트너 키컬러 & 서브' : '색상 토큰 · 12개 시맨틱 컬러',
+      renderThumbnail: renderColorThumbnail,
     },
-
-    // 2. 타이포그래피
     {
       id: 'typography',
-      title: '타이포그래피 (Typography)',
-      category: '기초 규격',
-      badge: 'Pretendard',
-      icon: Type,
-      desc: 'Pretendard 단일 서체 · 짝수 6종 룰 (10/11px 배지 허용)',
-      renderPreview: () => (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-1 select-none">
-          <div className="text-[38px] font-extrabold text-[#191F28] leading-none tracking-tight">
-            다Aa
-          </div>
-          <div className="text-[11px] font-bold text-[#8B95A1] mt-1 tracking-wide">
-            Pretendard
-          </div>
-        </div>
-      ),
+      category: 'Foundations',
+      name: 'Typography',
+      subName: isPartner ? '타이포그래피 · 기본 본문 18px' : '타이포그래피 · Pretendard 6종 룰',
+      renderThumbnail: renderTypographyThumbnail,
     },
-
-    // 3. 여백 및 라운드
     {
       id: 'spacing-radius',
-      title: '여백 및 라운드 (Spacing & Radius)',
-      category: '기초 규격',
-      icon: ShieldCheck,
-      desc: '기본 radius 10px · 카드 규격 · 8px / 16px 핵심 여백 체계',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-3 px-4 select-none">
-          <div className="w-[96px] h-[64px] bg-white border-2 border-[#1219F7] rounded-[10px] flex flex-col items-center justify-center shadow-xs">
-            <span className="text-[11px] font-extrabold text-[#1219F7]">r: 10px</span>
-            <span className="text-[9px] font-bold text-[#8B95A1]">기본 표준</span>
-          </div>
-          <div className="flex flex-col gap-1.5 justify-center">
-            <div className="flex items-center gap-1.5">
-              <span className="w-6 text-[9px] font-bold text-[#8B95A1]">8px</span>
-              <div className="w-10 h-1.5 bg-[#3182F6] rounded-full" />
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-6 text-[9px] font-bold text-[#1219F7]">16px</span>
-              <div className="w-16 h-1.5 bg-[#1219F7] rounded-full" />
-            </div>
-          </div>
-        </div>
-      ),
+      category: 'Foundations',
+      name: 'Spacing & Radius',
+      subName: isPartner ? '여백 및 라운드 · Radius 6px' : '여백 및 라운드 · Radius 10px',
+      renderThumbnail: renderSpacingRadiusThumbnail,
     },
-
-    // 4. 작업 규격
     {
       id: 'layout',
-      title: '작업 규격 (레이아웃)',
-      category: '기초 규격',
-      badge: '절대 규칙',
-      icon: Maximize2,
-      desc: '모바일 360px (여백 24px) · 웹 1200px (헤더·본문·버튼 640px)',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-4 select-none">
-          <div className="w-[52px] h-[80px] bg-white rounded-[8px] border-2 border-[#191F28] flex flex-col justify-between p-1.5 shadow-2xs">
-            <span className="text-[8px] font-bold text-[#8B95A1] text-center">360</span>
-            <div className="h-1.5 bg-[#1219F7] rounded-[2px] w-full" />
-          </div>
-          <div className="w-[108px] h-[80px] bg-[#FAFBFD] rounded-[8px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-1 relative">
-            <div className="w-[56px] h-full bg-white rounded-[4px] border-2 border-[#1219F7] flex flex-col justify-between p-1.5 shadow-2xs">
-              <span className="text-[8px] font-bold text-[#1219F7] text-center">640</span>
-              <div className="h-1.5 bg-[#1219F7] rounded-[2px] w-full" />
-            </div>
-            <span className="absolute bottom-1 right-1.5 text-[7px] font-bold text-[#8B95A1]">1200</span>
-          </div>
-        </div>
-      ),
+      category: 'Foundations',
+      name: 'Layout',
+      subName: isPartner ? '작업 규격 · 모바일 360 & 627px' : '작업 규격 · 모바일 360 & 640px',
+      renderThumbnail: renderLayoutThumbnail,
     },
-
-    // 5. 라이팅 가이드
     {
       id: 'writing',
-      title: '라이팅 가이드',
-      category: '기초 규격',
-      badge: '노션 6대 표준',
-      icon: MessageSquare,
-      desc: '타이틀/설명/유의사항/버튼(~하기) · 자주 쓰는 단어 7종 표기',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-4">
-          <div className="px-4 py-2.5 rounded-[12px] bg-[#E8F3FF] border border-[#3182F6]/30 text-[13px] font-bold text-[#1B64DA] flex items-center gap-2 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-[#3182F6]" />
-            <span>출발지를 검색해 주세요</span>
-          </div>
-        </div>
-      ),
+      category: 'Foundations',
+      name: 'Writing Guide',
+      subName: '라이팅 가이드 · 6대 작성 원칙',
+      renderThumbnail: renderWritingThumbnail,
     },
-
-    // 6. 아이콘
     {
       id: 'icons',
-      title: '아이콘 (공식 300종)',
-      category: '기초 규격',
-      badge: 'SVG 다운로드',
-      icon: Sparkles,
-      desc: '이사·청소·파트너 150종 + 컨트롤러 150종 · 이모지 금지',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-4 select-none">
-          <div className="w-10 h-10 rounded-[10px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <div className="w-10 h-10 rounded-[10px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
-            <Search className="w-5 h-5" />
-          </div>
-          <div className="w-10 h-10 rounded-[10px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
-            <CheckCircle2 className="w-5 h-5" />
-          </div>
-        </div>
-      ),
+      category: 'Foundations',
+      name: 'Icons',
+      subName: '아이콘 · 공식 심볼 300종',
+      renderThumbnail: renderIconsThumbnail,
     },
 
-    // 7. 버튼
+    // Components
     {
       id: 'buttons',
-      title: '버튼 (Public Button)',
-      category: '핵심 컴포넌트',
-      badge: '56px 인라인 표준',
-      icon: MousePointerClick,
-      desc: '높이 56px · Corner Radius 10px · 본문 인라인 Public CTA',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-full max-w-[210px] h-[48px] bg-[#1219F7] rounded-[10px] flex items-center justify-center text-white text-[14px] font-bold shadow-md hover:bg-[#0E15D4] transition-colors">
-            견적 신청하기
-          </div>
-        </div>
-      ),
+      category: 'Components',
+      name: 'Buttons',
+      subName: isPartner ? '버튼 · 파트너 Public CTA 56px' : '버튼 · 인라인 Public CTA 56px',
+      renderThumbnail: renderButtonsThumbnail,
     },
-
-    // 8. 입력창
     {
       id: 'inputs',
-      title: '입력창 (Input Fields)',
-      category: '핵심 컴포넌트',
-      badge: '높이 56px / r:10px',
-      icon: Sliders,
-      desc: '높이 56px · Corner Radius 10px · 패딩 16px · 1px stroke',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[10px] border border-[#D7DBE2] px-3.5 flex items-center justify-between text-[14px] shadow-xs">
-            <span className="text-[#191F28] font-medium">강남구 역삼동 (16px)</span>
-            <Search className="w-4 h-4 text-[#888888] shrink-0" />
-          </div>
-        </div>
-      ),
+      category: 'Components',
+      name: 'Input Fields',
+      subName: isPartner ? '입력창 · 18px 텍스트 필드' : '입력창 · 56px 텍스트 필드',
+      renderThumbnail: renderInputsThumbnail,
     },
-
-    // 9. 모달 및 바텀시트
     {
       id: 'modals',
-      title: '모달 및 바텀시트 (Radius 16px)',
-      category: '핵심 컴포넌트',
-      badge: '312px / r:16px',
-      icon: Layers,
-      desc: '얼럿/컨펌 모달 (너비 312px · Radius 16px) · 바텀시트 상단 16px',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center px-4 select-none">
-          <div className="w-[170px] bg-white rounded-[16px] shadow-lg border border-[#E5E8EB] p-3 space-y-2 text-center">
-            <div className="text-[12px] font-bold text-[#191F28] leading-tight">신청을 취소하시겠습니까?</div>
-            <div className="text-[9px] text-[#8B95A1] leading-tight">작성 중인 정보가 저장되지 않습니다.</div>
-            <div className="flex gap-1.5 pt-0.5">
-              <div className="flex-1 py-1.5 rounded-[10px] bg-[#F2F4F6] text-[10px] font-bold text-[#4E5968]">취소</div>
-              <div className="flex-1 py-1.5 rounded-[10px] bg-[#1219F7] text-[10px] font-bold text-white">확인</div>
-            </div>
-          </div>
-        </div>
-      ),
+      category: 'Components',
+      name: 'Dialog & Sheet',
+      subName: isPartner ? '모달 및 바텀시트 · Radius 6px' : '모달 및 바텀시트 · 얼럿 & 컨펌',
+      renderThumbnail: renderModalsThumbnail,
     },
   ];
-
-  const partnerCards: ComponentCard[] = [
-    // 1. 색상 토큰
-    {
-      id: 'colors',
-      title: '색상 토큰 (Partner Colors)',
-      category: '기초 규격',
-      icon: Palette,
-      desc: '키컬러 #1219F7 · 보조 #595EF9 · 서브 #F7D915, #F34766',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-3 px-6 select-none">
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#1219F7] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#1219F7</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#595EF9] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#595EF9</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#F7D915] shadow-sm border border-[#E5E8EB]" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#F7D915</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-10 h-10 rounded-[6px] bg-[#F34766] shadow-sm" />
-            <span className="text-[10px] font-bold text-[#8B95A1]">#F34766</span>
-          </div>
-        </div>
-      ),
-    },
-
-    // 2. 타이포그래피
-    {
-      id: 'typography',
-      title: '타이포그래피 (18px 기본 폰트)',
-      category: '기초 규격',
-      badge: '기본 18px / 12px 금지',
-      icon: Type,
-      desc: '현장 기사님 가독성 특화 · 기본 Body 1 18px · 최소 14px 캡션',
-      renderPreview: () => (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-1.5 select-none">
-          <div className="text-[34px] font-black text-[#191F28] leading-none tracking-tight">
-            파트너 18px
-          </div>
-          <div className="text-[11px] font-bold text-[#1219F7] tracking-wide bg-[#E8F3FF] px-2.5 py-0.5 rounded-[4px] border border-[#3182F6]/30">
-            기본 본문 18px / 12px 이하 사용 엄격 금지
-          </div>
-        </div>
-      ),
-    },
-
-    // 3. 여백 및 라운드
-    {
-      id: 'spacing-radius',
-      title: '여백 및 라운드 (파트너 직각 Radius 6px)',
-      category: '기초 규격',
-      badge: '★ Radius 6px 표준',
-      icon: ShieldCheck,
-      desc: '파트너 전사 표준 Radius 6px · 서브 4px · 고객향 10px/16px 금지',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-3 px-4 select-none">
-          <div className="w-[96px] h-[64px] bg-white border-2 border-[#1219F7] rounded-[6px] flex flex-col items-center justify-center shadow-xs">
-            <span className="text-[11px] font-extrabold text-[#1219F7]">r: 6px</span>
-            <span className="text-[9px] font-bold text-[#8B95A1]">파트너 전사 표준</span>
-          </div>
-          <div className="w-[84px] h-[64px] bg-white border border-[#D7DBE2] rounded-[4px] flex flex-col items-center justify-center shadow-xs">
-            <span className="text-[11px] font-bold text-[#191F28]">r: 4px</span>
-            <span className="text-[9px] text-[#8B95A1]">보조 버튼/태그</span>
-          </div>
-        </div>
-      ),
-    },
-
-    // 4. 작업 규격
-    {
-      id: 'layout',
-      title: '작업 규격 (모바일 360 / 웹 1200)',
-      category: '기초 규격',
-      badge: '오더 컨테이너 627px',
-      icon: Maximize2,
-      desc: '모바일 360px (콘텐츠 312px) · 웹 1200px (오더 컨테이너 627px r:6)',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-4 select-none">
-          <div className="w-[52px] h-[80px] bg-white rounded-[6px] border-2 border-[#1219F7] flex flex-col justify-between p-1.5 shadow-2xs">
-            <span className="text-[8px] font-bold text-[#8B95A1] text-center">312</span>
-            <div className="h-1.5 bg-[#1219F7] rounded-[2px] w-full" />
-          </div>
-          <div className="w-[108px] h-[80px] bg-[#FAFBFD] rounded-[6px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-1 relative">
-            <div className="w-[58px] h-full bg-white rounded-[6px] border-2 border-[#1219F7] flex flex-col justify-between p-1.5 shadow-2xs">
-              <span className="text-[8px] font-bold text-[#1219F7] text-center">627</span>
-              <div className="h-1.5 bg-[#1219F7] rounded-[2px] w-full" />
-            </div>
-            <span className="absolute bottom-1 right-1.5 text-[7px] font-bold text-[#8B95A1]">1200</span>
-          </div>
-        </div>
-      ),
-    },
-
-    // 5. 라이팅 가이드
-    {
-      id: 'writing',
-      title: '라이팅 가이드 (공통 표준)',
-      category: '기초 규격',
-      badge: '노션 6대 표준',
-      icon: MessageSquare,
-      desc: '타이틀/설명/유의사항/버튼(~하기) · 자주 쓰는 단어 7종 표기',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-4">
-          <div className="px-4 py-2.5 rounded-[6px] bg-[#E8F3FF] border border-[#3182F6]/30 text-[13px] font-bold text-[#1B64DA] flex items-center gap-2 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-[#3182F6]" />
-            <span>출발지를 검색해 주세요</span>
-          </div>
-        </div>
-      ),
-    },
-
-    // 6. 아이콘
-    {
-      id: 'icons',
-      title: '아이콘 (공식 300종)',
-      category: '기초 규격',
-      badge: 'SVG 다운로드',
-      icon: Sparkles,
-      desc: '이사·청소·파트너 150종 + 컨트롤러 150종 · 이모지 금지',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center gap-4 select-none">
-          <div className="w-10 h-10 rounded-[6px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <div className="w-10 h-10 rounded-[6px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
-            <Search className="w-5 h-5" />
-          </div>
-          <div className="w-10 h-10 rounded-[6px] bg-[#F2F4F6] flex items-center justify-center text-[#1219F7] shadow-xs">
-            <CheckCircle2 className="w-5 h-5" />
-          </div>
-        </div>
-      ),
-    },
-
-    // 7. 버튼
-    {
-      id: 'buttons',
-      title: '버튼 (파트너 Public CTA)',
-      category: '핵심 컴포넌트',
-      badge: '높이 56px / r:6px',
-      icon: MousePointerClick,
-      desc: '높이 56px · Corner Radius 6px · 18px Bold 서체 · 파트너 표준',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-full max-w-[210px] h-[48px] bg-[#1219F7] rounded-[6px] flex items-center justify-center text-white text-[15px] font-bold shadow-md hover:bg-[#0E15D4] transition-colors">
-            오더 수락하기
-          </div>
-        </div>
-      ),
-    },
-
-    // 8. 입력창
-    {
-      id: 'inputs',
-      title: '입력창 (Partner Inputs)',
-      category: '핵심 컴포넌트',
-      badge: '높이 56px / r:6px',
-      icon: Sliders,
-      desc: '높이 56px · Corner Radius 6px · 18px 텍스트 · 1px stroke',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center select-none px-6">
-          <div className="w-full max-w-[210px] h-[48px] bg-white rounded-[6px] border border-[#D7DBE2] px-3.5 flex items-center justify-between text-[15px] shadow-xs">
-            <span className="text-[#191F28] font-bold">견적 금액 입력 (18px)</span>
-            <Search className="w-4 h-4 text-[#888888] shrink-0" />
-          </div>
-        </div>
-      ),
-    },
-
-    // 9. 모달 및 바텀시트
-    {
-      id: 'modals',
-      title: '모달 및 바텀시트 (Radius 6px)',
-      category: '핵심 컴포넌트',
-      badge: '너비 312px / r:6px',
-      icon: Layers,
-      desc: '너비 312px · 파트너 직각 Radius 6px (16px 금지) · 51px/56px 액션',
-      renderPreview: () => (
-        <div className="w-full h-full flex items-center justify-center px-4 select-none">
-          <div className="w-[170px] bg-white rounded-[6px] shadow-lg border border-[#D7DBE2] p-3 space-y-2 text-center">
-            <div className="text-[12px] font-bold text-[#191F28] leading-tight">작성 중인 답변이 지워집니다</div>
-            <div className="text-[9px] text-[#8B95A1] leading-tight">새로운 답변이 생성됩니다.</div>
-            <div className="flex gap-1.5 pt-0.5">
-              <div className="flex-1 py-1.5 rounded-[4px] bg-[#F2F4F6] text-[10px] font-bold text-[#191F28]">취소</div>
-              <div className="flex-1 py-1.5 rounded-[4px] bg-[#1219F7] text-[10px] font-bold text-white">제출</div>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-  ];
-
-  const cards = isPartner ? partnerCards : customerCards;
 
   return (
     <div className="space-y-8">
       {/* Intro Header */}
       <div className="space-y-2 animate-fadeIn">
         <h1 className="text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight text-[#191F28]">
-          컴포넌트 모아보기
+          Components
         </h1>
-        <p className="text-[15px] md:text-[16px] max-w-2xl leading-relaxed text-[#4E5968]">
-          {isPartner
-            ? '다이사 파트너(기사님·시공업체) 서비스에 적용되는 Radius 6px, 기본 18px 타이포그래피, 파트너 전용 버튼/인풋 및 작업 규격을 한눈에 탐색하세요.'
-            : '다이사(da24) 서비스에 적용되는 레이아웃 규격, 버튼, 모달, 입력창, 컬러 및 타이포그래피 토큰을 한눈에 탐색하고 세부 규칙을 확인하세요.'}
+        <p className="text-[15px] md:text-[16px] max-w-2xl leading-relaxed text-[#6B7684]">
+          daisa의 모든 컴포넌트를 둘러보세요.
         </p>
       </div>
 
-      {/* Grid of Component Cards with Staggered Living Fill-up Motion & Soft Shadow */}
+      {/* Grid of Component Cards (Seed Design Style: Thumbnail + Name) */}
       {loadingShimmer ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 9 }).map((_, i) => (
             <div
               key={i}
-              className="rounded-[20px] border border-[#E5E8EB] bg-white overflow-hidden p-5 space-y-4 animate-pulse shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+              className="rounded-[18px] border border-[#E5E8EB] bg-white overflow-hidden p-4 space-y-3 animate-pulse shadow-xs"
             >
-              <div className="h-[140px] rounded-[12px] bg-[#F2F4F6]" />
-              <div className="h-4 rounded w-1/3 bg-[#F2F4F6]" />
+              <div className="h-[180px] rounded-[12px] bg-[#F2F4F6]" />
+              <div className="h-3.5 rounded w-1/4 bg-[#F2F4F6]" />
               <div className="h-5 rounded w-2/3 bg-[#E5E8EB]" />
-              <div className="h-3 rounded w-full bg-[#F2F4F6]" />
+              <div className="h-3 rounded w-1/2 bg-[#F2F4F6]" />
             </div>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cards.map((card, idx) => {
-            const Icon = card.icon;
-            return (
-              <div
-                key={card.id}
-                onClick={() => onSelectTab(card.id)}
-                style={{ animationDelay: `${idx * 45}ms` }}
-                className="group rounded-[20px] border border-[#E5E8EB] bg-white overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between animate-fillUp shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] hover:border-[#3182F6]/50"
-              >
-                {/* Preview Window Area */}
-                <div className="h-[160px] border-b border-[#F2F4F6] bg-[#F9FAFB] group-hover:bg-[#F4F6F9] flex items-center justify-center p-4 relative transition-colors">
-                  {card.badge && (
-                    <span className="absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-[4px] border border-[#E5E8EB] bg-white text-[#191F28] shadow-2xs">
-                      {card.badge}
-                    </span>
-                  )}
-                  {card.renderPreview()}
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {componentItems.map((item, idx) => (
+            <div
+              key={item.id}
+              onClick={() => onSelectTab(item.id)}
+              style={{ animationDelay: `${idx * 40}ms` }}
+              className="group rounded-[18px] border border-[#E5E8EB] bg-white overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-xs hover:shadow-md hover:border-[#1219F7]/40 animate-fillUp"
+            >
+              {/* Thumbnail Window (당근 디자인 시스템 썸네일 스타일) */}
+              <div className="h-[180px] bg-[#F7F8FA] border-b border-[#F0F2F5] flex items-center justify-center p-4 relative group-hover:bg-[#F2F4F8] transition-colors overflow-hidden">
+                {item.renderThumbnail()}
+              </div>
 
-                {/* Card Bottom Content Area */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <div className="w-7 h-7 rounded-[6px] flex items-center justify-center transition-colors bg-[#F2F4F6] text-[#4E5968] group-hover:bg-[#E8F3FF] group-hover:text-[#1219F7]">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <span className="text-[12px] font-bold text-[#8B95A1]">
-                        {card.category}
-                      </span>
-                    </div>
-                    <h3 className="text-[17px] font-extrabold tracking-tight transition-colors text-[#191F28] group-hover:text-[#1219F7]">
-                      {card.title}
-                    </h3>
-                    <p className="text-[13px] mt-1.5 line-clamp-2 leading-relaxed text-[#6B7684]">
-                      {card.desc}
-                    </p>
+              {/* Card Bottom Area (Name + Category + Subtitle) */}
+              <div className="p-5 flex flex-col justify-between flex-1">
+                <div className="space-y-1">
+                  <div className="text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">
+                    {item.category}
                   </div>
-
-                  <div className="pt-4 mt-2 border-t border-[#F2F4F6] flex items-center justify-between text-[13px] font-bold transition-colors text-[#4E5968] group-hover:text-[#1219F7]">
-                    <span>자세히 보기</span>
-                    <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  <h3 className="text-[18px] font-bold tracking-tight text-[#191F28] group-hover:text-[#1219F7] transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-[13px] text-[#6B7684] truncate">
+                    {item.subName}
+                  </p>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
 };
+
+export default HomeSection;
