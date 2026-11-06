@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  // 최초 진입 시 신규 메인(랜딩) 화면 기본 활성화
   const [activeTab, setActiveTab] = useState<string>('landing');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [serviceMode, setServiceMode] = useState<'customer' | 'partner'>('customer');
@@ -33,7 +32,7 @@ export const App: React.FC = () => {
   };
 
   const navItems = [
-    { id: 'landing', label: 'Overview', category: 'Overview', koLabel: '메인 소개' },
+    { id: 'landing', label: 'Main', category: 'Overview', koLabel: '메인 소개' },
     { id: 'home', label: 'Components', category: 'Overview', koLabel: '컴포넌트 모아보기' },
     { id: 'archive', label: 'Resources', category: 'Overview', koLabel: '자료실' },
     { id: 'colors', label: 'Colors', category: 'Foundations', koLabel: '색상 토큰' },
@@ -337,11 +336,7 @@ export const App: React.FC = () => {
         <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
           <div className="max-w-[1040px] mx-auto space-y-16">
             {activeTab === 'landing' && (
-              <MainLandingSection
-                mode={serviceMode}
-                onGoToLibrary={() => handleNavClick('home')}
-                onSelectTab={(id) => handleNavClick(id)}
-              />
+              <MainLandingSection onGoToLibrary={() => handleNavClick('home')} />
             )}
             {activeTab === 'home' && <HomeSection mode={serviceMode} onSelectTab={(id) => handleNavClick(id)} />}
             {activeTab === 'archive' && <ArchiveSection mode={serviceMode} />}
