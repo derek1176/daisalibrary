@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { MainLandingSection } from './components/sections/MainLandingSection';
 import { HomeSection } from './components/sections/HomeSection';
 import { LayoutSection } from './components/sections/LayoutSection';
 import { WritingSection } from './components/sections/WritingSection';
@@ -20,7 +19,7 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('landing');
+  const [activeTab, setActiveTab] = useState<string>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [serviceMode, setServiceMode] = useState<'customer' | 'partner'>('customer');
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,7 +31,6 @@ export const App: React.FC = () => {
   };
 
   const navItems = [
-    { id: 'landing', label: 'Main', category: 'Overview', koLabel: '메인 소개' },
     { id: 'home', label: 'Components', category: 'Overview', koLabel: '컴포넌트 모아보기' },
     { id: 'archive', label: 'Resources', category: 'Overview', koLabel: '자료실' },
     { id: 'colors', label: 'Colors', category: 'Foundations', koLabel: '색상 토큰' },
@@ -89,9 +87,9 @@ export const App: React.FC = () => {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Official Logo (클릭 시 메인 랜딩 화면으로 이동) */}
+          {/* Official Logo */}
           <div
-            onClick={() => handleNavClick('landing')}
+            onClick={() => handleNavClick('home')}
             className="flex items-center gap-3 cursor-pointer select-none group -ml-1"
           >
             <img
@@ -209,18 +207,6 @@ export const App: React.FC = () => {
               </div>
               <div className="space-y-0.5">
                 <button
-                  onClick={() => handleNavClick('landing')}
-                  className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
-                    activeTab === 'landing'
-                      ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
-                      : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
-                  }`}
-                >
-                  <span>Main</span>
-                  {activeTab === 'landing' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
-                </button>
-
-                <button
                   onClick={() => handleNavClick('home')}
                   className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                     activeTab === 'home'
@@ -335,9 +321,6 @@ export const App: React.FC = () => {
         {/* ============================================================ */}
         <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
           <div className="max-w-[1040px] mx-auto space-y-16">
-            {activeTab === 'landing' && (
-              <MainLandingSection onGoToLibrary={() => handleNavClick('home')} />
-            )}
             {activeTab === 'home' && <HomeSection mode={serviceMode} onSelectTab={(id) => handleNavClick(id)} />}
             {activeTab === 'archive' && <ArchiveSection mode={serviceMode} />}
             {activeTab === 'colors' && <ColorSection mode={serviceMode} />}
