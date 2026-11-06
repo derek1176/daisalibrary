@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Download, Copy, Check, FileText, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
 
 const CUSTOMER_MD_CONTENT = `# 다이사(da24) 공식 디자인시스템 명세서 (daisalibrary)
 
@@ -98,20 +97,15 @@ const PARTNER_MD_CONTENT = `# 다이사 파트너 디자인시스템 표준 명�
 
 고객향 디자인시스템이 부드러운 라운드(10px/16px)와 컴팩트한 본문(16px) 중심의 B2C 서비스라면, **파트너향 디자인시스템은 현장 기사님과 업체의 신속하고 정확한 조작성을 보장하는 고신뢰 규격**을 적용합니다.
 
-### 1. 모서리 곡률 (Corner Radius) 절대 기준: 6px
-* **표준 기본값**: 모든 카드 컨테이너, 폼 인풋, 메인 CTA 버튼, 모달 다이얼로그의 Corner Radius는 **\`6px\`** 고정입니다.
-* **서브 컴포넌트 허용값**: 좁은 테이블 인라인 액션 버튼, 작은 태그 칩은 **\`4px\`** 적용 가능.
-* 🚨 **엄격한 금지 규격 (Anti-Pattern)**:
-  * 고객향에서 쓰이는 둥근 라운드(**10px, 16px**) 사용 절대 금지.
-  * 20px 이상의 과도한 곡률(Pill 제외) 및 0px 완전 직각 컨테이너 사용 금지.
-  * 파트너 화면은 **\`Radius 6px\`**을 기본 아이덴티티로 통일하여 단단하고 신뢰감 있는 인터페이스를 유지합니다.
-
----
+### 1. 코너 라운드 (Corner Radius) 절대 기준: 전사 통일 Radius 6px
+* **핵심 원칙**: 파트너 전사 UI의 모든 버튼, 모달, 카드, 인풋은 **\`Corner Radius 6px\` (\`rounded-[6px]\`)**를 강제 적용합니다.
+* **고객향 라운드 금지**: 고객향의 \`10px\`, \`16px\` 곡률은 파트너향에서 절대 사용할 수 없습니다.
+* **유일한 예외**: 필터 칩 및 세그먼트 배지는 완전한 알약 형태인 **\`rounded-full\`**을 적용합니다.
 
 ### 2. 타이포그래피 (Typography) 가독성 절대 기준: 기본 18px (Body 1)
 현장 이동 중이거나 야외 채광 환경에서 모바일 및 태블릿을 주로 다루는 기사님의 특성을 반영하여, **기본 본문 텍스트를 18px로 대폭 상향**합니다.
 
-* **기본 폰트**: Noto Sans KR / Pretendard (Letter Spacing \`-1px / -0.01em\` 통일)
+* **기본 폰트**: Pretendard (Letter Spacing \`-1px / -0.01em\` 통일)
 * **타이포그래피 스케일 7단계**:
   1. **Display (32px)**: Bold / Regular, Line Height 140% (45px) — 환영 메시지, 핵심 성과 지표
   2. **Headline (28px)**: Bold / Regular, Line Height 140% (39px) — 대분류 페이지 메인 헤더
@@ -123,7 +117,7 @@ const PARTNER_MD_CONTENT = `# 다이사 파트너 디자인시스템 표준 명�
 
 ---
 
-### 3. 작업 규격 (Canvas & Content Grid System)
+## 2. 작업 규격 (Canvas & Content Grid System)
 다이사 파트너향은 **모바일 현장 뷰(w360)**와 **PC 관리자 콘솔 뷰(w1200)** 2대 반응형 뷰포트를 표준으로 삼습니다.
 
 * **모바일 (Mobile)**:
@@ -136,171 +130,17 @@ const PARTNER_MD_CONTENT = `# 다이사 파트너 디자인시스템 표준 명�
   * **콘텐츠 카드 단일 안전 너비: \`627px\`** (Order Container 규격)
     * 1200px 캔버스 중앙에 \`627px\` 단일 열 카드를 배치하고 모서리 라운드 **\`6px\`** 적용.
     * 내부 컨테이너 여백: 기본 패딩 **\`24px\`**.
-
----
-
-### 4. 버튼 (Button) 파트너 전용 규격
-* **Primary Bottom CTA (하단 고정 및 페이지 메인 버튼)**:
-  * 크기: 너비 **\`312px\`** (모바일 전폭 안전영역), 높이 **\`62px\`**
-  * Corner Radius: **\`6px\`**
-  * 타이포그래피: **\`18px Bold\`** (White \`#FFFFFF\`, 배경 \`#1219F7\`)
-  * 고객향(56px, Radius 10px, 16px 폰트) 대비 손가락 터치 타겟과 시인성을 대폭 강화.
-* **Secondary / Inline 액션 버튼 (통화하기, 채팅하기, 수정하기 등)**:
-  * 크기: 높이 **\`48px\`** 또는 **\`51px\`**
-  * Corner Radius: **\`4px\`** 또는 **\`6px\`**
-  * 타이포그래피: **\`16px\`** or **\`18px Bold\`**
-* **복사/조회 마이크로 버튼**:
-  * 크기: 높이 **\`26px\`**, 패딩 8px, Corner Radius **\`4px\`**
-
----
-
-### 5. 폼 인풋 (Form Input) 규격
-* **표준 인풋 (Text, Number, Select)**:
-  * 너비: **\`312px\`** (모바일 콘텐츠 전폭)
-  * 높이: **\`56px\`** (패딩 좌우 16px)
-  * Corner Radius: **\`6px\`**
-  * 텍스트 크기: **\`18px\`** (입력값 Text-01 \`#121212\`, Placeholder Text-04 \`#888888\`)
-  * 보더 스타일: 기본 \`#D7DBE2\` (1px solid), 포커스 시 \`#1219F7\` (2px solid), 에러 시 \`#F34766\`
-  * 비활성 상태: 배경 \`#F7F8FA\`, 보더 \`#EBEEF2\`
-
----
-
-## 2. 공식 컬러 토큰 (Color Tokens)
-
-| 토큰명 | 헥스 코드 (HEX) | 용도 및 설명 |
-| :--- | :--- | :--- |
-| **main-01** | \`#1219F7\` | 메인 키컬러 (메인 CTA, 주요 활성 상태, 승인 완료) |
-| **main-02** | \`#595EF9\` | 서브 블루 (보조 인터랙션, 그래픽 강조 포인트) |
-| **sub-01** | \`#F7D915\` | 서브 옐로우 (주의 알림, 배차 추천 하이라이트) |
-| **sub-02** | \`#F34766\` | 서브 레드 / 에러 (취소, 경고 피드백, 반려) |
-| **text-01** | \`#121212\` | 타이틀, 견적 금액, 주문 번호 등 주요 정보 |
-| **text-02** | \`#333333\` | 본문, 폼 입력 텍스트, 고객명, 주소 라벨 |
-| **text-03** | \`#666666\` | 보조 설명, 견적 일시, 부가 정보 안내문 |
-| **text-04** | \`#888888\` | 캡션, 인풋 플레이스홀더, 비활성 텍스트 |
-| **etc-01** | \`#FFFFFF\` | 카드 컨테이너 배경, 인풋 필드 배경 |
-| **etc-02** | \`#D7DBE2\` | 기본 보더 (인풋창, 카드 외곽 테두리 1px) |
-| **etc-03** | \`#EBEEF2\` | 연한 구분선 Divider, 비활성 버튼 배경 |
-| **etc-04** | \`#F7F8FA\` | 비활성 배경, 카드 배경 |
-| **etc-05** | \`#FAFAFA\` | 전체 서비스 기본 배경 |
-| **notused-01/02**| \`#1E25F8\` / \`#EBEEF2\` | 🚫 레거시 폐기 색상 (사용 엄격 금지) |
 `;
-
-// 2D Cute Darang-i Mascot Component
-const DarangieSvg: React.FC = () => (
-  <svg
-    width="84"
-    height="92"
-    viewBox="0 0 100 110"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="filter drop-shadow-[0_12px_24px_rgba(18,25,247,0.35)]"
-  >
-    <path
-      d="M22 42C12 30 10 12 24 15C36 18 36 34 36 38"
-      fill="#FFE175"
-      stroke="#191F28"
-      strokeWidth="4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M78 42C88 30 90 12 76 15C64 18 64 34 64 38"
-      fill="#FFE175"
-      stroke="#191F28"
-      strokeWidth="4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path d="M22 23C18 20 18 16 22 17" stroke="#FFA353" strokeWidth="3" strokeLinecap="round" />
-    <path d="M78 23C82 20 82 16 78 17" stroke="#FFA353" strokeWidth="3" strokeLinecap="round" />
-    <ellipse cx="50" cy="56" rx="42" ry="38" fill="#FFF4AA" stroke="#191F28" strokeWidth="4" />
-    <path
-      d="M26 48C34 52 66 52 74 48C74 72 64 88 50 88C36 88 26 72 26 48Z"
-      fill="#FFFFFF"
-      opacity="0.9"
-    />
-    <ellipse cx="38" cy="50" rx="4" ry="5.5" fill="#191F28" />
-    <circle cx="36.5" cy="48" r="1.5" fill="#FFFFFF" />
-    <ellipse cx="62" cy="50" rx="4" ry="5.5" fill="#191F28" />
-    <circle cx="60.5" cy="48" r="1.5" fill="#FFFFFF" />
-    <ellipse cx="28" cy="58" rx="5" ry="3.5" fill="#FF8383" opacity="0.8" />
-    <ellipse cx="72" cy="58" rx="5" ry="3.5" fill="#FF8383" opacity="0.8" />
-    <ellipse cx="50" cy="54" rx="2.5" ry="2" fill="#FFA353" />
-    <path
-      d="M45 58C47 62 53 62 55 58"
-      stroke="#191F28"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M48 60C48 64 52 64 52 60"
-      fill="#FF4B72"
-      stroke="#191F28"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-    <rect
-      x="32"
-      y="68"
-      width="36"
-      height="26"
-      rx="4"
-      fill="#E5A663"
-      stroke="#191F28"
-      strokeWidth="3.5"
-    />
-    <rect x="46" y="68" width="8" height="26" fill="#F7D493" stroke="#191F28" strokeWidth="2" />
-    <path d="M32 78L68 78" stroke="#D18742" strokeWidth="2.5" />
-    <path
-      d="M28 72C22 72 18 78 24 82C28 84 32 80 32 76"
-      fill="#FFF4AA"
-      stroke="#191F28"
-      strokeWidth="3.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M72 72C78 72 82 78 76 82C72 84 68 80 68 76"
-      fill="#FFF4AA"
-      stroke="#191F28"
-      strokeWidth="3.5"
-      strokeLinecap="round"
-    />
-    <ellipse cx="36" cy="94" rx="8" ry="5" fill="#FFA353" stroke="#191F28" strokeWidth="3.5" />
-    <ellipse cx="64" cy="94" rx="8" ry="5" fill="#FFA353" stroke="#191F28" strokeWidth="3.5" />
-  </svg>
-);
-
-interface DarangiItem {
-  id: number;
-  x: number;
-  y: number;
-}
 
 export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isPartner ? 'partner' : 'customer');
   const [copied, setCopied] = useState(false);
-  const [darangis, setDarangis] = useState<DarangiItem[]>([]);
 
   const activeContent = selectedDoc === 'partner' ? PARTNER_MD_CONTENT : CUSTOMER_MD_CONTENT;
   const activeFileName = selectedDoc === 'partner' ? 'DAISA_PARTNER_DESIGN_SYSTEM.md' : 'DAISA_DESIGN_SYSTEM.md';
 
-  const triggerDarangie = (e: React.MouseEvent) => {
-    const newDarangi: DarangiItem = {
-      id: Date.now(),
-      x: e.clientX,
-      y: e.clientY - 40,
-    };
-    setDarangis((prev) => [...prev, newDarangi]);
-    setTimeout(() => {
-      setDarangis((prev) => prev.filter((item) => item.id !== newDarangi.id));
-    }, 1900);
-  };
-
-  const handleDownload = (e: React.MouseEvent) => {
-    triggerDarangie(e);
+  const handleDownload = () => {
     const blob = new Blob([activeContent], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -315,158 +155,102 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
   const handleCopy = () => {
     navigator.clipboard.writeText(activeContent);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1500);
   };
 
   return (
-    <section id="archive" className="space-y-10 relative">
-      {/* Section Header */}
+    <section id="archive" className="space-y-6">
+      {/* 1. Header (심플 영문 타이틀만) */}
       <div className="border-b pb-4 border-[#E5E8EB]">
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
           Resources
         </h2>
       </div>
 
-      {/* Document Selector Segment */}
-      <div className={`flex items-center p-1.5 rounded-[12px] border w-fit ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-[#F2F4F6] border-[#E5E8EB]'
-      }`}>
+      {/* 2. Document Switcher Segment (아이콘 배제, 심플 탭) */}
+      <div className="flex items-center p-1 rounded-[12px] bg-[#E8EDF5] w-fit">
         <button
           type="button"
           onClick={() => setSelectedDoc('customer')}
-          className={`px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all ${
+          className={`px-4 py-2 rounded-[9px] text-[13px] font-bold transition-all ${
             selectedDoc === 'customer'
-              ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-              : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+              ? 'bg-white text-[#191F28] shadow-2xs'
+              : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          고객향 명세서 (DAISA_DESIGN_SYSTEM.md)
+          고객향 명세서
         </button>
         <button
           type="button"
           onClick={() => setSelectedDoc('partner')}
-          className={`px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all flex items-center gap-1.5 ${
+          className={`px-4 py-2 rounded-[9px] text-[13px] font-bold transition-all ${
             selectedDoc === 'partner'
-              ? isDark ? 'bg-[#595EF9] text-white shadow-xs' : 'bg-white text-[#1219F7] shadow-2xs'
-              : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+              ? 'bg-white text-[#1219F7] shadow-2xs'
+              : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          <span>파트너향 명세서 (DAISA_PARTNER_DESIGN_SYSTEM.md)</span>
+          파트너향 명세서
         </button>
       </div>
 
-      {/* Main Download Card */}
-      <div className={`border rounded-[22px] p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm ${
-        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-      }`}>
-        <div className="flex items-start gap-4">
-          <div className={`w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0 shadow-sm ${
-            isDark ? 'bg-[#292931] text-[#4B89FF] border border-[#2B2A34]' : 'bg-[#E8F3FF] text-[#1219F7]'
-          }`}>
-            <FileText className="w-7 h-7" />
+      {/* 3. Action Card (심플 & 직관적인 다운로드 및 복사 영역, stroke 없음) */}
+      <div className="bg-white rounded-[16px] p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[16px] font-bold text-[#191F28]">
+              {activeFileName}
+            </span>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7]">
+              Markdown
+            </span>
           </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className={`text-[18px] font-extrabold font-mono tracking-tight ${
-                isDark ? 'text-white' : 'text-[#191F28]'
-              }`}>
-                {activeFileName}
-              </h3>
-              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
-                selectedDoc === 'partner'
-                  ? 'bg-[#595EF9]/30 text-[#A5A8FC] border border-[#595EF9]/50'
-                  : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-              }`}>
-                {selectedDoc === 'partner' ? '파트너 공식 v1.0.0' : '고객향 프로덕션 v1.0.0'}
-              </span>
-            </div>
-            <p className={`text-[13px] leading-relaxed max-w-xl ${
-              isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'
-            }`}>
-              {selectedDoc === 'partner'
-                ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반. 62px CTA 버튼, 6px 모서리 곡률, 18px 기본 본문 및 360x312 / 1200x627 레이아웃 규격 총망라.'
-                : 'Pretendard 짝수 6종, 기본 radius 10px, 모바일 360/312 & 웹 1200/640 규격 및 컴포넌트 표준 총망라.'}
-            </p>
-          </div>
+          <p className="text-[13px] text-[#6B7684]">
+            {selectedDoc === 'partner'
+              ? '파트너 공식 규격: Radius 6px · 기본 본문 18px · 모바일 360 & 웹 627px'
+              : '고객향 프로덕션 규격: Pretendard · Radius 10px · 모바일 360 & 웹 640px'}
+          </p>
         </div>
 
-        {/* Buttons */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Buttons (아이콘 최소화, 명확한 텍스트 중심) */}
+        <div className="flex items-center gap-2 shrink-0">
           <button
             type="button"
             onClick={handleDownload}
-            className="h-[46px] px-5 rounded-[12px] bg-[#1219F7] hover:bg-[#0E15D4] text-white font-bold text-[14px] flex items-center gap-2 shadow-[0_4px_16px_rgba(18,25,247,0.35)] transition-all active:scale-[0.98]"
+            className="h-[42px] px-4 rounded-[10px] bg-[#1219F7] hover:bg-[#0E15D4] text-white font-bold text-[13px] shadow-xs transition-all active:scale-[0.98]"
           >
-            <Download className="w-4 h-4" />
-            <span>.md 파일 다운로드</span>
+            .md 다운로드
           </button>
-
           <button
             type="button"
             onClick={handleCopy}
-            className={`h-[46px] px-5 rounded-[12px] font-bold text-[14px] border flex items-center justify-center gap-2 transition-all active:scale-[0.98] ${
-              isDark
-                ? 'bg-[#292931] hover:bg-[#252E42] text-[#CBD5E1] border-[#2B2A34]'
-                : 'bg-white hover:bg-[#F2F4F6] text-[#333D4B] border-[#E5E8EB]'
-            }`}
+            className="h-[42px] px-4 rounded-[10px] bg-[#F2F4F8] hover:bg-[#E5EAF2] text-[#333D4B] font-bold text-[13px] transition-all active:scale-[0.98]"
           >
-            {copied ? (
-              <>
-                <Check className="w-4 h-4 text-emerald-500" />
-                <span className="text-emerald-500 font-bold">복사 완료!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4 text-[#8B95A1]" />
-                <span>원문 전체 복사</span>
-              </>
-            )}
+            {copied ? '복사 완료' : '원문 복사'}
           </button>
         </div>
       </div>
 
-      {/* Raw Markdown Viewer */}
-      <div className={`border rounded-[22px] overflow-hidden shadow-xl ${
-        isDark ? 'bg-[#141319] border-[#26252D]' : 'bg-[#191F28] border-[#2B323D]'
-      }`}>
-        <div className={`px-6 py-4 border-b flex items-center justify-between ${
-          isDark ? 'bg-[#141822] border-[#26252D]' : 'bg-[#14181F] border-[#2B323D]'
-        }`}>
-          <div className="flex items-center gap-2 text-[13px] font-bold text-white">
-            <FileText className="w-4 h-4 text-[#595EF9]" />
-            <span>{activeFileName} (원문 미리보기)</span>
-          </div>
+      {/* 4. Raw Markdown Viewer (stroke 없는 화이트 뷰어) */}
+      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+        <div className="px-5 py-3 border-b border-[#F2F4F8] flex items-center justify-between text-[12px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
+          <span>{activeFileName} 미리보기</span>
           <button
             type="button"
             onClick={handleCopy}
-            className="text-[12px] text-[#8B95A1] hover:text-white flex items-center gap-1.5 transition-colors"
+            className="text-[12px] text-[#1219F7] hover:underline font-bold"
           >
-            <Copy className="w-3.5 h-3.5" />
-            <span>{copied ? '복사됨' : '원문 복사'}</span>
+            {copied ? '복사됨' : '전체 복사'}
           </button>
         </div>
 
-        <div className="p-6 md:p-8 overflow-x-auto text-[13px] font-mono leading-relaxed text-[#D1D6DB] max-h-[720px] overflow-y-auto">
+        <div className="p-6 overflow-x-auto text-[13px] font-mono leading-relaxed text-[#333D4B] max-h-[640px] overflow-y-auto bg-white select-text">
           <pre className="whitespace-pre">
             <code>{activeContent}</code>
           </pre>
         </div>
       </div>
-
-      {/* Easter Egg: Cute 2D Darangie Floats Up from Click Position */}
-      {darangis.map((item) => (
-        <div
-          key={item.id}
-          className="fixed pointer-events-none z-50 animate-darangie flex flex-col items-center select-none"
-          style={{ left: `${item.x}px`, top: `${item.y}px` }}
-        >
-          <div className="mb-2 bg-[#191F28] text-white text-[11px] font-extrabold px-3 py-1 rounded-full whitespace-nowrap shadow-xl flex items-center gap-1.5 border border-white/20 animate-bounce">
-            <span>다랑이가 배달 완료!</span>
-            <span>📦✨</span>
-          </div>
-          <DarangieSvg />
-        </div>
-      ))}
     </section>
   );
 };
+
+export default ArchiveSection;
