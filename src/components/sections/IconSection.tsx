@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import ReactDOMServer from "react-dom/server";
 import {
   type LucideIcon,
   Check as CheckIcon,
@@ -213,6 +214,84 @@ interface IconMeta {
   icon: LucideIcon;
   category: "이사·청소·홈케어" | "앱 필수 공통 컨트롤러";
   desc: string;
+}
+
+const strokeOnlyIcons = new Set([
+  "Search", "Menu", "SlidersHorizontal", "Filter", "ExternalLink", "Undo2", 
+  "RotateCcw", "RotateCw", "RefreshCw", "RefreshCcw", "Link", "Unlink", 
+  "Volume2", "VolumeX", "Wifi", "Navigation", "Compass", "Move", "Cable",
+  "ToggleLeft", "ToggleRight", "Clock", "MoreHorizontal", "MoreVertical",
+  "Paperclip", "Scan", "Undo", "CornerDownLeft", "CornerDownRight",
+  "ChevronLeft", "ChevronRight", "ChevronUp", "ChevronDown",
+  "ChevronsLeft", "ChevronsRight", "ChevronsUp", "ChevronsDown",
+  "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown",
+  "ArrowUpRight", "ArrowDownLeft", "ArrowLeftRight", "ArrowUpDown",
+  "Plus", "Minus", "X", "Check", "CheckIcon"
+]);
+
+function buildSolidSvg(name: string, IconComponent: LucideIcon, size: number, cutoutColor: string = "#FAFBFD"): string {
+  const raw = ReactDOMServer.renderToStaticMarkup(
+    React.createElement(IconComponent, { size, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" })
+  );
+
+  const match = raw.match(/<svg([^>]*)>([\s\S]*?)<\/svg>/);
+  if (!match) return raw;
+  const svgAttrs = match[1];
+  const innerHtml = match[2];
+
+  const tagRegex = /<([a-z0-9]+)([^>]*?)(\/>|>(.*?)<\/\1>)/gi;
+  const tags: { full: string; type: string }[] = [];
+  let m;
+  while ((m = tagRegex.exec(innerHtml)) !== null) {
+    tags.push({ full: m[0], type: m[1] });
+  }
+
+  const isEnclosedShape = (t: { full: string; type: string }) => {
+    if (strokeOnlyIcons.has(name)) return false;
+    if (/[zZ]/.test(t.full)) return true;
+    if (t.type === "rect" || t.type === "polygon") return true;
+    if (t.type === "circle") {
+      const rMatch = t.full.match(/r="([^"]*)"/);
+      if (rMatch && parseFloat(rMatch[1]) >= 4.5) return true;
+    }
+    return false;
+  };
+
+  const hasEnclosure = tags.some(isEnclosedShape);
+
+  if (!hasEnclosure) {
+    return `<svg${svgAttrs.replace(/stroke-width="[^"]*"/, 'stroke-width="2.4"').replace(/fill="[^"]*"/, 'fill="none"')}>${innerHtml}</svg>`;
+  }
+
+  let firstEnclosedFound = false;
+  const transformedTags = tags.map((t) => {
+    if (!firstEnclosedFound && isEnclosedShape(t)) {
+      firstEnclosedFound = true;
+      let newTag = t.full;
+      if (!newTag.includes("fill=")) {
+        newTag = newTag.replace(`<${t.type}`, `<${t.type} fill="currentColor"`);
+      } else {
+        newTag = newTag.replace(/fill="[^"]*"/, 'fill="currentColor"');
+      }
+      return newTag;
+    }
+
+    if (firstEnclosedFound) {
+      let newTag = t.full;
+      if (t.type === "circle") {
+        newTag = newTag.replace("<circle", `<circle fill="${cutoutColor}" stroke="${cutoutColor}" stroke-width="1.5"`);
+      } else if (t.type === "line" || t.type === "polyline") {
+        newTag = newTag.replace(`<${t.type}`, `<${t.type} stroke="${cutoutColor}" stroke-width="2.5" fill="none"`);
+      } else if (t.type === "path") {
+        newTag = newTag.replace("<path", `<path stroke="${cutoutColor}" stroke-width="2.5" fill="none"`);
+      }
+      return newTag;
+    }
+
+    return t.full;
+  });
+
+  return `<svg${svgAttrs.replace(/fill="[^"]*"/, 'fill="none"')}>${transformedTags.join("")}</svg>`;
 }
 
 export const IconSection: React.FC = () => {
@@ -443,13 +522,12 @@ export const IconSection: React.FC = () => {
     });
   }, [systemIcons, selectedCategory, searchQuery]);
 
-  const downloadSvgFile = (name: string, e: React.MouseEvent<HTMLDivElement>) => {
-    const cardEl = e.currentTarget;
-    const svgEl = cardEl.querySelector("svg");
-    if (!svgEl) return;
-
-    const serializer = new XMLSerializer();
-    let svgString = serializer.serializeToString(svgEl);
+  const downloadSvgFile = (name: string, IconComponent: LucideIcon) => {
+    let svgString = activeStyle === "fill"
+      ? buildSolidSvg(name, IconComponent, sizePixel, "#FFFFFF")
+      : ReactDOMServer.renderToStaticMarkup(
+          React.createElement(IconComponent, { size: sizePixel, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" })
+        );
 
     if (!svgString.includes('xmlns=')) {
       svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
@@ -719,7 +797,7 @@ export const IconSection: React.FC = () => {
               return (
                 <div
                   key={`${item.category}-${item.name}`}
-                  onClick={(e) => downloadSvgFile(item.name, e)}
+                  onClick={() => downloadSvgFile(item.name, item.icon)}
                   title={`${item.label} (${item.name}) SVG 다운로드`}
                   className="group p-4 bg-white border border-[#E5E8EB] rounded-[18px] flex flex-col items-center justify-center gap-2 hover:border-[#1219F7] hover:shadow-[0_10px_24px_rgba(18,25,247,0.08)] transition-all cursor-pointer relative select-none"
                 >
@@ -732,16 +810,17 @@ export const IconSection: React.FC = () => {
                     {item.category === "이사·청소·홈케어" ? "이사/홈케어" : "공통"}
                   </span>
 
-                  {/* Visual SVG Icon (Outline or Fill) */}
-                  <div className="w-12 h-12 rounded-[12px] bg-[#FAFBFD] group-hover:bg-[#E8F3FF] flex items-center justify-center text-[#191F28] group-hover:text-[#1219F7] transition-colors mt-2">
-                    <Icon
-                      size={sizePixel}
-                      strokeWidth={1.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      fill={activeStyle === "fill" ? "currentColor" : "none"}
-                    />
-                  </div>
+                  {/* Visual SVG Icon (Outline or Smart Solid Cutout Fill) */}
+                  <div
+                    className="w-12 h-12 rounded-[12px] bg-[#FAFBFD] group-hover:bg-[#E8F3FF] flex items-center justify-center text-[#191F28] group-hover:text-[#1219F7] transition-colors mt-2"
+                    dangerouslySetInnerHTML={{
+                      __html: activeStyle === "fill"
+                        ? buildSolidSvg(item.name, Icon, sizePixel, "#FAFBFD")
+                        : ReactDOMServer.renderToStaticMarkup(
+                            React.createElement(Icon, { size: sizePixel, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" })
+                          )
+                    }}
+                  />
 
                   <div className="text-center w-full">
                     <div className="text-[12px] font-bold text-[#191F28] group-hover:text-[#1219F7] truncate">

@@ -70,14 +70,8 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const isPartner = serviceMode === 'partner';
-
   return (
-    <div className={`min-h-screen flex flex-col font-sans antialiased transition-colors duration-200 ${
-      isPartner
-        ? 'partner-dark bg-[#0F1117] text-[#F9FAFB] selection:bg-[#1E293B] selection:text-[#60A5FA]'
-        : 'bg-[#F9FAFB] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA]'
-    }`}>
+    <div className="min-h-screen flex flex-col bg-[#F9FAFB] text-[#191F28] font-sans antialiased selection:bg-[#E8F3FF] selection:text-[#1B64DA]">
       {/* ============================================================ */}
       {/* Toss-Style Minimal GNB Header (Full Width) */}
       {/* ============================================================ */}
@@ -97,14 +91,12 @@ export const App: React.FC = () => {
             className="flex items-center gap-3 cursor-pointer select-none group -ml-1"
           >
             <img
-              src={isPartner ? '/logo-white.png' : '/logo-dark.png'}
+              src="/logo-dark.png"
               alt="daisalibrary logo"
               className="h-[24px] md:h-[26px] w-auto object-contain transition-transform group-hover:scale-102"
             />
-            <span className={`hidden sm:inline-block text-[13px] font-bold pl-2 border-l ${
-              isPartner ? 'text-[#60A5FA] border-[#2E3544]' : 'text-[#8B95A1] border-[#E5E8EB]'
-            }`}>
-              {isPartner ? '파트너향 디자인시스템 (B2B 다크모드)' : '디자인시스템'}
+            <span className="hidden sm:inline-block text-[13px] font-bold pl-2 border-l border-[#E5E8EB] text-[#8B95A1]">
+              디자인시스템
             </span>
           </div>
         </div>
@@ -163,17 +155,13 @@ export const App: React.FC = () => {
 
         {/* Right Header Area: Customer / Partner Segmented Toggle */}
         <div className="flex items-center gap-3">
-          <div className={`flex items-center p-1 rounded-[12px] border transition-all ${
-            isPartner
-              ? 'bg-[#181B22] border-[#2A313E]'
-              : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
-          }`}>
+          <div className="flex items-center bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
             <button
               onClick={() => setServiceMode('customer')}
               className={`px-3.5 py-1.5 rounded-[9px] text-[13px] transition-all select-none ${
-                !isPartner
+                serviceMode === 'customer'
                   ? 'bg-white text-[#191F28] font-bold shadow-[0_1px_4px_rgba(0,0,0,0.06)]'
-                  : 'text-[#8B95A1] hover:text-[#F9FAFB] font-medium'
+                  : 'text-[#6B7684] hover:text-[#191F28] font-medium'
               }`}
             >
               고객향
@@ -181,13 +169,15 @@ export const App: React.FC = () => {
             <button
               onClick={() => setServiceMode('partner')}
               className={`px-3.5 py-1.5 rounded-[9px] text-[13px] transition-all select-none flex items-center gap-1.5 ${
-                isPartner
-                  ? 'bg-[#2E3544] text-[#60A5FA] font-bold shadow-[0_1px_4px_rgba(0,0,0,0.3)] border border-[#3E475A]'
+                serviceMode === 'partner'
+                  ? 'bg-white text-[#191F28] font-bold shadow-[0_1px_4px_rgba(0,0,0,0.06)]'
                   : 'text-[#6B7684] hover:text-[#191F28] font-medium'
               }`}
             >
               <span>파트너향</span>
-              {isPartner && <span className="w-1.5 h-1.5 rounded-full bg-[#60A5FA] animate-pulse" />}
+              <span className="text-[10px] font-bold px-1.5 py-0.2 bg-[#E5E8EB] text-[#4E5968] rounded-full">
+                준비중
+              </span>
             </button>
           </div>
         </div>
@@ -196,15 +186,42 @@ export const App: React.FC = () => {
       {/* ============================================================ */}
       {/* Main Body Layout (Left Sidebar Anchored to Left Screen Edge) */}
       {/* ============================================================ */}
-      <div className="flex-1 flex w-full">
-        {/* ============================================================ */}
-        {/* Left Sticky Sidebar (Anchored to Left Screen Edge) */}
-        {/* ============================================================ */}
-        <aside
-          className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto bg-white border-r border-[#E5E8EB] p-4 shrink-0 transition-transform duration-200 ${
-            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-          }`}
-        >
+      {serviceMode === 'partner' ? (
+        /* Partner Mode Dedicated Coming Soon Screen */
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center min-h-[70vh] max-w-lg mx-auto space-y-5">
+          <div className="w-16 h-16 rounded-[22px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#3182F6] shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+            <Building2 className="w-8 h-8" />
+          </div>
+          <div className="space-y-2">
+            <div className="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
+              파트너향 전용 디자인시스템 (준비 중)
+            </div>
+            <h2 className="text-[22px] font-extrabold text-[#191F28] tracking-tight">
+              파트너(B2B) 디자인시스템 준비 중
+            </h2>
+            <p className="text-[14px] text-[#6B7684] leading-relaxed max-w-md">
+              고객향 디자인시스템과 완전히 분리된 <strong>파트너(기사님·시공업체) 전용 디자인시스템</strong>이 곧 추가될 예정입니다.<br />
+              곧이어 파트너향 전용 화면 및 컴포넌트 분석 작업이 시작됩니다.
+            </p>
+          </div>
+          <button
+            onClick={() => setServiceMode('customer')}
+            className="px-6 py-3 rounded-[14px] bg-[#3182F6] text-white font-bold text-[14px] hover:bg-[#1B64DA] transition-all shadow-sm active:scale-98"
+          >
+            고객향 디자인시스템 보기
+          </button>
+        </div>
+      ) : (
+        /* Customer Mode: Full Design System */
+        <div className="flex-1 flex w-full">
+          {/* ============================================================ */}
+          {/* Left Sticky Sidebar (Anchored to Left Screen Edge) */}
+          {/* ============================================================ */}
+          <aside
+            className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto bg-white border-r border-[#E5E8EB] p-4 shrink-0 transition-transform duration-200 ${
+              mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+            }`}
+          >
           <div className="space-y-6">
             {/* Group 1: 전체 개요 & 자료실 */}
             <div>
@@ -313,8 +330,8 @@ export const App: React.FC = () => {
             <div className="font-bold text-[#4E5968]">daisalibrary</div>
             <div>다이사(da24) 디자인시스템</div>
             <div className="text-[11px] text-[#B0B8C1] pt-1 flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full inline-block ${isPartner ? 'bg-[#60A5FA]' : 'bg-emerald-500'}`} />
-              <span>{isPartner ? '파트너향 B2B 표준 다크모드' : 'Pretendard 공식 표준 규격'}</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+              <span>Pretendard 공식 표준 규격</span>
             </div>
           </div>
         </aside>
@@ -338,6 +355,7 @@ export const App: React.FC = () => {
           </div>
         </main>
       </div>
+      )}
 
       {/* ============================================================ */}
       {/* Footer */}
@@ -346,7 +364,7 @@ export const App: React.FC = () => {
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
-              src={isPartner ? '/logo-white.png' : '/logo-dark.png'}
+              src="/logo-dark.png"
               alt="daisalibrary logo"
               className="h-[20px] w-auto object-contain opacity-90"
             />
@@ -355,7 +373,7 @@ export const App: React.FC = () => {
           <div className="flex items-center gap-4 text-[#8B95A1] text-[12px]">
             <span>Pretendard 공식 서체</span>
             <span>•</span>
-            <span>{isPartner ? '파트너향 (B2B 기사/업체) 프로덕션 규격' : '고객향 프로덕션 규격'}</span>
+            <span>고객향 프로덕션 규격</span>
           </div>
         </div>
       </footer>
