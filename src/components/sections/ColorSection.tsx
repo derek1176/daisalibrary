@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Palette, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface SwatchProps {
   token: string;
   hex: string;
-  note: string;
-  textColor?: string;
+  name: string;
+  desc: string;
   border?: boolean;
 }
 
-const SwatchCard: React.FC<SwatchProps> = ({ token, hex, note, textColor = '#121212', border = false }) => {
+const ColorItem: React.FC<SwatchProps> = ({ token, hex, name, desc, border = false }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -23,35 +23,45 @@ const SwatchCard: React.FC<SwatchProps> = ({ token, hex, note, textColor = '#121
   return (
     <div
       onClick={handleCopy}
-      className="group relative flex flex-col bg-white rounded-[18px] border border-[#E5E8EB] overflow-hidden hover:border-[#3182F6] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer select-none"
+      className="group bg-white rounded-[18px] border border-[#E5E8EB] p-4 flex items-center justify-between hover:border-[#3182F6] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all cursor-pointer select-none"
     >
-      <div
-        className={`h-[92px] w-full flex items-start justify-end p-2.5 ${border ? 'border-b border-[#F2F4F6]' : ''}`}
-        style={{
-          background: isGradient
-            ? 'linear-gradient(135deg, #1219F7 0%, #595EF9 100%)'
-            : hex,
-        }}
-      >
-        <span
-          className={`opacity-0 group-hover:opacity-100 transition-opacity text-[11px] font-bold px-2 py-0.5 rounded-full shadow-xs ${
-            copied ? 'bg-emerald-500 text-white' : 'bg-black/60 text-white backdrop-blur-xs'
+      <div className="flex items-center gap-4 min-w-0">
+        {/* Color Preview Swatch */}
+        <div
+          className={`w-14 h-14 rounded-[14px] shrink-0 flex items-center justify-center shadow-xs transition-transform group-hover:scale-105 ${
+            border ? 'border border-[#E5E8EB]' : ''
           }`}
-        >
-          {copied ? '복사됨!' : '클릭하여 복사'}
-        </span>
-      </div>
-      <div className="p-3.5 flex flex-col gap-0.5">
-        <div className="flex items-center justify-between">
-          <span className="text-[14px] font-bold text-[#191F28] font-mono tracking-tight">{token}</span>
-          {copied ? (
-            <Check className="w-3.5 h-3.5 text-emerald-600" />
-          ) : (
-            <Copy className="w-3.5 h-3.5 text-[#8B95A1] opacity-0 group-hover:opacity-100 transition-opacity" />
-          )}
+          style={{
+            background: isGradient
+              ? 'linear-gradient(135deg, #1219F7 0%, #595EF9 100%)'
+              : hex,
+          }}
+        />
+
+        {/* Token Info */}
+        <div className="space-y-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="text-[15px] font-extrabold text-[#191F28] font-mono tracking-tight">{token}</span>
+            <span className="text-[12px] font-bold px-2 py-0.5 rounded-full bg-[#F2F4F6] text-[#4E5968] font-mono">{hex}</span>
+          </div>
+          <p className="text-[13px] text-[#6B7684] truncate">{desc}</p>
         </div>
-        <span className="text-[12px] font-mono font-semibold text-[#333D4B] tracking-wider">{hex}</span>
-        <span className="text-[11px] text-[#6B7684] mt-1 leading-tight">{note}</span>
+      </div>
+
+      {/* Copy Feedback */}
+      <div className="shrink-0 pl-3">
+        {copied ? (
+          <span className="text-[12px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full flex items-center gap-1 border border-emerald-200">
+            <Check className="w-3.5 h-3.5" /> 복사됨
+          </span>
+        ) : (
+          <button
+            type="button"
+            className="text-[12px] font-bold text-[#8B95A1] group-hover:text-[#3182F6] bg-[#F2F4F6] group-hover:bg-[#E8F3FF] px-2.5 py-1 rounded-[8px] flex items-center gap-1 transition-colors"
+          >
+            <Copy className="w-3 h-3" /> 복사
+          </button>
+        )}
       </div>
     </div>
   );
@@ -69,64 +79,99 @@ export const ColorSection: React.FC = () => {
           색상 시스템 (Color Tokens)
         </h2>
         <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-          다이사(da24)의 시맨틱 컬러 토큰입니다. 카드를 클릭하면 Hex 코드가 클립보드에 자동 복사됩니다.
+          다이사(da24) 서비스의 12대 시맨틱 컬러 토큰입니다. 카드를 클릭하면 Hex 코드가 클립보드에 자동 복사됩니다.
         </p>
       </div>
 
-      {/* Main Colors */}
-      <div className="space-y-4">
-        <div className="flex items-baseline gap-3">
-          <h3 className="text-[17px] font-bold text-text-01">Main Colors</h3>
-          <span className="text-[13px] text-text-04">브랜드를 대표하는 키컬러</span>
+      {/* 3 Core Highlight Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Main Blue */}
+        <div className="bg-[#1219F7] text-white rounded-[22px] p-6 space-y-4 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white inline-block mb-2">
+              Primary Key Color
+            </span>
+            <h3 className="text-[24px] font-extrabold tracking-tight">main-01</h3>
+            <p className="text-[13px] text-white/80 mt-1">CTA 버튼, 활성 탭, 브랜드 핵심 포인트</p>
+          </div>
+          <div className="pt-3 border-t border-white/20 flex items-center justify-between font-mono text-[14px] font-bold">
+            <span>#1219F7</span>
+            <span className="text-[11px] text-white/70">클릭 복사</span>
+          </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-          <SwatchCard token="main-01" hex="#1219F7" note="Primary Blue 키컬러 (CTA, 포커스, 브랜드)" />
-          <SwatchCard token="main-02" hex="#595EF9" note="Secondary Blue (보조 포인트, 일러스트)" />
-          <SwatchCard token="main-03" hex="#1219F7 ~ #595EF9" note="그라디언트 (주요 강조 배너)" />
-          <SwatchCard token="main-04" hex="#F4F5FF" note="Tint Background (강조 영역 배경, 뱃지)" border />
+
+        {/* Secondary Blue */}
+        <div className="bg-[#595EF9] text-white rounded-[22px] p-6 space-y-4 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white inline-block mb-2">
+              Secondary Color
+            </span>
+            <h3 className="text-[24px] font-extrabold tracking-tight">main-02</h3>
+            <p className="text-[13px] text-white/80 mt-1">보조 버튼, 서브 하이라이트, 칩 뱃지</p>
+          </div>
+          <div className="pt-3 border-t border-white/20 flex items-center justify-between font-mono text-[14px] font-bold">
+            <span>#595EF9</span>
+            <span className="text-[11px] text-white/70">클릭 복사</span>
+          </div>
+        </div>
+
+        {/* Error Red */}
+        <div className="bg-[#F34766] text-white rounded-[22px] p-6 space-y-4 shadow-md flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white inline-block mb-2">
+              System Feedback
+            </span>
+            <h3 className="text-[24px] font-extrabold tracking-tight">error</h3>
+            <p className="text-[13px] text-white/80 mt-1">인풋 에러 테두리 스트로크 & 피드백 텍스트</p>
+          </div>
+          <div className="pt-3 border-t border-white/20 flex items-center justify-between font-mono text-[14px] font-bold">
+            <span>#F34766</span>
+            <span className="text-[11px] text-white/70">클릭 복사</span>
+          </div>
         </div>
       </div>
 
-      {/* Sub & System Colors */}
+      {/* Category 1: Main Colors */}
       <div className="space-y-4">
-        <div className="flex items-baseline gap-3">
-          <h3 className="text-[17px] font-bold text-text-01">Sub & System Colors</h3>
-          <span className="text-[13px] text-text-04">보조 강조 및 시스템 상태 피드백</span>
+        <div className="flex items-center gap-2 border-b border-[#F2F4F6] pb-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]"></span>
+          <h3 className="text-[17px] font-bold text-[#191F28]">메인 브랜드 컬러 (Main Colors)</h3>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-          <SwatchCard token="sub-01" hex="#F7D915" note="Yellow 포인트 (별점, 알림 강조)" />
-          <SwatchCard token="sub-02" hex="#F34766" note="Error Red (에러 보더, 경고 문구)" />
-          <SwatchCard token="system-01" hex="#000000" note="Pure Black (딤드 오버레이 기준)" />
-          <SwatchCard token="system-02" hex="#FFFFFF" note="Pure White (컨테이너 배경)" border />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <ColorItem token="main-01" hex="#1219F7" name="Primary Blue" desc="전사 메인 CTA 버튼, 포커스 테두리, 핵심 브랜드 블루" />
+          <ColorItem token="main-02" hex="#595EF9" name="Secondary Blue" desc="보조 포인트, 서브 버튼, 선택 칩 테두리" />
+          <ColorItem token="main-03" hex="#1219F7 ~ #595EF9" name="Brand Gradient" desc="대형 프로모션 배너 및 브랜드 강조 그라디언트" />
+          <ColorItem token="main-04" hex="#F4F5FF" name="Tint Background" desc="키컬러 배경 틴트, 상태 뱃지 및 안내 박스 배경" border />
         </div>
       </div>
 
-      {/* Text Colors */}
+      {/* Category 2: Text Hierarchy */}
       <div className="space-y-4">
-        <div className="flex items-baseline gap-3">
-          <h3 className="text-[17px] font-bold text-text-01">Text Colors</h3>
-          <span className="text-[13px] text-text-04">가독성과 정보 위계를 위한 4단계 텍스트 계층</span>
+        <div className="flex items-center gap-2 border-b border-[#F2F4F6] pb-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#121212]"></span>
+          <h3 className="text-[17px] font-bold text-[#191F28]">텍스트 위계 컬러 (Text Hierarchy 4종)</h3>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-          <SwatchCard token="text-01" hex="#121212" note="Title, Headline, 대형 타이포 (최우선)" />
-          <SwatchCard token="text-02" hex="#333333" note="Body 본문 텍스트, 라벨, 폼 입력 텍스트" />
-          <SwatchCard token="text-03" hex="#666666" note="Sub 보조 설명, 도움말 문구" />
-          <SwatchCard token="text-04" hex="#888888" note="Caption, Placeholder, 비활성 텍스트" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <ColorItem token="text-01" hex="#121212" name="Headline / Title" desc="페이지 대제목, 섹션 헤드라인, 메인 강조 문구" />
+          <ColorItem token="text-02" hex="#333333" name="Body Text" desc="본문 기본 텍스트, 인풋 입력 값, 라벨 텍스트" />
+          <ColorItem token="text-03" hex="#666666" name="Sub / Help" desc="보조 설명문, 입력 힌트 안내, 모달 본문 설명" />
+          <ColorItem token="text-04" hex="#888888" name="Caption / Placeholder" desc="인풋 플레이스홀더, 비활성 텍스트, 각주 약관 문구" />
         </div>
       </div>
 
-      {/* ETC Colors */}
+      {/* Category 3: Etc & Borders */}
       <div className="space-y-4">
-        <div className="flex items-baseline gap-3">
-          <h3 className="text-[17px] font-bold text-text-01">ETC Colors</h3>
-          <span className="text-[13px] text-text-04">보더, 구분선, 배경 표면 색상</span>
+        <div className="flex items-center gap-2 border-b border-[#F2F4F6] pb-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#D7DBE2]"></span>
+          <h3 className="text-[17px] font-bold text-[#191F28]">배경 및 구분선 (Borders & Backgrounds)</h3>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-          <SwatchCard token="etc-01" hex="#C4C9D1" note="보조 아이콘, 약한 라인" border />
-          <SwatchCard token="etc-02" hex="#D7DBE2" note="기본 보더 (Input, Card 테두리)" border />
-          <SwatchCard token="etc-03" hex="#EBEEF2" note="구분선 Divider, 취소 버튼 배경" border />
-          <SwatchCard token="etc-04" hex="#F7F8FA" note="비활성 BG, 탭바 배경, 인풋 Disabled" border />
-          <SwatchCard token="etc-05" hex="#FAFAFA" note="페이지 배경 (Surface Soft)" border />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <ColorItem token="etc-01" hex="#FFFFFF" name="White" desc="기본 카드 컨테이너 배경, 인풋 필드 배경" border />
+          <ColorItem token="etc-02" hex="#D7DBE2" name="Default Border" desc="인풋 테두리 기본 스트로크, 카드 라인 구분선" border />
+          <ColorItem token="etc-03" hex="#EBEEF2" name="Divider / Cancel" desc="영역 구분선, 취소/보조 버튼 배경" border />
+          <ColorItem token="etc-04" hex="#F7F8FA" name="Disabled BG" desc="비활성 인풋 배경, 탭바 컨테이너 배경" border />
+          <ColorItem token="etc-05" hex="#FAFAFA" name="Page Background" desc="전체 대시보드 및 서비스 기본 배경색" border />
+          <ColorItem token="dimmed" hex="rgba(0,0,0,0.6)" name="Overlay Dimmed" desc="모달 및 바텀시트 호출 시 배경 딤드 60%" />
         </div>
       </div>
     </section>

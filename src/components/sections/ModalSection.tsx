@@ -1,38 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Modal } from '../ui/Modal';
-import { BottomSheet } from '../ui/BottomSheet';
-import { PublicButton } from '../ui/Button';
-import { ExternalLink, Sliders, Smartphone, Monitor } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sliders, Smartphone, Monitor } from 'lucide-react';
 
 export const ModalSection: React.FC = () => {
-  const [liveConfirmOpen, setLiveConfirmOpen] = useState(false);
-  const [liveAlertOpen, setLiveAlertOpen] = useState(false);
-  const [liveSheetOpen, setLiveSheetOpen] = useState(false);
-  const [responsiveOpen, setResponsiveOpen] = useState(false);
-  const [selectedFloor, setSelectedFloor] = useState('3층');
-
   // Interactive Resizer Slider (360px ~ 1400px)
   const [simulatedWidth, setSimulatedWidth] = useState(768);
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const isSimulatedDesktop = simulatedWidth >= 1200;
-  const isActualDesktop = windowWidth >= 1200;
-
-  const floorOptions = [
-    '1층 (단독주택/저층)',
-    '2층',
-    '3층',
-    '4층',
-    '5층 (사다리차 권장)',
-    '6층 이상 (고층 아파트)',
-    '지하 1층',
-  ];
 
   return (
     <section id="modals" className="space-y-10">
@@ -42,7 +15,7 @@ export const ModalSection: React.FC = () => {
           오버레이 컴포넌트
         </span>
         <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-          모달 및 바텀시트 (Modals & Bottom Sheet)
+          모달 및 바텀시트
         </h2>
         <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
           사용자의 맥락을 차단하고 집중시키는 중앙 모달 다이얼로그와 모바일 옵션 선택을 위한 바텀시트 규격입니다. 배경 딤드는 <strong>rgba(0, 0, 0, 0.6) 60%</strong>를 적용합니다.
@@ -51,77 +24,17 @@ export const ModalSection: React.FC = () => {
 
       {/* Responsive Breakpoint Highlight Banner: Toss Card */}
       <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#3182F6]" />
-              반응형 절대 규칙
-            </div>
-            <h3 className="text-[18px] font-bold text-[#191F28]">
-              360px ~ 1199px은 바텀시트, 1200px 이상은 중앙 고정 모달
-            </h3>
-            <p className="text-[13px] text-[#6B7684] leading-relaxed">
-              주소 검색, 층수/옵션 선택, 확인 팝업 등은 별도 창을 띄우지 않고 <strong>1200px 임계값</strong>을 기준으로 모바일 반응형 바텀시트 또는 데스크톱 중앙 고정 모달로 전환됩니다.
-            </p>
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3182F6]" />
+            반응형 절대 규칙
           </div>
-          <div className="flex items-center gap-2 bg-[#F9FAFB] px-4 py-2.5 rounded-[12px] border border-[#E5E8EB] self-start md:self-auto shrink-0">
-            <span className="text-[12px] text-[#8B95A1]">현재 브라우저 폭:</span>
-            <span className="text-[14px] font-extrabold text-[#191F28]">{windowWidth}px</span>
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${isActualDesktop ? 'bg-blue-100 text-[#1B64DA]' : 'bg-orange-100 text-[#E5501B]'}`}>
-              {isActualDesktop ? '중앙 모달' : '바텀시트'}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Live Interactive Triggers Card */}
-      <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#F2F4F6] pb-3">
-          <div>
-            <h3 className="text-[17px] font-bold text-[#191F28]">실제 오버레이 팝업 트리거</h3>
-            <p className="text-[13px] text-[#6B7684] mt-0.5">
-              버튼을 클릭하면 브라우저 화면 전체에 실제 오버레이와 딤드가 활성화됩니다.
-            </p>
-          </div>
-          <span className="text-[12px] text-[#3182F6] font-bold">오버레이 딤드 60%</span>
-        </div>
-
-        <div className="flex flex-wrap gap-2.5 pt-1">
-          <button
-            type="button"
-            onClick={() => setResponsiveOpen(true)}
-            className="px-4 py-2.5 rounded-[12px] bg-[#3182F6] text-white font-bold text-[13px] hover:bg-[#1B64DA] transition-all flex items-center gap-2 shadow-xs active:scale-98"
-          >
-            <span>✨ 반응형 주소검색 팝업 열기 (현재 {windowWidth}px 감지)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setLiveConfirmOpen(true)}
-            className="px-4 py-2.5 rounded-[12px] bg-[#191F28] text-white font-bold text-[13px] hover:bg-[#333D4B] transition-all flex items-center gap-2 shadow-xs active:scale-98"
-          >
-            <span>2버튼 컨펌 모달 열기 (312px)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setLiveAlertOpen(true)}
-            className="px-4 py-2.5 rounded-[12px] bg-[#F2F4F6] text-[#4E5968] font-bold text-[13px] hover:bg-[#E5E8EB] transition-all flex items-center gap-2"
-          >
-            <span>단일 알림 모달 열기 (312px)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setLiveSheetOpen(true)}
-            className="px-4 py-2.5 rounded-[12px] bg-[#E8F3FF] text-[#1B64DA] font-bold text-[13px] hover:bg-[#D5E9FF] transition-all flex items-center gap-2"
-          >
-            <span>모바일 바텀시트 열기 (선택창)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </button>
+          <h3 className="text-[18px] font-bold text-[#191F28]">
+            360px ~ 1199px은 바텀시트, 1200px 이상은 중앙 고정 모달
+          </h3>
+          <p className="text-[13px] text-[#6B7684] leading-relaxed">
+            주소 검색, 층수/옵션 선택, 확인 팝업 등은 <strong>1200px 임계값</strong>을 기준으로 모바일 반응형 바텀시트 또는 데스크톱 중앙 고정 모달로 자동 전환됩니다.
+          </p>
         </div>
       </div>
 
@@ -387,153 +300,6 @@ export const ModalSection: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Real Responsive Dialog Popup */}
-      {responsiveOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px]"
-          onClick={() => setResponsiveOpen(false)}
-        >
-          {isActualDesktop ? (
-            // Desktop Center Modal (>= 1200px)
-            <div
-              className="w-[440px] max-w-[92vw] bg-white rounded-[22px] p-6 space-y-4 shadow-2xl border border-[#E5E8EB] animate-scaleUp"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-3">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-[18px] font-bold text-[#191F28]">출발지 주소 검색</h3>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1B64DA]">
-                    웹 중앙 고정 (너비 {windowWidth}px ≥ 1200px)
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setResponsiveOpen(false)}
-                  className="text-[16px] text-[#8B95A1] font-bold hover:text-[#191F28]"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="h-[48px] rounded-[10px] border-2 border-[#1219F7] px-3 flex items-center justify-between text-[14px]">
-                <input
-                  type="text"
-                  placeholder="도로명, 지번, 건물명 (2글자 이상)"
-                  defaultValue="테헤란로"
-                  className="w-full bg-transparent outline-none text-[#191F28] placeholder-[#8B95A1]"
-                />
-                <span className="text-[#1219F7] font-bold">🔍</span>
-              </div>
-
-              <div className="space-y-1.5 text-[12px] text-[#6B7684] bg-[#F9FAFB] p-3.5 rounded-[12px] border border-[#E5E8EB]">
-                <div className="font-bold text-[#191F28]">주소검색 Tip</div>
-                <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
-                <div>• 지번 + 번지수 (예: 역삼동 648)</div>
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setResponsiveOpen(false)}
-                  className="px-4 py-2.5 rounded-[10px] text-[14px] font-bold text-[#6B7684] hover:bg-[#F2F4F6]"
-                >
-                  닫기
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    alert('주소가 선택되었습니다.');
-                    setResponsiveOpen(false);
-                  }}
-                  className="px-5 py-2.5 rounded-[10px] text-[14px] font-bold bg-[#1219F7] text-white hover:bg-[#0E15D4]"
-                >
-                  검색하기
-                </button>
-              </div>
-            </div>
-          ) : (
-            // Mobile Bottom Sheet (< 1200px)
-            <div
-              className="fixed bottom-0 left-0 right-0 max-w-[640px] mx-auto bg-white rounded-t-[24px] p-6 space-y-4 shadow-2xl border-t border-[#E5E8EB] animate-slideUp"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="w-12 h-1 bg-[#E5E8EB] rounded-full mx-auto" />
-              <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-3">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-[17px] font-bold text-[#191F28]">출발지 주소 검색</h3>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#FFF0EB] text-[#E5501B]">
-                    바텀시트 (너비 {windowWidth}px &lt; 1200px)
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setResponsiveOpen(false)}
-                  className="text-[14px] text-[#8B95A1] font-bold"
-                >
-                  닫기
-                </button>
-              </div>
-
-              <div className="h-[46px] rounded-[10px] border-2 border-[#1219F7] px-3 flex items-center justify-between text-[14px]">
-                <input
-                  type="text"
-                  placeholder="도로명, 지번, 건물명 (2글자 이상)"
-                  defaultValue="테헤란로"
-                  className="w-full bg-transparent outline-none text-[#191F28] placeholder-[#8B95A1]"
-                />
-                <span className="text-[#1219F7] font-bold">🔍</span>
-              </div>
-
-              <div className="space-y-1 text-[12px] text-[#6B7684] bg-[#F9FAFB] p-3 rounded-[12px] border border-[#E5E8EB]">
-                <div className="font-bold text-[#191F28]">주소검색 Tip</div>
-                <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  alert('주소가 선택되었습니다.');
-                  setResponsiveOpen(false);
-                }}
-                className="w-full h-[50px] bg-[#1219F7] text-white text-[15px] font-bold rounded-[12px]"
-              >
-                주소 검색하기
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Real Full Screen Dialog Instances */}
-      <Modal
-        open={liveConfirmOpen}
-        onClose={() => setLiveConfirmOpen(false)}
-        title="방문 견적 신청을 취소할까요?"
-        description="입력하신 이사 정보와 요청 사항이 모두 초기화됩니다."
-        type="double"
-        cancelText="계속 작성"
-        confirmText="취소하기"
-        onConfirm={() => alert('취소되었습니다.')}
-      />
-
-      <Modal
-        open={liveAlertOpen}
-        onClose={() => setLiveAlertOpen(false)}
-        title="이사 견적 접수가 완료되었습니다"
-        description="고객님의 연락처로 전문 매니저의 배정 알림톡이 전송되었습니다."
-        type="single"
-        confirmText="확인 완료"
-      />
-
-      <BottomSheet
-        open={liveSheetOpen}
-        onClose={() => setLiveSheetOpen(false)}
-        title="출발지 층수를 선택하세요"
-        options={floorOptions}
-        value={selectedFloor}
-        onSelect={(val) => setSelectedFloor(val)}
-      />
     </section>
   );
 };

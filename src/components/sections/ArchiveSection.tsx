@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { Download, Copy, Check, FileText, Sparkles, BookOpen, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Download, Copy, Check, FileText, CheckCircle2 } from 'lucide-react';
 
 const MARKDOWN_CONTENT = `# 다이사(da24) 공식 디자인시스템 명세서 (daisalibrary)
 
 > **기준**: 고객향 프로덕션 표준 규격  
-> **기준 피그마**:  
-> 1. \`[고객향] 스타일가이드\` (\`csWoLlTCHOtuE7oAMswuL7\`) - 노드: \`9852:6081\`, \`384:1369\`, \`8788:5522\`  
-> 2. \`[실제 화면] [개발] v1.2\` (\`G5JiHI51FV6XFImlsyON6u\`) - 노드: \`7785:11499\`, \`6813:9676\`  
-> 3. \`[실제 화면] [개발] v1.1\` (\`KLDA7nLwHvbDCIHS6y0MgT\`) - 노드: \`7349:334\`, \`7350:4922\`, \`6178:2247\`, \`6351:8380\`, \`6458:2639\`  
-> **레퍼런스**: [da24.co.kr](https://da24.co.kr) & 당근 [Seed Design](https://seed-design.io)
 
 ---
 
@@ -105,10 +100,8 @@ AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구�
 
 export const ArchiveSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
-  const [viewMode, setViewMode] = useState<'rendered' | 'raw'>('rendered');
 
   const handleDownload = () => {
-    // Trigger direct file download
     const blob = new Blob([MARKDOWN_CONTENT], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -134,30 +127,27 @@ export const ArchiveSection: React.FC = () => {
           공식 문서 및 자료
         </span>
         <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-          자료실 (Documentation & Downloads)
+          자료실
         </h2>
         <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-          다이사(da24) 디자인시스템의 공식 명세서 원본(\`DAISA_DESIGN_SYSTEM.md\`)을 다운로드하고 브라우저에서 바로 열람할 수 있습니다.
+          다이사(da24) 디자인시스템의 공식 명세서 원본(DAISA_DESIGN_SYSTEM.md)을 다운로드하고 원문 마크다운 코드를 즉시 열람 및 복사할 수 있습니다.
         </p>
       </div>
 
-      {/* Hero Download Card (Top CTA Banner) */}
-      <div className="bg-gradient-to-br from-white via-white to-[#F2F7FF] border border-[#E5E8EB] rounded-[24px] p-6 md:p-8 space-y-6 shadow-[0_2px_16px_rgba(0,0,0,0.04)] relative overflow-hidden">
+      {/* Top CTA Banner */}
+      <div className="bg-gradient-to-br from-white via-white to-[#F2F7FF] border border-[#E5E8EB] rounded-[24px] p-6 md:p-8 space-y-6 shadow-[0_2px_16px_rgba(0,0,0,0.04)]">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
                 <FileText className="w-3.5 h-3.5" />
-                공식 명세서 v1.2
+                공식 명세서
               </span>
               <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#F2F4F6] text-[#4E5968]">
                 Markdown (.md)
               </span>
               <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#F2F4F6] text-[#8B95A1]">
                 약 14KB
-              </span>
-              <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#F2F4F6] text-[#8B95A1]">
-                2026.11.06 최신 개정
               </span>
             </div>
 
@@ -166,7 +156,7 @@ export const ArchiveSection: React.FC = () => {
             </h3>
 
             <p className="text-[14px] text-[#6B7684] leading-relaxed max-w-xl">
-              AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구현할 때 일관된 디자인을 유지하기 위한 <strong>헌법적 절대 규칙(Non-Negotiables)</strong>, 작업 규격(360px/1200px), UX 라이팅 가이드 6대 표가 수록된 단일 진실 공급원(Single Source of Truth)입니다.
+              AI 에이전트 및 프론트엔드 엔지니어가 다이사 서비스를 구현할 때 일관된 디자인을 유지하기 위한 <strong>헌법적 절대 규칙(Non-Negotiables)</strong>, 작업 규격(360px/1200px), UX 라이팅 가이드 6대 표가 수록된 단일 진실 공급원입니다.
             </p>
           </div>
 
@@ -189,7 +179,7 @@ export const ArchiveSection: React.FC = () => {
               {copied ? (
                 <>
                   <Check className="w-4 h-4 text-emerald-600" />
-                  <span className="text-emerald-700">마크다운 복사 완료!</span>
+                  <span className="text-emerald-700 font-bold">마크다운 복사 완료!</span>
                 </>
               ) : (
                 <>
@@ -202,167 +192,28 @@ export const ArchiveSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Markdown Preview Section */}
-      <div className="bg-white border border-[#E5E8EB] rounded-[24px] overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-        {/* Preview Sub-Header & Mode Switcher */}
-        <div className="px-6 py-4 border-b border-[#F2F4F6] flex items-center justify-between bg-[#FAFAFB]">
-          <div className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#3182F6]" />
-            <h4 className="text-[15px] font-bold text-[#191F28]">
-              명세서 미리보기 (Markdown Preview)
-            </h4>
+      {/* Raw Markdown Viewer (Default & Only View) */}
+      <div className="bg-[#191F28] border border-[#2B323D] rounded-[24px] overflow-hidden shadow-xl">
+        <div className="px-6 py-4 border-b border-[#2B323D] flex items-center justify-between bg-[#14181F]">
+          <div className="flex items-center gap-2 text-[13px] font-bold text-white">
+            <FileText className="w-4 h-4 text-[#3182F6]" />
+            <span>DAISA_DESIGN_SYSTEM.md (원문 마크다운 미리보기)</span>
           </div>
-
-          <div className="flex items-center bg-[#F2F4F6] p-1 rounded-[10px] text-[12px] font-bold">
-            <button
-              type="button"
-              onClick={() => setViewMode('rendered')}
-              className={`px-3 py-1.5 rounded-[7px] transition-all ${
-                viewMode === 'rendered' ? 'bg-white text-[#191F28] shadow-2xs font-bold' : 'text-[#6B7684]'
-              }`}
-            >
-              렌더링 뷰
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode('raw')}
-              className={`px-3 py-1.5 rounded-[7px] transition-all ${
-                viewMode === 'raw' ? 'bg-white text-[#191F28] shadow-2xs font-bold' : 'text-[#6B7684]'
-              }`}
-            >
-              Raw 코드
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="text-[12px] text-[#8B95A1] hover:text-white flex items-center gap-1.5 transition-colors"
+          >
+            <Copy className="w-3.5 h-3.5" />
+            <span>{copied ? '복사됨' : '원문 복사'}</span>
+          </button>
         </div>
 
-        {/* Preview Content Area */}
-        {viewMode === 'rendered' ? (
-          /* Rich Rendered Document View */
-          <div className="p-6 md:p-10 space-y-8 text-[15px] text-[#333D4B] leading-relaxed select-text">
-            {/* Title Block */}
-            <div className="space-y-2 border-b border-[#F2F4F6] pb-6">
-              <span className="text-[12px] font-bold text-[#3182F6] uppercase tracking-wider">
-                Official Specification
-              </span>
-              <h1 className="text-[26px] md:text-[30px] font-extrabold text-[#191F28] tracking-tight">
-                다이사(da24) 공식 디자인시스템 명세서 (daisalibrary)
-              </h1>
-              <div className="bg-[#F9FAFB] p-4 rounded-[12px] border border-[#E5E8EB] text-[13px] text-[#6B7684] space-y-1">
-                <div>• <strong>기준</strong>: 고객향 프로덕션 표준 규격</div>
-                <div>• <strong>기준 피그마</strong>: [고객향] 스타일가이드 (<code className="bg-white px-1.5 py-0.5 rounded border border-[#E5E8EB] font-mono text-[11px]">csWoLlTCHOtuE7oAMswuL7</code>)</div>
-                <div>• <strong>레퍼런스</strong>: da24.co.kr & 당근 Seed Design (seed-design.io)</div>
-              </div>
-            </div>
-
-            {/* 1. Constitution */}
-            <div className="space-y-4">
-              <h2 className="text-[20px] font-extrabold text-[#191F28] flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-[#3182F6]" />
-                디자인시스템 헌법: 절대 규칙 vs 유연한 규칙
-              </h2>
-
-              <div className="bg-[#FFF0EB] border border-[#F34766]/30 p-4 rounded-[14px] text-[13px] text-[#C9302C] font-medium leading-relaxed">
-                🚨 <strong>타협 불가 원칙 (Non-Negotiables)</strong>: 어떤 상황에서도 디자이너의 사전 합의 없이 임의 변경하거나 타협할 수 없습니다.
-              </div>
-
-              <div className="space-y-4 pt-2">
-                <div className="border border-[#E5E8EB] rounded-[16px] p-5 space-y-2 bg-[#FAFAFB]">
-                  <h4 className="font-bold text-[#191F28]">1. 타이포그래피 절대 원칙 (Pretendard & 짝수 6종)</h4>
-                  <ul className="list-disc list-inside space-y-1 text-[14px] text-[#4E5968]">
-                    <li>서체는 오직 <strong>Pretendard 단일 서체</strong>만 사용합니다.</li>
-                    <li>폰트 크기는 <strong>12, 14, 16, 18, 20, 24px 짝수 6종</strong> 외 절대 사용 금지.</li>
-                    <li><strong>예외 허용 (Micro Badge)</strong>: 카운트 배지, 상태 태그에 한하여 <strong>10px 또는 11px</strong> 허용.</li>
-                    <li>모든 텍스트에 <strong>자간 -1px (-0.01em)</strong> 필수 고정 적용.</li>
-                  </ul>
-                </div>
-
-                <div className="border border-[#E5E8EB] rounded-[16px] p-5 space-y-2 bg-[#FAFAFB]">
-                  <h4 className="font-bold text-[#191F28]">2. 작업 캔버스 및 레이아웃 절대 원칙</h4>
-                  <ul className="list-disc list-inside space-y-1 text-[14px] text-[#4E5968]">
-                    <li><strong>모바일 (Mobile)</strong>: 너비 <strong>360px</strong>, 좌우 마진 <strong>각 24px</strong>, 안전 본문 <strong>312px</strong>.</li>
-                    <li><strong>웹/PC (Desktop)</strong>: 캔버스 너비 <strong>1200px</strong>, 헤더·본문·버튼 모두 <strong>640px 단일 열 중앙 집중 정렬</strong>.</li>
-                  </ul>
-                </div>
-
-                <div className="border border-[#E5E8EB] rounded-[16px] p-5 space-y-2 bg-[#FAFAFB]">
-                  <h4 className="font-bold text-[#191F28]">3. 버튼 및 인풋 표준</h4>
-                  <ul className="list-disc list-inside space-y-1 text-[14px] text-[#4E5968]">
-                    <li><strong>Public Button (공식 표준)</strong>: 본문 인라인 버튼(모바일 312px, PC 640px, Corner Radius 10px, 높이 56px) 사용.</li>
-                    <li><strong>Floating CTA (360x56, r:0)</strong>: ⚠️ 레거시 규격(사용 지양). 신규 화면은 Public Button 사용.</li>
-                    <li><strong>인풋 에러 상태</strong>: 테두리 스트로크 및 하단 문구 모두 <strong className="text-[#F34766]">#F34766</strong> 통일.</li>
-                  </ul>
-                </div>
-
-                <div className="border border-[#E5E8EB] rounded-[16px] p-5 space-y-2 bg-[#FAFAFB]">
-                  <h4 className="font-bold text-[#191F28]">4. 오버레이 반응형 전환 분기점 (1200px)</h4>
-                  <ul className="list-disc list-inside space-y-1 text-[14px] text-[#4E5968]">
-                    <li><strong>360px ~ 1199px</strong>: 화면 하단에서 올라오는 <strong>바텀시트(Bottom Sheet)</strong>로 작동.</li>
-                    <li><strong>1200px 이상</strong>: 화면 중앙에 고정되는 <strong>중앙 모달(Center Modal, 440px)</strong>로 작동.</li>
-                    <li>배경 딤드: <strong>rgba(0, 0, 0, 0.6) 60%</strong> 고정.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* 2. UX Writing Guide Summary Table */}
-            <div className="space-y-4 pt-4 border-t border-[#F2F4F6]">
-              <h2 className="text-[20px] font-extrabold text-[#191F28]">
-                UX 라이팅 가이드 (공식 6대 표준 요약)
-              </h2>
-
-              <div className="border border-[#E5E8EB] rounded-[16px] overflow-hidden">
-                <table className="w-full text-left text-[13px]">
-                  <thead className="bg-[#FAFAFB] border-b border-[#E5E8EB] text-[#8B95A1] font-medium">
-                    <tr>
-                      <th className="py-2.5 px-3 w-[160px]">항목</th>
-                      <th className="py-2.5 px-3">규칙 내용</th>
-                      <th className="py-2.5 px-3">Do (올바른 표기)</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#F2F4F6] text-[#333D4B]">
-                    <tr>
-                      <td className="py-2.5 px-3 font-bold text-[#191F28]">타이틀</td>
-                      <td className="py-2.5 px-3">[해요체] 기본, 온점(.) 미사용</td>
-                      <td className="py-2.5 px-3 text-[#1B64DA] font-bold">출발지를 검색해 주세요</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2.5 px-3 font-bold text-[#191F28]">설명문</td>
-                      <td className="py-2.5 px-3">[해요체] 기본, 온점(.) 필수</td>
-                      <td className="py-2.5 px-3 text-[#1B64DA] font-bold">업체에게 모든걸 맡기세요.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2.5 px-3 font-bold text-[#191F28]">유의사항/힌트</td>
-                      <td className="py-2.5 px-3">[~입니다체] 기본, 온점(.) 필수</td>
-                      <td className="py-2.5 px-3 text-[#1B64DA] font-bold">가정이사 업체 한정 이벤트입니다.</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2.5 px-3 font-bold text-[#191F28]">버튼 레이블</td>
-                      <td className="py-2.5 px-3">[~하기체] 기본, 명확한 동사형</td>
-                      <td className="py-2.5 px-3 text-[#1B64DA] font-bold">견적 신청하기, 설정하러 가기</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2.5 px-3 font-bold text-[#191F28]">금액 표기</td>
-                      <td className="py-2.5 px-3">'만'과 '원' 사이 띄어쓰기</td>
-                      <td className="py-2.5 px-3 text-[#1B64DA] font-bold">48만 원, 총 200만 원</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2.5 px-3 font-bold text-[#191F28]">날짜 표기</td>
-                      <td className="py-2.5 px-3">4자리 연도, 온점 구분</td>
-                      <td className="py-2.5 px-3 text-[#1B64DA] font-bold">2024.07.06</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* Raw Markdown Code Viewer */
-          <div className="p-4 md:p-6 bg-[#191F28] overflow-x-auto text-[13px] font-mono leading-relaxed text-[#D1D6DB]">
-            <pre className="whitespace-pre">
-              <code>{MARKDOWN_CONTENT}</code>
-            </pre>
-          </div>
-        )}
+        <div className="p-6 md:p-8 overflow-x-auto text-[13px] font-mono leading-relaxed text-[#D1D6DB] max-h-[720px] overflow-y-auto">
+          <pre className="whitespace-pre">
+            <code>{MARKDOWN_CONTENT}</code>
+          </pre>
+        </div>
       </div>
     </section>
   );

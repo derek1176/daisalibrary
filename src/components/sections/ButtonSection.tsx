@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { PublicButton, ModalButtons, Segmented3, Chip, ButtonState } from '../ui/Button';
+import { PublicButton, ModalButtons, Chip, ButtonState } from '../ui/Button';
 import { Smartphone, Monitor } from 'lucide-react';
 
 export const ButtonSection: React.FC = () => {
   const [btnState, setBtnState] = useState<ButtonState>('normal');
-  const [segmentedVal, setSegmentedVal] = useState(0);
   const [activeChip, setActiveChip] = useState('원룸이사 (소형)');
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
   const [modalType, setModalType] = useState<'double' | 'single'>('double');
   const [modalSize, setModalSize] = useState<48 | 56>(56);
 
-  const segmentedOptions: [string, string, string] = ['포장이사', '반포장이사', '일반이사'];
   const chips = ['원룸이사 (소형)', '가정이사 (아파트)', '사무실/기업이사', '보관이사', '에어컨 이전설치'];
 
   return (
@@ -21,14 +19,14 @@ export const ButtonSection: React.FC = () => {
           버튼 컴포넌트
         </span>
         <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-          버튼 규격 (Button Specifications)
+          버튼
         </h2>
         <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
-          화면 위치와 역할에 따라 규격(본문 인라인 표준 Public Button, 모달 다이얼로그 버튼, 세그먼트, 필터 칩)을 철저히 구분하여 사용합니다.
+          다이사 서비스 전반에서 사용하는 <strong>본문 표준 Public Button</strong>, 모달 다이얼로그 버튼, 필터 칩 규격입니다.
         </p>
       </div>
 
-      {/* State & Device Control Bar: Toss Pill Segment */}
+      {/* State & Device Control Bar */}
       <div className="bg-white border border-[#E5E8EB] rounded-[20px] p-4 flex flex-wrap items-center justify-between gap-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
         {/* Device Switcher */}
         <div className="flex items-center gap-1.5 bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
@@ -83,7 +81,7 @@ export const ButtonSection: React.FC = () => {
                 본문 표준 버튼 (Public Button)
               </h3>
               <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1B64DA]">
-                ★ 공식 표준
+                공식 표준
               </span>
             </div>
             <span className="text-[12px] text-[#6B7684]">
@@ -169,44 +167,24 @@ export const ButtonSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Segmented 3-Way & Filter Chips */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Segmented 3 */}
-          <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-            <div className="border-b border-[#F2F4F6] pb-3">
-              <h3 className="text-[17px] font-bold text-[#191F28]">3분할 세그먼트 (Segmented 3)</h3>
-              <p className="text-[13px] text-[#6B7684] mt-0.5">
-                너비 312px · 높이 56px · 라운드 10px · 균등 3분할 탭
-              </p>
-            </div>
-            <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex items-center justify-center border border-[#E5E8EB]">
-              <Segmented3
-                options={segmentedOptions}
-                value={segmentedVal}
-                onChange={(idx) => setSegmentedVal(idx)}
-              />
-            </div>
+        {/* 3. Pill Chips (Category & Filter) */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="border-b border-[#F2F4F6] pb-3">
+            <h3 className="text-[17px] font-bold text-[#191F28]">필터 칩 (Pill Chips)</h3>
+            <p className="text-[13px] text-[#6B7684] mt-0.5">
+              높이 33px · 라운드 28px (Pill) · 태그 및 조건 다중 선택 필터
+            </p>
           </div>
-
-          {/* Pill Chips */}
-          <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 space-y-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-            <div className="border-b border-[#F2F4F6] pb-3">
-              <h3 className="text-[17px] font-bold text-[#191F28]">필터 칩 (Pill Chips)</h3>
-              <p className="text-[13px] text-[#6B7684] mt-0.5">
-                높이 33px · 라운드 28px (Pill) · 태그 다중 선택 필터
-              </p>
-            </div>
-            <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex flex-wrap gap-2 items-center justify-center border border-[#E5E8EB]">
-              {chips.map((c) => (
-                <Chip
-                  key={c}
-                  active={activeChip === c}
-                  onClick={() => setActiveChip(c)}
-                >
-                  {c}
-                </Chip>
-              ))}
-            </div>
+          <div className="p-6 bg-[#F9FAFB] rounded-[16px] flex flex-wrap gap-2.5 items-center justify-center border border-[#E5E8EB]">
+            {chips.map((c) => (
+              <Chip
+                key={c}
+                active={activeChip === c}
+                onClick={() => setActiveChip(c)}
+              >
+                {c}
+              </Chip>
+            ))}
           </div>
         </div>
       </div>

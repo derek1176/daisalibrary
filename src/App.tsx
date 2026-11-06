@@ -15,11 +15,10 @@ import {
   X,
   Search,
   ChevronRight,
-  BookOpen,
   Layers,
-  Sparkles,
   FolderDown,
-  FileText
+  Building2,
+  CheckCircle2
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -30,16 +29,16 @@ export const App: React.FC = () => {
   const [searchFocused, setSearchFocused] = useState(false);
 
   const navItems = [
-    { id: 'home', label: '컴포넌트 모아보기', category: '개요' },
-    { id: 'archive', label: '자료실 (다운로드)', category: '문서 & 다운로드' },
-    { id: 'layout', label: '작업 규격', category: '파운데이션' },
-    { id: 'writing', label: 'UX 라이팅', category: '보이스앤톤' },
-    { id: 'colors', label: '색상', category: '파운데이션' },
-    { id: 'typography', label: '타이포그래피', category: '파운데이션' },
-    { id: 'spacing-radius', label: '여백 및 라운드', category: '파운데이션' },
-    { id: 'buttons', label: '버튼', category: '컴포넌트' },
-    { id: 'inputs', label: '입력창', category: '컴포넌트' },
-    { id: 'modals', label: '모달 및 시트', category: '컴포넌트' },
+    { id: 'home', label: '컴포넌트 모아보기', category: '대시보드' },
+    { id: 'archive', label: '자료실', category: '자료실' },
+    { id: 'layout', label: '작업 규격', category: '기초 규격' },
+    { id: 'writing', label: 'UX 라이팅 가이드', category: '기초 규격' },
+    { id: 'colors', label: '색상 토큰', category: '기초 규격' },
+    { id: 'typography', label: '타이포그래피', category: '기초 규격' },
+    { id: 'spacing-radius', label: '여백 및 라운드', category: '기초 규격' },
+    { id: 'buttons', label: '버튼', category: '핵심 컴포넌트' },
+    { id: 'inputs', label: '입력창', category: '핵심 컴포넌트' },
+    { id: 'modals', label: '모달 및 바텀시트', category: '핵심 컴포넌트' },
   ];
 
   // Quick search filter
@@ -72,9 +71,9 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#F9FAFB] text-[#191F28] font-sans antialiased selection:bg-[#E8F3FF] selection:text-[#1B64DA]">
       {/* ============================================================ */}
-      {/* Toss-Style Minimal GNB Header */}
+      {/* Toss-Style Minimal GNB Header (Full Width) */}
       {/* ============================================================ */}
-      <header className="sticky top-0 z-40 h-[60px] bg-white/95 backdrop-blur-md border-b border-[#E5E8EB] px-6 lg:px-10 flex items-center justify-between transition-all">
+      <header className="sticky top-0 z-40 h-[60px] bg-white/95 backdrop-blur-md border-b border-[#E5E8EB] px-6 lg:px-8 flex items-center justify-between transition-all w-full">
         <div className="flex items-center gap-6">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -84,7 +83,7 @@ export const App: React.FC = () => {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Official Logo (Updated with user-uploaded asset) */}
+          {/* Official Logo */}
           <div
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-3 cursor-pointer select-none group"
@@ -100,7 +99,7 @@ export const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Center: Toss-Style Search Bar */}
+        {/* Center: Search Bar */}
         <div className="relative hidden md:block w-[280px] lg:w-[320px]">
           <div className={`flex items-center gap-2.5 px-3.5 py-2 rounded-[12px] bg-[#F2F4F6] transition-all border ${
             searchFocused ? 'bg-white border-[#3182F6] ring-2 ring-[#3182F6]/10' : 'border-transparent hover:bg-[#E5E8EB]/70'
@@ -152,7 +151,7 @@ export const App: React.FC = () => {
           )}
         </div>
 
-        {/* Right Header Area: Toss-Style Segmented Toggle */}
+        {/* Right Header Area: Customer / Partner Segmented Toggle */}
         <div className="flex items-center gap-3">
           <div className="flex items-center bg-[#F2F4F6] p-1 rounded-[12px] border border-[#E5E8EB]/50">
             <button
@@ -180,13 +179,13 @@ export const App: React.FC = () => {
       </header>
 
       {/* ============================================================ */}
-      {/* Main Body Layout */}
+      {/* Main Body Layout (Left Sidebar Anchored to Left Screen Edge) */}
       {/* ============================================================ */}
       {serviceMode === 'partner' ? (
         /* Partner Mode Placeholder */
         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center min-h-[60vh] max-w-lg mx-auto space-y-4">
-          <div className="w-16 h-16 rounded-[22px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#8B95A1] text-2xl font-bold shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-            🏢
+          <div className="w-16 h-16 rounded-[22px] bg-white border border-[#E5E8EB] flex items-center justify-center text-[#3182F6] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <Building2 className="w-8 h-8" />
           </div>
           <h2 className="text-[22px] font-bold text-[#191F28]">
             파트너향 디자인시스템 준비 중
@@ -203,13 +202,13 @@ export const App: React.FC = () => {
           </button>
         </div>
       ) : (
-        /* Customer Mode Main Content */
-        <div className="flex-1 flex max-w-[1440px] w-full mx-auto">
+        /* Customer Mode Main Content - Sidebar anchored to left edge */
+        <div className="flex-1 flex w-full">
           {/* ============================================================ */}
-          {/* Left Sticky Sidebar (Toss LNB Style) */}
+          {/* Left Sticky Sidebar (Anchored to Left Screen Edge) */}
           {/* ============================================================ */}
           <aside
-            className={`fixed md:sticky top-[60px] z-30 w-[240px] lg:w-[260px] h-[calc(100vh-60px)] overflow-y-auto bg-white border-r border-[#E5E8EB] p-4 shrink-0 transition-transform duration-200 ${
+            className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto bg-white border-r border-[#E5E8EB] p-4 shrink-0 transition-transform duration-200 ${
               mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
             }`}
           >
@@ -222,7 +221,7 @@ export const App: React.FC = () => {
                 <div className="space-y-0.5">
                   <button
                     onClick={() => handleNavClick('home')}
-                    className={`w-full h-[42px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                    className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                       activeTab === 'home'
                         ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
                         : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
@@ -235,10 +234,9 @@ export const App: React.FC = () => {
                     {activeTab === 'home' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
                   </button>
 
-                  {/* 자료실 (MD 다운로드) 메뉴 항목 */}
                   <button
                     onClick={() => handleNavClick('archive')}
-                    className={`w-full h-[42px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                    className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                       activeTab === 'archive'
                         ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
                         : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
@@ -246,23 +244,21 @@ export const App: React.FC = () => {
                   >
                     <div className="flex items-center gap-2.5">
                       <FolderDown className="w-4 h-4 text-[#3182F6]" />
-                      <span>자료실 (다운로드)</span>
+                      <span>자료실</span>
                     </div>
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#E8F3FF] text-[#1B64DA]">
-                      .md
-                    </span>
+                    {activeTab === 'archive' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
                   </button>
                 </div>
               </div>
 
-              {/* Group 2: 파운데이션 / 규격 */}
+              {/* Group 2: 파운데이션 / 기초 규격 (한글 전용) */}
               <div>
                 <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B95A1] tracking-wider">
                   기초 규격 & 원칙
                 </div>
                 <div className="space-y-0.5">
                   {[
-                    { id: 'layout', label: '작업 규격 (360 · 1200)' },
+                    { id: 'layout', label: '작업 규격' },
                     { id: 'writing', label: 'UX 라이팅 가이드' },
                     { id: 'colors', label: '색상 토큰' },
                     { id: 'typography', label: '타이포그래피' },
@@ -273,7 +269,7 @@ export const App: React.FC = () => {
                       <button
                         key={item.id}
                         onClick={() => handleNavClick(item.id)}
-                        className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                        className={`w-full h-[38px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                           isActive
                             ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
                             : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
@@ -287,23 +283,23 @@ export const App: React.FC = () => {
                 </div>
               </div>
 
-              {/* Group 3: 컴포넌트 */}
+              {/* Group 3: 핵심 컴포넌트 (한글 전용) */}
               <div>
                 <div className="px-3 py-1.5 text-[11px] font-bold text-[#8B95A1] tracking-wider">
                   핵심 컴포넌트
                 </div>
                 <div className="space-y-0.5">
                   {[
-                    { id: 'buttons', label: '버튼 (Public 56)' },
-                    { id: 'inputs', label: '입력창 (Form Input)' },
-                    { id: 'modals', label: '모달 & 바텀시트' },
+                    { id: 'buttons', label: '버튼' },
+                    { id: 'inputs', label: '입력창' },
+                    { id: 'modals', label: '모달 및 바텀시트' },
                   ].map((item) => {
                     const isActive = activeTab === item.id;
                     return (
                       <button
                         key={item.id}
                         onClick={() => handleNavClick(item.id)}
-                        className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                        className={`w-full h-[38px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                           isActive
                             ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
                             : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
@@ -330,7 +326,7 @@ export const App: React.FC = () => {
           </aside>
 
           {/* ============================================================ */}
-          {/* Right Main Content Panel */}
+          {/* Right Main Content Panel (Spans remaining screen width) */}
           {/* ============================================================ */}
           <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
             <div className="max-w-[1040px] mx-auto space-y-16">
@@ -352,15 +348,13 @@ export const App: React.FC = () => {
       {/* ============================================================ */}
       {/* Footer */}
       {/* ============================================================ */}
-      <footer className="bg-white border-t border-[#E5E8EB] py-8 px-6 text-[#6B7684] text-[13px]">
+      <footer className="bg-white border-t border-[#E5E8EB] py-8 px-6 text-[#6B7684] text-[13px] w-full">
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img src="/logo-dark.png" alt="daisalibrary logo" className="h-[20px] w-auto object-contain opacity-90" />
             <span>© 2026 다이사 (da24) 디자인시스템</span>
           </div>
           <div className="flex items-center gap-4 text-[#8B95A1] text-[12px]">
-            <span>피그마 csWoLlTCHOtuE7oAMswuL7</span>
-            <span>•</span>
             <span>Pretendard 공식 서체</span>
             <span>•</span>
             <span>고객향 프로덕션 규격</span>

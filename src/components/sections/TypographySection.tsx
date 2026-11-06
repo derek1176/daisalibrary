@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Type } from 'lucide-react';
+import { Type, Copy, Check, CheckCircle2 } from 'lucide-react';
 
 interface TypeRowProps {
   name: string;
@@ -9,10 +9,12 @@ interface TypeRowProps {
   lh: string;
   usage: string;
   sampleText: string;
+  isException?: boolean;
 }
 
 export const TypographySection: React.FC = () => {
   const [testText, setTestText] = useState('내 주변 모든 이사업체 찾기, 다이사');
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const typeSpecs: TypeRowProps[] = [
     {
@@ -40,7 +42,7 @@ export const TypographySection: React.FC = () => {
       weightNum: 700,
       lh: '150% (30px)',
       usage: '섹션 타이틀, 팝업 및 모달 제목',
-      sampleText: '내 주변 모든 이사업체 찾기, 다이사',
+      sampleText: '이사 견적 신청을 취소하시겠습니까?',
     },
     {
       name: 'Title',
@@ -48,26 +50,17 @@ export const TypographySection: React.FC = () => {
       weight: 'Regular',
       weightNum: 400,
       lh: '150% (30px)',
-      usage: '섹션 설명, 중간 타이틀 보조 텍스트',
-      sampleText: '내 주변 모든 이사업체 찾기, 다이사',
+      usage: '중형 부제목, 옵션 그룹 헤더',
+      sampleText: '이사 견적 신청을 취소하시겠습니까?',
     },
     {
-      name: 'Sub-Title (Button 1)',
+      name: 'Body (Button 1)',
       size: 18,
       weight: 'Bold',
       weightNum: 700,
-      lh: '150% (27px)',
-      usage: '하단 고정 Floating CTA 버튼, 바텀시트 헤더',
-      sampleText: '무료 방문견적 신청하기',
-    },
-    {
-      name: 'Sub-Title',
-      size: 18,
-      weight: 'Regular',
-      weightNum: 400,
-      lh: '150% (27px)',
-      usage: '강조 본문 문구, 카드 서브 타이틀',
-      sampleText: '내 주변 모든 이사업체 찾기, 다이사',
+      lh: '140% (25px)',
+      usage: '바텀시트 헤더, 대형 플로팅 CTA',
+      sampleText: '출발지 층수를 선택하세요',
     },
     {
       name: 'Body (Button 2)',
@@ -75,8 +68,8 @@ export const TypographySection: React.FC = () => {
       weight: 'Bold',
       weightNum: 700,
       lh: '150% (24px)',
-      usage: 'Public 인컨텐츠 버튼, 본문 볼드 강조',
-      sampleText: '견적서 제출하기 (312px)',
+      usage: '본문 표준 Public Button (312px/640px)',
+      sampleText: '이사 견적 신청하기',
     },
     {
       name: 'Body',
@@ -129,20 +122,28 @@ export const TypographySection: React.FC = () => {
       weight: 'Bold',
       weightNum: 700,
       lh: '130% (14px)',
-      usage: '상태 뱃지, 카운트 배지 등 특수 배지 전용 예외 허용 (10px / 11px)',
-      sampleText: 'N개 · 추천 · 신규',
+      usage: '카운트 뱃지, 상태 칩 (예외 허용)',
+      sampleText: '새로운 소식 N개',
+      isException: true,
     },
   ];
+
+  const handleCopyClass = (idx: number, size: number, weightNum: number) => {
+    const cls = `text-[${size}px] font-[${weightNum}] tracking-[-0.01em]`;
+    navigator.clipboard.writeText(cls);
+    setCopiedIndex(idx);
+    setTimeout(() => setCopiedIndex(null), 1200);
+  };
 
   return (
     <section id="typography" className="space-y-10">
       {/* Section Header: Toss Style */}
       <div className="border-b border-[#E5E8EB] pb-6">
         <span className="text-[13px] font-bold text-[#3182F6]">
-          타이포그래피
+          스타일 파운데이션
         </span>
         <h2 className="text-[28px] md:text-[32px] font-extrabold text-[#191F28] tracking-tight mt-1">
-          서체 및 글꼴 규격 (Typography)
+          타이포그래피 (Typography)
         </h2>
         <p className="text-[15px] text-[#4E5968] mt-2 leading-relaxed max-w-2xl">
           Pretendard Bold (700) · Regular (400) 2개 두께만 사용합니다. 사이즈는 <strong>12 · 14 · 16 · 18 · 20 · 24</strong> 짝수 6개 기본 원칙이며, 뱃지(Badge) 제작 시에 한하여 예외적으로 <strong>10px 또는 11px</strong> 사용이 허용됩니다. 모든 텍스트에 <strong>자간 -1px (-0.01em)</strong>을 고정 적용합니다.
@@ -150,35 +151,37 @@ export const TypographySection: React.FC = () => {
       </div>
 
       {/* Typeface Family Card: Toss Card */}
-      <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-8 flex flex-col md:flex-row items-start md:items-center gap-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-        <div className="text-[88px] font-extrabold text-[#191F28] leading-none tracking-tighter select-none">
+      <div className="bg-white border border-[#E5E8EB] rounded-[22px] p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-8 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="text-[72px] md:text-[88px] font-extrabold text-[#191F28] leading-none tracking-tighter select-none shrink-0">
           다Aa
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <div className="flex items-center gap-3">
             <h3 className="text-[22px] font-extrabold text-[#191F28]">Pretendard (프리텐다드)</h3>
             <span className="px-2.5 py-0.5 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
-              단일 서체
+              단일 서체 원칙
             </span>
           </div>
           <p className="text-[14px] text-[#6B7684] leading-relaxed">
             한글과 라틴 문자 모두 최상의 가독성과 밸런스를 제공하는 산세리프 서체입니다. 다이사의 모든 프로덕트 화면에 단일하게 적용됩니다.
           </p>
           <div className="flex flex-wrap gap-2 pt-1 font-mono text-[12px]">
-            <span className="px-2.5 py-1 rounded-[8px] bg-[#F2F4F6] text-[#4E5968] font-medium">400 Regular</span>
-            <span className="px-2.5 py-1 rounded-[8px] bg-[#F2F4F6] text-[#191F28] font-bold">700 Bold</span>
-            <span className="px-2.5 py-1 rounded-[8px] bg-[#E8F3FF] text-[#1B64DA] font-bold">Letter-spacing: -1px</span>
+            <span className="px-3 py-1 rounded-[8px] bg-[#F2F4F6] text-[#4E5968] font-medium">400 Regular</span>
+            <span className="px-3 py-1 rounded-[8px] bg-[#F2F4F6] text-[#191F28] font-bold">700 Bold</span>
+            <span className="px-3 py-1 rounded-[8px] bg-[#E8F3FF] text-[#1B64DA] font-bold">자간: -1px (-0.01em)</span>
+            <span className="px-3 py-1 rounded-[8px] bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">짝수 6종 원칙</span>
           </div>
         </div>
       </div>
 
-      {/* Live Text Sandbox: Toss Style */}
-      <div className="bg-white border border-[#E5E8EB] rounded-[18px] p-5 space-y-2 shadow-2xs">
+      {/* Live Text Sandbox */}
+      <div className="bg-white border border-[#E5E8EB] rounded-[20px] p-5 space-y-2 shadow-2xs">
         <div className="flex items-center justify-between">
           <span className="text-[13px] font-bold text-[#191F28] flex items-center gap-1.5">
             <Type className="w-4 h-4 text-[#3182F6]" /> 타이포그래피 실시간 문구 테스트
           </span>
           <button
+            type="button"
             onClick={() => setTestText('내 주변 모든 이사업체 찾기, 다이사')}
             className="text-[12px] text-[#8B95A1] hover:text-[#191F28] transition-colors"
           >
@@ -190,42 +193,72 @@ export const TypographySection: React.FC = () => {
           value={testText}
           onChange={(e) => setTestText(e.target.value)}
           placeholder="테스트할 문구를 입력하세요"
-          className="w-full h-[46px] px-3.5 rounded-[12px] bg-[#F9FAFB] border border-[#E5E8EB] text-[15px] text-[#191F28] outline-none focus:border-[#3182F6] focus:bg-white transition-all font-medium"
+          className="w-full h-[46px] px-4 rounded-[12px] bg-[#F9FAFB] border border-[#E5E8EB] text-[15px] text-[#191F28] outline-none focus:border-[#3182F6] focus:bg-white transition-all font-medium"
         />
       </div>
 
-      {/* Type Rows Table Panel */}
-      <div className="bg-white border border-[#E5E8EB] rounded-[22px] divide-y divide-[#F2F4F6] shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
-        {typeSpecs.map((spec, idx) => (
-          <div key={idx} className="p-6 md:p-7 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:bg-[#FAFBFD] transition-colors">
-            {/* Meta Info */}
-            <div className="w-full lg:w-[260px] shrink-0 space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-[15px] font-bold text-text-01">{spec.name}</span>
-                <span className="text-[12px] font-mono px-2 py-0.5 rounded bg-etc-04 text-text-03 font-semibold">
-                  {spec.size}px · {spec.weight}
-                </span>
-              </div>
-              <div className="text-[12px] text-text-04 font-mono">
-                LH: {spec.lh} · LS: -1px
-              </div>
-              <div className="text-[12px] text-text-03 pt-0.5">
-                {spec.usage}
-              </div>
-            </div>
+      {/* Type Specs List (Highly Readable Toss Card Table) */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-[13px] text-[#8B95A1] px-2 font-medium">
+          <span>타입 스케일 (총 12단계 명세)</span>
+          <span>각 행을 클릭하면 Tailwind 클래스가 복사됩니다</span>
+        </div>
 
-            {/* Rendered Text */}
+        <div className="bg-white border border-[#E5E8EB] rounded-[22px] divide-y divide-[#F2F4F6] shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
+          {typeSpecs.map((spec, idx) => (
             <div
-              className="flex-1 text-text-01 tracking-da24 leading-snug break-keep"
-              style={{
-                fontSize: `${spec.size}px`,
-                fontWeight: spec.weightNum,
-              }}
+              key={idx}
+              onClick={() => handleCopyClass(idx, spec.size, spec.weightNum)}
+              className="p-5 md:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4 hover:bg-[#F9FAFB] transition-colors cursor-pointer select-none group"
             >
-              {testText || spec.sampleText}
+              {/* Left Meta Tag */}
+              <div className="w-full lg:w-[260px] shrink-0 space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-extrabold text-[#191F28]">{spec.name}</span>
+                  <span className="text-[14px] font-extrabold text-[#1219F7] font-mono">{spec.size}px</span>
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${spec.weight === 'Bold' ? 'bg-[#191F28] text-white' : 'bg-[#F2F4F6] text-[#4E5968]'}`}>
+                    {spec.weight} ({spec.weightNum})
+                  </span>
+                  {spec.isException && (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-orange-100 text-[#E5501B]">
+                      예외
+                    </span>
+                  )}
+                </div>
+                <div className="text-[12px] text-[#8B95A1]">
+                  행간: {spec.lh} · {spec.usage}
+                </div>
+              </div>
+
+              {/* Center Live Sample Text */}
+              <div className="flex-1 min-w-0 pr-4">
+                <div
+                  style={{
+                    fontSize: `${spec.size}px`,
+                    fontWeight: spec.weightNum,
+                    letterSpacing: '-0.015em',
+                  }}
+                  className="text-[#191F28] leading-tight truncate"
+                >
+                  {testText || spec.sampleText}
+                </div>
+              </div>
+
+              {/* Right Copy Indicator */}
+              <div className="shrink-0 text-right">
+                {copiedIndex === idx ? (
+                  <span className="text-[12px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 inline-flex items-center gap-1">
+                    <Check className="w-3 h-3" /> 복사됨
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-mono text-[#8B95A1] group-hover:text-[#3182F6] transition-colors">
+                    text-[{spec.size}px] font-{spec.weight.toLowerCase()}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
