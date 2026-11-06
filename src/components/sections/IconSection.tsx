@@ -847,11 +847,35 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
 
                   {/* Download notification overlay */}
                   {isDownloaded && (
-                    <div className="absolute inset-0 bg-[#3182F6] text-white rounded-[16px] flex flex-col items-center justify-center gap-1 text-[11px] font-bold animate-fadeIn z-10 shadow-md">
-                      <Download className="w-4 h-4 animate-bounce" />
+                    <div className="absolute inset-0 bg-[#1219F7] text-white rounded-[16px] flex flex-col items-center justify-center gap-1 text-[11px] font-bold animate-fadeIn z-20 shadow-md">
+                      <Check className="w-4 h-4 animate-bounce" />
                       <span>SVG 다운로드 완료</span>
                     </div>
                   )}
+
+                  {/* Hover Overlay: Subtle Blur + Download Icon */}
+                  <div
+                    className={`absolute inset-0 rounded-[16px] opacity-0 group-hover:opacity-100 transition-all duration-200 flex flex-col items-center justify-center gap-1.5 z-10 pointer-events-none ${
+                      isDark
+                        ? 'bg-[#191F28]/80 backdrop-blur-[2px]'
+                        : 'bg-white/85 backdrop-blur-[2px]'
+                    }`}
+                  >
+                    <div
+                      className={`w-9 h-9 rounded-full flex items-center justify-center shadow-xs transform scale-90 group-hover:scale-100 transition-transform ${
+                        isDark ? 'bg-[#4B89FF] text-white' : 'bg-[#1219F7] text-white'
+                      }`}
+                    >
+                      <Download className="w-4 h-4" />
+                    </div>
+                    <span
+                      className={`text-[11px] font-bold ${
+                        isDark ? 'text-white' : 'text-[#1219F7]'
+                      }`}
+                    >
+                      SVG 다운로드
+                    </span>
+                  </div>
                 </div>
               );
             })}

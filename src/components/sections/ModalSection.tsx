@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
 
-  // Responsive Resizer Slider State (360px ~ 1400px)
-  const [simulatedWidth, setSimulatedWidth] = useState(768);
+  // Responsive Viewport Preset State (360px, 768px, 1280px)
+  const [simulatedWidth, setSimulatedWidth] = useState<number>(360);
   const isSimulatedDesktop = simulatedWidth >= 1200;
 
   // 모달 & 바텀시트 스펙 표 데이터 (내용 보존 & 표 형태 UI)
@@ -57,247 +57,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </h2>
       </div>
 
-      {/* 2. Modal & Bottom Sheet Specification Table (표 형태 심플 UI) */}
-      <div className="space-y-3">
-        <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
-          {/* Table Header */}
-          <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#F2F4F8] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
-            <div className="col-span-3">오버레이 구분</div>
-            <div className="col-span-2">적용 뷰포트</div>
-            <div className="col-span-2">너비 규격</div>
-            <div className="col-span-2">코너 곡률</div>
-            <div className="col-span-3">액션 버튼 & 동작 규칙</div>
-          </div>
-
-          {/* Table Rows */}
-          <div className="divide-y divide-[#F2F4F8]">
-            {specs.map((row) => (
-              <div
-                key={row.type}
-                className="grid grid-cols-12 px-6 py-4 items-center text-[13px] hover:bg-[#F9FAFB] transition-colors"
-              >
-                <div className="col-span-3 font-bold text-[#191F28]">{row.type}</div>
-                <div className="col-span-2 text-[#4E5968] font-mono text-[12px]">{row.viewport}</div>
-                <div className="col-span-2 font-bold text-[#1219F7] font-mono text-[13px]">{row.width}</div>
-                <div className="col-span-2 text-[#191F28] font-medium">{row.radius}</div>
-                <div className="col-span-3 text-[#6B7684] text-[12px] leading-relaxed">
-                  <div>{row.action}</div>
-                  <div className="text-[11px] text-[#8B95A1] mt-0.5">{row.behavior}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 3. 고객향 반응형 바텀시트 ↔ 중앙 고정 모달 전환 인터랙티브 시뮬레이터 (stroke 없음, 360px 고정) */}
-      {!isPartner && (
-        <div className="bg-white rounded-[16px] p-6 md:p-8 space-y-6 shadow-xs">
-          {/* Header & Controls */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#F2F4F8] pb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-[17px] font-bold text-[#191F28]">
-                  반응형 바텀시트 ↔ 중앙 고정 모달 전환 시각화
-                </h3>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7]">
-                  1200px 전환 룰
-                </span>
-              </div>
-              <p className="text-[13px] text-[#6B7684] mt-1">
-                360px ~ 1199px은 하단에서 올라오는 가변 바텀시트, 1200px 이상에서는 데스크톱 중앙 고정 모달(360px)로 자동 전환됩니다.
-              </p>
-            </div>
-
-            {/* Quick Presets (아이콘 배제, 심플 텍스트 버튼) */}
-            <div className="flex items-center gap-1.5 p-1 rounded-[10px] bg-[#F2F4F8] self-start md:self-auto shrink-0">
-              <button
-                type="button"
-                onClick={() => setSimulatedWidth(360)}
-                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
-                  simulatedWidth === 360
-                    ? 'bg-white text-[#191F28] shadow-2xs'
-                    : 'text-[#6B7684] hover:text-[#191F28]'
-                }`}
-              >
-                모바일 (360px)
-              </button>
-              <button
-                type="button"
-                onClick={() => setSimulatedWidth(768)}
-                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
-                  simulatedWidth === 768
-                    ? 'bg-white text-[#191F28] shadow-2xs'
-                    : 'text-[#6B7684] hover:text-[#191F28]'
-                }`}
-              >
-                태블릿 (768px)
-              </button>
-              <button
-                type="button"
-                onClick={() => setSimulatedWidth(1280)}
-                className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
-                  simulatedWidth === 1280
-                    ? 'bg-white text-[#1219F7] shadow-2xs'
-                    : 'text-[#6B7684] hover:text-[#191F28]'
-                }`}
-              >
-                데스크톱 (1280px)
-              </button>
-            </div>
-          </div>
-
-          {/* Interactive Range Slider */}
-          <div className="space-y-3 bg-[#FAFBFD] p-5 rounded-[14px]">
-            <div className="flex items-center justify-between text-[13px]">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-[#191F28]">시뮬레이션 뷰포트 너비:</span>
-                <span className="text-[17px] font-bold text-[#1219F7] font-mono">{simulatedWidth}px</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[12px] text-[#6B7684]">현재 모드:</span>
-                <span className="px-2.5 py-1 rounded-[6px] text-[12px] font-bold bg-[#E8F3FF] text-[#1219F7]">
-                  {isSimulatedDesktop
-                    ? '데스크톱 중앙 고정 모달 (360px)'
-                    : '모바일 가변 바텀시트 (360px ~ 1199px)'}
-                </span>
-              </div>
-            </div>
-
-            <div className="relative pt-6 pb-2">
-              <div className="absolute top-0 left-[80.76%] -translate-x-1/2 flex flex-col items-center pointer-events-none z-10">
-                <span className="text-[10px] font-bold text-[#1219F7] bg-[#E8F3FF] px-1.5 py-0.5 rounded shadow-2xs whitespace-nowrap">
-                  1200px 전환선
-                </span>
-                <div className="w-[2px] h-3 bg-[#1219F7] mt-0.5" />
-              </div>
-
-              <input
-                type="range"
-                min={360}
-                max={1400}
-                step={10}
-                value={simulatedWidth}
-                onChange={(e) => setSimulatedWidth(Number(e.target.value))}
-                className="w-full accent-[#1219F7] h-2 bg-[#E2E8F0] rounded-lg cursor-pointer"
-              />
-
-              <div className="flex justify-between text-[11px] text-[#8B95A1] mt-2 font-mono">
-                <span>360px</span>
-                <span>768px</span>
-                <span className="font-bold text-[#1219F7]">1200px (전환 임계점)</span>
-                <span>1400px</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Live Morphing Viewport Canvas (stroke 없음) */}
-          <div className="bg-[#191F28] p-4 md:p-6 rounded-[16px] overflow-hidden flex flex-col items-center select-none">
-            <div className="text-[12px] text-white/70 mb-3 flex items-center gap-2">
-              <span className="font-mono">뷰포트 캔버스: {simulatedWidth}px</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="text-white font-bold">
-                {isSimulatedDesktop ? 'PC 데스크톱 중앙 모달 (360px)' : '모바일 반응형 바텀시트'}
-              </span>
-            </div>
-
-            {/* Simulated Device Window */}
-            <div
-              style={{ width: `${Math.min(simulatedWidth, 840)}px` }}
-              className="h-[400px] bg-slate-900/90 rounded-[12px] relative overflow-hidden transition-all duration-300 flex flex-col shadow-2xl"
-            >
-              {/* Dummy Background App */}
-              <div className="p-3 border-b border-white/10 flex items-center justify-between text-white/80 text-[12px] bg-white/5">
-                <span className="font-bold text-white">다이사 견적 신청</span>
-                <span className="text-white/60">3 / 5 단계</span>
-              </div>
-              <div className="p-4 space-y-2 opacity-25">
-                <div className="h-4 bg-white/40 rounded w-1/3" />
-                <div className="h-9 bg-white/20 rounded w-full" />
-                <div className="h-9 bg-white/20 rounded w-full" />
-              </div>
-
-              {/* In-Preview Dynamic Morphing Overlay */}
-              {isSimulatedDesktop ? (
-                // Desktop Center Modal (>= 1200px): Fixed 360px, All-round 16px
-                <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-all duration-300">
-                  <div className="w-[360px] max-w-[92%] bg-white rounded-[16px] p-5 space-y-4 shadow-2xl">
-                    <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2.5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[16px] font-bold text-[#191F28]">출발지 주소 검색</span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                          360px 고정 (r:16)
-                        </span>
-                      </div>
-                      <button type="button" className="text-[#8B95A1] hover:text-[#191F28] font-bold text-[14px]">
-                        ✕
-                      </button>
-                    </div>
-
-                    <div className="h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]">
-                      <span className="font-medium">테헤란로 7길 12</span>
-                      <span className="text-[#1219F7] font-bold text-[12px]">검색</span>
-                    </div>
-
-                    <div className="space-y-1 text-[11px] text-[#6B7684] bg-[#FAFBFD] p-3 rounded-[8px]">
-                      <div className="font-bold text-[#191F28]">주소검색 Tip</div>
-                      <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
-                    </div>
-
-                    <div className="pt-1 flex justify-end gap-2">
-                      <button
-                        type="button"
-                        className="px-4 py-2 text-[12px] font-bold text-[#4E5968] hover:bg-[#F2F4F6] rounded-[8px]"
-                      >
-                        취소
-                      </button>
-                      <button
-                        type="button"
-                        className="px-4 py-2 text-[12px] font-bold bg-[#1219F7] text-white rounded-[8px]"
-                      >
-                        선택 완료
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                // Mobile Bottom Sheet (< 1200px): Bottom-anchored, Top rounded 16px, Handle visible
-                <div className="absolute inset-0 flex flex-col justify-end bg-black/60 backdrop-blur-xs transition-all duration-300">
-                  <div className="w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
-                    <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
-
-                    <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[15px] font-bold text-[#191F28]">출발지 주소 검색</span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                          바텀시트 (상단 r:16)
-                        </span>
-                      </div>
-                      <span className="text-[12px] text-[#8B95A1] font-bold cursor-pointer hover:text-[#191F28]">
-                        닫기
-                      </span>
-                    </div>
-
-                    <div className="h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]">
-                      <span className="font-medium text-[#888888]">도로명, 건물명 검색</span>
-                      <span className="text-[#1219F7] font-bold text-[12px]">검색</span>
-                    </div>
-
-                    <button
-                      type="button"
-                      className="w-full h-[48px] bg-[#1219F7] text-white text-[14px] font-bold rounded-[10px]"
-                    >
-                      주소 선택하기 (56px r:10)
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 4. 개별 실물 컴포넌트 프리뷰 (Alert Modal & Bottom Sheet) */}
+      {/* 2. 개별 실물 컴포넌트 프리뷰 (고객향 얼럿/컨펌 모달 & 고객향 바텀시트 프리뷰) - 맨 위 배치 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* 1. Modal Preview */}
         <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white">
@@ -382,6 +142,221 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 선택 완료
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. 반응형 관련 규격 (표 형태 심플 UI) */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-[18px] font-bold text-[#191F28]">반응형 오버레이 규격</h3>
+          <span className="text-[12px] font-medium text-[#1219F7]">모바일 ↔ PC 최적화 표준</span>
+        </div>
+
+        <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+          {/* Table Header */}
+          <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#F2F4F8] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
+            <div className="col-span-3">오버레이 구분</div>
+            <div className="col-span-2">적용 뷰포트</div>
+            <div className="col-span-2">너비 규격</div>
+            <div className="col-span-2">코너 곡률</div>
+            <div className="col-span-3">액션 버튼 & 동작 규칙</div>
+          </div>
+
+          {/* Table Rows */}
+          <div className="divide-y divide-[#F2F4F8]">
+            {specs.map((row) => (
+              <div
+                key={row.type}
+                className="grid grid-cols-12 px-6 py-4 items-center text-[13px] hover:bg-[#F9FAFB] transition-colors"
+              >
+                <div className="col-span-3 font-bold text-[#191F28]">{row.type}</div>
+                <div className="col-span-2 text-[#4E5968] font-mono text-[12px]">{row.viewport}</div>
+                <div className="col-span-2 font-bold text-[#1219F7] font-mono text-[13px]">{row.width}</div>
+                <div className="col-span-2 text-[#191F28] font-medium">{row.radius}</div>
+                <div className="col-span-3 text-[#6B7684] text-[12px] leading-relaxed">
+                  <div>{row.action}</div>
+                  <div className="text-[11px] text-[#8B95A1] mt-0.5">{row.behavior}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 4. 시각화 (슬라이더 배제, 모바일/태블릿/데스크톱 3개 버튼으로만 조절) */}
+      <div className="bg-white rounded-[16px] p-6 md:p-8 space-y-6 shadow-xs">
+        {/* Header & 3-Button Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F2F4F8] pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-[17px] font-bold text-[#191F28]">
+                반응형 바텀시트 ↔ 중앙 고정 모달 전환 시각화
+              </h3>
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7]">
+                1200px 전환 룰
+              </span>
+            </div>
+            <p className="text-[13px] text-[#6B7684] mt-1">
+              우측 버튼을 눌러 뷰포트별 전환(모바일 바텀시트 ↔ 데스크톱 360px 중앙 모달) 동작을 확인하세요.
+            </p>
+          </div>
+
+          {/* 3 Presets Buttons Only (슬라이더 없이 이 3개 버튼으로만 제어) */}
+          <div className="flex items-center gap-1.5 p-1 rounded-[10px] bg-[#F2F4F8] shrink-0 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => setSimulatedWidth(360)}
+              className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
+                simulatedWidth === 360
+                  ? 'bg-white text-[#1219F7] shadow-2xs'
+                  : 'text-[#6B7684] hover:text-[#191F28]'
+              }`}
+            >
+              모바일 (360px)
+            </button>
+            <button
+              type="button"
+              onClick={() => setSimulatedWidth(768)}
+              className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
+                simulatedWidth === 768
+                  ? 'bg-white text-[#1219F7] shadow-2xs'
+                  : 'text-[#6B7684] hover:text-[#191F28]'
+              }`}
+            >
+              태블릿 (768px)
+            </button>
+            <button
+              type="button"
+              onClick={() => setSimulatedWidth(1280)}
+              className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
+                simulatedWidth === 1280
+                  ? 'bg-white text-[#1219F7] shadow-2xs'
+                  : 'text-[#6B7684] hover:text-[#191F28]'
+              }`}
+            >
+              데스크톱 (1280px)
+            </button>
+          </div>
+        </div>
+
+        {/* Current State Info Bar */}
+        <div className="flex items-center justify-between text-[13px] bg-[#FAFBFD] px-4 py-3 rounded-[12px]">
+          <div className="flex items-center gap-2">
+            <span className="text-[#6B7684]">선택된 뷰포트 너비:</span>
+            <span className="text-[15px] font-bold text-[#1219F7] font-mono">{simulatedWidth}px</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[12px] text-[#6B7684]">적용 모드:</span>
+            <span className="px-2.5 py-0.5 rounded-[6px] text-[12px] font-bold bg-[#E8F3FF] text-[#1219F7]">
+              {isSimulatedDesktop
+                ? '데스크톱 중앙 고정 모달 (360px)'
+                : '모바일 가변 바텀시트 (360px ~ 1199px)'}
+            </span>
+          </div>
+        </div>
+
+        {/* Live Morphing Viewport Canvas */}
+        <div className="bg-[#191F28] p-4 md:p-6 rounded-[16px] overflow-hidden flex flex-col items-center select-none">
+          <div className="text-[12px] text-white/70 mb-3 flex items-center gap-2">
+            <span className="font-mono">뷰포트 캔버스: {simulatedWidth}px</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className="text-white font-bold">
+              {isSimulatedDesktop ? 'PC 데스크톱 중앙 모달 (360px)' : '모바일 반응형 바텀시트'}
+            </span>
+          </div>
+
+          {/* Simulated Device Window */}
+          <div
+            style={{ width: `${Math.min(simulatedWidth, 840)}px` }}
+            className="h-[400px] bg-slate-900/90 rounded-[12px] relative overflow-hidden transition-all duration-300 flex flex-col shadow-2xl"
+          >
+            {/* Dummy Background App */}
+            <div className="p-3 border-b border-white/10 flex items-center justify-between text-white/80 text-[12px] bg-white/5">
+              <span className="font-bold text-white">다이사 견적 신청</span>
+              <span className="text-white/60">3 / 5 단계</span>
+            </div>
+            <div className="p-4 space-y-2 opacity-25">
+              <div className="h-4 bg-white/40 rounded w-1/3" />
+              <div className="h-9 bg-white/20 rounded w-full" />
+              <div className="h-9 bg-white/20 rounded w-full" />
+            </div>
+
+            {/* In-Preview Dynamic Morphing Overlay */}
+            {isSimulatedDesktop ? (
+              // Desktop Center Modal (>= 1200px): Fixed 360px, All-round 16px
+              <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-all duration-300">
+                <div className="w-[360px] max-w-[92%] bg-white rounded-[16px] p-5 space-y-4 shadow-2xl">
+                  <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[16px] font-bold text-[#191F28]">출발지 주소 검색</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
+                        360px 고정 (r:16)
+                      </span>
+                    </div>
+                    <button type="button" className="text-[#8B95A1] hover:text-[#191F28] font-bold text-[14px]">
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]">
+                    <span className="font-medium">테헤란로 7길 12</span>
+                    <span className="text-[#1219F7] font-bold text-[12px]">검색</span>
+                  </div>
+
+                  <div className="space-y-1 text-[11px] text-[#6B7684] bg-[#FAFBFD] p-3 rounded-[8px]">
+                    <div className="font-bold text-[#191F28]">주소검색 Tip</div>
+                    <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
+                  </div>
+
+                  <div className="pt-1 flex justify-end gap-2">
+                    <button
+                      type="button"
+                      className="px-4 py-2 text-[12px] font-bold text-[#4E5968] hover:bg-[#F2F4F6] rounded-[8px]"
+                    >
+                      취소
+                    </button>
+                    <button
+                      type="button"
+                      className="px-4 py-2 text-[12px] font-bold bg-[#1219F7] text-white rounded-[8px]"
+                    >
+                      선택 완료
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // Mobile Bottom Sheet (< 1200px): Bottom-anchored, Top rounded 16px, Handle visible
+              <div className="absolute inset-0 flex flex-col justify-end bg-black/60 backdrop-blur-xs transition-all duration-300">
+                <div className="w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
+                  <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
+
+                  <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[15px] font-bold text-[#191F28]">출발지 주소 검색</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
+                        바텀시트 (상단 r:16)
+                      </span>
+                    </div>
+                    <span className="text-[12px] text-[#8B95A1] font-bold cursor-pointer hover:text-[#191F28]">
+                      닫기
+                    </span>
+                  </div>
+
+                  <div className="h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]">
+                    <span className="font-medium text-[#888888]">도로명, 건물명 검색</span>
+                    <span className="text-[#1219F7] font-bold text-[12px]">검색</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="w-full h-[48px] bg-[#1219F7] text-white text-[14px] font-bold rounded-[10px]"
+                  >
+                    주소 선택하기 (56px r:10)
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
