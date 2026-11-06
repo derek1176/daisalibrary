@@ -1,347 +1,301 @@
-import React, { forwardRef, useState } from 'react';
-import { ChevronDown, AlertCircle, Search, X, Check } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { IconCancel, IconChevron, IconMinus, IconPlus, IconSearch } from './Icons';
 
-export interface BaseInputProps {
+/* ──────────────────────────────────────────────────────────────
+ * Form 공통 규격 (Figma: [고객향] 스타일가이드 > form 9899:6841)
+ *  · mobile 312×56 / pc 720×56 · radius 10 · padding 16
+ *  · text 16px Regular · lh 24 · 값 #333333 / placeholder #888888
+ *  · normal  : bg #FFFFFF · border #D7DBE2
+ *  · focus   : bg #FFFFFF · border #1219F7
+ *  · disable : bg #F7F8FA · border #D7DBE2 · text #888888
+ *  · error   : border #F34766 · 하단 메시지 14px #F34766 (gap 8)
+ * ────────────────────────────────────────────────────────────── */
+
+type BoxState = { focused: boolean; disabled?: boolean; error?: boolean };
+
+const boxClass = ({ focused, disabled, error }: BoxState) =>
+  [
+    'flex items-center rounded-[10px] border transition-colors duration-150',
+    disabled
+      ? 'bg-etc-04 border-etc-02 text-text-04 cursor-not-allowed'
+      : error
+      ? 'bg-white border-sub-02'
+      : focused
+      ? 'bg-white border-main-01'
+      : 'bg-white border-etc-02 hover:border-etc-01',
+  ].join(' ');
+
+const inputClass =
+  'flex-1 min-w-0 h-full bg-transparent outline-none text-[16px] leading-[24px] text-text-02 placeholder:text-text-04 disabled:text-text-04 disabled:cursor-not-allowed';
+
+export const Field: React.FC<{
   label?: string;
-  error?: string;
-  success?: string;
-  helperText?: string;
-  disabled?: boolean;
-}
+  message?: string;
+  tone?: 'default' | 'error';
+  fluid?: boolean;
+  children: React.ReactNode;
+}> = ({ label, message, tone = 'default', fluid, children }) => (
+  <div className={`${fluid ? 'w-full' : 'w-[312px]'} flex flex-col gap-2`}>
+    {label && <span className="text-[14px] leading-[21px] font-bold text-text-02">{label}</span>}
+    {children}
+    {message && (
+      <span className={`text-[14px] leading-[21px] ${tone === 'error' ? 'text-sub-02' : 'text-text-03'}`}>{message}</span>
+    )}
+  </div>
+);
 
-// 1. Text Input (312px / 720px, 56px, Radius 10px, Padding 16px)
-export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement>, BaseInputProps {
-  suffix?: string;
-  fullWidth?: boolean;
-}
-
-export const InputText = forwardRef<HTMLInputElement, TextInputProps>(({
-  label,
-  error,
-  success,
-  helperText,
-  disabled = false,
-  suffix,
-  fullWidth = false,
-  className = '',
-  ...props
-}, ref) => {
-  const widthClass = fullWidth ? 'w-full' : 'w-[312px]';
-
-  return (
-    <div className={`${widthClass} flex flex-col gap-[6px]`}>
-      {label && (
-        <label className="text-[14px] font-bold text-text-02 tracking-da24">
-          {label}
-        </label>
-      )}
-      <div className={`relative ${widthClass}`}>
-        <input
-          ref={ref}
-          disabled={disabled}
-          className={`w-full h-[56px] px-[16px] rounded-[10px] bg-white border text-[16px] text-text-01 placeholder:text-text-04 tracking-da24 transition-colors duration-150 outline-none ${
-            disabled
-              ? 'bg-etc-04 border-etc-03 text-text-04 cursor-not-allowed select-none'
-              : error
-              ? 'border-error focus:border-error focus:ring-1 focus:ring-error'
-              : success
-              ? 'border-emerald-500 focus:border-emerald-500'
-              : 'border-etc-02 hover:border-[#B4BAC6] focus:border-main-01 focus:ring-1 focus:ring-main-01'
-          } ${suffix ? 'pr-[48px]' : ''} ${className}`}
-          {...props}
-        />
-        {suffix && (
-          <span className="absolute right-[16px] top-1/2 -translate-y-1/2 text-[14px] font-bold text-text-03 pointer-events-none">
-            {suffix}
-          </span>
-        )}
-      </div>
-      {error ? (
-        <div className="flex items-center gap-1 text-error text-[12px] mt-1 font-medium">
-          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-          <span>{error}</span>
-        </div>
-      ) : success ? (
-        <div className="flex items-center gap-1 text-emerald-600 text-[12px] mt-1 font-medium">
-          <Check className="w-3.5 h-3.5 shrink-0" />
-          <span>{success}</span>
-        </div>
-      ) : helperText ? (
-        <span className="text-[12px] text-text-03 mt-1">{helperText}</span>
-      ) : null}
-    </div>
-  );
-});
-
-InputText.displayName = 'InputText';
-
-// 2. Memo / Textarea Input (312px / 720px, 104px / 128px height, Radius 10px)
-export interface MemoInputProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, BaseInputProps {
-  height?: '104' | '128';
-  fullWidth?: boolean;
-}
-
-export const InputMemo = forwardRef<HTMLTextAreaElement, MemoInputProps>(({
-  label,
-  error,
-  helperText,
-  disabled = false,
-  height = '104',
-  fullWidth = false,
-  className = '',
-  ...props
-}, ref) => {
-  const widthClass = fullWidth ? 'w-full' : 'w-[312px]';
-  const hClass = height === '104' ? 'h-[104px]' : 'h-[128px]';
-
-  return (
-    <div className={`${widthClass} flex flex-col gap-[6px]`}>
-      {label && (
-        <label className="text-[14px] font-bold text-text-02 tracking-da24">
-          {label}
-        </label>
-      )}
-      <textarea
-        ref={ref}
-        disabled={disabled}
-        className={`w-full ${hClass} p-[16px] rounded-[10px] bg-white border text-[16px] text-text-01 placeholder:text-text-04 tracking-da24 transition-colors duration-150 outline-none resize-none leading-[22px] ${
-          disabled
-            ? 'bg-etc-04 border-etc-03 text-text-04 cursor-not-allowed select-none'
-            : error
-            ? 'border-error focus:border-error focus:ring-1 focus:ring-error'
-            : 'border-etc-02 hover:border-[#B4BAC6] focus:border-main-01 focus:ring-1 focus:ring-main-01'
-        } ${className}`}
-        {...props}
-      />
-      {error ? (
-        <div className="flex items-center gap-1 text-error text-[12px] mt-1 font-medium">
-          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-          <span>{error}</span>
-        </div>
-      ) : helperText ? (
-        <span className="text-[12px] text-text-03 mt-1">{helperText}</span>
-      ) : null}
-    </div>
-  );
-});
-
-InputMemo.displayName = 'InputMemo';
-
-// 3. Search Input with Clear Button (Figma input-search: 312x56, r:10)
-export interface SearchInputProps extends BaseInputProps {
-  value: string;
-  onChange: (val: string) => void;
-  onSearch?: (val: string) => void;
+interface CommonProps {
+  label?: string;
   placeholder?: string;
-  fullWidth?: boolean;
+  value: string;
+  onChange: (v: string) => void;
+  disabled?: boolean;
+  error?: string;
+  message?: string;
+  forceFocus?: boolean;
+  fluid?: boolean;
 }
 
-export const InputSearch: React.FC<SearchInputProps> = ({
+/* input-text */
+export const InputText: React.FC<CommonProps & { suffix?: string }> = ({
   label,
+  placeholder = '입력해주세요',
   value,
   onChange,
-  onSearch,
-  placeholder = '검색어를 입력하세요',
-  disabled = false,
+  disabled,
   error,
-  helperText,
-  fullWidth = false,
+  message,
+  forceFocus,
+  fluid,
+  suffix,
 }) => {
-  const widthClass = fullWidth ? 'w-full' : 'w-[312px]';
-
+  const [focused, setFocused] = useState(false);
   return (
-    <div className={`${widthClass} flex flex-col gap-[6px]`}>
-      {label && (
-        <label className="text-[14px] font-bold text-text-02 tracking-da24">
-          {label}
-        </label>
-      )}
-      <div className={`relative ${widthClass}`}>
-        <Search className="absolute left-[16px] top-1/2 -translate-y-1/2 w-5 h-5 text-text-03 pointer-events-none" />
+    <Field label={label} message={error || message} tone={error ? 'error' : 'default'} fluid={fluid}>
+      <div className={`${boxClass({ focused: focused || !!forceFocus, disabled, error: !!error })} h-[56px] px-4 gap-2.5`}>
         <input
-          type="text"
           value={value}
           disabled={disabled}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && onSearch?.(value)}
           placeholder={placeholder}
-          className={`w-full h-[56px] pl-[44px] pr-[44px] rounded-[10px] bg-white border text-[16px] text-text-01 placeholder:text-text-04 tracking-da24 transition-colors duration-150 outline-none ${
-            disabled
-              ? 'bg-etc-04 border-etc-03 text-text-04 cursor-not-allowed select-none'
-              : 'border-etc-02 hover:border-[#B4BAC6] focus:border-main-01 focus:ring-1 focus:ring-main-01'
-          }`}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => onChange(e.target.value)}
+          className={inputClass}
         />
-        {value && !disabled && (
+        {suffix && <span className="shrink-0 text-[16px] leading-[24px] text-text-02">{suffix}</span>}
+      </div>
+    </Field>
+  );
+};
+
+/* input-text · memo (312×104) */
+export const InputMemo: React.FC<CommonProps> = ({
+  label,
+  placeholder = '업체 전달 메모 작성(선택)',
+  value,
+  onChange,
+  disabled,
+  error,
+  message,
+  forceFocus,
+  fluid,
+}) => {
+  const [focused, setFocused] = useState(false);
+  return (
+    <Field label={label} message={error || message} tone={error ? 'error' : 'default'} fluid={fluid}>
+      <div className={`${boxClass({ focused: focused || !!forceFocus, disabled, error: !!error })} h-[104px] p-4 items-stretch`}>
+        <textarea
+          value={value}
+          disabled={disabled}
+          placeholder={placeholder}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => onChange(e.target.value)}
+          className={`${inputClass} resize-none`}
+        />
+      </div>
+    </Field>
+  );
+};
+
+/* input-search — 텍스트 · [cancel] · search 아이콘 (gap 8) */
+export const InputSearch: React.FC<CommonProps> = ({
+  label,
+  placeholder = '도로명, 지번, 건물명(2글자 이상)',
+  value,
+  onChange,
+  disabled,
+  forceFocus,
+  fluid,
+}) => {
+  const [focused, setFocused] = useState(false);
+  const isFocus = focused || !!forceFocus;
+  return (
+    <Field label={label} fluid={fluid}>
+      <div className={`${boxClass({ focused: isFocus, disabled })} h-[56px] px-4 gap-2`}>
+        <input
+          value={value}
+          disabled={disabled}
+          placeholder={placeholder}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => onChange(e.target.value)}
+          className={inputClass}
+        />
+        {isFocus && value && !disabled && (
           <button
             type="button"
+            aria-label="입력 지우기"
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => onChange('')}
-            className="absolute right-[14px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-etc-03 hover:bg-etc-02 text-text-03 hover:text-text-01 flex items-center justify-center transition-colors"
-            title="검색어 지우기"
+            className="shrink-0"
           >
-            <X className="w-3.5 h-3.5" />
+            <IconCancel />
           </button>
         )}
+        <IconSearch className="shrink-0 text-text-02" />
       </div>
-      {error && <span className="text-[12px] text-error mt-1">{error}</span>}
-    </div>
+    </Field>
   );
 };
 
-// 4. Number Input (312px, 56px, Radius 10px)
-export interface NumberInputProps extends React.InputHTMLAttributes<HTMLInputElement>, BaseInputProps {
-  unit?: string;
-  fullWidth?: boolean;
-}
-
-export const InputNumber = forwardRef<HTMLInputElement, NumberInputProps>(({
+/* input-number — success(잠금) / error 상태 + 하단 메시지 */
+export const InputNumber: React.FC<CommonProps & { status?: 'none' | 'success' | 'error'; statusText?: string }> = ({
   label,
-  error,
-  helperText,
-  disabled = false,
-  unit,
-  fullWidth = false,
-  className = '',
-  ...props
-}, ref) => {
-  const widthClass = fullWidth ? 'w-full' : 'w-[312px]';
-
+  placeholder = '숫자만 입력해주세요',
+  value,
+  onChange,
+  disabled,
+  forceFocus,
+  fluid,
+  status = 'none',
+  statusText,
+}) => {
+  const [focused, setFocused] = useState(false);
+  const locked = disabled || status === 'success';
   return (
-    <div className={`${widthClass} flex flex-col gap-[6px]`}>
-      {label && (
-        <label className="text-[14px] font-bold text-text-02 tracking-da24">
-          {label}
-        </label>
-      )}
-      <div className={`relative ${widthClass}`}>
+    <Field
+      label={label}
+      message={status !== 'none' ? statusText : undefined}
+      tone={status === 'error' ? 'error' : 'default'}
+      fluid={fluid}
+    >
+      <div
+        className={`${boxClass({ focused: focused || !!forceFocus, disabled: locked, error: status === 'error' })} h-[56px] px-4 gap-2.5`}
+      >
         <input
-          ref={ref}
-          type="number"
-          disabled={disabled}
-          className={`w-full h-[56px] px-[16px] rounded-[10px] bg-white border text-[16px] font-medium text-text-01 placeholder:text-text-04 tracking-da24 transition-colors duration-150 outline-none ${
-            disabled
-              ? 'bg-etc-04 border-etc-03 text-text-04 cursor-not-allowed select-none'
-              : error
-              ? 'border-error focus:border-error focus:ring-1 focus:ring-error'
-              : 'border-etc-02 hover:border-[#B4BAC6] focus:border-main-01 focus:ring-1 focus:ring-main-01'
-          } ${unit ? 'pr-[48px]' : ''} ${className}`}
-          {...props}
+          inputMode="numeric"
+          value={value}
+          disabled={locked}
+          placeholder={placeholder}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, ''))}
+          className={inputClass}
         />
-        {unit && (
-          <span className="absolute right-[16px] top-1/2 -translate-y-1/2 text-[14px] font-bold text-text-02 pointer-events-none">
-            {unit}
+      </div>
+    </Field>
+  );
+};
+
+/* select-text — 텍스트 · chevron(24) · 열림 시 up 아이콘 + focus 보더 */
+export const SelectText: React.FC<{
+  label?: string;
+  placeholder?: string;
+  value: string;
+  options: string[];
+  onChange: (v: string) => void;
+  disabled?: boolean;
+  forceFocus?: boolean;
+  fluid?: boolean;
+}> = ({ label, placeholder = '선택해주세요', value, options, onChange, disabled, forceFocus, fluid }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [open]);
+
+  const isOpen = open || !!forceFocus;
+  return (
+    <Field label={label} fluid={fluid}>
+      <div ref={ref} className="relative">
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={() => setOpen((o) => !o)}
+          className={`${boxClass({ focused: isOpen, disabled })} w-full h-[56px] px-4 gap-2 text-left`}
+        >
+          <span className={`flex-1 truncate text-[16px] leading-[24px] ${value && !disabled ? 'text-text-02' : 'text-text-04'}`}>
+            {value || placeholder}
           </span>
+          <IconChevron up={isOpen} className={disabled ? 'text-text-04' : 'text-text-02'} />
+        </button>
+        {open && (
+          <ul className="absolute z-20 left-0 right-0 top-[64px] max-h-[284px] overflow-auto rounded-[10px] border border-etc-02 bg-white shadow-pop py-1 anim-pop">
+            {options.map((o) => (
+              <li key={o}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange(o);
+                    setOpen(false);
+                  }}
+                  className={`w-full h-[48px] px-4 text-left text-[16px] leading-[24px] hover:bg-etc-04 ${
+                    o === value ? 'text-main-01 font-bold' : 'text-text-02'
+                  }`}
+                >
+                  {o}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
-      {error ? (
-        <div className="flex items-center gap-1 text-error text-[12px] mt-1">
-          <AlertCircle className="w-3.5 h-3.5" />
-          <span>{error}</span>
-        </div>
-      ) : helperText ? (
-        <span className="text-[12px] text-text-03 mt-1">{helperText}</span>
-      ) : null}
-    </div>
-  );
-});
-
-InputNumber.displayName = 'InputNumber';
-
-// 5. Select Box (312px, 56px, Radius 10px)
-export interface SelectProps extends BaseInputProps {
-  value?: string;
-  options: { label: string; value: string }[];
-  placeholder?: string;
-  onChange?: (val: string) => void;
-  fullWidth?: boolean;
-  className?: string;
-}
-
-export const SelectBox: React.FC<SelectProps> = ({
-  label,
-  value,
-  options,
-  placeholder = '선택해 주세요',
-  onChange,
-  disabled = false,
-  error,
-  helperText,
-  fullWidth = false,
-  className = '',
-}) => {
-  const widthClass = fullWidth ? 'w-full' : 'w-[312px]';
-
-  return (
-    <div className={`${widthClass} flex flex-col gap-[6px]`}>
-      {label && (
-        <label className="text-[14px] font-bold text-text-02 tracking-da24">
-          {label}
-        </label>
-      )}
-      <div className={`relative ${widthClass}`}>
-        <select
-          value={value}
-          disabled={disabled}
-          onChange={(e) => onChange?.(e.target.value)}
-          className={`w-full h-[56px] pl-[16px] pr-[40px] rounded-[10px] bg-white border text-[16px] text-text-01 tracking-da24 appearance-none transition-colors duration-150 outline-none cursor-pointer ${
-            disabled
-              ? 'bg-etc-04 border-etc-03 text-text-04 cursor-not-allowed select-none'
-              : error
-              ? 'border-error focus:border-error focus:ring-1 focus:ring-error'
-              : 'border-etc-02 hover:border-[#B4BAC6] focus:border-main-01 focus:ring-1 focus:ring-main-01'
-          } ${!value ? 'text-text-04' : ''} ${className}`}
-        >
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="text-text-01">
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        <ChevronDown className="absolute right-[16px] top-1/2 -translate-y-1/2 w-5 h-5 text-text-03 pointer-events-none" />
-      </div>
-      {error ? (
-        <div className="flex items-center gap-1 text-error text-[12px] mt-1">
-          <AlertCircle className="w-3.5 h-3.5" />
-          <span>{error}</span>
-        </div>
-      ) : helperText ? (
-        <span className="text-[12px] text-text-03 mt-1">{helperText}</span>
-      ) : null}
-    </div>
+    </Field>
   );
 };
 
-// 6. Small Select Box (Figma select-number size=small: 104x40, Radius 8px)
-export interface SmallSelectProps {
-  value: string;
-  options: { label: string; value: string }[];
-  onChange: (val: string) => void;
-  disabled?: boolean;
-}
-
-export const SelectSmall: React.FC<SmallSelectProps> = ({
-  value,
-  options,
-  onChange,
-  disabled = false,
-}) => {
+/* select-number (수량 스테퍼)
+ *  · large 312×56 · radius 10 · padding 16 · icon 24
+ *  · small 104×40 · radius 8  · padding 8  · icon 20
+ *  · 값 16px Bold #333333 */
+export const Stepper: React.FC<{
+  size?: 'large' | 'small';
+  value: number;
+  onChange: (n: number) => void;
+  min?: number;
+  max?: number;
+  unit?: string;
+  fluid?: boolean;
+}> = ({ size = 'large', value, onChange, min = 1, max = 99, unit = '', fluid }) => {
+  const large = size === 'large';
+  const iconSize = large ? 24 : 20;
+  const btn = (disabled: boolean) =>
+    `shrink-0 flex items-center justify-center rounded-full transition-colors ${
+      disabled ? 'text-etc-01 cursor-not-allowed' : 'text-text-02 hover:bg-etc-04'
+    }`;
   return (
-    <div className="relative w-[104px]">
-      <select
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-[104px] h-[40px] pl-[12px] pr-[28px] rounded-[8px] bg-white border border-etc-02 text-[14px] font-bold text-text-01 tracking-da24 appearance-none outline-none cursor-pointer hover:border-[#B4BAC6] focus:border-main-01 transition-colors"
-      >
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-      <ChevronDown className="absolute right-[10px] top-1/2 -translate-y-1/2 w-4 h-4 text-text-03 pointer-events-none" />
+    <div
+      className={`flex items-center bg-white border border-etc-02 ${
+        large ? `${fluid ? 'w-full' : 'w-[312px]'} h-[56px] rounded-[10px] px-4 gap-2` : 'w-[104px] h-[40px] rounded-[8px] px-2 gap-1'
+      }`}
+    >
+      <button type="button" aria-label="감소" disabled={value <= min} onClick={() => onChange(value - 1)} className={btn(value <= min)}>
+        <IconMinus size={iconSize} />
+      </button>
+      <span className="flex-1 text-center text-[16px] leading-[24px] font-bold text-text-02 tabular-nums">
+        {value}
+        {unit}
+      </span>
+      <button type="button" aria-label="증가" disabled={value >= max} onClick={() => onChange(value + 1)} className={btn(value >= max)}>
+        <IconPlus size={iconSize} />
+      </button>
     </div>
   );
 };

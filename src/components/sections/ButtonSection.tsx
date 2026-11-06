@@ -1,0 +1,240 @@
+import React, { useState } from 'react';
+import { PublicButton, FloatingButton, ModalButtons, Segmented3, Chip, ButtonState } from '../ui/Button';
+import { Smartphone, Monitor } from 'lucide-react';
+
+export const ButtonSection: React.FC = () => {
+  const [btnState, setBtnState] = useState<ButtonState>('normal');
+  const [segmentedVal, setSegmentedVal] = useState(0);
+  const [activeChip, setActiveChip] = useState('원룸이사');
+  const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
+  const [modalType, setModalType] = useState<'double' | 'single'>('double');
+  const [modalSize, setModalSize] = useState<48 | 56>(56);
+
+  const segmentedOptions: [string, string, string] = ['포장이사', '반포장이사', '일반이사'];
+  const chips = ['원룸이사 (소형)', '가정이사 (아파트)', '사무실/기업이사', '보관이사', '에어컨 이전설치'];
+
+  return (
+    <section id="buttons" className="space-y-12">
+      {/* Section Header */}
+      <div className="border-b border-etc-03 pb-6">
+        <span className="text-[12px] font-mono font-bold tracking-widest uppercase text-main-01">
+          06 — COMPONENTS / BUTTONS
+        </span>
+        <h2 className="text-[28px] font-extrabold text-text-01 tracking-da24 mt-1">
+          Buttons
+        </h2>
+        <p className="text-[15px] text-text-03 mt-2 leading-relaxed max-w-2xl">
+          화면 위치와 역할에 따라 4가지 규격(Floating CTA, Public In-Content, Modal, Segmented 3-Split)을 철저히 구분하여 사용합니다.
+        </p>
+      </div>
+
+      {/* State & Device Control Bar */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 shadow-soft">
+        {/* Device Switcher */}
+        <div className="flex items-center gap-1.5 bg-etc-04 p-1 rounded-[10px] border border-etc-02">
+          <button
+            onClick={() => setDeviceView('mobile')}
+            className={`px-3 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+              deviceView === 'mobile' ? 'bg-white text-main-01 shadow-xs' : 'text-text-03 hover:text-text-01'
+            }`}
+          >
+            <Smartphone className="w-3.5 h-3.5" /> Mobile (312px)
+          </button>
+          <button
+            onClick={() => setDeviceView('pc')}
+            className={`px-3 py-1.5 rounded-[8px] text-[13px] font-bold flex items-center gap-1.5 transition-all ${
+              deviceView === 'pc' ? 'bg-white text-main-01 shadow-xs' : 'text-text-03 hover:text-text-01'
+            }`}
+          >
+            <Monitor className="w-3.5 h-3.5" /> PC (672px/720px)
+          </button>
+        </div>
+
+        {/* State Toggle Buttons */}
+        <div className="flex items-center gap-2">
+          <span className="text-[12px] text-text-04 font-medium">상태:</span>
+          {(['normal', 'loading', 'disable', 'error'] as ButtonState[]).map((st) => (
+            <button
+              key={st}
+              onClick={() => setBtnState(st)}
+              className={`px-3 py-1 rounded-[8px] text-[12px] font-bold capitalize transition-colors ${
+                btnState === st
+                  ? 'bg-main-01 text-white shadow-xs'
+                  : 'bg-etc-04 text-text-03 hover:bg-etc-03'
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 1. Public In-Content Button */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
+          <div>
+            <h3 className="text-[17px] font-bold text-text-01">1. Public In-Content Button</h3>
+            <p className="text-[13px] text-text-03 mt-0.5">
+              본문 콘텐츠 영역 안에서 폼 제출, 다음 단계 진행에 사용되는 기본 표준 버튼
+            </p>
+          </div>
+          <span className="font-mono text-[12px] text-text-04">
+            모바일 312x56 · PC 672x56 · r:10px
+          </span>
+        </div>
+
+        <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px]">
+          <div className={deviceView === 'mobile' ? 'w-[312px]' : 'w-full max-w-[672px]'}>
+            <PublicButton
+              state={btnState}
+              fluid={deviceView === 'pc'}
+              onClick={() => alert('Public 버튼 클릭')}
+            >
+              무료 방문견적 신청하기 ({deviceView === 'mobile' ? '312px' : '672px'})
+            </PublicButton>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Floating CTA Button */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
+          <div>
+            <h3 className="text-[17px] font-bold text-text-01">2. Floating CTA Button</h3>
+            <p className="text-[13px] text-text-03 mt-0.5">
+              화면 최하단에 항상 밀착 고정되는 메인 전환 버튼 (Corner Radius 절대 0px)
+            </p>
+          </div>
+          <span className="font-mono text-[12px] text-error font-bold">
+            모바일 360x56 · PC 720x56 · r:0px (직각)
+          </span>
+        </div>
+
+        <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px]">
+          <div
+            className={`border border-dashed border-etc-02 p-2 rounded bg-white/60 flex flex-col items-center ${
+              deviceView === 'mobile' ? 'w-[360px]' : 'w-full max-w-[720px]'
+            }`}
+          >
+            <span className="text-[11px] text-text-04 mb-2">하단 밀착 시뮬레이션 (r:0px)</span>
+            <FloatingButton
+              state={btnState}
+              onClick={() => alert('Floating CTA 클릭')}
+            >
+              하단 고정 CTA 신청하기 (56px)
+            </FloatingButton>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Modal Buttons */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
+          <div>
+            <h3 className="text-[17px] font-bold text-text-01">3. Modal Action Buttons</h3>
+            <p className="text-[13px] text-text-03 mt-0.5">
+              모달 312px 내 패딩 16px을 제외한 280px 액션 그리드 버튼
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-etc-04 p-1 rounded-md text-[12px]">
+              <button
+                onClick={() => setModalType('double')}
+                className={`px-2 py-0.5 rounded font-bold ${modalType === 'double' ? 'bg-white shadow-2xs text-main-01' : 'text-text-03'}`}
+              >
+                2분할 (136+8+136)
+              </button>
+              <button
+                onClick={() => setModalType('single')}
+                className={`px-2 py-0.5 rounded font-bold ${modalType === 'single' ? 'bg-white shadow-2xs text-main-01' : 'text-text-03'}`}
+              >
+                단일 (280px)
+              </button>
+            </div>
+            <div className="flex items-center gap-1 bg-etc-04 p-1 rounded-md text-[12px]">
+              <button
+                onClick={() => setModalSize(56)}
+                className={`px-2 py-0.5 rounded font-bold ${modalSize === 56 ? 'bg-white shadow-2xs text-main-01' : 'text-text-03'}`}
+              >
+                56px
+              </button>
+              <button
+                onClick={() => setModalSize(48)}
+                className={`px-2 py-0.5 rounded font-bold ${modalSize === 48 ? 'bg-white shadow-2xs text-main-01' : 'text-text-03'}`}
+              >
+                48px
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px]">
+          <div className="p-4 bg-white rounded-[16px] border border-etc-02 shadow-xs space-y-3 flex flex-col items-center">
+            <span className="text-[13px] font-bold text-text-01">모달 액션 영역 (280px)</span>
+            <ModalButtons
+              type={modalType}
+              size={modalSize}
+              cancelText="취소"
+              confirmText="확인"
+              onCancel={() => alert('취소')}
+              onConfirm={() => alert('확인')}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Segmented 3-Split Button */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
+          <div>
+            <h3 className="text-[17px] font-bold text-text-01">4. Segmented 3-Split Button</h3>
+            <p className="text-[13px] text-text-03 mt-0.5">
+              3지 선다 옵션 전용. 좌우 마진 유지 + 가운데 버튼 1px 추가하여 312px 정렬
+            </p>
+          </div>
+          <span className="font-mono text-[12px] text-main-01 font-bold">
+            103px + 104px + 103px = 312px
+          </span>
+        </div>
+
+        <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-col items-center justify-center min-h-[140px] gap-3">
+          <Segmented3
+            options={segmentedOptions}
+            value={segmentedVal}
+            onChange={(i) => setSegmentedVal(i)}
+          />
+          <span className="text-[13px] text-text-03">
+            선택된 옵션: <strong className="text-main-01">{segmentedOptions[segmentedVal]}</strong>
+          </span>
+        </div>
+      </div>
+
+      {/* 5. Pill Filter Chips */}
+      <div className="bg-white border border-[#EBEEF2] rounded-[20px] p-6 md:p-8 space-y-4 shadow-soft">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-etc-03 pb-3">
+          <div>
+            <h3 className="text-[17px] font-bold text-text-01">5. Pill Filter Chips</h3>
+            <p className="text-[13px] text-text-03 mt-0.5">
+              카테고리 다중 선택 및 필터 태그 (h:33px, Radius: 28px/Pill)
+            </p>
+          </div>
+          <span className="font-mono text-[12px] text-text-04">
+            h: 33px · r: 28px (Pill)
+          </span>
+        </div>
+
+        <div className="p-8 bg-[#F8F9FA] rounded-[14px] flex flex-wrap items-center justify-center gap-2.5 min-h-[120px]">
+          {chips.map((c) => (
+            <Chip
+              key={c}
+              active={activeChip === c}
+              onClick={() => setActiveChip(c)}
+            >
+              {c}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};

@@ -1,189 +1,140 @@
 import React from 'react';
+import { IconLoading } from './Icons';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'floating' | 'public' | 'modal-primary' | 'modal-secondary';
-  size?: '56' | '48';
-  fullWidth?: boolean;
-  isLoading?: boolean;
-}
+export type ButtonState = 'normal' | 'loading' | 'disable' | 'error';
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = 'public',
-  size = '56',
-  fullWidth = false,
-  isLoading = false,
-  disabled = false,
-  className = '',
-  children,
-  ...props
-}) => {
-  // Base styles
-  let baseStyle = 'inline-flex items-center justify-center font-bold tracking-da24 transition-colors duration-150 select-none cursor-pointer outline-none';
+const stateBg = (state: ButtonState) =>
+  state === 'disable'
+    ? 'bg-etc-02 cursor-not-allowed'
+    : state === 'error'
+    ? 'bg-sub-02'
+    : 'bg-main-01 hover:bg-[#0E14D4] active:bg-[#0B10B0]';
 
-  // Variant & Layout specifics
-  let variantStyle = '';
-  if (variant === 'floating') {
-    // Floating CTA: 너비 100%(모바일 360px), 높이 56px, Corner Radius 0px, 18px Bold White (#1219F7)
-    baseStyle += ' w-full max-w-[360px] h-[56px] rounded-none text-[18px] leading-[26px]';
-    if (disabled) {
-      variantStyle = 'bg-etc-03 text-text-04 cursor-not-allowed';
-    } else {
-      variantStyle = 'bg-main-01 text-white hover:bg-[#0D14D6] active:bg-[#090EB8] focus-visible:ring-2 focus-visible:ring-main-02';
-    }
-  } else if (variant === 'public') {
-    // Public In-Content: 너비 312px, 높이 56px, Corner Radius 10px, 16px Bold White
-    const widthStyle = fullWidth ? 'w-full' : 'w-[312px]';
-    baseStyle += ` ${widthStyle} h-[56px] rounded-[10px] text-[16px] leading-[24px]`;
-    if (disabled) {
-      variantStyle = 'bg-etc-03 text-text-04 cursor-not-allowed';
-    } else {
-      variantStyle = 'bg-main-01 text-white hover:bg-[#0D14D6] active:bg-[#090EB8] shadow-sm focus-visible:ring-2 focus-visible:ring-main-02';
-    }
-  } else if (variant === 'modal-primary') {
-    // Modal Confirm: 높이 48/56px, Corner Radius 10px, #1219F7
-    const h = size === '48' ? 'h-[48px]' : 'h-[56px]';
-    baseStyle += ` ${h} rounded-[10px] text-[16px] leading-[24px]`;
-    if (disabled) {
-      variantStyle = 'bg-etc-03 text-text-04 cursor-not-allowed';
-    } else {
-      variantStyle = 'bg-main-01 text-white hover:bg-[#0D14D6] active:bg-[#090EB8]';
-    }
-  } else if (variant === 'modal-secondary') {
-    // Modal Cancel: 높이 48/56px, Corner Radius 10px, #EBEEF2, text #333333
-    const h = size === '48' ? 'h-[48px]' : 'h-[56px]';
-    baseStyle += ` ${h} rounded-[10px] text-[16px] leading-[24px] bg-etc-03 text-text-02 hover:bg-[#DFE3E8] active:bg-[#D4D9DF]`;
-  }
+/**
+ * public-button
+ * Figma: mobile 312×56 / pc 672×56 · radius 10 · padding 16 · 16px Bold White
+ */
+export const PublicButton: React.FC<{
+  state?: ButtonState;
+  fluid?: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}> = ({ state = 'normal', fluid, children, onClick, className = '' }) => (
+  <button
+    type="button"
+    disabled={state === 'disable' || state === 'loading'}
+    onClick={onClick}
+    className={`${fluid ? 'w-full' : 'w-[312px]'} h-[56px] px-4 rounded-[10px] text-white text-[16px] leading-[24px] font-bold inline-flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-01 ${stateBg(
+      state,
+    )} ${className}`}
+  >
+    {state === 'loading' ? <IconLoading /> : children}
+  </button>
+);
 
-  return (
-    <button
-      disabled={disabled || isLoading}
-      className={`${baseStyle} ${variantStyle} ${className}`}
-      {...props}
-    >
-      {isLoading ? (
-        <span className="flex items-center gap-2">
-          <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <span>처리중...</span>
-        </span>
-      ) : (
-        children
-      )}
-    </button>
-  );
-};
+/**
+ * floating-button
+ * Figma: mobile 360×56 / pc 720×56 · radius 0 · padding 16 · 16px Bold White
+ */
+export const FloatingButton: React.FC<{
+  state?: ButtonState;
+  children: React.ReactNode;
+  onClick?: () => void;
+}> = ({ state = 'normal', children, onClick }) => (
+  <button
+    type="button"
+    disabled={state === 'disable' || state === 'loading'}
+    onClick={onClick}
+    className={`w-full h-[56px] px-4 rounded-none text-white text-[16px] leading-[24px] font-bold inline-flex items-center justify-center transition-colors duration-150 ${stateBg(
+      state,
+    )}`}
+  >
+    {state === 'loading' ? <IconLoading /> : children}
+  </button>
+);
 
-// Segmented 3-Split Button (312px 3분할: 103px - 104px - 103px 룰 적용)
-export interface Segmented3SplitProps {
-  options: [string, string, string];
-  selectedIndex: number;
-  onChange: (index: number) => void;
-  disabled?: boolean;
-}
-
-export const Segmented3Split: React.FC<Segmented3SplitProps> = ({
-  options,
-  selectedIndex,
-  onChange,
-  disabled = false,
-}) => {
-  return (
-    <div
-      className={`w-[312px] h-[56px] p-1 bg-etc-04 border border-etc-02 rounded-[10px] flex items-center box-border ${
-        disabled ? 'opacity-50 cursor-not-allowed' : ''
-      }`}
-    >
-      {options.map((opt, idx) => {
-        const isSelected = selectedIndex === idx;
-        // 103 - 104 - 103 px width distribution rule
-        const widthClass = idx === 1 ? 'w-[104px]' : 'w-[103px]';
-
-        return (
-          <button
-            key={opt}
-            type="button"
-            disabled={disabled}
-            onClick={() => onChange(idx)}
-            className={`h-[46px] ${widthClass} rounded-[8px] text-[16px] font-bold tracking-da24 transition-all duration-150 flex items-center justify-center select-none ${
-              isSelected
-                ? 'bg-main-01 text-white shadow-sm'
-                : 'bg-transparent text-text-03 hover:text-text-01 hover:bg-white/50'
-            }`}
-          >
-            {opt}
-          </button>
-        );
-      })}
-    </div>
-  );
-};
-
-// Modal Button 2-Split Group (너비 280px = 136px + 8px gap + 136px)
-export interface ModalButtonGroupProps {
-  onCancel?: () => void;
-  onConfirm?: () => void;
+/**
+ * modal button
+ * radius 10 · h56(기본) / h48(컴팩트) · 2분할 136 + 8 + 136 = 280
+ */
+export const ModalButtons: React.FC<{
+  type?: 'single' | 'double';
+  size?: 48 | 56;
   cancelText?: string;
   confirmText?: string;
-  size?: '48' | '56';
-  isConfirmLoading?: boolean;
-}
-
-export const ModalButtonGroup: React.FC<ModalButtonGroupProps> = ({
-  onCancel,
-  onConfirm,
-  cancelText = '취소',
-  confirmText = '확인',
-  size = '48',
-  isConfirmLoading = false,
-}) => {
-  return (
-    <div className="w-[280px] flex items-center gap-[8px]">
-      <Button
-        variant="modal-secondary"
-        size={size}
-        className="w-[136px]"
-        onClick={onCancel}
-      >
-        {cancelText}
-      </Button>
-      <Button
-        variant="modal-primary"
-        size={size}
-        className="w-[136px]"
-        onClick={onConfirm}
-        isLoading={isConfirmLoading}
-      >
+  onCancel?: () => void;
+  onConfirm?: () => void;
+}> = ({ type = 'double', size = 56, cancelText = '취소', confirmText = '확인', onCancel, onConfirm }) => {
+  const h = size === 48 ? 'h-[48px]' : 'h-[56px]';
+  const base = `${h} rounded-[10px] text-[16px] leading-[24px] font-bold transition-colors duration-150`;
+  if (type === 'single') {
+    return (
+      <button type="button" onClick={onConfirm} className={`${base} w-[280px] bg-main-01 hover:bg-[#0E14D4] text-white`}>
         {confirmText}
-      </Button>
+      </button>
+    );
+  }
+  return (
+    <div className="w-[280px] flex gap-2">
+      <button type="button" onClick={onCancel} className={`${base} w-[136px] bg-etc-03 hover:bg-etc-02 text-text-02`}>
+        {cancelText}
+      </button>
+      <button type="button" onClick={onConfirm} className={`${base} w-[136px] bg-main-01 hover:bg-[#0E14D4] text-white`}>
+        {confirmText}
+      </button>
     </div>
   );
 };
 
-// Modal Single Full Button (너비 280px 전폭)
-export interface ModalSingleButtonProps {
-  onClick?: () => void;
-  text?: string;
-  size?: '48' | '56';
-  isLoading?: boolean;
-}
+/**
+ * 3분할 선택 버튼
+ * Figma 규칙: 좌우 마진 유지, 가운데 버튼 1px 늘림 → 103 + 1 + 104 + 1 + 103 = 312
+ */
+export const Segmented3: React.FC<{
+  options: [string, string, string];
+  value: number;
+  onChange: (i: number) => void;
+}> = ({ options, value, onChange }) => (
+  <div
+    role="radiogroup"
+    className="w-[312px] h-[56px] flex gap-px bg-etc-02 rounded-[10px] overflow-hidden outline outline-1 -outline-offset-1 outline-etc-02"
+  >
+    {options.map((opt, i) => {
+      const active = value === i;
+      return (
+        <button
+          key={opt}
+          type="button"
+          role="radio"
+          aria-checked={active}
+          onClick={() => onChange(i)}
+          className={`${i === 1 ? 'w-[104px]' : 'w-[103px]'} h-full shrink-0 text-[16px] leading-[24px] transition-colors duration-150 ${
+            active ? 'bg-main-01 text-white font-bold' : 'bg-white text-text-03 hover:bg-etc-04'
+          }`}
+        >
+          {opt}
+        </button>
+      );
+    })}
+  </div>
+);
 
-export const ModalSingleButton: React.FC<ModalSingleButtonProps> = ({
+/** Pill chip — radius 28(pill) · h33 */
+export const Chip: React.FC<{ active?: boolean; children: React.ReactNode; onClick?: () => void }> = ({
+  active,
+  children,
   onClick,
-  text = '확인',
-  size = '48',
-  isLoading = false,
-}) => {
-  return (
-    <Button
-      variant="modal-primary"
-      size={size}
-      className="w-[280px]"
-      onClick={onClick}
-      isLoading={isLoading}
-    >
-      {text}
-    </Button>
-  );
-};
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`h-[33px] px-3.5 rounded-full text-[14px] leading-[21px] transition-colors duration-150 border ${
+      active
+        ? 'bg-main-01 border-main-01 text-white font-bold'
+        : 'bg-white border-etc-02 text-text-02 hover:border-etc-01'
+    }`}
+  >
+    {children}
+  </button>
+);

@@ -1,86 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { OverviewShowcase } from './components/showcase/OverviewShowcase';
-import { RadiusShowcase } from './components/showcase/RadiusShowcase';
-import { ColorsShowcase } from './components/showcase/ColorsShowcase';
-import { TypographyShowcase } from './components/showcase/TypographyShowcase';
-import { ButtonsShowcase } from './components/showcase/ButtonsShowcase';
-import { InputsShowcase } from './components/showcase/InputsShowcase';
-import { ModalsShowcase } from './components/showcase/ModalsShowcase';
-import { ScreensShowcase } from './components/showcase/ScreensShowcase';
+import React, { useState } from 'react';
+import { ColorSection } from './components/sections/ColorSection';
+import { TypographySection } from './components/sections/TypographySection';
+import { SpacingRadiusSection } from './components/sections/SpacingRadiusSection';
+import { ButtonSection } from './components/sections/ButtonSection';
+import { InputSection } from './components/sections/InputSection';
+import { ModalSection } from './components/sections/ModalSection';
 
 import {
   Palette,
   Type,
+  Maximize2,
   MousePointerClick,
   FormInput,
   CopyCheck,
-  Smartphone,
-  Layout,
-  Search,
+  Layers,
   ExternalLink,
   Menu,
-  X,
-  Compass,
-  Boxes,
-  Sparkles,
-  Maximize2,
-  FileCode2
+  X
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('overview');
+  const [activeTab, setActiveTab] = useState<string>('all');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Keyboard shortcut (⌘K or / to focus search)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-      } else if (e.key === '/' && document.activeElement !== searchInputRef.current) {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const navGroups = [
-    {
-      group: 'GET STARTED',
-      icon: Compass,
-      items: [
-        { id: 'overview', label: '개요 & 그리드 (Overview)', icon: Layout, tag: 'Guide' },
-      ],
-    },
-    {
-      group: 'FOUNDATION',
-      icon: Boxes,
-      items: [
-        { id: 'radius', label: 'Corner Radius (8단계 라운드)', icon: Maximize2, tag: '0~28px' },
-        { id: 'colors', label: 'Colors (컬러 팔레트)', icon: Palette, tag: '12 Tokens' },
-        { id: 'typography', label: 'Typography (6대 규격)', icon: Type, tag: 'Pretendard' },
-      ],
-    },
-    {
-      group: 'COMPONENTS',
-      icon: Sparkles,
-      items: [
-        { id: 'buttons', label: 'Buttons (4대 버튼 규격)', icon: MousePointerClick, tag: '4 Types' },
-        { id: 'inputs', label: 'Form Inputs (입력 폼)', icon: FormInput, tag: '312x56' },
-        { id: 'modals', label: 'Modals & Sheets (오버레이)', icon: CopyCheck, tag: 'Interactive' },
-      ],
-    },
-    {
-      group: 'REAL PRODUCTION',
-      icon: Smartphone,
-      items: [
-        { id: 'screens', label: '피그마 실제 화면 재현', icon: Smartphone, tag: '4 Screens' },
-      ],
-    },
+  const navItems = [
+    { id: 'all', label: '전체 보기 (All)', icon: Layers, tag: 'Full' },
+    { id: 'colors', label: 'Color (컬러 팔레트)', icon: Palette, tag: '12 Tokens' },
+    { id: 'typography', label: 'Typography (타이포그래피)', icon: Type, tag: 'Pretendard' },
+    { id: 'spacing-radius', label: 'Spacing & Radius (간격/라운드)', icon: Maximize2, tag: '8 Radii' },
+    { id: 'buttons', label: 'Buttons (버튼 4대 규격)', icon: MousePointerClick, tag: '4 Types' },
+    { id: 'inputs', label: 'Form Inputs (입력 폼)', icon: FormInput, tag: '312x56' },
+    { id: 'modals', label: 'Modals & Sheets (오버레이)', icon: CopyCheck, tag: 'Dimmed 60%' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -89,19 +39,10 @@ export const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const filteredNavGroups = navGroups
-    .map((g) => ({
-      ...g,
-      items: g.items.filter((item) =>
-        item.label.toLowerCase().includes(searchQuery.toLowerCase())
-      ),
-    }))
-    .filter((g) => g.items.length > 0);
-
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F9FB] text-text-01">
+    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-text-01">
       {/* Top Sticky Header */}
-      <header className="sticky top-0 z-40 h-[64px] bg-white border-b border-etc-03 px-4 md:px-8 flex items-center justify-between shadow-xs">
+      <header className="sticky top-0 z-40 h-[72px] bg-white/90 backdrop-blur-md border-b border-etc-03 px-6 md:px-10 flex items-center justify-between shadow-2xs">
         <div className="flex items-center gap-4">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -111,45 +52,37 @@ export const App: React.FC = () => {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Official daisalibrary Logo */}
+          {/* Large Official Logo */}
           <div
-            onClick={() => handleNavClick('overview')}
-            className="flex items-center gap-2 cursor-pointer select-none group"
+            onClick={() => handleNavClick('all')}
+            className="flex items-center gap-3 cursor-pointer select-none group"
           >
             <img
               src="/logo-dark.png"
               alt="daisalibrary logo"
-              className="h-7 md:h-8 object-contain transition-transform group-hover:scale-102"
+              className="h-[38px] md:h-[44px] w-auto object-contain transition-transform group-hover:scale-102"
             />
-            <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-main-04 text-main-01 border border-main-02/20">
-              v1.2 Seed
+            <span className="hidden sm:inline-block px-2.5 py-1 rounded-full text-[11px] font-bold bg-main-04 text-main-01 border border-main-02/20">
+              v1.2 Standard
             </span>
           </div>
         </div>
 
-        {/* Header Search & External Links */}
-        <div className="flex items-center gap-3">
-          {/* Search Bar with ⌘K Badge */}
-          <div className="hidden sm:flex items-center w-[220px] lg:w-[280px] h-[38px] px-3 rounded-[8px] bg-etc-04 border border-etc-02 focus-within:border-main-01 focus-within:bg-white transition-colors">
-            <Search className="w-4 h-4 text-text-04 mr-2 shrink-0" />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="컴포넌트 검색..."
-              className="w-full bg-transparent text-[13px] outline-none text-text-01 placeholder:text-text-04 tracking-da24"
-            />
-            <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-medium text-text-04 bg-white border border-etc-02 rounded shadow-2xs">
-              ⌘K
-            </kbd>
+        {/* Right Meta Info */}
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2 text-[13px] text-text-04 font-medium">
+            <span>Pretendard</span>
+            <span>·</span>
+            <span>Toss TDS Style</span>
+            <span>·</span>
+            <span className="text-main-01 font-bold">다이사 공식 규격</span>
           </div>
 
           <a
             href="https://www.figma.com/design/csWoLlTCHOtuE7oAMswuL7"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[13px] font-bold text-text-02 hover:text-main-01 hover:bg-etc-04 transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] text-[13px] font-bold text-text-02 hover:text-main-01 hover:bg-etc-04 transition-colors border border-etc-02 bg-white shadow-2xs"
           >
             <span>Figma 원본</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -157,78 +90,87 @@ export const App: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Container */}
+      {/* Main Body with Left Sidebar Navigation */}
       <div className="flex-1 flex max-w-[1440px] w-full mx-auto">
-        {/* Left Sidebar (Desktop) */}
+        {/* Left Sticky Sidebar */}
         <aside
-          className={`fixed md:sticky top-[64px] z-30 w-[260px] lg:w-[280px] h-[calc(100vh-64px)] overflow-y-auto bg-white border-r border-etc-03 p-4 shrink-0 transition-transform duration-200 ${
+          className={`fixed md:sticky top-[72px] z-30 w-[270px] lg:w-[290px] h-[calc(100vh-72px)] overflow-y-auto bg-white border-r border-etc-03 p-4 shrink-0 transition-transform duration-200 ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
           <div className="space-y-6">
-            {filteredNavGroups.map((group) => (
-              <div key={group.group} className="space-y-1">
-                <div className="px-3 py-1 text-[11px] font-bold text-text-04 tracking-wider">
-                  {group.group}
-                </div>
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = activeTab === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => handleNavClick(item.id)}
-                      className={`w-full h-[40px] px-3 rounded-[8px] text-[14px] font-medium tracking-da24 flex items-center justify-between transition-all select-none ${
-                        isActive
-                          ? 'bg-main-04 text-main-01 font-bold'
-                          : 'text-text-02 hover:bg-etc-04 hover:text-text-01'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Icon className={`w-4 h-4 ${isActive ? 'text-main-01' : 'text-text-03'}`} />
-                        <span>{item.label}</span>
-                      </div>
-                      {item.tag && (
-                        <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                          isActive ? 'bg-main-01 text-white' : 'bg-etc-04 text-text-04'
-                        }`}>
-                          {item.tag}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
+            <div className="space-y-1">
+              <div className="px-3 py-1.5 text-[11px] font-mono font-bold text-text-04 tracking-wider uppercase">
+                DESIGN SYSTEM
               </div>
-            ))}
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`w-full h-[44px] px-3.5 rounded-[10px] text-[14px] font-medium tracking-da24 flex items-center justify-between transition-all select-none ${
+                      isActive
+                        ? 'bg-main-01 text-white font-bold shadow-soft'
+                        : 'text-text-02 hover:bg-etc-04 hover:text-text-01'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-text-03'}`} />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.tag && (
+                      <span
+                        className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                          isActive ? 'bg-white/20 text-white' : 'bg-etc-04 text-text-04'
+                        }`}
+                      >
+                        {item.tag}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-etc-03 px-3 text-[12px] text-text-04 leading-[18px]">
-            <div><strong>다이사(da24)</strong> 디자인시스템</div>
-            <div>벤치마크: 당근 Seed Design</div>
-            <div className="mt-1 text-[11px]">Strict 6 Even Scale • 8-Stage Radii</div>
+          <div className="mt-10 pt-4 border-t border-etc-03 px-3 text-[12px] text-text-04 leading-relaxed">
+            <div className="font-bold text-text-03">daisalibrary</div>
+            <div>다이사(da24) 디자인시스템</div>
+            <div className="mt-1 text-[11px] text-text-04">Reference: Netlify & Toss Style</div>
           </div>
         </aside>
 
-        {/* Right Main Content */}
-        <main className="flex-1 p-6 md:p-10 lg:p-12 overflow-x-hidden min-w-0">
-          <div className="max-w-[1040px] mx-auto">
-            {activeTab === 'overview' && <OverviewShowcase onNavigate={handleNavClick} />}
-            {activeTab === 'radius' && <RadiusShowcase />}
-            {activeTab === 'colors' && <ColorsShowcase />}
-            {activeTab === 'typography' && <TypographyShowcase />}
-            {activeTab === 'buttons' && <ButtonsShowcase />}
-            {activeTab === 'inputs' && <InputsShowcase />}
-            {activeTab === 'modals' && <ModalsShowcase />}
-            {activeTab === 'screens' && <ScreensShowcase />}
+        {/* Right Main Content Panel */}
+        <main className="flex-1 p-6 md:p-10 lg:p-14 overflow-x-hidden min-w-0">
+          <div className="max-w-[1000px] mx-auto space-y-20">
+            {activeTab === 'all' && (
+              <>
+                <ColorSection />
+                <TypographySection />
+                <SpacingRadiusSection />
+                <ButtonSection />
+                <InputSection />
+                <ModalSection />
+              </>
+            )}
+
+            {activeTab === 'colors' && <ColorSection />}
+            {activeTab === 'typography' && <TypographySection />}
+            {activeTab === 'spacing-radius' && <SpacingRadiusSection />}
+            {activeTab === 'buttons' && <ButtonSection />}
+            {activeTab === 'inputs' && <InputSection />}
+            {activeTab === 'modals' && <ModalSection />}
           </div>
         </main>
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-etc-03 py-8 px-6 text-center text-text-03 text-[13px] tracking-da24">
+      <footer className="bg-white border-t border-etc-03 py-8 px-6 text-text-03 text-[13px] tracking-da24">
         <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <img src="/logo-dark.png" alt="daisalibrary logo" className="h-6 object-contain" />
+            <img src="/logo-dark.png" alt="daisalibrary logo" className="h-[28px] w-auto object-contain" />
             <span>© 2026 다이사 (da24) Design System. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-4 text-text-04 text-[12px]">

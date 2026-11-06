@@ -1,72 +1,37 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
+        // Figma: [고객향] 스타일가이드 > color (9899:7042)
         'main-01': '#1219F7',
         'main-02': '#595EF9',
         'main-04': '#F4F5FF',
+        'sub-01': '#F7D915',
+        'sub-02': '#F34766',
+        error: '#F34766',
         'text-01': '#121212',
         'text-02': '#333333',
         'text-03': '#666666',
         'text-04': '#888888',
+        'etc-01': '#C4C9D1',
         'etc-02': '#D7DBE2',
         'etc-03': '#EBEEF2',
         'etc-04': '#F7F8FA',
-        'error': '#F34765',
-        'key-02': '#00B6ED',
-        'dimmed': 'rgba(0, 0, 0, 0.6)',
+        'etc-05': '#FAFAFA',
       },
       fontFamily: {
-        pretendard: [
-          'Pretendard',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'system-ui',
-          'Roboto',
-          'Helvetica Neue',
-          'Segoe UI',
-          'Apple SD Gothic Neo',
-          'Noto Sans KR',
-          'Malgun Gothic',
-          'sans-serif',
-        ],
-      },
-      fontSize: {
-        'caption': ['12px', { lineHeight: '16px' }],
-        'sub': ['14px', { lineHeight: '20px' }],
-        'body-sm': ['16px', { lineHeight: '24px' }],
-        'body-lg': ['18px', { lineHeight: '26px' }],
-        'title': ['20px', { lineHeight: '30px' }],
-        'headline': ['24px', { lineHeight: '34px' }],
+        pretendard: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Apple SD Gothic Neo', 'sans-serif'],
       },
       letterSpacing: {
-        'da24': '-0.01em', // -1px standard
+        da24: '-0.01em',
       },
-      borderRadius: {
-        'btn': '10px',
-        'modal': '16px',
-        'sheet': '16px',
+      boxShadow: {
+        soft: '0 1px 2px rgba(18,18,18,0.04), 0 4px 16px rgba(18,18,18,0.04)',
+        pop: '0 12px 40px rgba(18,18,18,0.16)',
       },
-      width: {
-        'grid-content': '312px',
-        'mobile-frame': '360px',
-        'tablet-frame': '768px',
-        'pc-frame': '1200px',
-        'modal-btn': '280px',
-        'modal-split': '136px',
-      },
-      height: {
-        'cta': '56px',
-        'input': '56px',
-        'modal-btn': '48px',
-        'modal-btn-lg': '56px',
-      }
     },
   },
   plugins: [],
-}
+};
