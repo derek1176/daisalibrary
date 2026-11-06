@@ -13,7 +13,7 @@ interface TypeRow {
 export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
 
-  // 고객향 타이포그래피 스펙 (캡처화면 스타일)
+  // 고객향 타이포그래피 스펙 (캡처화면 스타일 - Pretendard)
   const customerSpecs: TypeRow[] = [
     {
       name: 'Headline 1',
@@ -107,7 +107,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
     },
   ];
 
-  // 파트너향 타이포그래피 스펙 (18px 기본)
+  // 파트너향 타이포그래피 스펙 (18px 기본 - Noto Sans KR)
   const partnerSpecs: TypeRow[] = [
     {
       name: 'Display 1',
@@ -196,14 +196,48 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
 
   return (
     <div className="space-y-6">
-      {/* Page Header (심플 영문 타이틀만) */}
+      {/* 1. Page Header (심플 영문 타이틀만) */}
       <div className="border-b pb-4 border-[#E5E8EB]">
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
           Typography
         </h2>
       </div>
 
-      {/* 캡처 화면 3번 스타일의 직관적인 타이포그래피 테이블 */}
+      {/* 2. 서체 정보 카드 (고객향: Pretendard / 파트너향: Noto Sans KR) */}
+      <div className="bg-white rounded-[16px] p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] font-bold px-2 py-1 rounded-[6px] bg-[#EEF2FF] text-[#1219F7] shrink-0">
+            {isPartner ? 'Partner Font' : 'Customer Font'}
+          </span>
+          <div>
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <span className="font-extrabold text-[18px] text-[#191F28]">
+                {isPartner ? 'Noto Sans KR' : 'Pretendard'}
+              </span>
+              <span className="text-[12px] font-mono text-[#8B95A1]">
+                {isPartner ? "font-family: 'Noto Sans KR', sans-serif" : "font-family: 'Pretendard Variable', sans-serif"}
+              </span>
+            </div>
+            <p className="text-[13px] text-[#6B7684] mt-0.5">
+              {isPartner
+                ? '현장 기사님 및 파트너 화면의 직관적인 가독성을 위한 고신뢰 표준 서체 (기본 본문 18px)'
+                : 'B2C 고객 서비스의 부드러운 사용성과 시각적 정돈감을 위한 전사 공식 서체 (기본 본문 16px)'}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 self-start sm:self-auto shrink-0 text-[12px]">
+          <span className="text-[#8B95A1] font-medium mr-1">표준 굵기:</span>
+          <span className="font-bold text-[#191F28] bg-[#F2F4F8] px-2 py-0.5 rounded-[6px]">
+            Bold (700)
+          </span>
+          <span className="font-bold text-[#191F28] bg-[#F2F4F8] px-2 py-0.5 rounded-[6px]">
+            Regular (400)
+          </span>
+        </div>
+      </div>
+
+      {/* 3. 타이포그래피 스펙 테이블 */}
       <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
         {/* Table Header */}
         <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#E5E8EB] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
@@ -242,7 +276,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                 {item.letterSpacing}
               </div>
 
-              {/* 5. Sample Text (누적 고객 780만 명이 이용한 이사 매칭 플랫폼) */}
+              {/* 5. Sample Text (고객향: Pretendard / 파트너향: Noto Sans KR 실물 렌더링) */}
               <div className="col-span-4 pl-2 text-[#191F28] overflow-hidden">
                 <div
                   style={{
@@ -250,8 +284,11 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                     fontWeight: item.weightNum,
                     lineHeight: `${item.lineHeightNum}px`,
                     letterSpacing: item.letterSpacing,
+                    fontFamily: isPartner
+                      ? "'Noto Sans KR', sans-serif"
+                      : "'Pretendard Variable', 'Pretendard', sans-serif",
                   }}
-                  className="truncate font-sans leading-tight"
+                  className="truncate leading-tight"
                 >
                   <div>누적 고객 780만 명이 이용한 이사 매칭 플랫폼</div>
                   <div className="text-[#8B95A1]">1234567890</div>

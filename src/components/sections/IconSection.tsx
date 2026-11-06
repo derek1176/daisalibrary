@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import ReactDOMServer from "react-dom/server";
+import JSZip from "jszip";
 import {
   type LucideIcon,
   Activity,
@@ -695,6 +696,55 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
     setTimeout(() => setDownloadedName(null), 1500);
   };
 
+  const [isZipping, setIsZipping] = useState(false);
+
+  // 300종 전체 아이콘 .zip 일괄 다운로드
+  const handleDownloadAll = async () => {
+    setIsZipping(true);
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder(`daisa-icons-${activeSize}px`);
+
+      systemIcons.forEach((item) => {
+        let svgString = ReactDOMServer.renderToStaticMarkup(
+          React.createElement(item.icon, {
+            size: sizePixel,
+            strokeWidth: 1.5,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            fill: "none",
+            stroke: "currentColor",
+          })
+        );
+
+        if (!svgString.includes('xmlns=')) {
+          svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+
+        svgString = svgString
+          .replace(/width="[^"]*"/, `width="${sizePixel}"`)
+          .replace(/height="[^"]*"/, `height="${sizePixel}"`);
+
+        const cleanSvg = `<?xml version="1.0" encoding="UTF-8"?>\n${svgString}`;
+        folder?.file(`daisa-icon-${item.name.toLowerCase()}-${activeSize}px.svg`, cleanSvg);
+      });
+
+      const content = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(content);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `daisa_icons_all_${activeSize}px.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Failed to generate zip:", err);
+    } finally {
+      setIsZipping(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header (심플 영문 타이틀만) */}
@@ -792,16 +842,31 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         </div>
       </div>
 
-      {/* Results Counter */}
-        <div className={`flex items-center justify-between px-1 text-[13px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-          <div>
-            검색 결과: <strong className={isDark ? 'text-white' : 'text-[#191F28]'}>{filteredIcons.length}개</strong>
-            {searchQuery && <span className={isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}> (&apos;{searchQuery}&apos; 검색 중)</span>}
-          </div>
-          <span className={`text-[12px] ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
+      {/* Results Counter & Download All Button */}
+      <div className={`flex items-center justify-between px-1 text-[13px] flex-wrap gap-2 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
+        <div>
+          검색 결과: <strong className={isDark ? 'text-white' : 'text-[#191F28]'}>{filteredIcons.length}개</strong>
+          {searchQuery && <span className={isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}> (&apos;{searchQuery}&apos; 검색 중)</span>}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className={`text-[12px] hidden sm:inline ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
             카드 클릭 시 <strong>.{activeSize}px.svg</strong> 파일 자동 다운로드
           </span>
+
+          {/* 작게 전체 아이콘 다운로드할 수 있는 버튼 */}
+          <button
+            type="button"
+            onClick={handleDownloadAll}
+            disabled={isZipping}
+            className="h-[30px] px-2.5 rounded-[8px] bg-white text-[#1219F7] hover:bg-[#EEF2FF] shadow-2xs text-[12px] font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 select-none"
+            title="공식 300종 전체 아이콘 SVG를 .zip으로 압축 다운로드합니다."
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>{isZipping ? '압축 생성 중...' : '전체 아이콘 다운로드 (.zip)'}</span>
+          </button>
         </div>
+      </div>
 
         {/* Icon Grid (Pure Clean Outline Icons) */}
         {filteredIcons.length > 0 ? (
