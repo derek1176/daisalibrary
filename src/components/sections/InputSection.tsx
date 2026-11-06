@@ -31,7 +31,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       </div>
 
       {/* Device Control Bar */}
-      <div className="border border-[#E5E8EB] rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white shadow-sm">
+      <div className="rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white shadow-xs">
         <div className="flex items-center gap-1.5 p-1 rounded-[10px] border bg-[#F2F4F6] border-[#E5E8EB]/50">
           <button
             type="button"

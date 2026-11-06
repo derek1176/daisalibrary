@@ -22,7 +22,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       {/* ============================================================ */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Modal Spec Summary */}
-        <div className="border border-[#E5E8EB] rounded-[18px] p-5 bg-white shadow-sm space-y-3">
+        <div className="rounded-[18px] p-5 bg-white shadow-xs space-y-3">
           <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-2.5">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]" />
@@ -69,7 +69,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </div>
 
         {/* Bottom Sheet Spec Summary */}
-        <div className="border border-[#E5E8EB] rounded-[18px] p-5 bg-white shadow-sm space-y-3">
+        <div className="rounded-[18px] p-5 bg-white shadow-xs space-y-3">
           <div className="flex items-center justify-between border-b border-[#F2F4F6] pb-2.5">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#3182F6]" />

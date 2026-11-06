@@ -204,7 +204,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
       </div>
 
       {/* 캡처 화면 3번 스타일의 직관적인 타이포그래피 테이블 */}
-      <div className="bg-white rounded-[16px] border border-[#E5E8EB] overflow-hidden shadow-xs">
+      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
         {/* Table Header */}
         <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#E5E8EB] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
           <div className="col-span-2">Style</div>

@@ -17,7 +17,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Mobile Spec Summary */}
         <div className={`border rounded-[20px] p-6 shadow-sm flex flex-col justify-between ${
-          isPartner ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
+          isPartner ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white shadow-xs'
         }`}>
           <div>
             <div className={`flex items-center gap-2.5 mb-3 ${isPartner ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
@@ -63,7 +63,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
         {/* Web Spec Summary */}
         <div className={`border rounded-[20px] p-6 shadow-sm flex flex-col justify-between ${
-          isPartner ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
+          isPartner ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white shadow-xs'
         }`}>
           <div>
             <div className={`flex items-center gap-2.5 mb-3 ${isPartner ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
@@ -118,7 +118,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
       {/* Visual Canvas Diagram */}
       <div className={`rounded-[20px] border p-6 md:p-8 space-y-6 ${
-        isPartner ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
+        isPartner ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white shadow-xs'
       }`}>
         <div className="flex items-center gap-2">
           <Layers className={`w-5 h-5 ${isPartner ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`} />

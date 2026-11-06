@@ -704,107 +704,95 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         </h2>
       </div>
 
-      {/* 심플하고 작은 아이콘 렌더링 규격 안내 영역 */}
-      <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-3.5 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-[#4E5968] shadow-2xs">
-        <div className="flex items-center gap-1.5">
-          <span className="font-bold text-[#191F28]">규격:</span>
-          <span>기본 24px (보조 20px · 16px)</span>
+      {/* 1단: 규격 + 이모지 금지 조화로운 단일 슬림 바 */}
+      <div className="bg-white rounded-[14px] px-4 py-2.5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-[12px]">
+        <div className="flex items-center gap-3 text-[#4E5968]">
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-[#191F28]">규격:</span>
+            <span>24px (20·16px)</span>
+          </div>
+          <span className="text-[#D1D6DB]">·</span>
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-[#191F28]">두께:</span>
+            <span>1.5px</span>
+          </div>
+          <span className="text-[#D1D6DB]">·</span>
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-[#191F28]">마감:</span>
+            <span>Round</span>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="font-bold text-[#191F28]">선 두께:</span>
-          <span>1.5px Stroke</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="font-bold text-[#191F28]">마감:</span>
-          <span>Round Endpoint</span>
+
+        <div className="flex items-center gap-1.5 text-[#F34766] font-semibold bg-[#FFF5F6] px-2.5 py-1 rounded-[8px]">
+          <Ban className="w-3.5 h-3.5 shrink-0" />
+          <span>이모지 사용 엄격 금지 (공식 SVG 전용)</span>
         </div>
       </div>
 
-      {/* 그 영역 아래 이모지 사용 엄격금지 규칙 짧은 설명 */}
-      <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-[#FFF5F6] border border-[#F34766]/20 text-[12px] text-[#F34766]">
-        <Ban className="w-3.5 h-3.5 shrink-0" />
-        <span className="font-semibold">이모지(Emoji) 사용 엄격 금지: 서비스 전반의 텍스트, 뱃지, 버튼에는 공식 시스템 SVG 아이콘만 사용합니다.</span>
-      </div>
-
-      {/* Interactive Icon Showcase Grid (300 Icons with Category Tabs & Instant Search) */}
-      <div className="space-y-6">
-        {/* Controls: Search, Category Filter, and Size Switcher (Toss Screener Style) */}
-        <div className={`border rounded-[20px] p-4 space-y-4 shadow-xs ${
-          isDark ? 'bg-[#18171D] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-        }`}>
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            {/* Category Tabs */}
-            <div className={`flex items-center gap-1.5 p-1 rounded-[12px] overflow-x-auto scrollbar-none border ${
-              isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F2F4F6] border-transparent'
-            }`}>
-              {(["전체", "이사·청소·파트너 서비스", "앱 필수 공통 컨트롤러"] as const).map((cat) => {
-                const count =
-                  cat === "전체"
-                    ? 300
-                    : 150;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-3.5 py-1.5 rounded-[9px] text-[12px] font-bold transition-all whitespace-nowrap ${
-                      selectedCategory === cat
-                        ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                        : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
-                    }`}
-                  >
-                    {cat} ({count})
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Size Switcher */}
-            <div className={`flex items-center gap-1 p-1 rounded-[12px] border self-end lg:self-auto ${
-              isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
-            }`}>
-              {(["24", "20", "16"] as const).map((s) => (
+      {/* 2단: 검색 + 카테고리 탭 + 사이즈 컨트롤 바 (stroke 없음, 흰배경 + 그림자) */}
+      <div className="bg-white rounded-[16px] p-3.5 space-y-3 shadow-xs">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          {/* Category Tabs */}
+          <div className="flex items-center gap-1.5 p-1 rounded-[12px] overflow-x-auto scrollbar-none bg-[#F2F4F6]">
+            {(["전체", "이사·청소·파트너 서비스", "앱 필수 공통 컨트롤러"] as const).map((cat) => {
+              const count = cat === "전체" ? 300 : 150;
+              return (
                 <button
-                  key={s}
-                  onClick={() => setActiveSize(s)}
-                  className={`px-2.5 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
-                    activeSize === s
-                      ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                      : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3 py-1.5 rounded-[9px] text-[12px] font-bold transition-all whitespace-nowrap ${
+                    selectedCategory === cat
+                      ? 'bg-white text-[#191F28] shadow-2xs'
+                      : 'text-[#6B7684] hover:text-[#191F28]'
                   }`}
                 >
-                  {s}px
+                  {cat} ({count})
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Search Box */}
-          <div className="relative">
-            <Search className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`} />
-            <input
-              type="text"
-              placeholder="300종 아이콘 이름 또는 설명 검색 (예: 공지사항, 오더, 마감, 하이패스, 후기, 포인트, 설정, 결제, 트럭, 에어컨 등)"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={`w-full rounded-[12px] pl-10 pr-10 py-2.5 text-[13px] outline-none transition-all border ${
-                isDark
-                  ? 'bg-[#292931] border-transparent text-white placeholder-[#65656E] focus:border-[#4B89FF] focus:bg-[#201F26]'
-                  : 'bg-[#F9FAFB] border-[#E5E8EB] text-[#191F28] placeholder-[#8B95A1] focus:border-[#3182F6] focus:bg-white'
-              }`}
-            />
-            {searchQuery && (
+          {/* Size Switcher */}
+          <div className="flex items-center gap-1 p-1 rounded-[10px] bg-[#F2F4F6] self-end lg:self-auto">
+            {(["24", "20", "16"] as const).map((s) => (
               <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className={`absolute right-3 top-1/2 -translate-y-1/2 text-[12px] ${isDark ? 'text-[#65656E] hover:text-white' : 'text-[#8B95A1] hover:text-[#191F28]'}`}
+                key={s}
+                onClick={() => setActiveSize(s)}
+                className={`px-2.5 py-1 rounded-[7px] text-[12px] font-bold transition-all ${
+                  activeSize === s
+                    ? 'bg-white text-[#191F28] shadow-2xs'
+                    : 'text-[#6B7684] hover:text-[#191F28]'
+                }`}
               >
-                ✕
+                {s}px
               </button>
-            )}
+            ))}
           </div>
         </div>
 
-        {/* Results Counter */}
+        {/* Search Box */}
+        <div className="relative">
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8B95A1]" />
+          <input
+            type="text"
+            placeholder="300종 아이콘 이름 또는 설명 검색 (예: 트럭, 견적, 설정, 검색, 결제 등)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-[10px] pl-10 pr-10 py-2 text-[13px] outline-none transition-all bg-[#F9FAFB] text-[#191F28] placeholder-[#8B95A1] focus:bg-white focus:ring-2 focus:ring-[#1219F7]/15"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[12px] text-[#8B95A1] hover:text-[#191F28]"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Results Counter */}
         <div className={`flex items-center justify-between px-1 text-[13px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
           <div>
             검색 결과: <strong className={isDark ? 'text-white' : 'text-[#191F28]'}>{filteredIcons.length}개</strong>
@@ -826,11 +814,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
                   key={`${item.category}-${item.name}`}
                   onClick={() => downloadSvgFile(item.name, item.icon)}
                   title={`${item.label} (${item.name}) SVG 다운로드`}
-                  className={`group p-4 rounded-[16px] border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative select-none ${
-                    isDark
-                      ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#4B89FF] hover:bg-[#201F26] hover:shadow-[0_8px_20px_rgba(0,0,0,0.4)]'
-                      : 'bg-white border-[#E5E8EB] hover:border-[#1219F7] hover:shadow-[0_10px_24px_rgba(18,25,247,0.08)]'
-                  }`}
+                  className="group p-4 rounded-[16px] bg-white shadow-xs hover:shadow-md flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative select-none"
                 >
                   {/* Category Tag on Top Right */}
                   <span className={`absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
@@ -883,7 +867,6 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
             </p>
           </div>
         )}
-      </div>
     </div>
   );
 };
