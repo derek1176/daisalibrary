@@ -51,6 +51,28 @@
   to { opacity: 1; transform: scale(1); }
 }
 
+/* Splash Screen Stroke Drawing Keyframes */
+@keyframes letter-stroke-draw {
+  0% {
+    stroke-dashoffset: 260;
+    fill-opacity: 0;
+  }
+  65% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+}
+
+.animate-stroke-letter {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: letter-stroke-draw 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
 /* Darangie 뿅뿅뿅 위로 택배배달 이스터에그 애니메이션 */
 @keyframes darangie-hop-delivery {
   0% {

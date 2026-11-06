@@ -301,29 +301,41 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         </h2>
       </div>
 
-      {/* 2. Document Switcher: 고객향.md / 파트너향.md (배경에 묻히지 않는 선명한 대비 버튼) */}
-      <div className="flex items-center gap-2">
+      {/* 2. 전환되는 Segmented Switcher UI (고급스러운 슬라이딩 토글 형태) */}
+      <div className="relative bg-[#E2E6EE] p-1 rounded-[14px] flex items-center w-full max-w-[280px] select-none">
+        {/* 부드럽게 좌우로 슬라이딩되는 화이트 썸 */}
+        <div
+          className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-[10px] shadow-sm transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            selectedDoc === 'customer' ? 'left-1' : 'left-[calc(50%+2px)]'
+          }`}
+        />
+
+        {/* 탭 1: 고객향.md */}
         <button
           type="button"
           onClick={() => setSelectedDoc('customer')}
-          className={`px-4 py-2.5 rounded-[12px] text-[14px] font-bold transition-all shadow-xs ${
-            selectedDoc === 'customer'
-              ? 'bg-[#1219F7] text-white shadow-sm'
-              : 'bg-white text-[#4E5968] hover:text-[#191F28] hover:bg-white/90'
+          className={`relative z-10 w-1/2 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+            selectedDoc === 'customer' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          고객향.md
+          <span>고객향.md</span>
+          {selectedDoc === 'customer' && (
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />
+          )}
         </button>
+
+        {/* 탭 2: 파트너향.md */}
         <button
           type="button"
           onClick={() => setSelectedDoc('partner')}
-          className={`px-4 py-2.5 rounded-[12px] text-[14px] font-bold transition-all shadow-xs ${
-            selectedDoc === 'partner'
-              ? 'bg-[#1219F7] text-white shadow-sm'
-              : 'bg-white text-[#4E5968] hover:text-[#191F28] hover:bg-white/90'
+          className={`relative z-10 w-1/2 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+            selectedDoc === 'partner' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          파트너향.md
+          <span>파트너향.md</span>
+          {selectedDoc === 'partner' && (
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />
+          )}
         </button>
       </div>
 

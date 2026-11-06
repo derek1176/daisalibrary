@@ -10,6 +10,7 @@ import { InputSection } from './components/sections/InputSection';
 import { ModalSection } from './components/sections/ModalSection';
 import { ArchiveSection } from './components/sections/ArchiveSection';
 import { IconSection } from './components/sections/IconSection';
+import { SplashScreen } from './components/ui/SplashScreen';
 
 import {
   Menu,
@@ -19,6 +20,19 @@ import {
 } from 'lucide-react';
 
 export const App: React.FC = () => {
+  const [showSplash, setShowSplash] = useState<boolean>(() => {
+    // 최초 1회만 표시 (sessionStorage 확인)
+    if (typeof window !== 'undefined') {
+      return !sessionStorage.getItem('daisalibrary_splash_seen');
+    }
+    return false;
+  });
+
+  const handleSplashComplete = () => {
+    sessionStorage.setItem('daisalibrary_splash_seen', 'true');
+    setShowSplash(false);
+  };
+
   const [activeTab, setActiveTab] = useState<string>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [serviceMode, setServiceMode] = useState<'customer' | 'partner'>('customer');
@@ -74,6 +88,8 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col font-sans antialiased bg-[#EFF1F4] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
+      {/* 최초 진입 시 스플래시 화면 */}
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
       {/* ============================================================ */}
       {/* Toss Style GNB Header (Full Width Clean White) */}
       {/* ============================================================ */}
