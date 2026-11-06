@@ -118,6 +118,13 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
   return (
     <div className="space-y-6">
+      {/* Page Header (심플 영문 타이틀만) */}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Colors
+        </h2>
+      </div>
+
       {/* Category / Token / Value 미니멀 테이블 (첨부파일 스타일) */}
       <div className="bg-white rounded-[16px] border border-[#E5E8EB] overflow-hidden shadow-xs">
         {/* Table Header */}

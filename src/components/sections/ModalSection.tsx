@@ -11,18 +11,10 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   return (
     <section id="modals" className="space-y-10">
       {/* Section Header */}
-      <div className="border-b pb-6 border-[#E5E8EB]">
-        <span className="text-[13px] font-bold text-[#3182F6]">
-          {isPartner ? '파트너향 디자인시스템' : '오버레이 컴포넌트'}
-        </span>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
-          {isPartner ? '모달 및 바텀시트 (파트너 표준)' : '모달 및 바텀시트 (고객향 표준)'}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Dialog & Sheet
         </h2>
-        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
-          {isPartner
-            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 및 [개발] v1.1(node 9053:6921) 기준입니다. 파트너 다이얼로그는 너비 312px, Radius 6px 직각 곡률, 본문 18px Regular 및 51px 취소/확인 액션 버튼을 적용합니다.'
-            : '다이사 고객향 디자인시스템 공식 명세서(DAISA_DESIGN_SYSTEM.md) 기준입니다. 360px~1199px 뷰포트에서는 모바일 반응형 바텀시트로 확장되며, 1200px 이상에서는 중앙 고정 모달 다이얼로그로 자동 전환됩니다.'}
-        </p>
       </div>
 
       {/* ============================================================ */}

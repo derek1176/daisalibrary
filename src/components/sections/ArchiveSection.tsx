@@ -321,16 +321,10 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
   return (
     <section id="archive" className="space-y-10 relative">
       {/* Section Header */}
-      <div className="border-b pb-6 border-[#E5E8EB]">
-        <span className="text-[13px] font-bold text-[#3182F6]">
-          자료실 & 공식 명세서
-        </span>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
-          {isPartner ? '파트너향 디자인시스템 명세서 자료실' : '디자인시스템 명세서 자료실'}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Resources
         </h2>
-        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
-          다이사(da24) 디자인시스템의 공식 규칙과 피그마 토큰 규격을 마크다운 파일로 다운로드하거나 원문을 복사하여 프로젝트에 즉시 활용할 수 있습니다.
-        </p>
       </div>
 
       {/* Document Selector Segment */}

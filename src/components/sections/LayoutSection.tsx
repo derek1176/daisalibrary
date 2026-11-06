@@ -7,18 +7,10 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
   return (
     <section id="layout" className="space-y-10">
       {/* Section Header */}
-      <div className="border-b pb-6 border-[#E5E8EB]">
-        <span className="text-[13px] font-bold text-[#3182F6]">
-          {isPartner ? '파트너향 디자인시스템' : '화면 레이아웃'}
-        </span>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
-          {isPartner ? '파트너 작업 규격 (모바일 360 · 웹 1200 & 오더 627)' : '작업 규격 (모바일 & 웹)'}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Layout
         </h2>
-        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
-          {isPartner
-            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN)의 모바일(360x780) 및 웹 데스크톱(1200x780) 공식 규격입니다. 웹에서는 1200px 캔버스 내 627px 단일 중앙 오더 컨테이너(r:6)를 사용합니다.'
-            : '다이사(da24) 서비스의 모바일(360px) 및 웹/PC(1200px) 공식 작업 규격입니다. 모바일은 좌우 24px 여백(콘텐츠 312px)을 사용하며, 웹사이트는 1200px 캔버스 내에서 헤더, 본문, 버튼 모두 640px 단일 컬럼 안에서만 디자인해야 합니다.'}
-        </p>
       </div>
 
       {/* Quick Spec Card Overview */}

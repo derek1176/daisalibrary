@@ -18,27 +18,10 @@ export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer
   return (
     <section id="writing" className="space-y-12">
       {/* Page Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
-        <div className="flex items-center gap-2">
-          <span className={`text-[13px] font-bold px-2.5 py-0.5 rounded-[6px] ${
-            isDark ? 'bg-[#1C283F] text-[#4B89FF] border border-[#23427E]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-          }`}>
-            공통 규격 (Shared Foundation)
-          </span>
-          <span className={`text-[12px] font-medium ${isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'}`}>
-            고객향 · 파트너향 공통 표준
-          </span>
-        </div>
-        <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-2.5 ${
-          isDark ? 'text-white' : 'text-[#191F28]'
-        }`}>
-          UX 라이팅 가이드
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Writing Guide
         </h2>
-        <p className={`text-[15px] mt-2 leading-relaxed max-w-3xl ${
-          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
-        }`}>
-          다이사(da24)와 파트너(파트너앱·웹) 프로덕트 전반에서 고객 및 파트너와 소통할 때 일관된 브랜드 보이스와 명확성을 전달하기 위한 공식 UX 라이팅 및 표기 원칙입니다.
-        </p>
       </div>
 
       {/* ============================================================ */}

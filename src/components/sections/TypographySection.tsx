@@ -196,6 +196,13 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
 
   return (
     <div className="space-y-6">
+      {/* Page Header (심플 영문 타이틀만) */}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Typography
+        </h2>
+      </div>
+
       {/* 캡처 화면 3번 스타일의 직관적인 타이포그래피 테이블 */}
       <div className="bg-white rounded-[16px] border border-[#E5E8EB] overflow-hidden shadow-xs">
         {/* Table Header */}
@@ -235,7 +242,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                 {item.letterSpacing}
               </div>
 
-              {/* 5. Sample Text (실제 폰트 속성 적용) */}
+              {/* 5. Sample Text (누적 고객 780만 명이 이용한 이사 매칭 플랫폼) */}
               <div className="col-span-4 pl-2 text-[#191F28] overflow-hidden">
                 <div
                   style={{
@@ -246,7 +253,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                   }}
                   className="truncate font-sans leading-tight"
                 >
-                  <div>모든 사람이 자유롭고 행복하게 이동하는 세상을 만듭니다.</div>
+                  <div>누적 고객 780만 명이 이용한 이사 매칭 플랫폼</div>
                   <div className="text-[#8B95A1]">1234567890</div>
                 </div>
               </div>

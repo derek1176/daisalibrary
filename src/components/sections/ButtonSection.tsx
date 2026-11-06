@@ -15,18 +15,10 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
   return (
     <section id="buttons" className="space-y-10">
       {/* Section Header */}
-      <div className="border-b pb-6 border-[#E5E8EB]">
-        <span className="text-[13px] font-bold text-[#3182F6]">
-          {isPartner ? '파트너향 디자인시스템' : '버튼 컴포넌트'}
-        </span>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
-          {isPartner ? '파트너 버튼 규격 (메인 CTA 56px r:6 · 18px Bold)' : '버튼'}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Buttons
         </h2>
-        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
-          {isPartner
-            ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 메인 CTA 버튼은 높이 56px, Corner Radius 6px, 18px Bold 텍스트를 기본으로 적용하며, 보조 액션 버튼은 48px/51px(r:4~6)을 적용합니다.'
-            : '다이사 서비스 전반에서 사용하는 본문 표준 Public Button, 모달 다이얼로그 버튼, 필터 칩 규격입니다.'}
-        </p>
       </div>
 
       {/* State & Device Control Bar */}

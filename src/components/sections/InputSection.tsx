@@ -24,20 +24,10 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   return (
     <section id="inputs" className="space-y-10">
       {/* Section Header */}
-      <div className="border-b pb-6 border-[#E5E8EB]">
-        <span className="text-[13px] font-bold text-[#3182F6]">
-          {isPartner ? '파트너향 디자인시스템' : '입력 폼'}
-        </span>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 text-[#191F28]">
-          {isPartner
-            ? '파트너 입력창 규격 (높이 56px · Radius 6px · 18px 텍스트)'
-            : '입력창 컴포넌트 (높이 56px · Radius 10px · 16px 텍스트)'}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Inputs
         </h2>
-        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
-          {isPartner
-            ? '피그마 공식 [파트너] 스타일가이드 및 화면 명세 기준입니다. 모바일 312px / PC 627px, 높이 56px, Corner Radius 6px, 라벨 16px, 본문 18px Regular를 적용합니다.'
-            : '다이사 고객향 디자인시스템 공식 명세서(DAISA_DESIGN_SYSTEM.md) 기준입니다. 모바일 312px / PC 640px, 높이 56px, Corner Radius 10px, 라벨 14px, 본문 16px Regular를 적용합니다.'}
-        </p>
       </div>
 
       {/* Device Control Bar */}

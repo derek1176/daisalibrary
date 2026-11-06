@@ -696,111 +696,34 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
   };
 
   return (
-    <div className="space-y-10">
-      {/* Header */}
-      <div className="border-b pb-6 border-[#E5E8EB]">
-        <div className="flex items-center gap-2">
-          <span className="text-[13px] font-bold px-2.5 py-0.5 rounded-[6px] bg-[#E8F3FF] text-[#1B64DA]">
-            공통 규격 (Shared Foundation)
-          </span>
-          <span className="text-[12px] font-medium text-[#8B95A1]">
-            고객향 · 파트너향 공통 표준
-          </span>
-        </div>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight mt-2.5 text-[#191F28]">
-          아이콘 (Icons) · 공식 300종
+    <div className="space-y-6">
+      {/* Header (심플 영문 타이틀만) */}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Icons
         </h2>
-        <p className="text-[15px] mt-2 leading-relaxed max-w-2xl text-[#4E5968]">
-          다이사(da24) 및 파트너 서비스의 <strong>공식 시스템 아이콘 300종</strong>입니다. 이사·청소·파트너 서비스 150종과 앱 필수 공통 컨트롤러 150종으로 구성되며, 이모지 사용을 엄격히 금지합니다. 아이콘 카드를 클릭하면 <strong>.{activeSize}px.svg 파일로 즉시 다운로드</strong>됩니다.
-        </p>
       </div>
 
-      {/* Sleek, Thin & Long Emoji Ban Banner */}
-      <div className={`w-full px-5 py-3.5 rounded-[12px] border flex flex-col md:flex-row md:items-center justify-between gap-3 ${
-        isDark
-          ? 'bg-[#1D1619] border-[#441D24] text-white'
-          : 'bg-[#FFF5F6] border-[#F34766]/30 text-[#191F28]'
-      }`}>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-[8px] bg-red-500/10 border border-red-500/30 flex items-center justify-center text-[#F34766] shrink-0">
-            <Ban className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[14px] font-black text-red-500 tracking-tight">이모지(Emoji) 사용 엄격 금지</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-red-500/20 text-red-400 border border-red-500/40">절대 규칙</span>
-            </div>
-            <p className={`text-[12px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-              다이사 및 파트너 서비스 전반의 텍스트, 뱃지, 버튼 내 이모지 사용을 금지하며 공식 시스템 SVG 아이콘만 사용합니다.
-            </p>
-          </div>
+      {/* 심플하고 작은 아이콘 렌더링 규격 안내 영역 */}
+      <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-3.5 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px] text-[#4E5968] shadow-2xs">
+        <div className="flex items-center gap-1.5">
+          <span className="font-bold text-[#191F28]">규격:</span>
+          <span>기본 24px (보조 20px · 16px)</span>
         </div>
-
-        {/* Prohibited Emoji Badges */}
-        <div className="flex items-center gap-1.5 flex-wrap shrink-0">
-          <span className={`text-[11px] font-bold mr-1 ${isDark ? 'text-[#8B8B94]' : 'text-[#8B95A1]'}`}>금지 예시:</span>
-          {['🚚', '📦', '🧹', '🏠', '📅', '🔔', '⚡️', '❌', '🛠', '💰', '📞', '📝'].map((emoji, idx) => (
-            <span
-              key={idx}
-              className={`text-[13px] px-2 py-0.5 rounded-[6px] border select-none relative ${
-                isDark
-                  ? 'bg-[#281A1D] border-[#552028] text-red-300'
-                  : 'bg-white border-red-200 text-red-600'
-              }`}
-              title="이모지 사용 금지"
-            >
-              <span className="line-through decoration-red-500 decoration-2 opacity-80">{emoji}</span>
-            </span>
-          ))}
+        <div className="flex items-center gap-1.5">
+          <span className="font-bold text-[#191F28]">선 두께:</span>
+          <span>1.5px Stroke</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="font-bold text-[#191F28]">마감:</span>
+          <span>Round Endpoint</span>
         </div>
       </div>
 
-      {/* Specifications Block (Toss Screener Style) */}
-      <div className={`border rounded-[20px] p-6 space-y-4 shadow-xs ${
-        isDark ? 'bg-[#18171D] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
-      }`}>
-        <div className="space-y-1">
-          <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-            아이콘 렌더링 규격 가이드
-          </h3>
-          <p className={`text-[13px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
-            표준 24px 캔버스 기준 1.5px 두께, 부드러운 라운드 엔드포인트를 고정 적용합니다.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
-          }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>기본 사이즈</span>
-            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>24px</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>터치 타겟 및 전사 표준</p>
-          </div>
-
-          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
-          }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>보조 사이즈</span>
-            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>20px · 16px</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>인풋 내부 및 미니 뱃지</p>
-          </div>
-
-          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
-          }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>선 두께 (Stroke)</span>
-            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>1.5px</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>24px 기준 1.5px 통일</p>
-          </div>
-
-          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
-            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
-          }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>엔드포인트</span>
-            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>Round</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>곡선 친화적 라운드 마감</p>
-          </div>
-        </div>
+      {/* 그 영역 아래 이모지 사용 엄격금지 규칙 짧은 설명 */}
+      <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-[10px] bg-[#FFF5F6] border border-[#F34766]/20 text-[12px] text-[#F34766]">
+        <Ban className="w-3.5 h-3.5 shrink-0" />
+        <span className="font-semibold">이모지(Emoji) 사용 엄격 금지: 서비스 전반의 텍스트, 뱃지, 버튼에는 공식 시스템 SVG 아이콘만 사용합니다.</span>
       </div>
 
       {/* Interactive Icon Showcase Grid (300 Icons with Category Tabs & Instant Search) */}

@@ -374,7 +374,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
           {Array.from({ length: 9 }).map((_, i) => (
             <div key={i} className="space-y-3 animate-pulse">
-              <div className="h-[190px] rounded-[16px] bg-white border border-[#E5E8EB]" />
+              <div className="h-[190px] rounded-[16px] bg-white shadow-xs" />
               <div className="h-5 rounded w-1/2 bg-[#E5E8EB]" />
             </div>
           ))}
@@ -388,8 +388,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
               style={{ animationDelay: `${idx * 30}ms` }}
               className="group cursor-pointer select-none animate-fillUp"
             >
-              {/* 1. 상단 썸네일 박스 (배경 흰색, 부드러운 라운드 16px, 테두리 및 그림자) */}
-              <div className="w-full h-[190px] bg-white rounded-[16px] border border-[#E5E8EB] shadow-xs flex items-center justify-center p-4 transition-all duration-200 group-hover:border-[#1219F7]/40 group-hover:shadow-md overflow-hidden">
+              {/* 1. 상단 썸네일 박스 (배경 흰색, stroke 없음, 부드러운 라운드 16px, 그림자) */}
+              <div className="w-full h-[190px] bg-white rounded-[16px] shadow-xs flex items-center justify-center p-4 transition-all duration-200 group-hover:shadow-md overflow-hidden">
                 {item.renderThumbnail()}
               </div>
 
