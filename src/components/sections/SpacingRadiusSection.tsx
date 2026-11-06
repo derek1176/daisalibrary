@@ -51,7 +51,7 @@ export const SpacingRadiusSection: React.FC = () => {
     {
       val: '10px',
       name: 'MD (★ 전사 표준)',
-      desc: 'Public 버튼, 모든 인풋, 배너, 경고박스',
+      desc: 'Public 버튼, 모든 인풋, 카드(Card) 기본 표준',
       tailwind: 'rounded-[10px]',
       highlight: true,
     },
@@ -228,6 +228,79 @@ export const SpacingRadiusSection: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Card UI Guidelines Block */}
+        <div className="mt-8 bg-white border border-[#E5E8EB] rounded-[24px] p-6 md:p-8 space-y-6 shadow-xs">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold bg-[#E8F3FF] text-[#1B64DA]">
+              카드 디자인 원칙
+            </div>
+            <h3 className="text-[20px] md:text-[22px] font-extrabold text-[#191F28] tracking-tight">
+              카드(Card) UI 규격 및 일관성 원칙
+            </h3>
+            <p className="text-[14px] text-[#4E5968] leading-relaxed">
+              견적 정보, 업체 정보, 요약 블록 등 콘텐츠를 묶어주는 카드는 버튼 및 인풋과 시각적 조화를 이루도록 <strong>기본 Corner Radius 10px(rounded-[10px])</strong>을 원칙으로 합니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* 1. Small Card */}
+            <div className="bg-[#FAFBFD] border border-[#E5E8EB] rounded-[8px] p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-[#8B95A1]">소형 서브 카드</span>
+                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-white border border-[#E5E8EB] text-[#4E5968]">
+                  r: 8px
+                </span>
+              </div>
+              <div className="text-[13px] font-bold text-[#191F28]">이사 희망일 선택 칩</div>
+              <p className="text-[11px] text-[#6B7684] leading-relaxed">
+                선택 옵션, 작은 상태 블록 등 가벼운 정보 단위에 제한적으로 적용
+              </p>
+            </div>
+
+            {/* 2. Standard Card (Recommended) */}
+            <div className="bg-white border-2 border-[#1219F7] rounded-[10px] p-4 space-y-2 shadow-xs relative">
+              <span className="absolute -top-2.5 right-3 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#1219F7] text-white">
+                ★ 전사 기본 표준
+              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-[#1219F7]">표준 콘텐츠 카드</span>
+                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
+                  r: 10px
+                </span>
+              </div>
+              <div className="text-[13px] font-bold text-[#191F28]">견적 업체 상세 카드</div>
+              <p className="text-[11px] text-[#6B7684] leading-relaxed">
+                버튼(r10), 인풋(r10)과 일치시켜 화면 전체에 정돈된 일관성 제공
+              </p>
+            </div>
+
+            {/* 3. Large Section Card */}
+            <div className="bg-[#FAFBFD] border border-[#E5E8EB] rounded-[16px] p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-[#8B95A1]">대형 섹션 그룹</span>
+                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-white border border-[#E5E8EB] text-[#4E5968]">
+                  r: 16px
+                </span>
+              </div>
+              <div className="text-[13px] font-bold text-[#191F28]">신청 내역 요약 패널</div>
+              <p className="text-[11px] text-[#6B7684] leading-relaxed">
+                모달 다이얼로그(r16)처럼 독립된 대형 구역 컨테이너에 한하여 허용
+              </p>
+            </div>
+          </div>
+
+          {/* Anti-Pattern Warning */}
+          <div className="bg-[#FFF5F6] border border-[#F34766]/30 rounded-[14px] p-4 text-[13px] text-[#8C1D2F] space-y-1">
+            <div className="font-bold flex items-center gap-1.5 text-[#F34766]">
+              <span>🚨</span>
+              <span>카드 UI 규격 일관성 금지 규칙 (Anti-Pattern)</span>
+            </div>
+            <p className="text-[12px] leading-relaxed text-[#591420]">
+              화면 내 다른 UI들과 너무 달라 보이는 규격(예: <strong>4px 직각 느낌, 20px 이상 과도한 둥글기, 두껍거나 제각각인 보더 두께</strong>)은 사용을 엄격히 금지합니다. 크기에 따라 조절하되 <strong>기본 10px을 중심축으로 통일</strong>하세요.
+            </p>
+          </div>
         </div>
       </section>
 
