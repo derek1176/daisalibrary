@@ -29,10 +29,10 @@ const ColorItem: React.FC<SwatchProps> = ({ token, hex, name, desc, border = fal
       className={`group rounded-[16px] border p-4 flex items-center justify-between transition-all select-none ${
         isBanned
           ? isDark
-            ? 'bg-[#1E1922] border-red-900/60 opacity-80 cursor-not-allowed'
+            ? 'bg-[#22171A] border-[#4A1E24] opacity-80 cursor-not-allowed'
             : 'bg-red-50/50 border-red-200 opacity-80 cursor-not-allowed'
           : isDark
-          ? 'bg-[#161B26] border-[#262F40] hover:border-[#595EF9] hover:shadow-[0_8px_24px_rgba(89,94,249,0.15)] cursor-pointer'
+          ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#3182F6] hover:bg-[#201F26] hover:shadow-[0_8px_20px_rgba(0,0,0,0.4)] cursor-pointer'
           : 'bg-white border-[#E5E8EB] hover:border-[#3182F6] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] cursor-pointer'
       }`}
     >
@@ -40,7 +40,7 @@ const ColorItem: React.FC<SwatchProps> = ({ token, hex, name, desc, border = fal
         {/* Color Preview Swatch */}
         <div
           className={`w-14 h-14 rounded-[12px] shrink-0 flex items-center justify-center shadow-xs transition-transform group-hover:scale-105 relative ${
-            border ? (isDark ? 'border border-[#3A4560]' : 'border border-[#E5E8EB]') : ''
+            border ? (isDark ? 'border border-[#2B2A34]' : 'border border-[#E5E8EB]') : ''
           }`}
           style={{
             background: isGradient
@@ -67,13 +67,13 @@ const ColorItem: React.FC<SwatchProps> = ({ token, hex, name, desc, border = fal
               isBanned
                 ? 'bg-red-500/20 text-red-400 border border-red-500/30'
                 : isDark
-                ? 'bg-[#1E2536] text-[#CBD5E1]'
+                ? 'bg-[#292931] text-[#E5E5E8]'
                 : 'bg-[#F2F4F6] text-[#4E5968]'
             }`}>
               {hex}
             </span>
           </div>
-          <p className={`text-[13px] truncate ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>{desc}</p>
+          <p className={`text-[13px] truncate ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>{desc}</p>
         </div>
       </div>
 
@@ -92,7 +92,7 @@ const ColorItem: React.FC<SwatchProps> = ({ token, hex, name, desc, border = fal
             type="button"
             className={`text-[12px] font-bold px-2.5 py-1 rounded-[6px] flex items-center gap-1 transition-colors ${
               isDark
-                ? 'text-[#94A3B8] group-hover:text-white bg-[#1E2536] group-hover:bg-[#595EF9]/30'
+                ? 'text-[#9E9EA4] group-hover:text-white bg-[#292931] group-hover:bg-[#32323C]'
                 : 'text-[#8B95A1] group-hover:text-[#3182F6] bg-[#F2F4F6] group-hover:bg-[#E8F3FF]'
             }`}
           >
@@ -110,8 +110,8 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   return (
     <section id="colors" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+      <div className={`border-b pb-6 ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
           {isDark ? '파트너 B2B 스타일 파운데이션' : '스타일 파운데이션'}
         </span>
         <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
@@ -120,7 +120,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
           {isDark ? '파트너 색상 시스템 (Partner Color Tokens)' : '색상 시스템 (Color Tokens)'}
         </h2>
         <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
         }`}>
           {isDark
             ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 시맨틱 컬러 토큰입니다. 카드를 클릭하면 Hex 코드가 자동 복사됩니다.'
@@ -130,7 +130,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
       {/* Category 1: Main Colors */}
       <div className="space-y-4">
-        <div className={`flex items-center gap-2 border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
+        <div className={`flex items-center gap-2 border-b pb-2 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
           <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]"></span>
           <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
             메인 브랜드 컬러 (Main Colors)
@@ -151,7 +151,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       {/* Category 2: Partner Sub Colors (Yellow & Red) */}
       {isDark && (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-[#262F40] pb-2">
+          <div className="flex items-center gap-2 border-b border-[#222129] pb-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#F7D915]"></span>
             <h3 className="text-[17px] font-bold text-white">서브 포인트 컬러 (Sub Colors)</h3>
           </div>
@@ -164,7 +164,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
       {/* Category 3: Text Hierarchy */}
       <div className="space-y-4">
-        <div className={`flex items-center gap-2 border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
+        <div className={`flex items-center gap-2 border-b pb-2 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
           <span className="w-2.5 h-2.5 rounded-full bg-[#121212]"></span>
           <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
             텍스트 위계 컬러 (Text Hierarchy 4종)
@@ -180,7 +180,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
       {/* Category 4: Etc & Borders */}
       <div className="space-y-4">
-        <div className={`flex items-center gap-2 border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
+        <div className={`flex items-center gap-2 border-b pb-2 ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
           <span className="w-2.5 h-2.5 rounded-full bg-[#D7DBE2]"></span>
           <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
             배경 및 구분선 (Borders & Backgrounds)

@@ -123,8 +123,8 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
   return (
     <section id="spacing-radius" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
           {isDark ? '파트너 B2B 공간 파운데이션' : '기초 규격'}
         </span>
         <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
@@ -133,7 +133,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
           {isDark ? '파트너 여백 및 라운드 규격 (Spacing & Radius 6px)' : '여백 및 라운드 (Spacing & Radius)'}
         </h2>
         <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
         }`}>
           {isDark
             ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반 규격입니다. 파트너 B2B의 전사 코어 곡률은 Radius 6px이며, 보조 4px 외에 고객향의 10px 및 16px 곡률은 사용이 엄격히 금지됩니다.'
@@ -143,22 +143,22 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
 
       {/* Part 1: Corner Radius */}
       <div className="space-y-4">
-        <div className={`flex items-center justify-between border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
+        <div className={`flex items-center justify-between border-b pb-2 ${isDark ? 'border-[#26252D]' : 'border-[#F2F4F6]'}`}>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]"></span>
             <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
               {isDark ? '코너 라운드 규격 (Corner Radius: 기본 6px)' : '코너 라운드 규격 (Corner Radius: 기본 10px)'}
             </h3>
           </div>
-          <span className={`text-[12px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+          <span className={`text-[12px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
             {isDark ? '핵심 표준: 6px / 금지: 10px, 16px' : '핵심 표준: 10px (카드·버튼·인풋)'}
           </span>
         </div>
 
         {isDark && (
-          <div className="bg-[#161B26] border border-[#595EF9]/40 rounded-[14px] p-4 flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 text-[#7075FA] shrink-0 mt-0.5" />
-            <div className="text-[13px] text-[#94A3B8] leading-relaxed">
+          <div className="bg-[#1C1B22] border border-[#595EF9]/40 rounded-[14px] p-4 flex items-start gap-3">
+            <ShieldCheck className="w-5 h-5 text-[#4B89FF] shrink-0 mt-0.5" />
+            <div className="text-[13px] text-[#9E9EA4] leading-relaxed">
               <strong className="text-white">B2B 파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong>Radius 6px</strong>를 기본으로 사용합니다. 고객향의 10px, 16px 둥근 곡률은 파트너 환경에서 사용을 엄격히 차단합니다.
             </div>
           </div>
@@ -171,14 +171,14 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
               className={`rounded-[16px] border p-5 flex flex-col justify-between transition-all select-none ${
                 (item as any).isBanned
                   ? isDark
-                    ? 'bg-[#1E1922] border-red-900/50 opacity-75'
+                    ? 'bg-[#22171A] border-red-900/50 opacity-75'
                     : 'bg-red-50/50 border-red-200 opacity-75'
                   : item.highlight
                   ? isDark
-                    ? 'bg-[#1A2234] border-[#595EF9] shadow-[0_4px_20px_rgba(89,94,249,0.2)]'
+                    ? 'bg-[#201F26] border-[#595EF9] shadow-[0_4px_20px_rgba(89,94,249,0.2)]'
                     : 'bg-[#F4F8FF] border-[#3182F6] shadow-sm'
                   : isDark
-                  ? 'bg-[#161B26] border-[#262F40]'
+                  ? 'bg-[#1C1B22] border-[#26252D]'
                   : 'bg-white border-[#E5E8EB]'
               }`}
             >
@@ -188,7 +188,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                     (item as any).isBanned
                       ? 'text-red-400'
                       : item.highlight
-                      ? isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'
+                      ? isDark ? 'text-[#4B89FF]' : 'text-[#1219F7]'
                       : isDark ? 'text-white' : 'text-[#191F28]'
                   }`}>
                     {item.val}
@@ -204,7 +204,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                       {isDark ? 'B2B 전사 표준' : '전사 표준'}
                     </span>
                   ) : (
-                    <span className={`text-[11px] font-mono ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
+                    <span className={`text-[11px] font-mono ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
                       {item.tailwind}
                     </span>
                   )}
@@ -212,7 +212,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
 
                 {/* Visual Box Preview */}
                 <div className={`h-16 rounded-[8px] flex items-center justify-center mb-3 border ${
-                  isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
+                  isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F9FAFB] border-[#E5E8EB]'
                 }`}>
                   <div
                     style={{ borderRadius: item.val }}
@@ -220,8 +220,8 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                       (item as any).isBanned
                         ? 'border-dashed border-red-500/60 text-red-400 bg-red-500/10'
                         : item.highlight
-                        ? isDark ? 'border-[#595EF9] text-[#7075FA] bg-[#595EF9]/10' : 'border-[#1219F7] text-[#1219F7] bg-white'
-                        : isDark ? 'border-[#3A4560] text-[#CBD5E1] bg-[#161B26]' : 'border-[#D7DBE2] text-[#4E5968] bg-white'
+                        ? isDark ? 'border-[#595EF9] text-[#4B89FF] bg-[#595EF9]/10' : 'border-[#1219F7] text-[#1219F7] bg-white'
+                        : isDark ? 'border-[#2B2A34] text-[#CBD5E1] bg-[#1C1B22]' : 'border-[#D7DBE2] text-[#4E5968] bg-white'
                     }`}
                   >
                     {item.val}
@@ -231,13 +231,13 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                 <div className={`text-[13px] font-bold ${isDark ? 'text-[#E5E8EB]' : 'text-[#191F28]'}`}>
                   {item.name}
                 </div>
-                <p className={`text-[12px] mt-1 leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
+                <p className={`text-[12px] mt-1 leading-relaxed ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
                   {item.desc}
                 </p>
               </div>
 
               {!(item as any).isBanned && (
-                <div className={`mt-4 pt-3 border-t flex justify-end ${isDark ? 'border-[#222A3A]' : 'border-[#F2F4F6]'}`}>
+                <div className={`mt-4 pt-3 border-t flex justify-end ${isDark ? 'border-[#222129]' : 'border-[#F2F4F6]'}`}>
                   <button
                     type="button"
                     onClick={() => copy(item.tailwind)}
@@ -245,7 +245,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                       copiedToken === item.tailwind
                         ? 'bg-emerald-950 text-emerald-300'
                         : isDark
-                        ? 'bg-[#1E2536] text-[#94A3B8] hover:text-white'
+                        ? 'bg-[#292931] text-[#9E9EA4] hover:text-white'
                         : 'bg-[#F2F4F6] text-[#6B7684] hover:text-[#191F28]'
                     }`}
                   >
@@ -261,14 +261,14 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
 
       {/* Part 2: Spacing Tokens (Grid) */}
       <div className="space-y-4">
-        <div className={`flex items-center justify-between border-b pb-2 ${isDark ? 'border-[#262F40]' : 'border-[#F2F4F6]'}`}>
+        <div className={`flex items-center justify-between border-b pb-2 ${isDark ? 'border-[#26252D]' : 'border-[#F2F4F6]'}`}>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#1219F7]"></span>
             <h3 className={`text-[17px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
               여백 토큰 (Spacing Tokens)
             </h3>
           </div>
-          <span className={`text-[12px] font-mono ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
+          <span className={`text-[12px] font-mono ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
             Base 8px Grid
           </span>
         </div>
@@ -281,10 +281,10 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
               className={`rounded-[14px] border p-3.5 flex items-center justify-between transition-all cursor-pointer select-none ${
                 item.isCore
                   ? isDark
-                    ? 'bg-[#1A2234] border-[#595EF9]/60 hover:border-[#595EF9]'
+                    ? 'bg-[#201F26] border-[#595EF9]/60 hover:border-[#595EF9]'
                     : 'bg-[#F4F8FF] border-[#3182F6]/60 hover:border-[#3182F6]'
                   : isDark
-                  ? 'bg-[#161B26] border-[#262F40] hover:border-[#3B475E]'
+                  ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#3B475E]'
                   : 'bg-white border-[#E5E8EB] hover:border-[#3182F6]'
               }`}
             >
@@ -292,19 +292,19 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                 <div className="flex items-center gap-2">
                   <span className={`text-[14px] font-mono font-extrabold ${
                     item.isCore
-                      ? isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'
+                      ? isDark ? 'text-[#4B89FF]' : 'text-[#1219F7]'
                       : isDark ? 'text-white' : 'text-[#191F28]'
                   }`}>
                     {item.px}px
                   </span>
                   <span className={`text-[11px] font-mono font-bold px-1.5 py-0.2 rounded ${
-                    isDark ? 'bg-[#1E2536] text-[#94A3B8]' : 'bg-[#F2F4F6] text-[#6B7684]'
+                    isDark ? 'bg-[#292931] text-[#9E9EA4]' : 'bg-[#F2F4F6] text-[#6B7684]'
                   }`}>
                     {item.token}
                   </span>
                 </div>
                 <div className={`text-[11px] truncate max-w-[170px] ${
-                  isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'
+                  isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'
                 }`}>
                   {item.note}
                 </div>
@@ -317,7 +317,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                   className={`h-2 rounded-full ${
                     item.isCore
                       ? isDark ? 'bg-[#595EF9]' : 'bg-[#1219F7]'
-                      : isDark ? 'bg-[#3A4560]' : 'bg-[#CBD5E1]'
+                      : isDark ? 'bg-[#2B2A34]' : 'bg-[#CBD5E1]'
                   }`}
                 />
               </div>

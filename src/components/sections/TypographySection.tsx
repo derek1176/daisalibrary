@@ -260,8 +260,8 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
   return (
     <section id="typography" className="space-y-10">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+      <div className={`border-b pb-6 ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
           {isDark ? '파트너 B2B 타이포그래피 파운데이션' : '타이포그래피'}
         </span>
         <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
@@ -270,7 +270,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
           {isDark ? '파트너 타이포그래피 (Partner Typography)' : '타이포그래피 시스템 (Typography)'}
         </h2>
         <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
         }`}>
           {isDark
             ? '피그마 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 공식 규격입니다. 현장 기사님의 시인성을 위해 기본 본문은 18px(Body 1)이며, 14px 캡션이 최소 폰트입니다 (12px 이하 사용 엄격 금지).'
@@ -280,17 +280,17 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
 
       {/* Critical Rule Banner for Partner */}
       {isDark && (
-        <div className="bg-[#161B26] border border-[#595EF9]/40 rounded-[14px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+        <div className="bg-[#1C1B22] border border-[#26252D] rounded-[14px] p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-[8px] bg-[#595EF9]/20 border border-[#595EF9]/40 flex items-center justify-center text-[#7075FA] shrink-0">
+            <div className="w-10 h-10 rounded-[8px] bg-[#0C234F] border border-[#3182F6]/40 flex items-center justify-center text-[#4B89FF] shrink-0">
               <Info className="w-5 h-5" />
             </div>
             <div>
               <div className="text-[15px] font-extrabold text-white flex items-center gap-2">
                 <span>파트너 B2B 2대 핵심 폰트 규칙</span>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#595EF9] text-white">Non-Negotiable</span>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#3182F6] text-white">Non-Negotiable</span>
               </div>
-              <p className="text-[13px] text-[#94A3B8] mt-0.5">
+              <p className="text-[13px] text-[#9E9EA4] mt-0.5">
                 1) <strong>기본 본문 18px</strong>: 인풋 값, 주소, 화물 내역 기본 텍스트는 18px Bold/Regular<br />
                 2) <strong>12px 이하 절대 금지</strong>: 현장 야외 작업 시 가독성 확보를 위해 최소 폰트는 <strong>14px(Caption)</strong> 고정
               </p>
@@ -301,10 +301,10 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
 
       {/* Interactive Live Playground Bar */}
       <div className={`rounded-[16px] border p-4 flex flex-col md:flex-row items-center gap-3 ${
-        isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-white border-[#E5E8EB]'
+        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
       }`}>
         <div className="flex items-center gap-2 shrink-0">
-          <Type className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`} />
+          <Type className={`w-4 h-4 ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`} />
           <span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>실시간 텍스트 미리보기:</span>
         </div>
         <input
@@ -314,7 +314,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
           placeholder="미리보기할 텍스트를 입력하세요"
           className={`w-full px-3.5 py-2 rounded-[8px] text-[14px] font-medium border outline-none ${
             isDark
-              ? 'bg-[#10141D] border-[#2B3548] text-white focus:border-[#595EF9]'
+              ? 'bg-[#292931] border-transparent text-white placeholder-[#65656E] focus:border-[#4B89FF] focus:bg-[#201F26]'
               : 'bg-[#F9FAFB] border-[#E5E8EB] text-[#191F28] focus:border-[#3182F6]'
           }`}
         />
@@ -324,7 +324,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
             onClick={() => setTestText(defaultSample)}
             className={`shrink-0 text-[12px] font-bold px-3 py-1.5 rounded-[8px] border transition-colors ${
               isDark
-                ? 'bg-[#1E2536] text-[#94A3B8] hover:text-white border-[#3A4560]'
+                ? 'bg-[#292931] text-[#9E9EA4] hover:text-white border-transparent'
                 : 'bg-[#F2F4F6] text-[#6B7684] hover:text-[#191F28] border-[#E5E8EB]'
             }`}
           >
@@ -342,10 +342,10 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
               className={`rounded-[16px] border p-5 transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-5 ${
                 spec.isBaseText
                   ? isDark
-                    ? 'bg-[#182030] border-[#595EF9] shadow-[0_4px_20px_rgba(89,94,249,0.2)]'
+                    ? 'bg-[#1C1B22] border-[#3182F6] shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
                     : 'bg-[#F4F8FF] border-[#3182F6] shadow-sm'
                   : isDark
-                  ? 'bg-[#161B26] border-[#262F40] hover:border-[#3B475E]'
+                  ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#3182F6] hover:bg-[#201F26]'
                   : 'bg-white border-[#E5E8EB] hover:border-[#3182F6]/50 shadow-2xs'
               }`}
             >
@@ -359,13 +359,13 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                   </span>
                   <span className={`text-[12px] font-bold px-2 py-0.5 rounded-[4px] font-mono ${
                     spec.weight === 'Bold'
-                      ? isDark ? 'bg-[#595EF9]/30 text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-                      : isDark ? 'bg-[#222A3B] text-[#94A3B8]' : 'bg-[#F2F4F6] text-[#6B7684]'
+                      ? isDark ? 'bg-[#0C234F] text-[#4B89FF]' : 'bg-[#E8F3FF] text-[#1B64DA]'
+                      : isDark ? 'bg-[#292931] text-[#9E9EA4]' : 'bg-[#F2F4F6] text-[#6B7684]'
                   }`}>
                     {spec.weight} ({spec.weightNum})
                   </span>
                   {spec.isBaseText && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#1219F7] text-white">
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#3182F6] text-white">
                       기본 본문
                     </span>
                   )}
@@ -377,7 +377,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                 </div>
 
                 <div className={`text-[12px] font-mono flex items-center gap-3 ${
-                  isDark ? 'text-[#94A3B8]' : 'text-[#8B95A1]'
+                  isDark ? 'text-[#9E9EA4]' : 'text-[#8B95A1]'
                 }`}>
                   <span>Size: <strong className={isDark ? 'text-white' : 'text-[#191F28]'}>{spec.size}px</strong></span>
                   <span>•</span>
@@ -385,7 +385,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                 </div>
 
                 <p className={`text-[12px] leading-relaxed line-clamp-2 ${
-                  isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'
+                  isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'
                 }`}>
                   {spec.usage}
                 </p>
@@ -400,7 +400,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                     letterSpacing: '-1px',
                   }}
                   className={`truncate leading-snug tracking-tight ${
-                    isDark ? 'text-[#F3F4F6]' : 'text-[#191F28]'
+                    isDark ? 'text-white' : 'text-[#191F28]'
                   }`}
                 >
                   {testText}
@@ -416,7 +416,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                     copiedIndex === idx
                       ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
                       : isDark
-                      ? 'bg-[#1E2536] text-[#CBD5E1] hover:bg-[#595EF9]/30 hover:text-white border border-[#3A4560]'
+                      ? 'bg-[#292931] text-[#E5E5E8] hover:bg-[#32323C] hover:text-white'
                       : 'bg-[#F2F4F6] text-[#4E5968] hover:bg-[#E8F3FF] hover:text-[#1219F7]'
                   }`}
                 >

@@ -2,10 +2,10 @@ import React, { useState, useMemo } from "react";
 import ReactDOMServer from "react-dom/server";
 import {
   type LucideIcon,
-  Check as CheckIcon,
+  Activity,
   AirVent,
+  AlarmClock,
   AlertCircle,
-  AlertOctagon,
   AlertTriangle,
   Armchair,
   ArrowDown,
@@ -16,27 +16,41 @@ import {
   ArrowUp,
   ArrowUpDown,
   ArrowUpRight,
+  AtSign,
   Award,
+  Badge,
+  BadgeCheck,
   BadgePercent,
   Ban,
+  Banknote,
+  Barcode,
   Bath,
+  Battery,
   BatteryCharging,
   Bed,
   Bell,
-  BellOff,
   BellRing,
   Blinds,
+  Bluetooth,
+  Bookmark,
+  BookmarkCheck,
   Boxes,
   Brush,
   Bug,
   Building,
   Building2,
   Cable,
+  Calculator,
   Calendar,
   CalendarCheck,
+  CalendarCheck2,
+  CalendarClock,
   CalendarDays,
+  CalendarRange,
   Camera,
   Car,
+  Cast,
+  Check,
   CheckCheck,
   CheckCircle,
   CheckCircle2,
@@ -50,22 +64,39 @@ import {
   ChevronsRight,
   ChevronsUp,
   Circle,
+  CircleDollarSign,
+  CircleDot,
+  ClipboardCheck,
+  ClipboardCopy,
+  ClipboardList,
   Clock,
-  Coffee,
+  Clock1,
+  Clock2,
+  Clock3,
+  Clock4,
+  Clock6,
+  Clock8,
+  Code,
   Coins,
+  Columns,
   Compass,
   Container,
-  CookingPot,
   Copy,
+  CopyCheck,
   CornerDownLeft,
   CornerDownRight,
+  CornerUpLeft,
+  CornerUpRight,
+  Cpu,
   CreditCard,
-  DollarSign,
-  DoorClosed,
+  Crosshair,
+  Database,
+  DoorOpen,
   Download,
-  Drill,
+  DownloadCloud,
   Droplets,
   Edit,
+  Edit2,
   Edit3,
   ExternalLink,
   Eye,
@@ -73,70 +104,109 @@ import {
   Fan,
   File,
   FileCheck,
+  FileDown,
+  FileMinus,
   FilePlus,
+  FileQuestion,
+  FileSearch,
+  FileSignature,
   FileSpreadsheet,
   FileText,
+  Files,
   Filter,
+  Flag,
   Flame,
   Folder,
+  FolderArchive,
+  FolderCheck,
   FolderOpen,
   FolderPlus,
+  Footprints,
+  Forklift,
   Fuel,
-  Globe,
+  Gauge,
+  Grid,
+  GripHorizontal,
+  GripVertical,
   Hammer,
-  HardHat,
+  HardDrive,
+  Hash,
   Headphones,
+  Headset,
   Heart,
-  HelpCircle,
+  HeartHandshake,
+  History,
   Home,
+  Hourglass,
   Image,
-  Info,
+  Images,
+  Inbox,
   Key,
+  KeyRound,
   Lamp,
+  Landmark,
   Laptop,
   Layers,
+  LayoutGrid,
+  LayoutList,
   Link,
+  Link2,
+  List,
+  ListFilter,
+  ListOrdered,
+  Locate,
+  LocateFixed,
   Lock,
-  LockKeyhole,
+  LogIn,
   LogOut,
-  Mail,
-  MailOpen,
   MapPin,
+  MapPinOff,
+  MapPinned,
   Maximize,
+  Maximize2,
+  Megaphone,
   Menu,
   MessageCircle,
   MessageSquare,
   MessagesSquare,
+  Mic,
+  MicOff,
   Microwave,
   Minimize,
+  Minimize2,
   Minus,
+  MinusCircle,
   Monitor,
-  Moon,
   MoreHorizontal,
   MoreVertical,
+  MousePointer,
   Move,
+  MoveHorizontal,
+  MoveVertical,
   Navigation,
+  Navigation2,
+  Network,
   Package,
   PackageCheck,
-  PackageMinus,
   PackageOpen,
-  PackagePlus,
-  PackageSearch,
-  Paintbrush,
   Paperclip,
+  Pause,
+  PenTool,
   Percent,
   Phone,
   PhoneCall,
-  PhoneIncoming,
-  PhoneOff,
-  PhoneOutgoing,
-  Pipette,
+  Pin,
+  PinOff,
+  Play,
   Plug,
   Plus,
+  PlusCircle,
+  Power,
   Printer,
   QrCode,
   Radio,
   Receipt,
+  ReceiptText,
   RefreshCcw,
   RefreshCw,
   Refrigerator,
@@ -144,45 +214,61 @@ import {
   RotateCcw,
   RotateCw,
   Router,
-  Save,
+  Rows,
+  Ruler,
+  Scale,
   Scan,
-  Scroll,
+  ScrollText,
   Search,
   Send,
+  SendHorizontal,
+  Server,
   Settings,
-  Share,
+  Settings2,
   Share2,
   Shield,
   ShieldAlert,
   ShieldCheck,
-  Shirt,
-  ShowerHead,
+  ShieldMinus,
+  ShieldQuestion,
+  Shuffle,
+  Signal,
+  Sliders,
   SlidersHorizontal,
   Smartphone,
+  Smile,
   Snowflake,
-  Sofa,
+  SortAsc,
+  SortDesc,
   Sparkle,
   Sparkles,
+  Speaker,
   SprayCan,
   Square,
   Star,
-  Sun,
+  StarHalf,
+  Store,
   Tablet,
   Tag,
+  Terminal,
   Thermometer,
   ThumbsDown,
   ThumbsUp,
+  Timer,
   ToggleLeft,
   ToggleRight,
+  TrafficCone,
   Trash,
   Trash2,
-  Trees,
+  TrendingDown,
+  TrendingUp,
+  Trophy,
   Truck,
   Tv,
-  Undo2,
   Unlink,
   Unlock,
   Upload,
+  UploadCloud,
   User,
   UserCheck,
   UserMinus,
@@ -191,321 +277,347 @@ import {
   Users,
   Utensils,
   Video,
+  Volume,
+  Volume1,
   Volume2,
   VolumeX,
   Wallet,
   Warehouse,
   WashingMachine,
   Wifi,
+  WifiOff,
   Wind,
   Wrench,
   X,
   XCircle,
-  XSquare,
-  Zap
+  XOctagon,
+  Zap,
+  ZoomIn,
+  ZoomOut
 } from "lucide-react";
 
-
-type CategoryType = "전체" | "이사·청소·홈케어" | "앱 필수 공통 컨트롤러";
+export type CategoryType = "전체" | "이사·청소·파트너 서비스" | "앱 필수 공통 컨트롤러";
 
 interface IconMeta {
   name: string;
   label: string;
   icon: LucideIcon;
-  category: "이사·청소·홈케어" | "앱 필수 공통 컨트롤러";
+  category: CategoryType;
   desc: string;
-}
-
-const strokeOnlyIcons = new Set([
-  "Search", "Menu", "SlidersHorizontal", "Filter", "ExternalLink", "Undo2", 
-  "RotateCcw", "RotateCw", "RefreshCw", "RefreshCcw", "Link", "Unlink", 
-  "Volume2", "VolumeX", "Wifi", "Navigation", "Compass", "Move", "Cable",
-  "ToggleLeft", "ToggleRight", "Clock", "MoreHorizontal", "MoreVertical",
-  "Paperclip", "Scan", "Undo", "CornerDownLeft", "CornerDownRight",
-  "ChevronLeft", "ChevronRight", "ChevronUp", "ChevronDown",
-  "ChevronsLeft", "ChevronsRight", "ChevronsUp", "ChevronsDown",
-  "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown",
-  "ArrowUpRight", "ArrowDownLeft", "ArrowLeftRight", "ArrowUpDown",
-  "Plus", "Minus", "X", "Check", "CheckIcon"
-]);
-
-function buildSolidSvg(name: string, IconComponent: LucideIcon, size: number, cutoutColor: string = "#FAFBFD"): string {
-  const raw = ReactDOMServer.renderToStaticMarkup(
-    React.createElement(IconComponent, { size, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" })
-  );
-
-  const match = raw.match(/<svg([^>]*)>([\s\S]*?)<\/svg>/);
-  if (!match) return raw;
-  const svgAttrs = match[1];
-  const innerHtml = match[2];
-
-  const tagRegex = /<([a-z0-9]+)([^>]*?)(\/>|>(.*?)<\/\1>)/gi;
-  const tags: { full: string; type: string }[] = [];
-  let m;
-  while ((m = tagRegex.exec(innerHtml)) !== null) {
-    tags.push({ full: m[0], type: m[1] });
-  }
-
-  const isEnclosedShape = (t: { full: string; type: string }) => {
-    if (strokeOnlyIcons.has(name)) return false;
-    if (/[zZ]/.test(t.full)) return true;
-    if (t.type === "rect" || t.type === "polygon") return true;
-    if (t.type === "circle") {
-      const rMatch = t.full.match(/r="([^"]*)"/);
-      if (rMatch && parseFloat(rMatch[1]) >= 4.5) return true;
-    }
-    return false;
-  };
-
-  const hasEnclosure = tags.some(isEnclosedShape);
-
-  if (!hasEnclosure) {
-    return `<svg${svgAttrs.replace(/stroke-width="[^"]*"/, 'stroke-width="2.4"').replace(/fill="[^"]*"/, 'fill="none"')}>${innerHtml}</svg>`;
-  }
-
-  let firstEnclosedFound = false;
-  const transformedTags = tags.map((t) => {
-    if (!firstEnclosedFound && isEnclosedShape(t)) {
-      firstEnclosedFound = true;
-      let newTag = t.full;
-      if (!newTag.includes("fill=")) {
-        newTag = newTag.replace(`<${t.type}`, `<${t.type} fill="currentColor"`);
-      } else {
-        newTag = newTag.replace(/fill="[^"]*"/, 'fill="currentColor"');
-      }
-      return newTag;
-    }
-
-    if (firstEnclosedFound) {
-      let newTag = t.full;
-      if (t.type === "circle") {
-        newTag = newTag.replace("<circle", `<circle fill="${cutoutColor}" stroke="${cutoutColor}" stroke-width="1.5"`);
-      } else if (t.type === "line" || t.type === "polyline") {
-        newTag = newTag.replace(`<${t.type}`, `<${t.type} stroke="${cutoutColor}" stroke-width="2.5" fill="none"`);
-      } else if (t.type === "path") {
-        newTag = newTag.replace("<path", `<path stroke="${cutoutColor}" stroke-width="2.5" fill="none"`);
-      }
-      return newTag;
-    }
-
-    return t.full;
-  });
-
-  return `<svg${svgAttrs.replace(/fill="[^"]*"/, 'fill="none"')}>${transformedTags.join("")}</svg>`;
 }
 
 export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isDark = mode === 'partner';
   const [activeSize, setActiveSize] = useState<"24" | "20" | "16">("24");
-  const [activeStyle, setActiveStyle] = useState<"outline" | "fill">("outline");
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [downloadedName, setDownloadedName] = useState<string | null>(null);
 
-  // 200 Official System Icons for Daisa (80 Homecare/Moving + 120 Core App)
+  // 300 Official System Icons for Daisa (150 Service & Partner + 150 Core App Controllers)
   const systemIcons: IconMeta[] = useMemo(() => [
-    // 1. 이사·청소·홈케어 (80종)
-    { name: "Truck", label: "이사업체 / 용달차", icon: Truck, category: "이사·청소·홈케어", desc: "1톤/5톤 이사 트럭 및 화물 운송" },
-    { name: "Package", label: "이사 짐 / 박스", icon: Package, category: "이사·청소·홈케어", desc: "포장 이사 및 개별 짐 박스" },
-    { name: "Boxes", label: "다량 포장 박스", icon: Boxes, category: "이사·청소·홈케어", desc: "이사 전체 짐 적재 및 다량 박스" },
-    { name: "PackageOpen", label: "짐 풀기 / 언패킹", icon: PackageOpen, category: "이사·청소·홈케어", desc: "이사 후 짐 정리 및 가구 배치" },
-    { name: "PackageCheck", label: "짐 확인 완료", icon: PackageCheck, category: "이사·청소·홈케어", desc: "분실/파손 없는 이사 짐 인수인계" },
-    { name: "PackagePlus", label: "짐 추가", icon: PackagePlus, category: "이사·청소·홈케어", desc: "이사 당일 추가 물품 접수" },
-    { name: "PackageMinus", label: "짐 제외", icon: PackageMinus, category: "이사·청소·홈케어", desc: "불필요한 짐 제외 및 수량 조정" },
-    { name: "PackageSearch", label: "물품 조회", icon: PackageSearch, category: "이사·청소·홈케어", desc: "보관 물품 및 짐 추적 확인" },
-    { name: "Warehouse", label: "보관 이사 / 창고", icon: Warehouse, category: "이사·청소·홈케어", desc: "단기/장기 컨테이너 보관 이사" },
-    { name: "Container", label: "컨테이너 보관", icon: Container, category: "이사·청소·홈케어", desc: "대용량 화물 보관 컨테이너" },
-    { name: "Move", label: "운반 / 이동", icon: Move, category: "이사·청소·홈케어", desc: "가구 및 대형 가전 이동 조작" },
-    { name: "Navigation", label: "이동 경로 / 배차", icon: Navigation, category: "이사·청소·홈케어", desc: "실시간 이사 차량 경로 안내" },
-    { name: "Compass", label: "손 없는 날 / 방위", icon: Compass, category: "이사·청소·홈케어", desc: "길일 확인 및 이사 방위 안내" },
-    { name: "MapPin", label: "출발지 / 도착지", icon: MapPin, category: "이사·청소·홈케어", desc: "이사 주소 검색 및 위치 핀" },
-    { name: "Car", label: "주차 공간 / 차량", icon: Car, category: "이사·청소·홈케어", desc: "이사 당일 사다리차/트럭 주차 확보" },
-    { name: "Building2", label: "아파트 / 오피스텔", icon: Building2, category: "이사·청소·홈케어", desc: "공동주택 및 고층 아파트 단지" },
-    { name: "Building", label: "빌딩 / 상가 이사", icon: Building, category: "이사·청소·홈케어", desc: "사무실, 빌딩, 기업 이전" },
-    { name: "Home", label: "원룸 / 단독 주택", icon: Home, category: "이사·청소·홈케어", desc: "원룸, 투룸, 단독주택 이사" },
-    { name: "DoorClosed", label: "방문 / 현관문", icon: DoorClosed, category: "이사·청소·홈케어", desc: "방문 크기 및 도어락 출입구" },
-    { name: "Layers", label: "층수 / 엘리베이터", icon: Layers, category: "이사·청소·홈케어", desc: "건물 층수 및 사다리차 진입" },
-    { name: "Trees", label: "조경 / 마당 정원", icon: Trees, category: "이사·청소·홈케어", desc: "전원주택 및 외부 조경 환경" },
-    { name: "Sun", label: "일조량 / 채광", icon: Sun, category: "이사·청소·홈케어", desc: "남향 채광 및 실내 환기 조건" },
-    { name: "Moon", label: "야간 작업 / 심야", icon: Moon, category: "이사·청소·홈케어", desc: "야간 이사 및 심야 소음 주의" },
-    { name: "Key", label: "열쇠 / 입주 키", icon: Key, category: "이사·청소·홈케어", desc: "신규 입주 열쇠 수령 및 반납" },
-    { name: "LockKeyhole", label: "도어락 / 보안키", icon: LockKeyhole, category: "이사·청소·홈케어", desc: "디지털 도어락 설치 및 변경" },
-    { name: "AirVent", label: "에어컨 / 환기구", icon: AirVent, category: "이사·청소·홈케어", desc: "시스템/벽걸이 에어컨 설치 및 청소" },
-    { name: "Fan", label: "실외기 / 송풍팬", icon: Fan, category: "이사·청소·홈케어", desc: "에어컨 실외기 배관 및 송풍팬 케어" },
-    { name: "Thermometer", label: "냉난방 온도 조절", icon: Thermometer, category: "이사·청소·홈케어", desc: "에어컨 냉매 가스 충전 점검" },
-    { name: "Snowflake", label: "에어컨 냉방 / 쿨링", icon: Snowflake, category: "이사·청소·홈케어", desc: "에어컨 완전분해 살균 청소" },
-    { name: "Flame", label: "보일러 / 가스레인지", icon: Flame, category: "이사·청소·홈케어", desc: "가스레인지 연결 및 난방 점검" },
-    { name: "Sparkles", label: "입주 청소 / 클리닝", icon: Sparkles, category: "이사·청소·홈케어", desc: "입주/이사/거주 전문 종합 청소" },
-    { name: "Sparkle", label: "특수 오염 케어", icon: Sparkle, category: "이사·청소·홈케어", desc: "줄눈, 상판 코팅, 곰팡이 특수 케어" },
-    { name: "WashingMachine", label: "세탁기 / 건조기", icon: WashingMachine, category: "이사·청소·홈케어", desc: "통돌이/드럼 세탁기 분해 세척" },
-    { name: "Refrigerator", label: "냉장고 분해 세척", icon: Refrigerator, category: "이사·청소·홈케어", desc: "양문형 냉장고 스팀 살균 청소" },
-    { name: "Tv", label: "TV / 벽걸이 설치", icon: Tv, category: "이사·청소·홈케어", desc: "대형 TV 운송 및 무타공 벽걸이" },
-    { name: "Microwave", label: "전자레인지 / 오븐", icon: Microwave, category: "이사·청소·홈케어", desc: "주방 소형 가전 청소 및 배치" },
-    { name: "CookingPot", label: "주방 쿡탑 / 인덕션", icon: CookingPot, category: "이사·청소·홈케어", desc: "인덕션 설치 및 주방 기름때 세척" },
-    { name: "Coffee", label: "정수기 / 커피머신", icon: Coffee, category: "이사·청소·홈케어", desc: "정수기 렌탈 설치 및 필터 교체" },
-    { name: "Utensils", label: "식기세척기 / 싱크대", icon: Utensils, category: "이사·청소·홈케어", desc: "식기세척기 배관 연결 및 싱크대 케어" },
-    { name: "Shirt", label: "의류 / 스타일러", icon: Shirt, category: "이사·청소·홈케어", desc: "의류 관리기 설치 및 침구 케어" },
-    { name: "Armchair", label: "소파 / 1인용 안락의자", icon: Armchair, category: "이사·청소·홈케어", desc: "가죽/패브릭 소파 청소 및 운송" },
-    { name: "Sofa", label: "거실 4인 소파", icon: Sofa, category: "이사·청소·홈케어", desc: "대형 모듈 소파 이동 및 배치" },
-    { name: "Bed", label: "침대 / 매트리스", icon: Bed, category: "이사·청소·홈케어", desc: "매트리스 건식/습식 진드기 케어" },
-    { name: "Lamp", label: "조명 / 스탠드 전등", icon: Lamp, category: "이사·청소·홈케어", desc: "LED 실내 조명 교체 및 인테리어" },
-    { name: "Blinds", label: "커튼 / 블라인드", icon: Blinds, category: "이사·청소·홈케어", desc: "암막 커튼 맞춤 시공 및 레일 설치" },
-    { name: "Bath", label: "욕실 / 화장실 청소", icon: Bath, category: "이사·청소·홈케어", desc: "욕조 물때 제거 및 바닥 타일 케어" },
-    { name: "ShowerHead", label: "샤워기 / 비데 설치", icon: ShowerHead, category: "이사·청소·홈케어", desc: "샤워기 필터 및 비데 렌탈 설치" },
-    { name: "Paintbrush", label: "페인트 / 도배 시공", icon: Paintbrush, category: "이사·청소·홈케어", desc: "실내 친환경 페인트 및 도배 장판" },
-    { name: "Drill", label: "전동 드릴 / 타공", icon: Drill, category: "이사·청소·홈케어", desc: "벽면 타공 및 선반/액자 브라켓" },
-    { name: "Hammer", label: "가구 조립 / 시공", icon: Hammer, category: "이사·청소·홈케어", desc: "이케아 등 조립식 가구 전문 조립" },
-    { name: "Wrench", label: "배관 / 설비 수리", icon: Wrench, category: "이사·청소·홈케어", desc: "싱크대 배수구 및 수전 교체" },
-    { name: "Bug", label: "해충 방제 / 소독", icon: Bug, category: "이사·청소·홈케어", desc: "바퀴벌레, 개미 등 방역 소독 서비스" },
-    { name: "SprayCan", label: "소독약 / 방역 스프레이", icon: SprayCan, category: "이사·청소·홈케어", desc: "공간 분무 살균 및 살충 케어" },
-    { name: "Pipette", label: "약품 코팅 / 줄눈", icon: Pipette, category: "이사·청소·홈케어", desc: "오염 방지 나노 코팅제 도포" },
-    { name: "Droplets", label: "고압 스팀 물청소", icon: Droplets, category: "이사·청소·홈케어", desc: "고온 스팀 살균 및 찌든때 제거" },
-    { name: "Wind", label: "피톤치드 / 새집증후군", icon: Wind, category: "이사·청소·홈케어", desc: "공기 정화 및 포름알데히드 제거" },
-    { name: "Brush", label: "틈새 브러시 청소", icon: Brush, category: "이사·청소·홈케어", desc: "창틀, 베란다 배수구 솔 청소" },
-    { name: "Trash2", label: "폐기물 / 스티커 처리", icon: Trash2, category: "이사·청소·홈케어", desc: "폐가구/폐가전 배출 대행" },
-    { name: "Fuel", label: "추가 유류비 없음", icon: Fuel, category: "이사·청소·홈케어", desc: "표준 운송료 정찰제 적용" },
-    { name: "Zap", label: "전기 / 누전 점검", icon: Zap, category: "이사·청소·홈케어", desc: "콘센트 전력 및 차단기 안전 점검" },
-    { name: "Plug", label: "가전 전원 플러그", icon: Plug, category: "이사·청소·홈케어", desc: "대형 가전 안전 접지 플러그" },
-    { name: "Cable", label: "케이블 / 배선 정리", icon: Cable, category: "이사·청소·홈케어", desc: "TV 셋톱박스 및 멀티탭 매립" },
-    { name: "BatteryCharging", label: "배터리 충전 / 전동 장비", icon: BatteryCharging, category: "이사·청소·홈케어", desc: "사다리차 및 전동 리프트 장비" },
-    { name: "Repeat", label: "정기 구독 / 렌탈 케어", icon: Repeat, category: "이사·청소·홈케어", desc: "매월 정기 가전 방문 클리닝" },
-    { name: "RefreshCcw", label: "주기적 필터 교체", icon: RefreshCcw, category: "이사·청소·홈케어", desc: "공기청정기, 정수기 필터 교체" },
-    { name: "Wifi", label: "인터넷 / 와이파이", icon: Wifi, category: "이사·청소·홈케어", desc: "기가 인터넷 신규 가입 및 이전 설치" },
-    { name: "Router", label: "공유기 / 네트워크", icon: Router, category: "이사·청소·홈케어", desc: "무선 공유기 설치 및 음영지역 개선" },
-    { name: "Globe", label: "초고속 통신망", icon: Globe, category: "이사·청소·홈케어", desc: "통신 3사 결합 혜택 및 현금 사은품" },
-    { name: "Radio", label: "IPTV / 셋톱박스", icon: Radio, category: "이사·청소·홈케어", desc: "인터넷 TV 셋톱박스 연결 설치" },
-    { name: "Headphones", label: "전문 상담원 연결", icon: Headphones, category: "이사·청소·홈케어", desc: "렌탈 및 통신 전문 상담 매니저" },
-    { name: "FileText", label: "비교 견적서", icon: FileText, category: "이사·청소·홈케어", desc: "파트너사 실시간 맞춤 견적서" },
-    { name: "Receipt", label: "정산 영수증 / 비용", icon: Receipt, category: "이사·청소·홈케어", desc: "부가세 포함 투명한 정산 영수증" },
-    { name: "Scroll", label: "약관 및 보증서", icon: Scroll, category: "이사·청소·홈케어", desc: "시공 품질 보증서 및 표준 계약서" },
-    { name: "BadgePercent", label: "프로모션 / 제휴 할인", icon: BadgePercent, category: "이사·청소·홈케어", desc: "다이사 회원 전용 특별 할인" },
-    { name: "Tag", label: "정찰제 / 가격표", icon: Tag, category: "이사·청소·홈케어", desc: "항목별 투명한 기준 가격표" },
-    { name: "ShieldCheck", label: "보증보험 가입 파트너", icon: ShieldCheck, category: "이사·청소·홈케어", desc: "적재물/영업배상책임보험 100% 가입" },
-    { name: "ShieldAlert", label: "파손 주의 / 보상 규정", icon: ShieldAlert, category: "이사·청소·홈케어", desc: "운송 중 귀중품 사전 고지 확인" },
-    { name: "Star", label: "고객 별점 / 평점", icon: Star, category: "이사·청소·홈케어", desc: "실제 이용 고객 100% 검증 평점" },
-    { name: "Award", label: "명예의 전당 베스트 파트너", icon: Award, category: "이사·청소·홈케어", desc: "고객 만족도 최우수 업체 뱃지" },
-    { name: "HardHat", label: "안전 시공 / 전문가", icon: HardHat, category: "이사·청소·홈케어", desc: "전문 기술 자격 보유 베테랑 기사님" },
-    // 2. 앱 필수 공통 컨트롤러 (120종)
-    { name: "Menu", label: "전체 메뉴", icon: Menu, category: "앱 필수 공통 컨트롤러", desc: "햄버거 전체 서비스 메뉴" },
-    { name: "User", label: "내 정보", icon: User, category: "앱 필수 공통 컨트롤러", desc: "마이페이지 및 내 계정 정보" },
-    { name: "Users", label: "팀 / 다중 사용자", icon: Users, category: "앱 필수 공통 컨트롤러", desc: "팀 작업자 및 다중 사용자" },
-    { name: "UserCheck", label: "사용자 인증 완료", icon: UserCheck, category: "앱 필수 공통 컨트롤러", desc: "휴대폰 본인 인증 성공" },
-    { name: "UserPlus", label: "회원가입 / 팀원 초대", icon: UserPlus, category: "앱 필수 공통 컨트롤러", desc: "신규 고객 가입 및 팀원 초대" },
-    { name: "UserMinus", label: "회원 탈퇴 / 팀원 제외", icon: UserMinus, category: "앱 필수 공통 컨트롤러", desc: "계정 삭제 및 팀원 연결 해제" },
-    { name: "UserX", label: "차단 / 접근 거부", icon: UserX, category: "앱 필수 공통 컨트롤러", desc: "악성 사용자 차단" },
-    { name: "Bell", label: "알림", icon: Bell, category: "앱 필수 공통 컨트롤러", desc: "견적 도착 및 중요 알림" },
-    { name: "BellOff", label: "알림 끄기", icon: BellOff, category: "앱 필수 공통 컨트롤러", desc: "푸시 알림 방해 금지 모드" },
-    { name: "BellRing", label: "새 알림 도착", icon: BellRing, category: "앱 필수 공통 컨트롤러", desc: "미확인 새 알림 배지 상태" },
-    { name: "Search", label: "검색", icon: Search, category: "앱 필수 공통 컨트롤러", desc: "주소, 업체명 검색" },
-    { name: "Filter", label: "간편 필터", icon: Filter, category: "앱 필수 공통 컨트롤러", desc: "리스트 조건 필터링" },
-    { name: "SlidersHorizontal", label: "상세 조건 필터", icon: SlidersHorizontal, category: "앱 필수 공통 컨트롤러", desc: "세부 옵션 및 범위 슬라이더" },
-    { name: "Settings", label: "환경설정", icon: Settings, category: "앱 필수 공통 컨트롤러", desc: "앱 환경설정 및 버전 정보" },
-    { name: "LogOut", label: "로그아웃", icon: LogOut, category: "앱 필수 공통 컨트롤러", desc: "계정 로그아웃 및 세션 종료" },
-    { name: "ChevronLeft", label: "이전 단계", icon: ChevronLeft, category: "앱 필수 공통 컨트롤러", desc: "스텝 뒤로가기" },
-    { name: "ChevronRight", label: "다음 / 상세 이동", icon: ChevronRight, category: "앱 필수 공통 컨트롤러", desc: "다음 스텝 및 목록 상세 이동" },
-    { name: "ChevronUp", label: "위로 접기", icon: ChevronUp, category: "앱 필수 공통 컨트롤러", desc: "아코디언 및 드롭다운 접기" },
-    { name: "ChevronDown", label: "아래로 펼치기", icon: ChevronDown, category: "앱 필수 공통 컨트롤러", desc: "아코디언 및 옵션 펼치기" },
-    { name: "ChevronsLeft", label: "처음 페이지로", icon: ChevronsLeft, category: "앱 필수 공통 컨트롤러", desc: "페이징 처음으로 이동" },
-    { name: "ChevronsRight", label: "마지막 페이지로", icon: ChevronsRight, category: "앱 필수 공통 컨트롤러", desc: "페이징 끝으로 이동" },
-    { name: "ChevronsUp", label: "맨 위로 접기", icon: ChevronsUp, category: "앱 필수 공통 컨트롤러", desc: "전체 목록 접기" },
-    { name: "ChevronsDown", label: "전체 펼치기", icon: ChevronsDown, category: "앱 필수 공통 컨트롤러", desc: "전체 목록 일괄 펼치기" },
-    { name: "ArrowLeft", label: "뒤로가기 화살표", icon: ArrowLeft, category: "앱 필수 공통 컨트롤러", desc: "헤더 뒤로가기 화살표" },
-    { name: "ArrowRight", label: "계속하기 / 진행", icon: ArrowRight, category: "앱 필수 공통 컨트롤러", desc: "버튼 우측 액션 진행" },
-    { name: "ArrowUp", label: "맨 위로 스크롤", icon: ArrowUp, category: "앱 필수 공통 컨트롤러", desc: "화면 맨 위로 스크롤" },
-    { name: "ArrowDown", label: "아래로 스크롤", icon: ArrowDown, category: "앱 필수 공통 컨트롤러", desc: "하단 섹션 스크롤 이동" },
-    { name: "ArrowUpRight", label: "새 창 열기 화살표", icon: ArrowUpRight, category: "앱 필수 공통 컨트롤러", desc: "외부 링크 및 상세보기" },
-    { name: "ArrowDownLeft", label: "수신 / 다운로드 방향", icon: ArrowDownLeft, category: "앱 필수 공통 컨트롤러", desc: "데이터 수신 인디케이터" },
-    { name: "ArrowLeftRight", label: "양방향 전환", icon: ArrowLeftRight, category: "앱 필수 공통 컨트롤러", desc: "출발지/도착지 위치 교환" },
-    { name: "ArrowUpDown", label: "정렬 순서 변경", icon: ArrowUpDown, category: "앱 필수 공통 컨트롤러", desc: "오름차순/내림차순 정렬" },
-    { name: "ExternalLink", label: "외부 링크", icon: ExternalLink, category: "앱 필수 공통 컨트롤러", desc: "약관 및 외부 웹사이트 새창" },
-    { name: "CornerDownRight", label: "답글 / 하위 항목", icon: CornerDownRight, category: "앱 필수 공통 컨트롤러", desc: "문의 답변 인덴트" },
-    { name: "CornerDownLeft", label: "엔터 / 줄바꿈", icon: CornerDownLeft, category: "앱 필수 공통 컨트롤러", desc: "입력 완료 및 줄바꿈" },
-    { name: "Undo2", label: "실행 취소", icon: Undo2, category: "앱 필수 공통 컨트롤러", desc: "이전 작업 되돌리기" },
-    { name: "Plus", label: "항목 추가", icon: Plus, category: "앱 필수 공통 컨트롤러", desc: "새 항목 추가 및 옵션 확장" },
-    { name: "Minus", label: "항목 감소", icon: Minus, category: "앱 필수 공통 컨트롤러", desc: "수량 축소 및 항목 접기" },
-    { name: "X", label: "닫기 / 입력 지우기", icon: X, category: "앱 필수 공통 컨트롤러", desc: "모달 닫기 및 텍스트 삭제" },
-    { name: "Check", label: "확인 / 체크", icon: CheckIcon, category: "앱 필수 공통 컨트롤러", desc: "단일 선택 및 체크 표시" },
-    { name: "CheckCircle2", label: "완료 상태 (원형)", icon: CheckCircle2, category: "앱 필수 공통 컨트롤러", desc: "성공 피드백 및 신청 완료" },
-    { name: "CheckCircle", label: "인증 완료 상태", icon: CheckCircle, category: "앱 필수 공통 컨트롤러", desc: "정상 승인 완료 표시" },
-    { name: "CheckSquare", label: "사각 체크박스 선택", icon: CheckSquare, category: "앱 필수 공통 컨트롤러", desc: "다중 선택 체크박스" },
-    { name: "XCircle", label: "오류 / 취소 (원형)", icon: XCircle, category: "앱 필수 공통 컨트롤러", desc: "취소 완료 및 처리 실패" },
-    { name: "XSquare", label: "사각 체크박스 거부", icon: XSquare, category: "앱 필수 공통 컨트롤러", desc: "체크박스 미동의/해제" },
-    { name: "Edit3", label: "내용 수정", icon: Edit3, category: "앱 필수 공통 컨트롤러", desc: "입력 정보 및 텍스트 수정" },
-    { name: "Edit", label: "작성하기", icon: Edit, category: "앱 필수 공통 컨트롤러", desc: "견적서 및 후기 작성" },
-    { name: "Copy", label: "복사하기", icon: Copy, category: "앱 필수 공통 컨트롤러", desc: "클립보드 복사 액션" },
-    { name: "Share2", label: "공유하기 (노드형)", icon: Share2, category: "앱 필수 공통 컨트롤러", desc: "SNS 및 링크 공유" },
-    { name: "Share", label: "내보내기", icon: Share, category: "앱 필수 공통 컨트롤러", desc: "문서 및 견적 내보내기" },
-    { name: "Download", label: "다운로드", icon: Download, category: "앱 필수 공통 컨트롤러", desc: "파일 및 명세서 저장" },
-    { name: "Upload", label: "업로드", icon: Upload, category: "앱 필수 공통 컨트롤러", desc: "사진 및 문서 파일 첨부" },
-    { name: "RefreshCw", label: "새로고침 / 재시도", icon: RefreshCw, category: "앱 필수 공통 컨트롤러", desc: "실시간 견적 갱신" },
-    { name: "RotateCcw", label: "반시계방향 초기화", icon: RotateCcw, category: "앱 필수 공통 컨트롤러", desc: "필터 조건 전체 초기화" },
-    { name: "RotateCw", label: "시계방향 회전", icon: RotateCw, category: "앱 필수 공통 컨트롤러", desc: "이미지 방향 회전" },
-    { name: "Save", label: "임시 저장", icon: Save, category: "앱 필수 공통 컨트롤러", desc: "작성 중인 신청서 저장" },
-    { name: "Trash", label: "삭제하기", icon: Trash, category: "앱 필수 공통 컨트롤러", desc: "항목 및 데이터 영구 삭제" },
-    { name: "MoreHorizontal", label: "가로 더보기", icon: MoreHorizontal, category: "앱 필수 공통 컨트롤러", desc: "카드 서브 메뉴 펼치기" },
-    { name: "MoreVertical", label: "세로 더보기", icon: MoreVertical, category: "앱 필수 공통 컨트롤러", desc: "헤더 컨텍스트 메뉴" },
-    { name: "Maximize", label: "전체화면 확대", icon: Maximize, category: "앱 필수 공통 컨트롤러", desc: "사진 및 모달 전폭 확대" },
-    { name: "Minimize", label: "원래 크기 축소", icon: Minimize, category: "앱 필수 공통 컨트롤러", desc: "전체화면 닫기 및 축소" },
-    { name: "Phone", label: "전화 상담", icon: Phone, category: "앱 필수 공통 컨트롤러", desc: "파트너 기사님 전화 연결" },
-    { name: "PhoneCall", label: "통화 연결 중", icon: PhoneCall, category: "앱 필수 공통 컨트롤러", desc: "실시간 통화 발신 상태" },
-    { name: "PhoneIncoming", label: "수신 전화", icon: PhoneIncoming, category: "앱 필수 공통 컨트롤러", desc: "파트너 상담 전화 수신" },
-    { name: "PhoneOutgoing", label: "발신 전화", icon: PhoneOutgoing, category: "앱 필수 공통 컨트롤러", desc: "고객센터 통화 요청" },
-    { name: "PhoneOff", label: "통화 종료", icon: PhoneOff, category: "앱 필수 공통 컨트롤러", desc: "통화 종료 및 거절" },
-    { name: "MessageCircle", label: "1:1 채팅 문의", icon: MessageCircle, category: "앱 필수 공통 컨트롤러", desc: "실시간 알림톡 및 채팅" },
-    { name: "MessageSquare", label: "댓글 / 메시지", icon: MessageSquare, category: "앱 필수 공통 컨트롤러", desc: "요청사항 메모 및 리뷰 댓글" },
-    { name: "MessagesSquare", label: "대화 목록", icon: MessagesSquare, category: "앱 필수 공통 컨트롤러", desc: "상담 내역 전체 대화 목록" },
-    { name: "Mail", label: "이메일 문의", icon: Mail, category: "앱 필수 공통 컨트롤러", desc: "이메일 견적서 발송" },
-    { name: "MailOpen", label: "읽은 이메일", icon: MailOpen, category: "앱 필수 공통 컨트롤러", desc: "수신 확인된 이메일" },
-    { name: "Send", label: "메시지 전송", icon: Send, category: "앱 필수 공통 컨트롤러", desc: "문의 메시지 전송하기" },
-    { name: "Heart", label: "찜하기 / 단골", icon: Heart, category: "앱 필수 공통 컨트롤러", desc: "관심 업체 즐겨찾기 저장" },
-    { name: "ThumbsUp", label: "추천 / 만족", icon: ThumbsUp, category: "앱 필수 공통 컨트롤러", desc: "기사님 서비스 만족 추천" },
-    { name: "ThumbsDown", label: "비추천 / 불만족", icon: ThumbsDown, category: "앱 필수 공통 컨트롤러", desc: "서비스 피드백 개선 접수" },
-    { name: "AlertCircle", label: "경고 / 오류", icon: AlertCircle, category: "앱 필수 공통 컨트롤러", desc: "필수 입력 누락 에러" },
-    { name: "AlertTriangle", label: "주의 안내", icon: AlertTriangle, category: "앱 필수 공통 컨트롤러", desc: "귀중품 사전 보관 주의" },
-    { name: "AlertOctagon", label: "위험 / 중단", icon: AlertOctagon, category: "앱 필수 공통 컨트롤러", desc: "작업 취소 및 중대 오류" },
-    { name: "Info", label: "정보 안내", icon: Info, category: "앱 필수 공통 컨트롤러", desc: "서비스 규정 및 이용 팁" },
-    { name: "HelpCircle", label: "도움말 / FAQ", icon: HelpCircle, category: "앱 필수 공통 컨트롤러", desc: "자주 묻는 질문 안내" },
-    { name: "CheckCheck", label: "확인 완료 / 읽음", icon: CheckCheck, category: "앱 필수 공통 컨트롤러", desc: "파트너 확인 완료 상태" },
-    { name: "Image", label: "사진 첨부", icon: Image, category: "앱 필수 공통 컨트롤러", desc: "방 및 짐 사진 선택" },
-    { name: "Camera", label: "직접 촬영", icon: Camera, category: "앱 필수 공통 컨트롤러", desc: "가구 및 주택 전경 촬영" },
-    { name: "Video", label: "동영상 첨부", icon: Video, category: "앱 필수 공통 컨트롤러", desc: "이사 현장 동영상 첨부" },
-    { name: "Folder", label: "문서함 / 폴더", icon: Folder, category: "앱 필수 공통 컨트롤러", desc: "보관 견적서 영수증 폴더" },
-    { name: "FolderOpen", label: "열린 폴더", icon: FolderOpen, category: "앱 필수 공통 컨트롤러", desc: "선택된 문서함 폴더" },
-    { name: "FolderPlus", label: "새 폴더 생성", icon: FolderPlus, category: "앱 필수 공통 컨트롤러", desc: "신규 견적 보관함 만들기" },
-    { name: "Paperclip", label: "파일 첨부", icon: Paperclip, category: "앱 필수 공통 컨트롤러", desc: "계약서 서류 파일 첨부" },
-    { name: "File", label: "일반 문서", icon: File, category: "앱 필수 공통 컨트롤러", desc: "표준 문서 파일 포맷" },
-    { name: "FilePlus", label: "새 문서 추가", icon: FilePlus, category: "앱 필수 공통 컨트롤러", desc: "신규 요청서 양식 추가" },
-    { name: "FileCheck", label: "검증된 서류", icon: FileCheck, category: "앱 필수 공통 컨트롤러", desc: "사업자등록증 보험 증권" },
-    { name: "FileSpreadsheet", label: "엑셀 명세서", icon: FileSpreadsheet, category: "앱 필수 공통 컨트롤러", desc: "엑셀 데이터 견적 파일" },
-    { name: "Printer", label: "인쇄하기", icon: Printer, category: "앱 필수 공통 컨트롤러", desc: "견적서 출력 및 PDF 저장" },
-    { name: "QrCode", label: "QR 코드", icon: QrCode, category: "앱 필수 공통 컨트롤러", desc: "현장 방문 확인 QR 스캔" },
-    { name: "Scan", label: "바코드 / 스캔", icon: Scan, category: "앱 필수 공통 컨트롤러", desc: "문서 자동 인식 스캐너" },
-    { name: "Link", label: "링크 복사", icon: Link, category: "앱 필수 공통 컨트롤러", desc: "URL 링크 연결 및 복사" },
-    { name: "Unlink", label: "링크 해제", icon: Unlink, category: "앱 필수 공통 컨트롤러", desc: "계정 연동 및 링크 해제" },
-    { name: "Eye", label: "비밀번호 보기", icon: Eye, category: "앱 필수 공통 컨트롤러", desc: "숨김 텍스트 표시" },
-    { name: "EyeOff", label: "비밀번호 숨김", icon: EyeOff, category: "앱 필수 공통 컨트롤러", desc: "개인정보 마스킹" },
-    { name: "Volume2", label: "알림 소리 켜짐", icon: Volume2, category: "앱 필수 공통 컨트롤러", desc: "안내 음성 및 사운드" },
-    { name: "VolumeX", label: "알림 소리 음소거", icon: VolumeX, category: "앱 필수 공통 컨트롤러", desc: "알림 무음 모드" },
-    { name: "Lock", label: "보안 잠금", icon: Lock, category: "앱 필수 공통 컨트롤러", desc: "개인 안심번호 잠금" },
-    { name: "Unlock", label: "잠금 해제", icon: Unlock, category: "앱 필수 공통 컨트롤러", desc: "인증 성공 잠금 해제" },
-    { name: "Shield", label: "개인정보 보호", icon: Shield, category: "앱 필수 공통 컨트롤러", desc: "안심번호 050 보안 정책" },
-    { name: "Smartphone", label: "모바일 디바이스", icon: Smartphone, category: "앱 필수 공통 컨트롤러", desc: "모바일 360px 및 전용 앱" },
-    { name: "Tablet", label: "태블릿 디바이스", icon: Tablet, category: "앱 필수 공통 컨트롤러", desc: "태블릿 반응형 뷰포트" },
-    { name: "Monitor", label: "PC 데스크톱", icon: Monitor, category: "앱 필수 공통 컨트롤러", desc: "웹 1200px 및 파트너 웹 콘솔" },
-    { name: "Laptop", label: "노트북 화면", icon: Laptop, category: "앱 필수 공통 컨트롤러", desc: "노트북 데스크톱 뷰포트" },
-    { name: "CreditCard", label: "카드 결제", icon: CreditCard, category: "앱 필수 공통 컨트롤러", desc: "계약금 카드 결제" },
-    { name: "Wallet", label: "계좌 이체 / 지갑", icon: Wallet, category: "앱 필수 공통 컨트롤러", desc: "무통장 입금 및 전자 영수증" },
-    { name: "Coins", label: "포인트 / 할인", icon: Coins, category: "앱 필수 공통 컨트롤러", desc: "이사 지원금 및 할인 혜택" },
-    { name: "DollarSign", label: "금액 / 예산", icon: DollarSign, category: "앱 필수 공통 컨트롤러", desc: "예산 범위 및 통화 단위" },
-    { name: "Percent", label: "할인율 / 수수료", icon: Percent, category: "앱 필수 공통 컨트롤러", desc: "할인 프로모션 백분율" },
-    { name: "ToggleLeft", label: "토글 꺼짐", icon: ToggleLeft, category: "앱 필수 공통 컨트롤러", desc: "옵션 미선택 비활성 상태" },
-    { name: "ToggleRight", label: "토글 켜짐", icon: ToggleRight, category: "앱 필수 공통 컨트롤러", desc: "옵션 적용 활성화 상태" },
-    { name: "Circle", label: "라디오 미선택", icon: Circle, category: "앱 필수 공통 컨트롤러", desc: "단일 선택 라디오 버튼" },
-    { name: "Square", label: "체크박스 미선택", icon: Square, category: "앱 필수 공통 컨트롤러", desc: "다중 선택 기본 체크박스" },
-    { name: "Clock", label: "시간 / 일정", icon: Clock, category: "앱 필수 공통 컨트롤러", desc: "희망 방문 및 작업 시간" },
-    { name: "Calendar", label: "달력 / 날짜", icon: Calendar, category: "앱 필수 공통 컨트롤러", desc: "이사 날짜 및 일정 선택" },
-    { name: "CalendarCheck", label: "예약 확정 날짜", icon: CalendarCheck, category: "앱 필수 공통 컨트롤러", desc: "방문 견적 확정 일정" },
-    { name: "CalendarDays", label: "월간 달력 뷰", icon: CalendarDays, category: "앱 필수 공통 컨트롤러", desc: "손 없는 날 월간 달력" }
+    // 1. 이사·청소·파트너 서비스 (150종)
+    { name: "Megaphone", label: "공지사항", icon: Megaphone, category: "이사·청소·파트너 서비스", desc: "전체 공지 및 긴급 안내 사항" },
+    { name: "Inbox", label: "받은 오더", icon: Inbox, category: "이사·청소·파트너 서비스", desc: "신규 배차 및 수신된 오더 목록" },
+    { name: "Hourglass", label: "마감 / 마감임박", icon: Hourglass, category: "이사·청소·파트너 서비스", desc: "견적 오더 마감 및 접수 종료" },
+    { name: "Zap", label: "하이패스 바로연결", icon: Zap, category: "이사·청소·파트너 서비스", desc: "우선 배차 및 하이패스 즉시 연결" },
+    { name: "CalendarClock", label: "일정관리", icon: CalendarClock, category: "이사·청소·파트너 서비스", desc: "기사님 현장 작업 일정 스케줄러" },
+    { name: "MessagesSquare", label: "채팅목록", icon: MessagesSquare, category: "이사·청소·파트너 서비스", desc: "고객 1:1 견적 상담 채팅 목록" },
+    { name: "StarHalf", label: "받은 후기 관리", icon: StarHalf, category: "이사·청소·파트너 서비스", desc: "고객 시공 후기 및 평점 리뷰 관리" },
+    { name: "Receipt", label: "포인트 내역", icon: Receipt, category: "이사·청소·파트너 서비스", desc: "충전 적립금 및 오더 차감 내역" },
+    { name: "Store", label: "업체 정보설정", icon: Store, category: "이사·청소·파트너 서비스", desc: "기사님 업체 소개 및 사업자 정보 설정" },
+    { name: "CreditCard", label: "결제정보 관리", icon: CreditCard, category: "이사·청소·파트너 서비스", desc: "정산 계좌 등록 및 세금계산서 관리" },
+    { name: "MapPin", label: "지역설정", icon: MapPin, category: "이사·청소·파트너 서비스", desc: "출동 가능 관할 지역 및 반경 설정" },
+    { name: "ClipboardCheck", label: "접수 / 접수완료", icon: ClipboardCheck, category: "이사·청소·파트너 서비스", desc: "견적 오더 접수 확인 및 처리" },
+    { name: "Send", label: "신청 / 견적제출", icon: Send, category: "이사·청소·파트너 서비스", desc: "이사/청소 견적 신청 및 제출" },
+    { name: "Truck", label: "이사업체 / 용달차", icon: Truck, category: "이사·청소·파트너 서비스", desc: "1톤/5톤 이사 트럭 및 화물 운송" },
+    { name: "Package", label: "이사 짐 / 박스", icon: Package, category: "이사·청소·파트너 서비스", desc: "포장 이사 및 개별 짐 박스" },
+    { name: "Boxes", label: "다량 포장 박스", icon: Boxes, category: "이사·청소·파트너 서비스", desc: "이사 전체 짐 적재 및 다량 박스" },
+    { name: "PackageOpen", label: "짐 풀기 / 언패킹", icon: PackageOpen, category: "이사·청소·파트너 서비스", desc: "이사 후 짐 정리 및 가구 배치" },
+    { name: "PackageCheck", label: "포장 완료 박스", icon: PackageCheck, category: "이사·청소·파트너 서비스", desc: "검수 및 포장 완료 패킹" },
+    { name: "Home", label: "출발지 / 도착지 주택", icon: Home, category: "이사·청소·파트너 서비스", desc: "단독주택 빌라 아파트 주거지" },
+    { name: "Building", label: "아파트 / 빌라", icon: Building, category: "이사·청소·파트너 서비스", desc: "고층 아파트 및 공동주택" },
+    { name: "Building2", label: "사무실 / 빌딩", icon: Building2, category: "이사·청소·파트너 서비스", desc: "사무실 이전 및 상업용 건물" },
+    { name: "Warehouse", label: "보관 창고", icon: Warehouse, category: "이사·청소·파트너 서비스", desc: "이사 짐 장단기 보관 창고" },
+    { name: "Container", label: "5톤 탑차 컨테이너", icon: Container, category: "이사·청소·파트너 서비스", desc: "대형 포장이사 전용 탑차" },
+    { name: "Forklift", label: "중량물 운반 지게차", icon: Forklift, category: "이사·청소·파트너 서비스", desc: "피아노 금고 중량 화물 운반" },
+    { name: "Car", label: "소형 용달 / 라보", icon: Car, category: "이사·청소·파트너 서비스", desc: "원룸 소형 가전 화물차" },
+    { name: "TrafficCone", label: "사다리차 주차 통제", icon: TrafficCone, category: "이사·청소·파트너 서비스", desc: "사다리차 작업 구역 확보" },
+    { name: "Scale", label: "화물 무게 / 톤수 측정", icon: Scale, category: "이사·청소·파트너 서비스", desc: "이사 물량 및 화물 톤수" },
+    { name: "Ruler", label: "가구 사이즈 실측", icon: Ruler, category: "이사·청소·파트너 서비스", desc: "엘리베이터 및 문틀 통과 실측" },
+    { name: "DoorOpen", label: "현관문 통과 작업", icon: DoorOpen, category: "이사·청소·파트너 서비스", desc: "문틀 및 중문 탈착 통과" },
+    { name: "Layers", label: "바닥 보양재 패드", icon: Layers, category: "이사·청소·파트너 서비스", desc: "강마루 스크래치 방지 패드" },
+    { name: "Footprints", label: "덧신 착용 위생", icon: Footprints, category: "이사·청소·파트너 서비스", desc: "실내 덧신 필수 착용 안내" },
+    { name: "Sparkles", label: "입주 / 이사 청소", icon: Sparkles, category: "이사·청소·파트너 서비스", desc: "입주 전후 전문 클리닝 서비스" },
+    { name: "Brush", label: "먼지 제거 / 브러시", icon: Brush, category: "이사·청소·파트너 서비스", desc: "창틀 바닥 틈새 먼지 청소" },
+    { name: "SprayCan", label: "소독 / 방역 방제", icon: SprayCan, category: "이사·청소·파트너 서비스", desc: "피톤치드 살균 및 방역 케어" },
+    { name: "Droplets", label: "고압 물세척", icon: Droplets, category: "이사·청소·파트너 서비스", desc: "화장실 및 베란다 고압 세척" },
+    { name: "Bath", label: "욕실 / 화장실 케어", icon: Bath, category: "이사·청소·파트너 서비스", desc: "욕실 물때 곰팡이 특수 청소" },
+    { name: "Sparkle", label: "새집증후군 케어", icon: Sparkle, category: "이사·청소·파트너 서비스", desc: "포름알데히드 제거 시공" },
+    { name: "Bug", label: "해충 방제 / 바퀴벌레", icon: Bug, category: "이사·청소·파트너 서비스", desc: "싱크대 배수구 살충 소독" },
+    { name: "Trash", label: "이사 쓰레기 배출", icon: Trash, category: "이사·청소·파트너 서비스", desc: "종량제 봉투 및 잡동사니" },
+    { name: "Trash2", label: "대형 폐기물 스티커", icon: Trash2, category: "이사·청소·파트너 서비스", desc: "폐가구 폐가전 배출 신고" },
+    { name: "AirVent", label: "에어컨 분해청소", icon: AirVent, category: "이사·청소·파트너 서비스", desc: "벽걸이 스탠드 에어컨 필터 청소" },
+    { name: "Fan", label: "환풍기 / 서큘레이터", icon: Fan, category: "이사·청소·파트너 서비스", desc: "주방 후드 및 환풍기 찌든 때" },
+    { name: "Wind", label: "냉매 가스 충전", icon: Wind, category: "이사·청소·파트너 서비스", desc: "에어컨 냉매 가스 보충" },
+    { name: "Snowflake", label: "냉장고 내부 살균", icon: Snowflake, category: "이사·청소·파트너 서비스", desc: "냉장고 선반 탈취 스팀 살균" },
+    { name: "Refrigerator", label: "양문형 냉장고 운반", icon: Refrigerator, category: "이사·청소·파트너 서비스", desc: "대형 냉장고 문짝 분리 운반" },
+    { name: "WashingMachine", label: "세탁기 / 건조기 직렬", icon: WashingMachine, category: "이사·청소·파트너 서비스", desc: "드럼 세탁기 수평 및 급배수관" },
+    { name: "Tv", label: "벽걸이 TV 타공", icon: Tv, category: "이사·청소·파트너 서비스", desc: "대형 TV 벽걸이 브라켓 설치" },
+    { name: "Microwave", label: "전자레인지 / 오븐", icon: Microwave, category: "이사·청소·파트너 서비스", desc: "주방 소형 가전 전용 박스" },
+    { name: "Armchair", label: "소파 / 1인 안락의자", icon: Armchair, category: "이사·청소·파트너 서비스", desc: "거실 소파 및 의자 운반" },
+    { name: "Bed", label: "침대 / 매트리스 케어", icon: Bed, category: "이사·청소·파트너 서비스", desc: "침대 프레임 분해 및 진드기 케어" },
+    { name: "Blinds", label: "커튼 / 블라인드 철거", icon: Blinds, category: "이사·청소·파트너 서비스", desc: "커튼 레일 및 블라인드 시공" },
+    { name: "Lamp", label: "조명 / 등기구", icon: Lamp, category: "이사·청소·파트너 서비스", desc: "천장 LED 조명 탈착 이전" },
+    { name: "Flame", label: "가스레인지 철거", icon: Flame, category: "이사·청소·파트너 서비스", desc: "도시가스 및 주방 가스레인지" },
+    { name: "Plug", label: "가전 전원 콘센트 연결", icon: Plug, category: "이사·청소·파트너 서비스", desc: "세탁기 TV 전원 연결 확인" },
+    { name: "Utensils", label: "식기 에어캡 포장", icon: Utensils, category: "이사·청소·파트너 서비스", desc: "그릇 컵 유리 식기 안심 뽁뽁이" },
+    { name: "Wrench", label: "가구 분해 / 조립 공구", icon: Wrench, category: "이사·청소·파트너 서비스", desc: "붙박이장 침대 조립 공구" },
+    { name: "Hammer", label: "못 박기 / 액자 시공", icon: Hammer, category: "이사·청소·파트너 서비스", desc: "벽걸이 타공 및 마감 작업" },
+    { name: "Thermometer", label: "보관 창고 항온항습", icon: Thermometer, category: "이사·청소·파트너 서비스", desc: "가구 곰팡이 방지 온도 관리" },
+    { name: "Cable", label: "인터넷 / 와이파이", icon: Cable, category: "이사·청소·파트너 서비스", desc: "광랜 인터넷 이전 설치 개통" },
+    { name: "Wifi", label: "와이파이 공유기", icon: Wifi, category: "이사·청소·파트너 서비스", desc: "가정용 유무선 공유기 설치" },
+    { name: "Router", label: "통신 셋톱박스", icon: Router, category: "이사·청소·파트너 서비스", desc: "IPTV 셋톱박스 및 모뎀 연결" },
+    { name: "MapPinned", label: "도착지 위치 핀", icon: MapPinned, category: "이사·청소·파트너 서비스", desc: "이사 목적지 도로명 주소" },
+    { name: "Navigation", label: "최적 운송 경로", icon: Navigation, category: "이사·청소·파트너 서비스", desc: "화물 트럭 전용 내비게이션" },
+    { name: "Navigation2", label: "현장 빠른 길 안내", icon: Navigation2, category: "이사·청소·파트너 서비스", desc: "골목길 우회 화물 경로" },
+    { name: "LocateFixed", label: "현재 기사님 위치", icon: LocateFixed, category: "이사·청소·파트너 서비스", desc: "실시간 트럭 GPS 위치" },
+    { name: "Locate", label: "출발지 GPS 탐색", icon: Locate, category: "이사·청소·파트너 서비스", desc: "근처 기사님 매칭" },
+    { name: "Crosshair", label: "정확한 주차 위치", icon: Crosshair, category: "이사·청소·파트너 서비스", desc: "탑차 주차 포인트" },
+    { name: "MapPinOff", label: "배차 제외 지역", icon: MapPinOff, category: "이사·청소·파트너 서비스", desc: "작업 불가 제외 구역" },
+    { name: "Compass", label: "이사 방위 / 길일", icon: Compass, category: "이사·청소·파트너 서비스", desc: "풍수지리 길방 확인" },
+    { name: "Fuel", label: "유류비 / 톨게이트비", icon: Fuel, category: "이사·청소·파트너 서비스", desc: "장거리 이동 실비 정산" },
+    { name: "Phone", label: "기사님 안심 전화", icon: Phone, category: "이사·청소·파트너 서비스", desc: "안심번호 050 통화 연결" },
+    { name: "PhoneCall", label: "방문 견적 예약 전화", icon: PhoneCall, category: "이사·청소·파트너 서비스", desc: "고객 사전 상담 통화" },
+    { name: "Headset", label: "고객 만족 상담센터", icon: Headset, category: "이사·청소·파트너 서비스", desc: "다이사 공식 고객센터 문의" },
+    { name: "MessageSquare", label: "고객 문의 메시지", icon: MessageSquare, category: "이사·청소·파트너 서비스", desc: "사전 특이사항 전달" },
+    { name: "MessageCircle", label: "실시간 상담 알림", icon: MessageCircle, category: "이사·청소·파트너 서비스", desc: "신규 고객 채팅 상담" },
+    { name: "Bell", label: "신규 오더 알림", icon: Bell, category: "이사·청소·파트너 서비스", desc: "실시간 견적 알림 푸시" },
+    { name: "BellRing", label: "긴급 배차 호출", icon: BellRing, category: "이사·청소·파트너 서비스", desc: "당일 긴급 이사 배차" },
+    { name: "CalendarDays", label: "손 없는 날 달력", icon: CalendarDays, category: "이사·청소·파트너 서비스", desc: "이사 길일 및 손 없는 날" },
+    { name: "CalendarCheck", label: "이사 일정 확정", icon: CalendarCheck, category: "이사·청소·파트너 서비스", desc: "최종 일정 조율 완료" },
+    { name: "CalendarCheck2", label: "손 없는 날 확정", icon: CalendarCheck2, category: "이사·청소·파트너 서비스", desc: "예약금 입금 일정 확정" },
+    { name: "CalendarRange", label: "보관 이사 기간", icon: CalendarRange, category: "이사·청소·파트너 서비스", desc: "보관 시작 및 만료 일정" },
+    { name: "AlarmClock", label: "현장 모닝콜 알림", icon: AlarmClock, category: "이사·청소·파트너 서비스", desc: "출동 1시간 전 알림" },
+    { name: "Clock3", label: "오전 작업 시작", icon: Clock3, category: "이사·청소·파트너 서비스", desc: "오전 8시 현장 출동 시작" },
+    { name: "Clock8", label: "오후 청소 완료", icon: Clock8, category: "이사·청소·파트너 서비스", desc: "작업 완료 및 퇴근 확인" },
+    { name: "Timer", label: "작업 소요 시간 측정", icon: Timer, category: "이사·청소·파트너 서비스", desc: "총 이사 작업 소요시간" },
+    { name: "Clock", label: "작업 대기 시간", icon: Clock, category: "이사·청소·파트너 서비스", desc: "엘리베이터 대기 시간" },
+    { name: "FileCheck", label: "사업자등록 인증", icon: FileCheck, category: "이사·청소·파트너 서비스", desc: "검증된 정식 관허 이사업체" },
+    { name: "FileSignature", label: "전자 견적서 서명", icon: FileSignature, category: "이사·청소·파트너 서비스", desc: "현장 비대면 모바일 서명" },
+    { name: "FileText", label: "표준 견적서 서식", icon: FileText, category: "이사·청소·파트너 서비스", desc: "공정거래위원회 표준 약관" },
+    { name: "FileSpreadsheet", label: "화물 견적 내역서", icon: FileSpreadsheet, category: "이사·청소·파트너 서비스", desc: "엑셀 데이터 세부 목록" },
+    { name: "FileSearch", label: "견적서 조회 검색", icon: FileSearch, category: "이사·청소·파트너 서비스", desc: "과거 견적서 이력 찾기" },
+    { name: "FileQuestion", label: "미확인 견적서", icon: FileQuestion, category: "이사·청소·파트너 서비스", desc: "추가 확인 필요한 견적" },
+    { name: "ClipboardList", label: "이사 체크리스트", icon: ClipboardList, category: "이사·청소·파트너 서비스", desc: "포장 전 귀중품 확인 목록" },
+    { name: "ClipboardCopy", label: "견적 내용 복사", icon: ClipboardCopy, category: "이사·청소·파트너 서비스", desc: "화물 리스트 클립보드 복사" },
+    { name: "PenTool", label: "현장 계약서 작성", icon: PenTool, category: "이사·청소·파트너 서비스", desc: "작업 현장 서명 날인" },
+    { name: "ScrollText", label: "이용 약관 동의", icon: ScrollText, category: "이사·청소·파트너 서비스", desc: "파트너 제휴 약관" },
+    { name: "Calculator", label: "이사 견적 계산기", icon: Calculator, category: "이사·청소·파트너 서비스", desc: "거리 및 층수별 실시간 견적" },
+    { name: "Banknote", label: "계약금 영수증", icon: Banknote, category: "이사·청소·파트너 서비스", desc: "무통장 입금 및 현금 영수증" },
+    { name: "Coins", label: "다이사 캐시백 포인트", icon: Coins, category: "이사·청소·파트너 서비스", desc: "리뷰 작성 시 지급 포인트" },
+    { name: "Landmark", label: "파트너 정산 은행", icon: Landmark, category: "이사·청소·파트너 서비스", desc: "정산 계좌 은행 정보" },
+    { name: "CircleDollarSign", label: "추가 운임 요금", icon: CircleDollarSign, category: "이사·청소·파트너 서비스", desc: "엘리베이터 사용료 등 추가" },
+    { name: "ReceiptText", label: "세금계산서 발행", icon: ReceiptText, category: "이사·청소·파트너 서비스", desc: "전자 세금계산서 청구" },
+    { name: "BadgePercent", label: "제휴 렌탈 할인", icon: BadgePercent, category: "이사·청소·파트너 서비스", desc: "정수기 공기청정기 결합 할인" },
+    { name: "Tag", label: "이사 이벤트 특가", icon: Tag, category: "이사·청소·파트너 서비스", desc: "평일 한정 이사비 할인" },
+    { name: "Percent", label: "수수료율 확인", icon: Percent, category: "이사·청소·파트너 서비스", desc: "다이사 플랫폼 중개 수수료" },
+    { name: "UserCheck", label: "팀장 패커 전담 배정", icon: UserCheck, category: "이사·청소·파트너 서비스", desc: "경력 10년 이상 전문 패커" },
+    { name: "UserPlus", label: "사다리 보조 인력 추가", icon: UserPlus, category: "이사·청소·파트너 서비스", desc: "인력 추가 옵션 신청" },
+    { name: "Users", label: "이사 전담 크루 명단", icon: Users, category: "이사·청소·파트너 서비스", desc: "남성 3인 여성 1인 4인 1조" },
+    { name: "ShieldCheck", label: "적재물 배상책임 보험", icon: ShieldCheck, category: "이사·청소·파트너 서비스", desc: "파손 분실 대비 안심 보험" },
+    { name: "ShieldAlert", label: "파손 주의 물품", icon: ShieldAlert, category: "이사·청소·파트너 서비스", desc: "유리 도자기 정밀 취급" },
+    { name: "ShieldMinus", label: "취소 수수료 면제", icon: ShieldMinus, category: "이사·청소·파트너 서비스", desc: "고객 귀책 취소 면제" },
+    { name: "ShieldQuestion", label: "보험 청구 심사", icon: ShieldQuestion, category: "이사·청소·파트너 서비스", desc: "파손 접수 조사 진행" },
+    { name: "Shield", label: "기사님 안심 보장", icon: Shield, category: "이사·청소·파트너 서비스", desc: "불공정 거래 보호" },
+    { name: "Lock", label: "개인정보 안심 잠금", icon: Lock, category: "이사·청소·파트너 서비스", desc: "고객 연락처 마스킹" },
+    { name: "Unlock", label: "안심번호 확인", icon: Unlock, category: "이사·청소·파트너 서비스", desc: "배차 수락 후 번호 조회" },
+    { name: "Key", label: "입주 아파트 키 불출", icon: Key, category: "이사·청소·파트너 서비스", desc: "이사 당일 현관 비밀번호" },
+    { name: "KeyRound", label: "현관 도어락 비밀번호", icon: KeyRound, category: "이사·청소·파트너 서비스", desc: "비대면 이사 번호키" },
+    { name: "Award", label: "다이사 명예의 전당", icon: Award, category: "이사·청소·파트너 서비스", desc: "고객 만족도 최우수 업체" },
+    { name: "Trophy", label: "이달의 우수 파트너", icon: Trophy, category: "이사·청소·파트너 서비스", desc: "월간 최우수 시공 업체" },
+    { name: "BadgeCheck", label: "공식 안심 인증 마크", icon: BadgeCheck, category: "이사·청소·파트너 서비스", desc: "다이사 품질 검증 마크" },
+    { name: "ThumbsUp", label: "추천 이사업체", icon: ThumbsUp, category: "이사·청소·파트너 서비스", desc: "평점 4.9 이상 추천 기사" },
+    { name: "ThumbsDown", label: "서비스 불만족 접수", icon: ThumbsDown, category: "이사·청소·파트너 서비스", desc: "A/S 및 클레임 인입" },
+    { name: "Smile", label: "고객 만족 후기", icon: Smile, category: "이사·청소·파트너 서비스", desc: "칭찬 및 만족 피드백" },
+    { name: "HeartHandshake", label: "이사 계약 성사", icon: HeartHandshake, category: "이사·청소·파트너 서비스", desc: "온라인 전자 계약 체결" },
+    { name: "Camera", label: "현장 사진 촬영", icon: Camera, category: "이사·청소·파트너 서비스", desc: "파손 전 가구 상태 촬영" },
+    { name: "Image", label: "이사 짐 사진 첨부", icon: Image, category: "이사·청소·파트너 서비스", desc: "고객 업로드 사진 조회" },
+    { name: "Images", label: "다량 짐 사진 모음", icon: Images, category: "이사·청소·파트너 서비스", desc: "방별 가구 사진 확인" },
+    { name: "Video", label: "현장 동영상 녹화", icon: Video, category: "이사·청소·파트너 서비스", desc: "가전 작동 테스트 영상" },
+    { name: "Paperclip", label: "보험 서류 첨부", icon: Paperclip, category: "이사·청소·파트너 서비스", desc: "사고 접수 증빙 서류" },
+    { name: "Folder", label: "월별 정산 명세서", icon: Folder, category: "이사·청소·파트너 서비스", desc: "세무 신고 정산 폴더" },
+    { name: "FolderCheck", label: "완료된 정산서", icon: FolderCheck, category: "이사·청소·파트너 서비스", desc: "세금계산서 승인 완료" },
+    { name: "FolderArchive", label: "완료 오더 아카이브", icon: FolderArchive, category: "이사·청소·파트너 서비스", desc: "보관된 지난 오더 서류" },
+    { name: "QrCode", label: "현장 확인 QR", icon: QrCode, category: "이사·청소·파트너 서비스", desc: "작업 착수 고객 서명 QR" },
+    { name: "Scan", label: "바코드 영수증 스캔", icon: Scan, category: "이사·청소·파트너 서비스", desc: "자재 구매 영수증" },
+    { name: "Barcode", label: "물류 바코드 라벨", icon: Barcode, category: "이사·청소·파트너 서비스", desc: "보관 박스 고유 번호" },
+    { name: "Share2", label: "견적서 고객 공유", icon: Share2, category: "이사·청소·파트너 서비스", desc: "카카오톡 알림톡 전송" },
+    { name: "Printer", label: "견적서 즉시 인쇄", icon: Printer, category: "이사·청소·파트너 서비스", desc: "포터블 모바일 프린터" },
+    { name: "Smartphone", label: "기사님 전용 앱", icon: Smartphone, category: "이사·청소·파트너 서비스", desc: "파트너 모바일 앱 콘솔" },
+    { name: "Tablet", label: "현장 태블릿 견적", icon: Tablet, category: "이사·청소·파트너 서비스", desc: "방문 견적 태블릿 입력" },
+    { name: "Monitor", label: "PC 오더 관리자", icon: Monitor, category: "이사·청소·파트너 서비스", desc: "사무실 웹 관리 콘솔" },
+    { name: "Laptop", label: "노트북 배차 콘솔", icon: Laptop, category: "이사·청소·파트너 서비스", desc: "원격 오더 배차 관리" },
+    { name: "History", label: "지난 작업 이력", icon: History, category: "이사·청소·파트너 서비스", desc: "완료된 이사 오더 기록" },
+    { name: "Eye", label: "견적 상세 조회", icon: Eye, category: "이사·청소·파트너 서비스", desc: "화물 내역 자세히 보기" },
+    { name: "EyeOff", label: "고객명 익명화", icon: EyeOff, category: "이사·청소·파트너 서비스", desc: "개인정보 보호 처리" },
+    { name: "CheckCircle2", label: "작업 완료 승인", icon: CheckCircle2, category: "이사·청소·파트너 서비스", desc: "고객 최종 서명 완료" },
+    { name: "CheckSquare", label: "필수 작업 완료 체크", icon: CheckSquare, category: "이사·청소·파트너 서비스", desc: "체크리스트 확인" },
+    { name: "AlertCircle", label: "긴급 오더 알림", icon: AlertCircle, category: "이사·청소·파트너 서비스", desc: "미수락 취소 임박 경고" },
+    { name: "AlertTriangle", label: "도로 통제 주의", icon: AlertTriangle, category: "이사·청소·파트너 서비스", desc: "사다리차 진입로 장애물" },
+    { name: "Ban", label: "운송 불가 품목", icon: Ban, category: "이사·청소·파트너 서비스", desc: "인화물 동물 현금 귀금속" },
+    { name: "Settings", label: "알림 및 작업 설정", icon: Settings, category: "이사·청소·파트너 서비스", desc: "푸시 알림 수신 설정" },
+
+    // 2. 앱 필수 공통 컨트롤러 (150종)
+    { name: "ArrowRight", label: "다음 / 우측 이동", icon: ArrowRight, category: "앱 필수 공통 컨트롤러", desc: "다음 화면 및 우측 링크" },
+    { name: "ArrowLeft", label: "이전 / 좌측 이동", icon: ArrowLeft, category: "앱 필수 공통 컨트롤러", desc: "이전 화면 및 좌측 이동" },
+    { name: "ArrowUp", label: "위로 이동", icon: ArrowUp, category: "앱 필수 공통 컨트롤러", desc: "상단 스크롤 및 승강" },
+    { name: "ArrowDown", label: "아래로 이동", icon: ArrowDown, category: "앱 필수 공통 컨트롤러", desc: "하단 스크롤 및 하강" },
+    { name: "ArrowUpDown", label: "상하 양방향 이동", icon: ArrowUpDown, category: "앱 필수 공통 컨트롤러", desc: "위아래 위치 변경" },
+    { name: "ArrowLeftRight", label: "좌우 양방향 이동", icon: ArrowLeftRight, category: "앱 필수 공통 컨트롤러", desc: "순서 맞교환" },
+    { name: "ArrowUpRight", label: "외부 링크 열기", icon: ArrowUpRight, category: "앱 필수 공통 컨트롤러", desc: "새 탭 열기" },
+    { name: "ArrowDownLeft", label: "수신 / 다운로드 이동", icon: ArrowDownLeft, category: "앱 필수 공통 컨트롤러", desc: "받은 파일 위치" },
+    { name: "ChevronRight", label: "우측 꺾쇠", icon: ChevronRight, category: "앱 필수 공통 컨트롤러", desc: "리스트 상세 진입" },
+    { name: "ChevronLeft", label: "좌측 꺾쇠 (뒤로가기)", icon: ChevronLeft, category: "앱 필수 공통 컨트롤러", desc: "네비게이션 뒤로" },
+    { name: "ChevronUp", label: "상단 접기", icon: ChevronUp, category: "앱 필수 공통 컨트롤러", desc: "아코디언 접기" },
+    { name: "ChevronDown", label: "하단 펼치기", icon: ChevronDown, category: "앱 필수 공통 컨트롤러", desc: "옵션 드롭다운 펼치기" },
+    { name: "ChevronsRight", label: "맨 끝으로 이동", icon: ChevronsRight, category: "앱 필수 공통 컨트롤러", desc: "페이지네이션 마지막" },
+    { name: "ChevronsLeft", label: "처음으로 이동", icon: ChevronsLeft, category: "앱 필수 공통 컨트롤러", desc: "페이지네이션 첫 페이지" },
+    { name: "ChevronsUp", label: "최상단 탑 이동", icon: ChevronsUp, category: "앱 필수 공통 컨트롤러", desc: "맨 위로 스크롤" },
+    { name: "ChevronsDown", label: "최하단 다운", icon: ChevronsDown, category: "앱 필수 공통 컨트롤러", desc: "맨 아래로 스크롤" },
+    { name: "CornerDownLeft", label: "엔터 / 줄바꿈", icon: CornerDownLeft, category: "앱 필수 공통 컨트롤러", desc: "입력 완료 엔터 키" },
+    { name: "CornerDownRight", label: "하단 분기", icon: CornerDownRight, category: "앱 필수 공통 컨트롤러", desc: "세부 하위 항목" },
+    { name: "CornerUpLeft", label: "답글 달기", icon: CornerUpLeft, category: "앱 필수 공통 컨트롤러", desc: "문의 답글 작성" },
+    { name: "CornerUpRight", label: "전달하기", icon: CornerUpRight, category: "앱 필수 공통 컨트롤러", desc: "메시지 전달" },
+    { name: "Check", label: "단일 체크 선택", icon: Check, category: "앱 필수 공통 컨트롤러", desc: "완료 및 유효성 통과" },
+    { name: "CheckCheck", label: "모두 읽음 / 2중 확인", icon: CheckCheck, category: "앱 필수 공통 컨트롤러", desc: "수신 확인 완료" },
+    { name: "CheckCircle", label: "원형 체크 확인", icon: CheckCircle, category: "앱 필수 공통 컨트롤러", desc: "작업 성공 피드백" },
+    { name: "Plus", label: "항목 추가", icon: Plus, category: "앱 필수 공통 컨트롤러", desc: "옵션 및 폼 추가" },
+    { name: "PlusCircle", label: "원형 추가", icon: PlusCircle, category: "앱 필수 공통 컨트롤러", desc: "신규 요청 등록" },
+    { name: "Minus", label: "항목 삭제 / 감소", icon: Minus, category: "앱 필수 공통 컨트롤러", desc: "수량 감소 및 제거" },
+    { name: "MinusCircle", label: "원형 감소", icon: MinusCircle, category: "앱 필수 공통 컨트롤러", desc: "수량 빼기" },
+    { name: "X", label: "닫기 / 취소", icon: X, category: "앱 필수 공통 컨트롤러", desc: "모달 닫기 및 입력 삭제" },
+    { name: "XCircle", label: "원형 닫기", icon: XCircle, category: "앱 필수 공통 컨트롤러", desc: "입력값 전체 초기화" },
+    { name: "XOctagon", label: "오류 정지", icon: XOctagon, category: "앱 필수 공통 컨트롤러", desc: "치명적 오류 차단" },
+    { name: "Edit", label: "내용 편집", icon: Edit, category: "앱 필수 공통 컨트롤러", desc: "견적 조건 수정" },
+    { name: "Edit2", label: "간편 수정", icon: Edit2, category: "앱 필수 공통 컨트롤러", desc: "인라인 텍스트 편집" },
+    { name: "Edit3", label: "메모 작성", icon: Edit3, category: "앱 필수 공통 컨트롤러", desc: "추가 요청 메모" },
+    { name: "Copy", label: "클립보드 복사", icon: Copy, category: "앱 필수 공통 컨트롤러", desc: "계좌 및 주소 복사" },
+    { name: "CopyCheck", label: "복사 완료", icon: CopyCheck, category: "앱 필수 공통 컨트롤러", desc: "성공 피드백" },
+    { name: "Download", label: "파일 다운로드", icon: Download, category: "앱 필수 공통 컨트롤러", desc: "견적서 PDF 저장" },
+    { name: "Upload", label: "파일 업로드", icon: Upload, category: "앱 필수 공통 컨트롤러", desc: "첨부파일 등록" },
+    { name: "FileDown", label: "문서 다운로드", icon: FileDown, category: "앱 필수 공통 컨트롤러", desc: "계약서 파일 받기" },
+    { name: "DownloadCloud", label: "클라우드 다운로드", icon: DownloadCloud, category: "앱 필수 공통 컨트롤러", desc: "백업 복원" },
+    { name: "UploadCloud", label: "클라우드 업로드", icon: UploadCloud, category: "앱 필수 공통 컨트롤러", desc: "백업 저장" },
+    { name: "Search", label: "통합 검색", icon: Search, category: "앱 필수 공통 컨트롤러", desc: "지역 키워드 검색" },
+    { name: "Sliders", label: "필터 설정", icon: Sliders, category: "앱 필수 공통 컨트롤러", desc: "상세 조건 필터" },
+    { name: "SlidersHorizontal", label: "가로 슬라이더", icon: SlidersHorizontal, category: "앱 필수 공통 컨트롤러", desc: "범위 조절 슬라이더" },
+    { name: "Filter", label: "단일 필터", icon: Filter, category: "앱 필수 공통 컨트롤러", desc: "카테고리 분류 필터" },
+    { name: "ListFilter", label: "목록 다중 필터", icon: ListFilter, category: "앱 필수 공통 컨트롤러", desc: "다중 조건 필터링" },
+    { name: "SortAsc", label: "오름차순 정렬", icon: SortAsc, category: "앱 필수 공통 컨트롤러", desc: "낮은 가격순 정렬" },
+    { name: "SortDesc", label: "내림차순 정렬", icon: SortDesc, category: "앱 필수 공통 컨트롤러", desc: "높은 가격순 정렬" },
+    { name: "ListOrdered", label: "순번 리스트", icon: ListOrdered, category: "앱 필수 공통 컨트롤러", desc: "번호 순차 정렬" },
+    { name: "List", label: "목록형 뷰", icon: List, category: "앱 필수 공통 컨트롤러", desc: "리스트 형태로 보기" },
+    { name: "Grid", label: "그리드 뷰", icon: Grid, category: "앱 필수 공통 컨트롤러", desc: "바둑판형 카드 보기" },
+    { name: "LayoutGrid", label: "대형 카드 배치", icon: LayoutGrid, category: "앱 필수 공통 컨트롤러", desc: "2열/3열 카드 그리드" },
+    { name: "LayoutList", label: "상세 리스트 배치", icon: LayoutList, category: "앱 필수 공통 컨트롤러", desc: "세로형 목록 뷰" },
+    { name: "Columns", label: "다중 컬럼", icon: Columns, category: "앱 필수 공통 컨트롤러", desc: "화면 분할 뷰" },
+    { name: "Rows", label: "행 분할 뷰", icon: Rows, category: "앱 필수 공통 컨트롤러", desc: "테이블 행 표시" },
+    { name: "RefreshCw", label: "새로고침", icon: RefreshCw, category: "앱 필수 공통 컨트롤러", desc: "화면 및 데이터 갱신" },
+    { name: "RefreshCcw", label: "반대방향 새로고침", icon: RefreshCcw, category: "앱 필수 공통 컨트롤러", desc: "실시간 리로드" },
+    { name: "RotateCw", label: "다시 실행 (Redo)", icon: RotateCw, category: "앱 필수 공통 컨트롤러", desc: "취소한 작업 복구" },
+    { name: "RotateCcw", label: "실행 취소 (Undo)", icon: RotateCcw, category: "앱 필수 공통 컨트롤러", desc: "입력 되돌리기" },
+    { name: "ZoomIn", label: "확대 돋보기", icon: ZoomIn, category: "앱 필수 공통 컨트롤러", desc: "지도 및 도면 확대" },
+    { name: "ZoomOut", label: "축소 돋보기", icon: ZoomOut, category: "앱 필수 공통 컨트롤러", desc: "전체 지도 축소" },
+    { name: "User", label: "사용자 프로필", icon: User, category: "앱 필수 공통 컨트롤러", desc: "마이페이지 및 내 정보" },
+    { name: "UserMinus", label: "사용자 제외", icon: UserMinus, category: "앱 필수 공통 컨트롤러", desc: "팀원 삭제" },
+    { name: "UserX", label: "회원 탈퇴 / 차단", icon: UserX, category: "앱 필수 공통 컨트롤러", desc: "계정 차단 처리" },
+    { name: "LogIn", label: "로그인", icon: LogIn, category: "앱 필수 공통 컨트롤러", desc: "계정 로그인 접속" },
+    { name: "LogOut", label: "로그아웃", icon: LogOut, category: "앱 필수 공통 컨트롤러", desc: "안전 로그아웃" },
+    { name: "Power", label: "시스템 전원 종료", icon: Power, category: "앱 필수 공통 컨트롤러", desc: "앱 종료" },
+    { name: "Settings2", label: "고급 환경설정", icon: Settings2, category: "앱 필수 공통 컨트롤러", desc: "시스템 정밀 옵션" },
+    { name: "Pin", label: "상단 고정 핀", icon: Pin, category: "앱 필수 공통 컨트롤러", desc: "중요 공지 상단 고정" },
+    { name: "PinOff", label: "고정 핀 해제", icon: PinOff, category: "앱 필수 공통 컨트롤러", desc: "상단 고정 취소" },
+    { name: "Bookmark", label: "북마크 저장", icon: Bookmark, category: "앱 필수 공통 컨트롤러", desc: "관심 견적 보관" },
+    { name: "BookmarkCheck", label: "저장된 북마크", icon: BookmarkCheck, category: "앱 필수 공통 컨트롤러", desc: "스크랩 완료" },
+    { name: "Heart", label: "찜하기 / 좋아요", icon: Heart, category: "앱 필수 공통 컨트롤러", desc: "단골 업체 등록" },
+    { name: "Star", label: "별점 평가", icon: Star, category: "앱 필수 공통 컨트롤러", desc: "리뷰 별점 5점 만점" },
+    { name: "Flag", label: "신고하기 / 깃발", icon: Flag, category: "앱 필수 공통 컨트롤러", desc: "허위 견적 신고" },
+    { name: "Flame", label: "인기 급상승", icon: Flame, category: "앱 필수 공통 컨트롤러", desc: "실시간 인기 업체" },
+    { name: "Sparkles", label: "AI 추천 견적", icon: Sparkles, category: "앱 필수 공통 컨트롤러", desc: "스마트 자동 매칭" },
+    { name: "Badge", label: "회원 등급 뱃지", icon: Badge, category: "앱 필수 공통 컨트롤러", desc: "VIP 파트너 등급" },
+    { name: "Shield", label: "보안 정책", icon: Shield, category: "앱 필수 공통 컨트롤러", desc: "데이터 암호화" },
+    { name: "Key", label: "접근 토큰 키", icon: Key, category: "앱 필수 공통 컨트롤러", desc: "API 인증 키" },
+    { name: "Lock", label: "비밀번호 잠금", icon: Lock, category: "앱 필수 공통 컨트롤러", desc: "보안 잠금 모드" },
+    { name: "ToggleLeft", label: "토글 스위치 꺼짐", icon: ToggleLeft, category: "앱 필수 공통 컨트롤러", desc: "비활성 상태 토글" },
+    { name: "ToggleRight", label: "토글 스위치 켜짐", icon: ToggleRight, category: "앱 필수 공통 컨트롤러", desc: "활성 상태 토글" },
+    { name: "Circle", label: "라디오 미선택", icon: Circle, category: "앱 필수 공통 컨트롤러", desc: "단일 선택 라디오" },
+    { name: "CircleDot", label: "라디오 선택됨", icon: CircleDot, category: "앱 필수 공통 컨트롤러", desc: "라디오 활성화" },
+    { name: "Square", label: "체크박스 미선택", icon: Square, category: "앱 필수 공통 컨트롤러", desc: "다중 선택 기본 박스" },
+    { name: "CheckSquare", label: "체크박스 선택됨", icon: CheckSquare, category: "앱 필수 공통 컨트롤러", desc: "동의 체크 완료" },
+    { name: "Maximize", label: "전체 화면 확대", icon: Maximize, category: "앱 필수 공통 컨트롤러", desc: "전체 창 보기" },
+    { name: "Minimize", label: "화면 최소화", icon: Minimize, category: "앱 필수 공통 컨트롤러", desc: "작은 창 모드" },
+    { name: "Maximize2", label: "창 최대화", icon: Maximize2, category: "앱 필수 공통 컨트롤러", desc: "화면 가득 채우기" },
+    { name: "Minimize2", label: "창 원래대로", icon: Minimize2, category: "앱 필수 공통 컨트롤러", desc: "기본 크기 복귀" },
+    { name: "AtSign", label: "이메일 주소 골뱅이", icon: AtSign, category: "앱 필수 공통 컨트롤러", desc: "이메일 계정 입력" },
+    { name: "Hash", label: "해시태그 / 번호(#)", icon: Hash, category: "앱 필수 공통 컨트롤러", desc: "주문 고유 식별 번호" },
+    { name: "MousePointer", label: "마우스 포인터", icon: MousePointer, category: "앱 필수 공통 컨트롤러", desc: "클릭 지점 가이드" },
+    { name: "Move", label: "자유 이동", icon: Move, category: "앱 필수 공통 컨트롤러", desc: "요소 드래그 앤 드롭" },
+    { name: "MoveHorizontal", label: "가로 순서 이동", icon: MoveHorizontal, category: "앱 필수 공통 컨트롤러", desc: "좌우 드래그 정렬" },
+    { name: "MoveVertical", label: "세로 순서 이동", icon: MoveVertical, category: "앱 필수 공통 컨트롤러", desc: "상하 드래그 정렬" },
+    { name: "GripHorizontal", label: "가로 그립 핸들", icon: GripHorizontal, category: "앱 필수 공통 컨트롤러", desc: "드래그 정렬 손잡이" },
+    { name: "GripVertical", label: "세로 그립 핸들", icon: GripVertical, category: "앱 필수 공통 컨트롤러", desc: "리스트 순서 변경 손잡이" },
+    { name: "Menu", label: "햄버거 전체 메뉴", icon: Menu, category: "앱 필수 공통 컨트롤러", desc: "모바일 사이드바 열기" },
+    { name: "MoreHorizontal", label: "가로 더보기 (…)", icon: MoreHorizontal, category: "앱 필수 공통 컨트롤러", desc: "추가 액션 팝오버" },
+    { name: "MoreVertical", label: "세로 더보기 (⋮)", icon: MoreVertical, category: "앱 필수 공통 컨트롤러", desc: "행 옵션 메뉴" },
+    { name: "ExternalLink", label: "외부 링크 새창", icon: ExternalLink, category: "앱 필수 공통 컨트롤러", desc: "아웃링크 연결" },
+    { name: "Link", label: "URL 링크", icon: Link, category: "앱 필수 공통 컨트롤러", desc: "하이퍼링크 연결" },
+    { name: "Link2", label: "주소 복사 링크", icon: Link2, category: "앱 필수 공통 컨트롤러", desc: "공유 링크 복사" },
+    { name: "Unlink", label: "연동 해제", icon: Unlink, category: "앱 필수 공통 컨트롤러", desc: "외부 계정 연결 끊기" },
+    { name: "Volume", label: "기본 음량", icon: Volume, category: "앱 필수 공통 컨트롤러", desc: "안내 방송 사운드" },
+    { name: "Volume1", label: "작은 소리", icon: Volume1, category: "앱 필수 공통 컨트롤러", desc: "1단계 알림음" },
+    { name: "Volume2", label: "큰 소리 켜짐", icon: Volume2, category: "앱 필수 공통 컨트롤러", desc: "최대 알림 음량" },
+    { name: "VolumeX", label: "음소거 무음", icon: VolumeX, category: "앱 필수 공통 컨트롤러", desc: "진동 및 무음 전환" },
+    { name: "Mic", label: "음성 마이크 입력", icon: Mic, category: "앱 필수 공통 컨트롤러", desc: "음성 메모 녹음" },
+    { name: "MicOff", label: "마이크 끄기", icon: MicOff, category: "앱 필수 공통 컨트롤러", desc: "통화 음소거" },
+    { name: "Paperclip", label: "파일 첨부 클립", icon: Paperclip, category: "앱 필수 공통 컨트롤러", desc: "문서 첨부" },
+    { name: "FilePlus", label: "새 파일 추가", icon: FilePlus, category: "앱 필수 공통 컨트롤러", desc: "문서 신규 생성" },
+    { name: "FileMinus", label: "파일 제거", icon: FileMinus, category: "앱 필수 공통 컨트롤러", desc: "첨부파일 삭제" },
+    { name: "FolderPlus", label: "새 폴더 생성", icon: FolderPlus, category: "앱 필수 공통 컨트롤러", desc: "보관함 만들기" },
+    { name: "FolderOpen", label: "열린 폴더", icon: FolderOpen, category: "앱 필수 공통 컨트롤러", desc: "현재 디렉토리" },
+    { name: "Battery", label: "배터리 상태", icon: Battery, category: "앱 필수 공통 컨트롤러", desc: "단말기 배터리 잔량" },
+    { name: "BatteryCharging", label: "충전 중", icon: BatteryCharging, category: "앱 필수 공통 컨트롤러", desc: "전자기기 충전" },
+    { name: "WifiOff", label: "오프라인 통신 두절", icon: WifiOff, category: "앱 필수 공통 컨트롤러", desc: "네트워크 연결 실패" },
+    { name: "Bluetooth", label: "블루투스 페어링", icon: Bluetooth, category: "앱 필수 공통 컨트롤러", desc: "카드 결제기 연결" },
+    { name: "SendHorizontal", label: "가로 전송 버튼", icon: SendHorizontal, category: "앱 필수 공통 컨트롤러", desc: "메시지 발송" },
+    { name: "Repeat", label: "반복 실행", icon: Repeat, category: "앱 필수 공통 컨트롤러", desc: "주기적 정기 이사" },
+    { name: "Shuffle", label: "랜덤 셔플", icon: Shuffle, category: "앱 필수 공통 컨트롤러", desc: "순서 섞기" },
+    { name: "Clock1", label: "새벽 시간대", icon: Clock1, category: "앱 필수 공통 컨트롤러", desc: "심야 작업" },
+    { name: "Clock2", label: "오전 시간대", icon: Clock2, category: "앱 필수 공통 컨트롤러", desc: "오전 작업" },
+    { name: "Clock4", label: "오후 시간대", icon: Clock4, category: "앱 필수 공통 컨트롤러", desc: "낮 작업" },
+    { name: "Clock6", label: "저녁 시간대", icon: Clock6, category: "앱 필수 공통 컨트롤러", desc: "퇴근 후 작업" },
+    { name: "Calendar", label: "기본 달력", icon: Calendar, category: "앱 필수 공통 컨트롤러", desc: "날짜 선택 팝업" },
+    { name: "Wallet", label: "전자 지갑", icon: Wallet, category: "앱 필수 공통 컨트롤러", desc: "간편 결제 지갑" },
+    { name: "CreditCard", label: "신용/체크카드", icon: CreditCard, category: "앱 필수 공통 컨트롤러", desc: "카드 결제 모듈" },
+    { name: "Play", label: "동영상 재생", icon: Play, category: "앱 필수 공통 컨트롤러", desc: "설명 동영상 재생" },
+    { name: "Pause", label: "일시 정지", icon: Pause, category: "앱 필수 공통 컨트롤러", desc: "재생 일시 정지" },
+    { name: "Activity", label: "실시간 활동 지표", icon: Activity, category: "앱 필수 공통 컨트롤러", desc: "접속 현황 모니터링" },
+    { name: "TrendingUp", label: "실적 상승 추이", icon: TrendingUp, category: "앱 필수 공통 컨트롤러", desc: "오더 수주량 증가" },
+    { name: "TrendingDown", label: "실적 하락 추이", icon: TrendingDown, category: "앱 필수 공통 컨트롤러", desc: "취소율 변동" },
+    { name: "Gauge", label: "계기판 / 속도", icon: Gauge, category: "앱 필수 공통 컨트롤러", desc: "운행 속도 및 처리율" },
+    { name: "File", label: "일반 텍스트 파일", icon: File, category: "앱 필수 공통 컨트롤러", desc: "표준 서류 파일" },
+    { name: "Files", label: "다중 서류 묶음", icon: Files, category: "앱 필수 공통 컨트롤러", desc: "복수 첨부 문서" },
+    { name: "Terminal", label: "콘솔 명령 프롬프트", icon: Terminal, category: "앱 필수 공통 컨트롤러", desc: "시스템 디버깅 콘솔" },
+    { name: "Code", label: "개발자 코드", icon: Code, category: "앱 필수 공통 컨트롤러", desc: "API 연동 개발 코드" },
+    { name: "Cpu", label: "서버 프로세서", icon: Cpu, category: "앱 필수 공통 컨트롤러", desc: "중앙 연산 처리 장치" },
+    { name: "Database", label: "고객 데이터베이스", icon: Database, category: "앱 필수 공통 컨트롤러", desc: "견적 원장 데이터" },
+    { name: "Server", label: "클라우드 호스팅 서버", icon: Server, category: "앱 필수 공통 컨트롤러", desc: "다이사 백엔드 인프라" },
+    { name: "HardDrive", label: "외장 하드 저장장치", icon: HardDrive, category: "앱 필수 공통 컨트롤러", desc: "로컬 스토리지" },
+    { name: "Network", label: "네트워크 연결망", icon: Network, category: "앱 필수 공통 컨트롤러", desc: "전사 네트워크 망" },
+    { name: "Radio", label: "무전 통신 / 주파수", icon: Radio, category: "앱 필수 공통 컨트롤러", desc: "현장 무전 연락" },
+    { name: "Signal", label: "안테나 수신 감도", icon: Signal, category: "앱 필수 공통 컨트롤러", desc: "모바일 데이터 통신 신호" },
+    { name: "Cast", label: "무선 화면 공유", icon: Cast, category: "앱 필수 공통 컨트롤러", desc: "스마트 TV 화면 미러링" },
+    { name: "Headphones", label: "고객 음성 상담", icon: Headphones, category: "앱 필수 공통 컨트롤러", desc: "헤드셋 통화 청취" },
+    { name: "Speaker", label: "안내 스피커 방송", icon: Speaker, category: "앱 필수 공통 컨트롤러", desc: "현장 음성 안내" }
   ], []);
 
   const sizePixel = parseInt(activeSize, 10);
@@ -524,11 +636,16 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
   }, [systemIcons, selectedCategory, searchQuery]);
 
   const downloadSvgFile = (name: string, IconComponent: LucideIcon) => {
-    let svgString = activeStyle === "fill"
-      ? buildSolidSvg(name, IconComponent, sizePixel, "#FFFFFF")
-      : ReactDOMServer.renderToStaticMarkup(
-          React.createElement(IconComponent, { size: sizePixel, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" })
-        );
+    let svgString = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(IconComponent, {
+        size: sizePixel,
+        strokeWidth: 1.5,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        fill: "none",
+        stroke: "currentColor",
+      })
+    );
 
     if (!svgString.includes('xmlns=')) {
       svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
@@ -542,7 +659,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `daisa-icon-${name.toLowerCase()}-${sizePixel}px-${activeStyle}.svg`;
+    link.download = `daisa-icon-${name.toLowerCase()}-${sizePixel}px.svg`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -553,190 +670,136 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
   };
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
       {/* Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+      <div className={`border-b pb-6 ${isDark ? 'border-[#222129]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
           {isDark ? '파트너 B2B 시스템 아이콘' : '파운데이션 / 기초 규격'}
         </span>
         <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
           isDark ? 'text-white' : 'text-[#191F28]'
         }`}>
-          {isDark ? '파트너 시스템 아이콘 (Icons) · 공식 200종' : '아이콘 (Icons) · 공식 200종'}
+          아이콘 (Icons) · 공식 300종
         </h2>
         <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
         }`}>
-          다이사(da24) 서비스의 <strong>공식 시스템 아이콘 200종 (선형 Outline & 면형 Fill 전수 지원)</strong>입니다. 이사·가전·청소·인터넷 80종과 앱 필수 공통 컨트롤러 120종으로 구성되며, 이모지 사용을 엄격히 금지합니다. 아이콘 카드를 클릭하면 <strong>.{activeSize}px-{activeStyle}.svg 파일로 즉시 다운로드</strong>됩니다.
+          다이사(da24) 및 파트너 서비스의 <strong>공식 시스템 아이콘 300종</strong>입니다. 이사·청소·파트너 서비스 150종과 앱 필수 공통 컨트롤러 150종으로 구성되며, 이모지 사용을 엄격히 금지합니다. 아이콘 카드를 클릭하면 <strong>.{activeSize}px.svg 파일로 즉시 다운로드</strong>됩니다.
         </p>
       </div>
 
-      {/* 3 Core Rules Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Rule 1: No Emoji */}
-        <div className={`p-5 rounded-[18px] space-y-2 border ${
-          isDark ? 'bg-red-950/20 border-red-900/40 text-red-200' : 'bg-[#FFF5F6] border-[#F34766]/30 text-[#591420]'
-        }`}>
-          <div className="flex items-center gap-2 text-[#F34766]">
-            <Ban className="w-5 h-5 shrink-0" />
-            <h4 className="text-[15px] font-extrabold">이모지 사용 금지</h4>
+      {/* Sleek, Thin & Long Emoji Ban Banner */}
+      <div className={`w-full px-5 py-3.5 rounded-[12px] border flex flex-col md:flex-row md:items-center justify-between gap-3 ${
+        isDark
+          ? 'bg-[#1D1619] border-[#441D24] text-white'
+          : 'bg-[#FFF5F6] border-[#F34766]/30 text-[#191F28]'
+      }`}>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-[8px] bg-red-500/10 border border-red-500/30 flex items-center justify-center text-[#F34766] shrink-0">
+            <Ban className="w-4 h-4" />
           </div>
-          <p className="text-[13px] leading-relaxed">
-            모든 텍스트, 뱃지, 버튼, 툴팁 등에서 이모지 사용을 금지하며, 공식 SVG 아이콘만 사용합니다.
-          </p>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[14px] font-black text-red-500 tracking-tight">이모지(Emoji) 사용 엄격 금지</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-red-500/20 text-red-400 border border-red-500/40">절대 규칙</span>
+            </div>
+            <p className={`text-[12px] mt-0.5 ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
+              다이사 및 파트너 서비스 전반의 텍스트, 뱃지, 버튼 내 이모지 사용을 금지하며 공식 시스템 SVG 아이콘만 사용합니다.
+            </p>
+          </div>
         </div>
 
-        {/* Rule 2: System Icon First */}
-        <div className={`p-5 rounded-[18px] space-y-2 border ${
-          isDark ? 'bg-[#595EF9]/10 border-[#595EF9]/30 text-[#A5A8FC]' : 'bg-[#F2F7FF] border-[#3182F6]/30 text-[#1B64DA]'
-        }`}>
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 shrink-0" />
-            <h4 className="text-[15px] font-extrabold">선형 & 면형 200종 완비</h4>
-          </div>
-          <p className="text-[13px] leading-relaxed">
-            이사·가전 80종 및 컨트롤러 120종 전체에 Outline과 Fill 2가지 스타일을 완벽 지원합니다.
-          </p>
-        </div>
-
-        {/* Rule 3: AI Creation */}
-        <div className={`p-5 rounded-[18px] space-y-2 border shadow-xs ${
-          isDark ? 'bg-[#161B26] border-[#262F40] text-[#CBD5E1]' : 'bg-white border-[#E5E8EB] text-[#4E5968]'
-        }`}>
-          <div className={`flex items-center gap-2 ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-            <Sparkles className={`w-5 h-5 shrink-0 ${isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'}`} />
-            <h4 className="text-[15px] font-extrabold">AI 신규 아이콘 제작</h4>
-          </div>
-          <p className={`text-[13px] leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
-            목록 외 추가 아이콘은 일관성을 위해 표준 규격(24px, 1.5px, round)에 맞춰 AI로 제작합니다.
-          </p>
+        {/* Prohibited Emoji Badges */}
+        <div className="flex items-center gap-1.5 flex-wrap shrink-0">
+          <span className={`text-[11px] font-bold mr-1 ${isDark ? 'text-[#8B8B94]' : 'text-[#8B95A1]'}`}>금지 예시:</span>
+          {['🚚', '📦', '🧹', '🏠', '📅', '🔔', '⚡️', '❌', '🛠', '💰', '📞', '📝'].map((emoji, idx) => (
+            <span
+              key={idx}
+              className={`text-[13px] px-2 py-0.5 rounded-[6px] border select-none relative ${
+                isDark
+                  ? 'bg-[#281A1D] border-[#552028] text-red-300'
+                  : 'bg-white border-red-200 text-red-600'
+              }`}
+              title="이모지 사용 금지"
+            >
+              <span className="line-through decoration-red-500 decoration-2 opacity-80">{emoji}</span>
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Specifications Block */}
-      <div className={`border rounded-[22px] p-6 md:p-8 space-y-6 shadow-xs ${
-        isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-white border-[#E5E8EB]'
+      {/* Specifications Block (Toss Screener Style) */}
+      <div className={`border rounded-[20px] p-6 space-y-4 shadow-xs ${
+        isDark ? 'bg-[#18171D] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
       }`}>
         <div className="space-y-1">
-          <h3 className={`text-[18px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-            아이콘 제작 및 렌더링 규격
+          <h3 className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
+            아이콘 렌더링 규격 가이드
           </h3>
-          <p className={`text-[13px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
-            디자이너 및 AI 에이전트가 아이콘을 추가할 때 반드시 준수해야 하는 파라미터입니다.
+          <p className={`text-[13px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
+            표준 24px 캔버스 기준 1.5px 두께, 부드러운 라운드 엔드포인트를 고정 적용합니다.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className={`p-4 border rounded-[14px] space-y-1 ${
-            isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
+            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
           }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>스타일 규격</span>
-            <div className={`text-[18px] font-extrabold ${isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'}`}>선형 & 면형</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>Outline(기본) · Fill(활성/강조)</p>
+            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>기본 사이즈</span>
+            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>24px</div>
+            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>터치 타겟 및 전사 표준</p>
           </div>
 
-          <div className={`p-4 border rounded-[14px] space-y-1 ${
-            isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
+          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
+            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
           }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>기본 사이즈</span>
-            <div className={`text-[18px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>24px</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>터치 타겟 및 네비게이션 전사 표준</p>
+            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>보조 사이즈</span>
+            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>20px · 16px</div>
+            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>인풋 내부 및 미니 뱃지</p>
           </div>
 
-          <div className={`p-4 border rounded-[14px] space-y-1 ${
-            isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
+          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
+            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
           }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>보조 사이즈</span>
-            <div className={`text-[18px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>20px · 16px</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>인풋 내부(20px), 미니 뱃지(16px)</p>
+            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>선 두께 (Stroke)</span>
+            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>1.5px</div>
+            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>24px 기준 1.5px 통일</p>
           </div>
 
-          <div className={`p-4 border rounded-[14px] space-y-1 ${
-            isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
+          <div className={`p-3.5 border rounded-[12px] space-y-0.5 ${
+            isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
           }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>선 두께 (Stroke)</span>
-            <div className={`text-[18px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>1.5px</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>24px 캔버스 기준 1.5px 선 굵기 통일</p>
-          </div>
-
-          <div className={`p-4 border rounded-[14px] space-y-1 ${
-            isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
-          }`}>
-            <span className={`text-[11px] font-bold ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>엔드포인트 (Cap/Join)</span>
-            <div className={`text-[18px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>Round</div>
-            <p className={`text-[11px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>부드러운 곡선 친화적 라운드 마감</p>
-          </div>
-        </div>
-
-        {/* AI Icon Standard Prompt */}
-        <div className={`border rounded-[16px] p-5 space-y-4 ${
-          isDark ? 'bg-[#10141D] border-[#222A3A]' : 'bg-[#FAFBFD] border-[#E5E8EB]'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Sparkles className={`w-4 h-4 ${isDark ? 'text-[#7075FA]' : 'text-[#1219F7]'}`} />
-              <span className={`text-[13px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-                AI 아이콘 제작 표준 프롬프트 가이드 (선형 & 면형)
-              </span>
-            </div>
-            <span className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full ${
-              isDark ? 'bg-[#595EF9]/20 text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-            }`}>
-              프롬프트 템플릿
-            </span>
-          </div>
-
-          <p className={`text-[12px] leading-relaxed ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
-            Gemini, ChatGPT, Claude 등 AI에게 아래 프롬프트를 복사하여 요청하면 200종 시스템 아이콘과 동일한 규격의 단일 SVG 코드로 생성됩니다.
-          </p>
-
-          <div className="space-y-2.5">
-            <div>
-              <span className={`text-[11px] font-bold mb-1 block ${isDark ? 'text-white' : 'text-[#191F28]'}`}>1. 선형 (Outline) 프롬프트</span>
-              <code className={`block text-[11px] font-mono p-3 rounded-[8px] border overflow-x-auto select-all leading-relaxed ${
-                isDark ? 'bg-[#161B26] border-[#262F40] text-[#CBD5E1]' : 'bg-white border-[#E5E8EB] text-[#191F28]'
-              }`}>
-                &quot;Design a 24x24 SVG icon with a 1.5px stroke weight, round stroke-linecap, and round stroke-linejoin. Outline style only (fill=none), stroke=currentColor, minimalistic modern Korean product style. Target object: [원하는 아이콘 이름]&quot;
-              </code>
-            </div>
-            <div>
-              <span className={`text-[11px] font-bold mb-1 block ${isDark ? 'text-white' : 'text-[#191F28]'}`}>2. 면형 (Fill) 프롬프트</span>
-              <code className={`block text-[11px] font-mono p-3 rounded-[8px] border overflow-x-auto select-all leading-relaxed ${
-                isDark ? 'bg-[#161B26] border-[#262F40] text-[#CBD5E1]' : 'bg-white border-[#E5E8EB] text-[#191F28]'
-              }`}>
-                &quot;Design a 24x24 SVG icon in solid fill style (fill=currentColor, stroke=currentColor, stroke-width=1.5, stroke-linecap=round, stroke-linejoin=round), minimalistic modern Korean product style. Target object: [원하는 아이콘 이름]&quot;
-              </code>
-            </div>
+            <span className={`text-[11px] font-bold ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>엔드포인트</span>
+            <div className={`text-[17px] font-extrabold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>Round</div>
+            <p className={`text-[11px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>곡선 친화적 라운드 마감</p>
           </div>
         </div>
       </div>
 
-      {/* Interactive Icon Showcase Grid (200 Icons with Category Tabs & Instant Search) */}
+      {/* Interactive Icon Showcase Grid (300 Icons with Category Tabs & Instant Search) */}
       <div className="space-y-6">
-        {/* Controls: Search, Category Filter, Style Switcher, and Size Switcher */}
+        {/* Controls: Search, Category Filter, and Size Switcher (Toss Screener Style) */}
         <div className={`border rounded-[20px] p-4 space-y-4 shadow-xs ${
-          isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-white border-[#E5E8EB]'
+          isDark ? 'bg-[#18171D] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
         }`}>
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             {/* Category Tabs */}
             <div className={`flex items-center gap-1.5 p-1 rounded-[12px] overflow-x-auto scrollbar-none border ${
-              isDark ? 'bg-[#121620] border-[#222A3A]' : 'bg-[#F2F4F6] border-transparent'
+              isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F2F4F6] border-transparent'
             }`}>
-              {(["전체", "이사·청소·홈케어", "앱 필수 공통 컨트롤러"] as const).map((cat) => {
+              {(["전체", "이사·청소·파트너 서비스", "앱 필수 공통 컨트롤러"] as const).map((cat) => {
                 const count =
                   cat === "전체"
-                    ? 200
-                    : cat === "이사·청소·홈케어"
-                    ? 80
-                    : 120;
+                    ? 300
+                    : 150;
                 return (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-3.5 py-1.5 rounded-[9px] text-[12px] font-bold transition-all whitespace-nowrap ${
                       selectedCategory === cat
-                        ? isDark ? 'bg-[#1E2536] text-[#A5A8FC] shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                        : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                        ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
+                        : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
                     }`}
                   >
                     {cat} ({count})
@@ -745,66 +808,37 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
               })}
             </div>
 
-            {/* Switchers: Style & Size */}
-            <div className="flex items-center gap-2 self-end lg:self-auto flex-wrap">
-              {/* Style Switcher: Outline vs Fill */}
-              <div className={`flex items-center gap-1 p-1 rounded-[12px] border ${
-                isDark ? 'bg-[#121620] border-[#222A3A]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
-              }`}>
+            {/* Size Switcher */}
+            <div className={`flex items-center gap-1 p-1 rounded-[12px] border self-end lg:self-auto ${
+              isDark ? 'bg-[#141319] border-[#222129]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
+            }`}>
+              {(["24", "20", "16"] as const).map((s) => (
                 <button
-                  onClick={() => setActiveStyle("outline")}
-                  className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
-                    activeStyle === "outline"
-                      ? isDark ? 'bg-[#1E2536] text-[#A5A8FC] shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                      : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+                  key={s}
+                  onClick={() => setActiveSize(s)}
+                  className={`px-2.5 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
+                    activeSize === s
+                      ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
+                      : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
                   }`}
                 >
-                  선형 (Outline)
+                  {s}px
                 </button>
-                <button
-                  onClick={() => setActiveStyle("fill")}
-                  className={`px-3 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
-                    activeStyle === "fill"
-                      ? isDark ? 'bg-[#1E2536] text-[#A5A8FC] shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                      : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
-                  }`}
-                >
-                  면형 (Fill)
-                </button>
-              </div>
-
-              {/* Size Switcher */}
-              <div className={`flex items-center gap-1 p-1 rounded-[12px] border ${
-                isDark ? 'bg-[#121620] border-[#222A3A]' : 'bg-[#F2F4F6] border-[#E5E8EB]/50'
-              }`}>
-                {(["24", "20", "16"] as const).map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setActiveSize(s)}
-                    className={`px-2.5 py-1 rounded-[8px] text-[12px] font-bold transition-all ${
-                      activeSize === s
-                        ? isDark ? 'bg-[#1E2536] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-                        : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
-                    }`}
-                  >
-                    {s}px
-                  </button>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Search Box */}
           <div className="relative">
-            <Search className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`} />
+            <Search className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`} />
             <input
               type="text"
-              placeholder="200종 아이콘 이름 또는 설명 검색 (예: 트럭, 에어컨, 인터넷, 정수기, 소파, 청소, 달력 등)"
+              placeholder="300종 아이콘 이름 또는 설명 검색 (예: 공지사항, 오더, 마감, 하이패스, 후기, 포인트, 설정, 결제, 트럭, 에어컨 등)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={`w-full rounded-[12px] pl-10 pr-10 py-2.5 text-[13px] outline-none transition-all border ${
                 isDark
-                  ? 'bg-[#10141D] border-[#2B3548] text-white placeholder-[#64748B] focus:border-[#595EF9]'
+                  ? 'bg-[#292931] border-transparent text-white placeholder-[#65656E] focus:border-[#4B89FF] focus:bg-[#201F26]'
                   : 'bg-[#F9FAFB] border-[#E5E8EB] text-[#191F28] placeholder-[#8B95A1] focus:border-[#3182F6] focus:bg-white'
               }`}
             />
@@ -812,7 +846,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className={`absolute right-3 top-1/2 -translate-y-1/2 text-[12px] ${isDark ? 'text-[#64748B] hover:text-white' : 'text-[#8B95A1] hover:text-[#191F28]'}`}
+                className={`absolute right-3 top-1/2 -translate-y-1/2 text-[12px] ${isDark ? 'text-[#65656E] hover:text-white' : 'text-[#8B95A1] hover:text-[#191F28]'}`}
               >
                 ✕
               </button>
@@ -821,17 +855,17 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         </div>
 
         {/* Results Counter */}
-        <div className={`flex items-center justify-between px-1 text-[13px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
+        <div className={`flex items-center justify-between px-1 text-[13px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
           <div>
             검색 결과: <strong className={isDark ? 'text-white' : 'text-[#191F28]'}>{filteredIcons.length}개</strong>
-            {searchQuery && <span className={isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}> (&apos;{searchQuery}&apos; 검색 중)</span>}
+            {searchQuery && <span className={isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}> (&apos;{searchQuery}&apos; 검색 중)</span>}
           </div>
-          <span className={`text-[12px] ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
-            카드 클릭 시 <strong>.{activeSize}px-{activeStyle}.svg</strong> 파일 자동 다운로드
+          <span className={`text-[12px] ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
+            카드 클릭 시 <strong>.{activeSize}px.svg</strong> 파일 자동 다운로드
           </span>
         </div>
 
-        {/* Icon Grid */}
+        {/* Icon Grid (Pure Clean Outline Icons) */}
         {filteredIcons.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
             {filteredIcons.map((item) => {
@@ -842,53 +876,46 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
                   key={`${item.category}-${item.name}`}
                   onClick={() => downloadSvgFile(item.name, item.icon)}
                   title={`${item.label} (${item.name}) SVG 다운로드`}
-                  className={`group p-4 rounded-[18px] border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative select-none ${
+                  className={`group p-4 rounded-[16px] border flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative select-none ${
                     isDark
-                      ? 'bg-[#161B26] border-[#262F40] hover:border-[#595EF9] hover:shadow-[0_10px_24px_rgba(89,94,249,0.18)]'
+                      ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#4B89FF] hover:bg-[#201F26] hover:shadow-[0_8px_20px_rgba(0,0,0,0.4)]'
                       : 'bg-white border-[#E5E8EB] hover:border-[#1219F7] hover:shadow-[0_10px_24px_rgba(18,25,247,0.08)]'
                   }`}
                 >
                   {/* Category Tag on Top Right */}
                   <span className={`absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
-                    item.category === "이사·청소·홈케어"
-                      ? isDark ? 'bg-[#595EF9]/20 text-[#A5A8FC]' : 'bg-[#E8F3FF] text-[#1B64DA]'
-                      : isDark ? 'bg-[#222A3B] text-[#94A3B8]' : 'bg-[#F2F4F6] text-[#8B95A1]'
+                    item.category === "이사·청소·파트너 서비스"
+                      ? isDark ? 'bg-[#0C234F] text-[#4B89FF]' : 'bg-[#E8F3FF] text-[#1B64DA]'
+                      : isDark ? 'bg-[#292832] text-[#8B8B94]' : 'bg-[#F2F4F6] text-[#8B95A1]'
                   }`}>
-                    {item.category === "이사·청소·홈케어" ? "이사/홈케어" : "공통"}
+                    {item.category === "이사·청소·파트너 서비스" ? "서비스/파트너" : "공통"}
                   </span>
 
-                  {/* Visual SVG Icon (Outline or Smart Solid Cutout Fill) */}
-                  <div
-                    className={`w-12 h-12 rounded-[12px] flex items-center justify-center transition-colors mt-2 ${
-                      isDark
-                        ? 'bg-[#10141D] group-hover:bg-[#1C2538] text-white group-hover:text-[#7075FA]'
-                        : 'bg-[#FAFBFD] group-hover:bg-[#E8F3FF] text-[#191F28] group-hover:text-[#1219F7]'
-                    }`}
-                    dangerouslySetInnerHTML={{
-                      __html: activeStyle === "fill"
-                        ? buildSolidSvg(item.name, Icon, sizePixel, isDark ? "#10141D" : "#FAFBFD")
-                        : ReactDOMServer.renderToStaticMarkup(
-                            React.createElement(Icon, { size: sizePixel, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" })
-                          )
-                    }}
-                  />
+                  {/* Clean Stroke Icon */}
+                  <div className={`w-12 h-12 rounded-[10px] flex items-center justify-center transition-colors mt-2 ${
+                    isDark
+                      ? 'bg-[#141319] group-hover:bg-[#25242E] text-white group-hover:text-[#4B89FF]'
+                      : 'bg-[#FAFBFD] group-hover:bg-[#E8F3FF] text-[#191F28] group-hover:text-[#1219F7]'
+                  }`}>
+                    <Icon size={sizePixel} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+                  </div>
 
                   <div className="text-center w-full">
                     <div className={`text-[12px] font-bold truncate transition-colors ${
-                      isDark ? 'text-white group-hover:text-[#7075FA]' : 'text-[#191F28] group-hover:text-[#1219F7]'
+                      isDark ? 'text-white group-hover:text-[#4B89FF]' : 'text-[#191F28] group-hover:text-[#1219F7]'
                     }`}>
                       {item.label}
                     </div>
-                    <div className={`text-[10px] font-mono truncate ${isDark ? 'text-[#64748B]' : 'text-[#8B95A1]'}`}>
+                    <div className={`text-[10px] font-mono truncate ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
                       {item.name}
                     </div>
                   </div>
 
                   {/* Download notification overlay */}
                   {isDownloaded && (
-                    <div className="absolute inset-0 bg-[#1219F7] text-white rounded-[18px] flex flex-col items-center justify-center gap-1 text-[11px] font-bold animate-fadeIn z-10 shadow-md">
+                    <div className="absolute inset-0 bg-[#3182F6] text-white rounded-[16px] flex flex-col items-center justify-center gap-1 text-[11px] font-bold animate-fadeIn z-10 shadow-md">
                       <Download className="w-4 h-4 animate-bounce" />
-                      <span>{activeStyle.toUpperCase()} SVG 저장</span>
+                      <span>SVG 다운로드 완료</span>
                     </div>
                   )}
                 </div>
@@ -897,12 +924,12 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
           </div>
         ) : (
           <div className={`rounded-[18px] border p-12 text-center space-y-2 ${
-            isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-white border-[#E5E8EB]'
+            isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
           }`}>
             <Search className="w-8 h-8 text-[#8B95A1] mx-auto opacity-50" />
             <h4 className={`text-[15px] font-bold ${isDark ? 'text-white' : 'text-[#191F28]'}`}>일치하는 아이콘이 없습니다</h4>
-            <p className={`text-[13px] ${isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'}`}>
-              다른 검색어를 입력하시거나 상단 표준 프롬프트 가이드를 통해 AI로 새로 생성해보세요.
+            <p className={`text-[13px] ${isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'}`}>
+              다른 검색어로 다시 검색해 보세요.
             </p>
           </div>
         )}

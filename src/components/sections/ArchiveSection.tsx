@@ -318,8 +318,8 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
   return (
     <section id="archive" className="space-y-10 relative">
       {/* Section Header */}
-      <div className={`border-b pb-6 ${isDark ? 'border-[#262F40]' : 'border-[#E5E8EB]'}`}>
-        <span className={`text-[13px] font-bold ${isDark ? 'text-[#7075FA]' : 'text-[#3182F6]'}`}>
+      <div className={`border-b pb-6 ${isDark ? 'border-[#26252D]' : 'border-[#E5E8EB]'}`}>
+        <span className={`text-[13px] font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#3182F6]'}`}>
           자료실 & 공식 명세서
         </span>
         <h2 className={`text-[28px] md:text-[32px] font-extrabold tracking-tight mt-1 ${
@@ -328,7 +328,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
           {isDark ? '파트너 B2B 디자인시스템 명세서 자료실' : '디자인시스템 명세서 자료실'}
         </h2>
         <p className={`text-[15px] mt-2 leading-relaxed max-w-2xl ${
-          isDark ? 'text-[#94A3B8]' : 'text-[#4E5968]'
+          isDark ? 'text-[#9E9EA4]' : 'text-[#4E5968]'
         }`}>
           다이사(da24) 디자인시스템의 공식 규칙과 피그마 토큰 규격을 마크다운 파일로 다운로드하거나 원문을 복사하여 프로젝트에 즉시 활용할 수 있습니다.
         </p>
@@ -336,15 +336,15 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
 
       {/* Document Selector Segment */}
       <div className={`flex items-center p-1.5 rounded-[12px] border w-fit ${
-        isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-[#F2F4F6] border-[#E5E8EB]'
+        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-[#F2F4F6] border-[#E5E8EB]'
       }`}>
         <button
           type="button"
           onClick={() => setSelectedDoc('customer')}
           className={`px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all ${
             selectedDoc === 'customer'
-              ? isDark ? 'bg-[#1E2536] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
-              : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+              ? isDark ? 'bg-[#292931] text-white shadow-xs' : 'bg-white text-[#191F28] shadow-2xs'
+              : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
           고객향 명세서 (DAISA_DESIGN_SYSTEM.md)
@@ -355,7 +355,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
           className={`px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all flex items-center gap-1.5 ${
             selectedDoc === 'partner'
               ? isDark ? 'bg-[#595EF9] text-white shadow-xs' : 'bg-white text-[#1219F7] shadow-2xs'
-              : isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
+              : isDark ? 'text-[#9E9EA4] hover:text-white' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
           <span>파트너향 명세서 (DAISA_PARTNER_DESIGN_SYSTEM.md)</span>
@@ -365,11 +365,11 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
 
       {/* Main Download Card */}
       <div className={`border rounded-[22px] p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm ${
-        isDark ? 'bg-[#161B26] border-[#262F40]' : 'bg-white border-[#E5E8EB]'
+        isDark ? 'bg-[#1C1B22] border-[#26252D]' : 'bg-white border-[#E5E8EB]'
       }`}>
         <div className="flex items-start gap-4">
           <div className={`w-14 h-14 rounded-[16px] flex items-center justify-center shrink-0 shadow-sm ${
-            isDark ? 'bg-[#1E2536] text-[#7075FA] border border-[#3A4560]' : 'bg-[#E8F3FF] text-[#1219F7]'
+            isDark ? 'bg-[#292931] text-[#4B89FF] border border-[#2B2A34]' : 'bg-[#E8F3FF] text-[#1219F7]'
           }`}>
             <FileText className="w-7 h-7" />
           </div>
@@ -389,7 +389,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
               </span>
             </div>
             <p className={`text-[13px] leading-relaxed max-w-xl ${
-              isDark ? 'text-[#94A3B8]' : 'text-[#6B7684]'
+              isDark ? 'text-[#9E9EA4]' : 'text-[#6B7684]'
             }`}>
               {selectedDoc === 'partner'
                 ? '피그마 공식 [파트너] 스타일가이드(loNec9fjF6nIEgkwxH7aSN) 기반. 62px CTA 버튼, 6px 모서리 곡률, 18px 기본 본문 및 360x312 / 1200x627 레이아웃 규격 총망라.'
@@ -414,7 +414,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
             onClick={handleCopy}
             className={`h-[46px] px-5 rounded-[12px] font-bold text-[14px] border flex items-center justify-center gap-2 transition-all active:scale-[0.98] ${
               isDark
-                ? 'bg-[#1E2536] hover:bg-[#252E42] text-[#CBD5E1] border-[#3A4560]'
+                ? 'bg-[#292931] hover:bg-[#252E42] text-[#CBD5E1] border-[#2B2A34]'
                 : 'bg-white hover:bg-[#F2F4F6] text-[#333D4B] border-[#E5E8EB]'
             }`}
           >
@@ -435,10 +435,10 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
 
       {/* Raw Markdown Viewer */}
       <div className={`border rounded-[22px] overflow-hidden shadow-xl ${
-        isDark ? 'bg-[#10141D] border-[#262F40]' : 'bg-[#191F28] border-[#2B323D]'
+        isDark ? 'bg-[#141319] border-[#26252D]' : 'bg-[#191F28] border-[#2B323D]'
       }`}>
         <div className={`px-6 py-4 border-b flex items-center justify-between ${
-          isDark ? 'bg-[#141822] border-[#262F40]' : 'bg-[#14181F] border-[#2B323D]'
+          isDark ? 'bg-[#141822] border-[#26252D]' : 'bg-[#14181F] border-[#2B323D]'
         }`}>
           <div className="flex items-center gap-2 text-[13px] font-bold text-white">
             <FileText className="w-4 h-4 text-[#595EF9]" />

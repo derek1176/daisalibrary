@@ -356,20 +356,20 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     // 6. 아이콘
     {
       id: 'icons',
-      title: '아이콘 (200종 선형/면형)',
+      title: '아이콘 (공식 300종)',
       category: '기초 규격',
-      badge: '선형 / 면형 200종',
+      badge: '300종 SVG',
       icon: Sparkles,
-      desc: '24px 기준 1.5px 두께 · 이모지 금지 · 다크 테두리 최적화 SVG',
+      desc: '이모지 사용 금지 · stroke 1.5px · 서비스 150종 & 공통 150종',
       renderPreview: () => (
         <div className="w-full h-full flex items-center justify-center gap-3 select-none px-4">
-          <div className="w-10 h-10 rounded-[6px] bg-[#1A2234] border border-[#2B3548] flex items-center justify-center text-white shadow-2xs">
+          <div className="w-10 h-10 rounded-[6px] bg-[#141319] border border-[#2B2A34] flex items-center justify-center text-white shadow-2xs">
             <Search size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
           </div>
-          <div className="w-10 h-10 rounded-[6px] bg-[#595EF9]/20 border border-[#595EF9]/50 flex items-center justify-center text-[#7075FA] shadow-xs">
+          <div className="w-10 h-10 rounded-[6px] bg-[#0C234F] border border-[#3182F6]/50 flex items-center justify-center text-[#4B89FF] shadow-xs">
             <CheckCircle2 size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
           </div>
-          <div className="w-10 h-10 rounded-[6px] bg-[#1A2234] border border-[#2B3548] flex items-center justify-center text-white shadow-2xs">
+          <div className="w-10 h-10 rounded-[6px] bg-[#141319] border border-[#2B2A34] flex items-center justify-center text-white shadow-2xs">
             <MapPin size={20} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
           </div>
         </div>
@@ -469,14 +469,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
               key={i}
               className={`rounded-[20px] border overflow-hidden p-5 space-y-4 animate-pulse shadow-sm ${
                 isPartner
-                  ? 'bg-[#161B26] border-[#262F40]'
+                  ? 'bg-[#1C1B22] border-[#26252D]'
                   : 'bg-white border-[#E5E8EB]'
               }`}
             >
-              <div className={`h-[140px] rounded-[12px] ${isPartner ? 'bg-[#1E2536]' : 'bg-[#F2F4F6]'}`} />
-              <div className={`h-4 rounded w-1/3 ${isPartner ? 'bg-[#1E2536]' : 'bg-[#F2F4F6]'}`} />
-              <div className={`h-5 rounded w-2/3 ${isPartner ? 'bg-[#2B3548]' : 'bg-[#E5E8EB]'}`} />
-              <div className={`h-3 rounded w-full ${isPartner ? 'bg-[#1E2536]' : 'bg-[#F2F4F6]'}`} />
+              <div className={`h-[140px] rounded-[12px] ${isPartner ? 'bg-[#141319]' : 'bg-[#F2F4F6]'}`} />
+              <div className={`h-4 rounded w-1/3 ${isPartner ? 'bg-[#141319]' : 'bg-[#F2F4F6]'}`} />
+              <div className={`h-5 rounded w-2/3 ${isPartner ? 'bg-[#292931]' : 'bg-[#E5E8EB]'}`} />
+              <div className={`h-3 rounded w-full ${isPartner ? 'bg-[#141319]' : 'bg-[#F2F4F6]'}`} />
             </div>
           ))}
         </div>
@@ -491,20 +491,20 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
                 style={{ animationDelay: `${idx * 45}ms` }}
                 className={`group rounded-[20px] border overflow-hidden transition-all duration-200 cursor-pointer flex flex-col justify-between animate-fillUp ${
                   isPartner
-                    ? 'bg-[#161B26] border-[#262F40] hover:border-[#595EF9] hover:shadow-[0_12px_32px_rgba(89,94,249,0.2)]'
+                    ? 'bg-[#1C1B22] border-[#26252D] hover:border-[#3182F6] hover:bg-[#201F26] hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]'
                     : 'bg-white border-[#E5E8EB] hover:border-[#1219F7]/40 hover:shadow-[0_12px_32px_rgba(18,25,247,0.08)]'
                 }`}
               >
                 {/* Preview Window Area */}
                 <div className={`h-[160px] border-b flex items-center justify-center p-4 relative transition-colors ${
                   isPartner
-                    ? 'bg-[#10141D] border-[#222A3A] group-hover:bg-[#131822]'
+                    ? 'bg-[#141319] border-[#222129] group-hover:bg-[#18171E]'
                     : 'bg-[#F9FAFB] border-[#F2F4F6] group-hover:bg-[#F4F6F9]'
                 }`}>
                   {card.badge && (
                     <span className={`absolute top-3 right-3 text-[10px] font-bold px-2 py-0.5 rounded-[4px] border ${
                       isPartner
-                        ? 'bg-[#1E2536] text-[#E2E8F0] border-[#374151]'
+                        ? 'bg-[#292931] text-[#E5E5E8] border-[#383745]'
                         : 'bg-white text-[#191F28] border-[#E5E8EB]'
                     }`}>
                       {card.badge}
@@ -519,26 +519,26 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
                     <div className="flex items-center gap-2 mb-1.5">
                       <div className={`w-7 h-7 rounded-[6px] flex items-center justify-center transition-colors ${
                         isPartner
-                          ? 'bg-[#1E2536] text-[#94A3B8] group-hover:bg-[#595EF9]/20 group-hover:text-[#7075FA]'
+                          ? 'bg-[#292931] text-[#9E9EA4] group-hover:bg-[#0C234F] group-hover:text-[#4B89FF]'
                           : 'bg-[#F2F4F6] text-[#4E5968] group-hover:bg-[#E8F3FF] group-hover:text-[#1219F7]'
                       }`}>
                         <Icon className="w-4 h-4" />
                       </div>
                       <span className={`text-[12px] font-bold ${
-                        isPartner ? 'text-[#64748B]' : 'text-[#8B95A1]'
+                        isPartner ? 'text-[#65656E]' : 'text-[#8B95A1]'
                       }`}>
                         {card.category}
                       </span>
                     </div>
                     <h3 className={`text-[17px] font-extrabold tracking-tight transition-colors ${
                       isPartner
-                        ? 'text-white group-hover:text-[#7075FA]'
+                        ? 'text-white group-hover:text-[#4B89FF]'
                         : 'text-[#191F28] group-hover:text-[#1219F7]'
                     }`}>
                       {card.title}
                     </h3>
                     <p className={`text-[13px] mt-1.5 line-clamp-2 leading-relaxed ${
-                      isPartner ? 'text-[#94A3B8]' : 'text-[#6B7684]'
+                      isPartner ? 'text-[#9E9EA4]' : 'text-[#6B7684]'
                     }`}>
                       {card.desc}
                     </p>
@@ -546,7 +546,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
 
                   <div className={`pt-4 mt-2 border-t flex items-center justify-between text-[13px] font-bold transition-colors ${
                     isPartner
-                      ? 'border-[#222A3A] text-[#94A3B8] group-hover:text-[#7075FA]'
+                      ? 'border-[#222129] text-[#9E9EA4] group-hover:text-[#4B89FF]'
                       : 'border-[#F2F4F6] text-[#4E5968] group-hover:text-[#1219F7]'
                   }`}>
                     <span>자세히 보기</span>
