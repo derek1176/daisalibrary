@@ -768,12 +768,18 @@ function lintNode(
 // 4. 플러그인 메시지 수신 처리 (UI <-> Code 통신)
 // -------------------------------------------------------------
 
-function executeLint() {
+async function executeLint() {
   const issues: LintIssue[] = [];
   const targetNodes: SceneNode[] = [];
 
+  try {
+    if (figma.currentPage && 'loadAsync' in figma.currentPage) {
+      await figma.currentPage.loadAsync();
+    }
+  } catch (e) {}
+
   for (const id of sessionTargetNodeIds) {
-    const node = figma.getNodeById(id);
+    const node = await figma.getNodeByIdAsync(id);
     if (node && 'type' in node) {
       targetNodes.push(node as SceneNode);
     }
@@ -964,14 +970,14 @@ async function applyFixToNode(node: SceneNode, fixAction: any) {
 }
 
 // ★ 피그마 캔버스 선택 변경 실시간 자동 감지 (selectionchange)
-figma.on('selectionchange', () => {
+figma.on('selectionchange', async () => {
   if (isNavigatingSelection) return;
   if (sessionScope !== 'selection') return;
 
   const selection = figma.currentPage.selection;
   if (selection.length > 0) {
     sessionTargetNodeIds = selection.map(n => n.id);
-    executeLint();
+    await executeLint();
   } else {
     sessionTargetNodeIds = [];
     figma.ui.postMessage({
@@ -1013,12 +1019,12 @@ async function resolveInitialMode(): Promise<'customer' | 'partner'> {
 }
 
 // 피그마 페이지 변경 자동 감지
-figma.on('currentpagechange', () => {
+figma.on('currentpagechange', async () => {
   const pageMode = detectModeFromPageName(figma.currentPage ? figma.currentPage.name : '');
   if (pageMode) {
     sessionMode = pageMode;
     try {
-      figma.clientStorage.setAsync('daisa_last_mode', pageMode);
+      await figma.clientStorage.setAsync('daisa_last_mode', pageMode);
     } catch (e) {}
     figma.ui.postMessage({
       type: 'page-mode-change',
@@ -1032,7 +1038,7 @@ figma.on('currentpagechange', () => {
   } else {
     sessionTargetNodeIds = figma.currentPage.selection.map(n => n.id);
   }
-  executeLint();
+  await executeLint();
 });
 
 figma.ui.onmessage = async (msg) => {
@@ -1069,12 +1075,12 @@ figma.ui.onmessage = async (msg) => {
       sessionTargetNodeIds = figma.currentPage.children.map(n => n.id);
     }
 
-    executeLint();
+    await executeLint();
   }
 
   // 2) 특정 노드 선택 및 화면 줌 이동
   if (msg.type === 'select-node') {
-    const node = figma.getNodeById(msg.nodeId);
+    const node = await figma.getNodeByIdAsync(msg.nodeId);
     if (node && 'type' in node) {
       isNavigatingSelection = true;
       figma.currentPage.selection = [node as SceneNode];
@@ -1090,7 +1096,7 @@ figma.ui.onmessage = async (msg) => {
   // 3) 단일 이슈 빠른 수정
   if (msg.type === 'fix-issue') {
     const { nodeId, fixAction } = msg;
-    const node = figma.getNodeById(nodeId);
+    const node = await figma.getNodeByIdAsync(nodeId);
 
     if (!node || !('type' in node)) {
       figma.notify('수정할 레이어를 찾을 수 없습니다.');
@@ -1100,7 +1106,7 @@ figma.ui.onmessage = async (msg) => {
     try {
       await applyFixToNode(node as SceneNode, fixAction);
       figma.notify('수정이 완료되었습니다.');
-      executeLint();
+      await executeLint();
     } catch (e: any) {
       figma.notify(`자동 수정 실패: ${e.message || e}`);
     }
@@ -1113,7 +1119,7 @@ figma.ui.onmessage = async (msg) => {
 
     for (const item of issues) {
       if (item.autoFixable && item.fixAction) {
-        const node = figma.getNodeById(item.nodeId);
+        const node = await figma.getNodeByIdAsync(item.nodeId);
         if (node && 'type' in node) {
           try {
             await applyFixToNode(node as SceneNode, item.fixAction);
@@ -1126,7 +1132,7 @@ figma.ui.onmessage = async (msg) => {
     }
 
     figma.notify(`해당 유형의 ${fixedCount}개 레이어를 일괄 수정했습니다.`);
-    executeLint();
+    await executeLint();
   }
 
   // 5) 전체 일괄 수정 (Fix All on Existing Frame)
@@ -1136,7 +1142,7 @@ figma.ui.onmessage = async (msg) => {
 
     for (const item of issues) {
       if (item.autoFixable && item.fixAction) {
-        const node = figma.getNodeById(item.nodeId);
+        const node = await figma.getNodeByIdAsync(item.nodeId);
         if (node && 'type' in node) {
           try {
             await applyFixToNode(node as SceneNode, item.fixAction);
@@ -1149,7 +1155,7 @@ figma.ui.onmessage = async (msg) => {
     }
 
     figma.notify(`총 ${fixedCount}개 항목의 자동 수정을 완료했습니다.`);
-    executeLint();
+    await executeLint();
   }
 
   // 6) 완성본 복제 생성 (Clone & Auto-Fix)
@@ -1157,7 +1163,7 @@ figma.ui.onmessage = async (msg) => {
     const scopeMode = msg.scopeMode || 'must-fix'; // 'must-fix' | 'all'
     let sourceNodes: SceneNode[] = [];
     for (const id of sessionTargetNodeIds) {
-      const node = figma.getNodeById(id);
+      const node = await figma.getNodeByIdAsync(id);
       if (node && 'type' in node) {
         sourceNodes.push(node as SceneNode);
       }
@@ -1195,7 +1201,7 @@ figma.ui.onmessage = async (msg) => {
           : (item.severity === 'must-fix' && item.autoFixable && item.fixAction);
 
         if (canFix) {
-          const node = figma.getNodeById(item.nodeId);
+          const node = await figma.getNodeByIdAsync(item.nodeId);
           if (node && 'type' in node) {
             try {
               await applyFixToNode(node as SceneNode, item.fixAction);
@@ -1215,7 +1221,7 @@ figma.ui.onmessage = async (msg) => {
       figma.notify(`새 [수정본] 프레임 생성 완료! (${scopeMode === 'all' ? '전체' : '수정 필요'} ${fixedCount}개 항목 자동 보정됨)`);
 
       sessionTargetNodeIds = clonedNodes.map(n => n.id);
-      executeLint();
+      await executeLint();
     } catch (e: any) {
       figma.notify(`완성본 복제 생성 실패: ${e.message || e}`);
     }
@@ -1228,7 +1234,7 @@ figma.ui.onmessage = async (msg) => {
 };
 
 // 최초 실행 시 페이지 이름 또는 이전 저장 모드로 초기화 후 검사 실행
-resolveInitialMode().then((initialMode) => {
+resolveInitialMode().then(async (initialMode) => {
   sessionMode = initialMode;
   figma.ui.postMessage({
     type: 'init-mode',
@@ -1238,6 +1244,6 @@ resolveInitialMode().then((initialMode) => {
 
   if (figma.currentPage.selection.length > 0) {
     sessionTargetNodeIds = figma.currentPage.selection.map(n => n.id);
-    executeLint();
+    await executeLint();
   }
 });
