@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// Figma Plugin Backend Code - Daisa Design System Linter
+// Figma Plugin Backend Code - Daisa Design System Linter v2
 // 다이사(da24) 디자인시스템 검증기 (고객향 & 파트너향 분리 린터)
-figma.showUI(__html__, { width: 440, height: 640, themeColors: true });
+figma.showUI(__html__, { width: 480, height: 700, themeColors: true });
 // -------------------------------------------------------------
 // 1. 디자인 시스템 토큰 정의 (Customer vs Partner 엄격 분리)
 // -------------------------------------------------------------
@@ -30,7 +30,7 @@ const CUSTOMER_COLORS = {
     '#f7f8fa': 'etc-04 (비활성 인풋/버튼)',
     '#fafafa': 'etc-05 (기본 페이지 배경)'
 };
-// [파트너향] 허용 컬러 토큰
+// [파트너향] 허용 컬러 토큰 (Hex 16종)
 const PARTNER_COLORS = {
     '#1219f7': 'main-01 (키컬러/승인)',
     '#595ef9': 'main-02 (보조 블루)',
@@ -61,8 +61,11 @@ const PARTNER_FONT_SIZES = [14, 16, 18, 20, 24, 28, 32];
 // 이모지 정규식
 const EMOJI_REGEX = /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
 // -------------------------------------------------------------
-// 2. 도우미 함수들
+// 2. 도우미 함수 및 세션 캐시
 // -------------------------------------------------------------
+let sessionTargetNodeIds = [];
+let sessionMode = 'customer';
+let sessionIgnoreHidden = true;
 function rgbToHex(r, g, b) {
     const toHex = (n) => {
         const hex = Math.round(Math.max(0, Math.min(1, n)) * 255).toString(16);
@@ -85,17 +88,18 @@ function lintNode(node, mode, issues, options) {
         for (const fill of node.fills) {
             if (fill.visible !== false && fill.type === 'SOLID') {
                 const hex = rgbToHex(fill.color.r, fill.color.g, fill.color.b);
-                // 파트너 명시적 금지 색상 확인
+                if (fill.opacity === 0)
+                    continue;
                 if (mode === 'partner' && PARTNER_BANNED_COLORS[hex]) {
                     issues.push({
                         id: `${node.id}-fill-banned-${hex}`,
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'color',
-                        message: `폐기된 레거시 컬러(${hex.toUpperCase()})가 사용되었습니다.`,
-                        details: `${PARTNER_BANNED_COLORS[hex]} 사용 금지`
+                        message: `폐기된 레거시 컬러 ${hex.toUpperCase()} 사용됨`,
+                        details: `${PARTNER_BANNED_COLORS[hex]} 사용 금지 규정`
                     });
                 }
                 else if (!allowedColors[hex]) {
@@ -104,9 +108,9 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'color',
-                        message: `미허용 Fill 컬러(${hex.toUpperCase()})가 사용되었습니다.`,
+                        message: `미허용 Fill 컬러 ${hex.toUpperCase()} 사용됨`,
                         details: `${mode === 'customer' ? '고객향' : '파트너향'} 13대 지정 컬러 토큰만 허용됩니다.`
                     });
                 }
@@ -114,7 +118,7 @@ function lintNode(node, mode, issues, options) {
         }
     }
     // 2. 스트로크 검사 (Strokes & StrokeWeight)
-    if ('strokes' in node && Array.isArray(node.strokes)) {
+    if ('strokes' in node && Array.isArray(node.strokes) && node.strokes.length > 0) {
         for (const stroke of node.strokes) {
             if (stroke.visible !== false && stroke.type === 'SOLID') {
                 const hex = rgbToHex(stroke.color.r, stroke.color.g, stroke.color.b);
@@ -124,33 +128,30 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'color',
-                        message: `미허용 테두리 컬러(${hex.toUpperCase()})가 사용되었습니다.`,
-                        details: `지정된 보더 컬러(예: etc-02 #D7DBE2 등)를 사용하세요.`
+                        message: `미허용 테두리 컬러 ${hex.toUpperCase()} 사용됨`,
+                        details: `지정된 보더 컬러(etc-02 #D7DBE2 등)를 사용하세요.`
                     });
                 }
             }
         }
-        // 스트로크 두께 검사 (기본 1px 규칙, 두꺼운 2px 금지)
-        if ('strokeWeight' in node && typeof node.strokeWeight === 'number' && node.strokeWeight > 0) {
-            if (node.strokeWeight > 1) {
-                // 파트너 포커스 상태(2px) 허용 여부 외에는 기본 1px 권장
-                const isPartnerFocus = mode === 'partner' && node.strokeWeight === 2 && node.name.toLowerCase().includes('focus');
-                if (!isPartnerFocus) {
-                    issues.push({
-                        id: `${node.id}-stroke-weight`,
-                        nodeId: node.id,
-                        nodeName: node.name,
-                        nodeType: node.type,
-                        severity: 'warning',
-                        category: 'stroke',
-                        message: `테두리 두께가 ${node.strokeWeight}px입니다. (1px solid 권장)`,
-                        details: `다이사 UI 규격은 1px 보더를 원칙으로 합니다. (2px 두꺼운 선 금지)`,
-                        autoFixable: true,
-                        fixAction: { type: 'strokeWeight', targetValue: 1 }
-                    });
-                }
+        // 스트로크 두께 검사 (기본 1px 규칙, 2px 이상은 확인 필요)
+        if ('strokeWeight' in node && typeof node.strokeWeight === 'number' && node.strokeWeight > 1) {
+            const isPartnerFocus = mode === 'partner' && node.strokeWeight === 2 && node.name.toLowerCase().includes('focus');
+            if (!isPartnerFocus) {
+                issues.push({
+                    id: `${node.id}-stroke-weight`,
+                    nodeId: node.id,
+                    nodeName: node.name,
+                    nodeType: node.type,
+                    severity: 'check-needed',
+                    category: 'radius',
+                    message: `테두리 두께가 ${node.strokeWeight}px입니다 (1px 권장)`,
+                    details: `다이사 UI 규격은 1px 보더를 원칙으로 합니다. (2px 두꺼운 선 금지)`,
+                    autoFixable: true,
+                    fixAction: { type: 'strokeWeight', targetValue: 1, label: '1px로 변경' }
+                });
             }
         }
     }
@@ -167,15 +168,14 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'typography',
-                        message: `비표준 서체(${family}) 사용됨. Pretendard 단일 서체 필수`,
-                        details: `고객향은 오직 Pretendard 서체만 허용합니다.`
+                        message: `비표준 서체 (${family}) 사용됨`,
+                        details: `고객향은 Pretendard 단일 서체만 허용합니다.`
                     });
                 }
             }
             else {
-                // 파트너향: Pretendard 또는 Noto Sans KR
                 const isAllowed = family.toLowerCase().includes('pretendard') || family.toLowerCase().includes('noto sans');
                 if (!isAllowed) {
                     issues.push({
@@ -183,9 +183,9 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'typography',
-                        message: `비표준 서체(${family}) 사용됨. Pretendard / Noto Sans KR 권장`,
+                        message: `비표준 서체 (${family}) 사용됨`,
                         details: `파트너향은 Pretendard 또는 Noto Sans KR만 허용합니다.`
                     });
                 }
@@ -204,12 +204,12 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'typography',
-                        message: `비표준 폰트 크기(${size}px) 사용됨. (홀수/소수점 금지)`,
+                        message: `비표준 폰트 크기 ${size}px 사용됨 (홀수/소수점 금지)`,
                         details: `고객향 짝수 규격: 12, 14, 16, 18, 20, 24px (추천: ${nearest}px)`,
                         autoFixable: true,
-                        fixAction: { type: 'fontSize', targetValue: nearest }
+                        fixAction: { type: 'fontSize', targetValue: nearest, label: `${nearest}px로 변경` }
                     });
                 }
             }
@@ -221,12 +221,12 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'error',
+                        severity: 'must-fix',
                         category: 'typography',
-                        message: `극소 폰트 크기(${size}px) 금지. (최소 14px 이상 필수)`,
-                        details: `기사님 현장 시인성을 위해 파트너 화면은 12px 사용이 절대 금지됩니다. (기본 본문 18px, 캡션 14px)`,
+                        message: `극소 폰트 크기 ${size}px 금지 (최소 14px 이상 필수)`,
+                        details: `기사님 현장 시인성을 위해 파트너 화면은 12px 사용이 절대 금지됩니다. (기본 본문 18px)`,
                         autoFixable: true,
-                        fixAction: { type: 'fontSize', targetValue: 14 }
+                        fixAction: { type: 'fontSize', targetValue: 14, label: '14px로 변경' }
                     });
                 }
                 else if (!allowedSizes.includes(size)) {
@@ -236,12 +236,12 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: 'warning',
+                        severity: 'check-needed',
                         category: 'typography',
-                        message: `파트너 7대 표준 크기가 아닌 ${size}px 사용됨.`,
+                        message: `파트너 7대 표준 크기가 아닌 ${size}px 사용됨`,
                         details: `파트너 스케일: 14, 16, 18(기본), 20, 24, 28, 32px (추천: ${nearest}px)`,
                         autoFixable: true,
-                        fixAction: { type: 'fontSize', targetValue: nearest }
+                        fixAction: { type: 'fontSize', targetValue: nearest, label: `${nearest}px로 변경` }
                     });
                 }
             }
@@ -249,20 +249,18 @@ function lintNode(node, mode, issues, options) {
         // 3-3. 자간 검사 (Letter Spacing: -1% / -0.01em)
         if (textNode.letterSpacing !== figma.mixed) {
             const ls = textNode.letterSpacing;
-            const isPercent = ls.unit === 'PERCENT';
-            // -1% 또는 -0.01em 미적용 시 경고
-            if (isPercent && Math.round(ls.value) !== -1) {
+            if (ls.unit === 'PERCENT' && Math.round(ls.value) !== -1) {
                 issues.push({
                     id: `${node.id}-letter-spacing`,
                     nodeId: node.id,
                     nodeName: node.name,
                     nodeType: node.type,
-                    severity: 'warning',
+                    severity: 'check-needed',
                     category: 'typography',
-                    message: `자간이 ${ls.value}%로 설정됨. (-1% 고정 권장)`,
-                    details: `다이사 디자인시스템은 모든 텍스트에 letter-spacing: -1px (-1%)를 권장합니다.`,
+                    message: `자간이 ${ls.value}%로 설정됨 (-1% 권장)`,
+                    details: `다이사 디자인시스템은 모든 텍스트에 letter-spacing: -1px (-1%) 적용을 권장합니다.`,
                     autoFixable: true,
-                    fixAction: { type: 'letterSpacing', targetValue: { value: -1, unit: 'PERCENT' } }
+                    fixAction: { type: 'letterSpacing', targetValue: { value: -1, unit: 'PERCENT' }, label: '-1%로 변경' }
                 });
             }
         }
@@ -274,10 +272,10 @@ function lintNode(node, mode, issues, options) {
                 nodeId: node.id,
                 nodeName: node.name,
                 nodeType: node.type,
-                severity: 'error',
-                category: 'emoji',
-                message: `텍스트 내 비표준 이모지가 포함되어 있습니다.`,
-                details: `네이티브 이모지 사용 금지 (공식 3D 그래픽 또는 SVG 선형 아이콘으로 대체 필수)`
+                severity: 'must-fix',
+                category: 'layout',
+                message: `텍스트 내 네이티브 이모지가 포함되어 있습니다`,
+                details: `네이티브 이모지 사용 금지 (공식 선형 SVG 아이콘으로 대체 필수)`
             });
         }
         // 3-5. 에러 인풋 내 느낌표 아이콘/텍스트 금지
@@ -287,8 +285,8 @@ function lintNode(node, mode, issues, options) {
                 nodeId: node.id,
                 nodeName: node.name,
                 nodeType: node.type,
-                severity: 'error',
-                category: 'typography',
+                severity: 'must-fix',
+                category: 'layout',
                 message: `에러 인풋 내 느낌표(!) 아이콘 사용 금지`,
                 details: `1px 에러 보더(#F34766)와 하단 14px 안내 문구로만 피드백해야 합니다.`
             });
@@ -298,14 +296,9 @@ function lintNode(node, mode, issues, options) {
     if ('cornerRadius' in node && typeof node.cornerRadius === 'number' && node.cornerRadius > 0) {
         const radius = node.cornerRadius;
         const height = node.height;
-        const isPill = radius >= height / 2 - 1; // 칩/뱃지/토글 등 Pill 형태는 예외 허용
+        const isPill = radius >= height / 2 - 1;
         if (!isPill) {
             if (mode === 'customer') {
-                // [고객향] 높이 기반 3단계 규칙:
-                // < 80px -> 8px
-                // 80 ~ 240px -> 10px
-                // >= 241px -> 12px
-                // 모달/바텀시트 상단 -> 16px 허용
                 const isModalOrSheet = node.name.toLowerCase().includes('modal') ||
                     node.name.toLowerCase().includes('sheet') ||
                     node.name.toLowerCase().includes('popup');
@@ -332,12 +325,12 @@ function lintNode(node, mode, issues, options) {
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: radius === 16 ? 'warning' : 'error',
+                        severity: radius === 16 ? 'check-needed' : 'must-fix',
                         category: 'radius',
-                        message: `곡률 ${radius}px 적용됨. (높이 ${Math.round(height)}px 기준 ${expectedRadius}px 필요)`,
+                        message: `곡률 ${radius}px 적용됨 (높이 ${Math.round(height)}px 기준 ${expectedRadius}px 필요)`,
                         details: expectedDesc,
                         autoFixable: true,
-                        fixAction: { type: 'radius', targetValue: expectedRadius }
+                        fixAction: { type: 'radius', targetValue: expectedRadius, label: `${expectedRadius}px로 변경` }
                     });
                 }
             }
@@ -346,59 +339,41 @@ function lintNode(node, mode, issues, options) {
                 const isSubSmall = height <= 32 || node.name.toLowerCase().includes('chip') || node.name.toLowerCase().includes('tag');
                 const allowedPartnerRadius = isSubSmall ? [4, 6] : [6];
                 if (!allowedPartnerRadius.includes(radius)) {
-                    // 고객향 10px, 16px 사용 시 엄격 에러
                     const isCustomerRadius = radius === 10 || radius === 16;
                     issues.push({
                         id: `${node.id}-radius`,
                         nodeId: node.id,
                         nodeName: node.name,
                         nodeType: node.type,
-                        severity: isCustomerRadius ? 'error' : 'warning',
+                        severity: isCustomerRadius ? 'must-fix' : 'check-needed',
                         category: 'radius',
-                        message: `파트너 규격 외 곡률 ${radius}px 사용됨. (6px 고정 필수)`,
+                        message: `파트너 규격 외 곡률 ${radius}px 사용됨 (6px 고정 필수)`,
                         details: isCustomerRadius
                             ? `고객향 라운드(${radius}px)는 파트너 화면에서 엄격히 금지됩니다. 6px로 수정하세요.`
                             : `파트너 화면은 모서리 곡률 6px(서브 태그 4px)을 기본 아이덴티티로 통일합니다.`,
                         autoFixable: true,
-                        fixAction: { type: 'radius', targetValue: 6 }
+                        fixAction: { type: 'radius', targetValue: 6, label: '6px로 변경' }
                     });
                 }
             }
         }
     }
-    // 5. 레이아웃 캔버스 및 컨테이너 안전영역 검사
+    // 5. 레이아웃 캔버스 안전영역 검사 (오직 최상위 아트보드 프레임만 검사, 내부 오토레이아웃 무시)
     if (node.type === 'FRAME' || node.type === 'COMPONENT') {
         const frame = node;
-        // 최상위 아트보드 프레임 검사 (부모가 페이지인 경우)
+        // 최상위 아트보드 프레임 검사 (부모가 PAGE인 경우만 검사)
         if (frame.parent && frame.parent.type === 'PAGE') {
             const w = Math.round(frame.width);
             if (w !== 360 && w !== 1200) {
-                // 모바일 표준 360, PC 표준 1200
                 issues.push({
                     id: `${node.id}-canvas-width`,
                     nodeId: node.id,
                     nodeName: node.name,
                     nodeType: node.type,
-                    severity: 'warning',
+                    severity: 'check-needed',
                     category: 'layout',
-                    message: `캔버스 너비가 ${w}px입니다. (모바일 360px 또는 PC 1200px 권장)`,
+                    message: `캔버스 너비가 ${w}px입니다 (모바일 360px 또는 PC 1200px 권장)`,
                     details: `다이사 공식 캔버스는 Mobile 360px, Web 1200px 기준입니다.`
-                });
-            }
-        }
-        else {
-            // 본문 콘텐츠 컨테이너 너비 검사 (모바일 312px)
-            const w = Math.round(frame.width);
-            if (w >= 300 && w <= 350 && w !== 312) {
-                issues.push({
-                    id: `${node.id}-container-width`,
-                    nodeId: node.id,
-                    nodeName: node.name,
-                    nodeType: node.type,
-                    severity: 'warning',
-                    category: 'layout',
-                    message: `콘텐츠 너비가 ${w}px입니다. (모바일 안전영역 312px 권장)`,
-                    details: `모바일 캔버스(360px) 좌우 마진 24px을 제외한 본문 너비는 312px이어야 합니다.`
                 });
             }
         }
@@ -413,37 +388,55 @@ function lintNode(node, mode, issues, options) {
 // -------------------------------------------------------------
 // 4. 플러그인 메시지 수신 처리 (UI <-> Code 통신)
 // -------------------------------------------------------------
+function executeLint() {
+    const issues = [];
+    const targetNodes = [];
+    for (const id of sessionTargetNodeIds) {
+        const node = figma.getNodeById(id);
+        if (node && 'type' in node) {
+            targetNodes.push(node);
+        }
+    }
+    if (targetNodes.length === 0) {
+        figma.ui.postMessage({
+            type: 'lint-error',
+            message: '검사할 대상 레이어가 없습니다. 프레임을 선택하거나 [현재 페이지 전체]로 검사하세요.'
+        });
+        return;
+    }
+    for (const node of targetNodes) {
+        lintNode(node, sessionMode, issues, { ignoreHidden: sessionIgnoreHidden });
+    }
+    figma.ui.postMessage({
+        type: 'lint-results',
+        mode: sessionMode,
+        totalCount: issues.length,
+        issues
+    });
+}
 figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
-    // 1) 검사 실행 요청
+    // 1) 검사 최초 실행 요청 (사용자가 버튼 클릭 시 타겟 세션 갱신)
     if (msg.type === 'run-lint') {
         const { mode, scope, ignoreHidden } = msg;
-        const issues = [];
-        let targetNodes = [];
+        sessionMode = mode;
+        sessionIgnoreHidden = !!ignoreHidden;
         if (scope === 'selection') {
-            targetNodes = figma.currentPage.selection;
-            if (targetNodes.length === 0) {
+            const selection = figma.currentPage.selection;
+            if (selection.length === 0) {
                 figma.ui.postMessage({
                     type: 'lint-error',
                     message: '선택된 레이어가 없습니다. 검사할 프레임이나 요소를 선택해주세요.'
                 });
                 return;
             }
+            sessionTargetNodeIds = selection.map(n => n.id);
         }
         else {
-            targetNodes = figma.currentPage.children;
+            sessionTargetNodeIds = figma.currentPage.children.map(n => n.id);
         }
-        for (const node of targetNodes) {
-            lintNode(node, mode, issues, { ignoreHidden: !!ignoreHidden });
-        }
-        figma.ui.postMessage({
-            type: 'lint-results',
-            mode,
-            scope,
-            totalCount: issues.length,
-            issues
-        });
+        executeLint();
     }
-    // 2) 특정 노드 선택 및 화면 줌 이동
+    // 2) 특정 노드 선택 및 화면 줌 이동 (세션 타겟은 유지!)
     if (msg.type === 'select-node') {
         const node = figma.getNodeById(msg.nodeId);
         if (node && 'type' in node) {
@@ -454,7 +447,7 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
             figma.notify('해당 레이어를 피그마 캔버스에서 찾을 수 없습니다.');
         }
     }
-    // 3) 단일 이슈 자동 수정
+    // 3) 단일 이슈 빠른 수정
     if (msg.type === 'fix-issue') {
         const { nodeId, fixAction } = msg;
         const node = figma.getNodeById(nodeId);
@@ -465,7 +458,6 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             if (fixAction.type === 'fontSize' && node.type === 'TEXT') {
                 const textNode = node;
-                // 폰트 수정 시에는 해당 폰트 로드가 필요함
                 if (textNode.fontName !== figma.mixed) {
                     yield figma.loadFontAsync(textNode.fontName);
                     textNode.fontSize = fixAction.targetValue;
@@ -488,11 +480,8 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
                     figma.notify(`자간을 -1%로 수정했습니다.`);
                 }
             }
-            figma.ui.postMessage({
-                type: 'fix-success',
-                nodeId,
-                fixAction
-            });
+            // 수정 후 세션 타겟을 그대로 유지하며 재검사
+            executeLint();
         }
         catch (e) {
             figma.notify(`자동 수정 실패: ${e.message || e}`);
@@ -539,7 +528,7 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
         figma.notify(`총 ${fixedCount}개 항목의 자동 수정을 완료했습니다.`);
-        figma.ui.postMessage({ type: 'fix-all-done' });
+        executeLint();
     }
     // 5) 알림 메시지 표시
     if (msg.type === 'notify') {

@@ -8,12 +8,12 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       letter-spacing: -0.01em;
     }
 
     body {
-      background-color: #FAFAFA;
+      background-color: #F8F9FA;
       color: #121212;
       font-size: 13px;
       line-height: 1.4;
@@ -21,369 +21,428 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      user-select: none;
     }
 
-    /* 상단 헤더 */
-    .header {
+    /* 1. 컴팩트 헤더 */
+    .top-header {
       background: #FFFFFF;
-      padding: 14px 16px 12px;
-      border-bottom: 1px solid #EBEEF2;
-      flex-shrink: 0;
-    }
-
-    .brand-row {
+      padding: 10px 14px;
+      border-bottom: 1px solid #E5E7EB;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      flex-shrink: 0;
+      gap: 10px;
     }
 
     .brand-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
-      color: #121212;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: #111827;
+      white-space: nowrap;
     }
 
-    .brand-badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: #F4F5FF;
-      color: #1219F7;
-    }
-
-    /* 고객향 / 파트너향 세그먼트 토글 */
-    .mode-toggle {
+    /* 모드 전환 토글 (고객향 vs 파트너향) */
+    .mode-switch {
       display: flex;
-      background: #F4F5F7;
-      border-radius: 8px;
-      padding: 3px;
+      background: #F3F4F6;
+      border-radius: 6px;
+      padding: 2px;
       gap: 2px;
     }
 
-    .mode-btn {
-      flex: 1;
+    .mode-tab {
       border: none;
       background: transparent;
-      padding: 7px 10px;
-      font-size: 12px;
+      padding: 5px 10px;
+      font-size: 11px;
       font-weight: 600;
-      color: #666666;
-      border-radius: 6px;
+      color: #6B7280;
+      border-radius: 4px;
       cursor: pointer;
       transition: all 0.15s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
+      white-space: nowrap;
     }
 
-    .mode-btn.active.customer {
+    .mode-tab.active.customer {
       background: #1219F7;
       color: #FFFFFF;
-      box-shadow: 0 1px 3px rgba(18, 25, 247, 0.25);
+      box-shadow: 0 1px 2px rgba(18, 25, 247, 0.2);
     }
 
-    .mode-btn.active.partner {
-      background: #1E2837;
+    .mode-tab.active.partner {
+      background: #1E293B;
       color: #FFFFFF;
-      box-shadow: 0 1px 3px rgba(30, 40, 55, 0.25);
+      box-shadow: 0 1px 2px rgba(30, 41, 59, 0.2);
     }
 
-    /* 컨트롤 영역 */
-    .controls {
+    /* 2. 컴팩트 컨트롤 바 (단일 행 구성) */
+    .action-bar {
       background: #FFFFFF;
-      padding: 12px 16px;
-      border-bottom: 1px solid #EBEEF2;
+      padding: 8px 14px;
+      border-bottom: 1px solid #E5E7EB;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
       flex-shrink: 0;
     }
 
-    .scope-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
     .scope-select {
-      flex: 1;
-      height: 34px;
-      border: 1px solid #D7DBE2;
+      height: 32px;
+      border: 1px solid #D1D5DB;
       border-radius: 6px;
-      padding: 0 10px;
-      font-size: 12px;
-      color: #333333;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #374151;
       background: #FFFFFF;
       outline: none;
+      flex: 1;
+      max-width: 140px;
     }
 
     .scope-select:focus {
       border-color: #1219F7;
     }
 
-    .checkbox-label {
+    .checkbox-wrap {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-size: 11px;
-      color: #666666;
+      color: #6B7280;
       cursor: pointer;
-      user-select: none;
+      white-space: nowrap;
+    }
+
+    .checkbox-wrap input {
+      cursor: pointer;
     }
 
     .btn-run {
-      width: 100%;
-      height: 38px;
+      height: 32px;
+      padding: 0 14px;
       background: #1219F7;
       color: #FFFFFF;
       border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      margin-left: auto;
+      transition: background 0.15s ease;
     }
 
     .btn-run:hover {
-      background: #0f15c7;
+      background: #0D14D1;
     }
 
     .btn-run:disabled {
-      background: #D7DBE2;
+      background: #9CA3AF;
       cursor: not-allowed;
     }
 
-    /* 요약 대시보드 */
-    .dashboard {
+    /* 3. 카테고리 탭 네비게이션 */
+    .category-tabs {
+      display: flex;
       background: #FFFFFF;
-      padding: 10px 16px;
-      border-bottom: 1px solid #EBEEF2;
+      border-bottom: 1px solid #E5E7EB;
+      padding: 0 14px;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+
+    .cat-tab {
+      padding: 9px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #6B7280;
+      border: none;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .cat-tab:hover {
+      color: #111827;
+    }
+
+    .cat-tab.active {
+      color: #1219F7;
+      border-bottom-color: #1219F7;
+    }
+
+    .cat-tab .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 10px;
+      background: #F3F4F6;
+      color: #4B5563;
+    }
+
+    .cat-tab.active .badge {
+      background: #EEF2FF;
+      color: #1219F7;
+    }
+
+    /* 4. 상태 및 일괄 액션 바 */
+    .status-strip {
+      background: #F9FAFB;
+      padding: 6px 14px;
+      border-bottom: 1px solid #E5E7EB;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
     }
 
-    .stat-group {
+    .status-counts {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .stat-badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .stat-badge.error {
-      color: #F34766;
-    }
-
-    .stat-badge.warning {
-      color: #E68A00;
-    }
-
-    .btn-action-small {
-      border: 1px solid #D7DBE2;
-      background: #FFFFFF;
-      color: #333333;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 5px 9px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .btn-action-small:hover {
-      background: #F4F5F7;
-      border-color: #C4C9D1;
-    }
-
-    .btn-action-primary {
-      border: none;
-      background: #F4F5FF;
-      color: #1219F7;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 5px 9px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .btn-action-primary:hover {
-      background: #E5E8FF;
-    }
-
-    /* 필터 탭 바 */
-    .filter-bar {
-      display: flex;
-      overflow-x: auto;
-      padding: 8px 16px;
-      background: #FAFAFA;
-      border-bottom: 1px solid #EBEEF2;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .filter-chip {
-      border: 1px solid #D7DBE2;
-      background: #FFFFFF;
-      color: #666666;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 4px 10px;
-      border-radius: 20px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-
-    .filter-chip.active {
-      background: #121212;
-      color: #FFFFFF;
-      border-color: #121212;
-    }
-
-    /* 결과 스크롤 리스트 */
-    .issues-container {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
       gap: 8px;
     }
 
-    .issue-card {
-      background: #FFFFFF;
-      border: 1px solid #EBEEF2;
-      border-radius: 8px;
-      padding: 12px;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .issue-card:hover {
-      border-color: #D7DBE2;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    }
-
-    .issue-card.error {
-      border-left: 3px solid #F34766;
-    }
-
-    .issue-card.warning {
-      border-left: 3px solid #E68A00;
-    }
-
-    .issue-header {
-      display: flex;
+    .count-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
+      gap: 4px;
     }
 
-    .issue-tags {
+    .count-pill.must-fix {
+      background: #FEE2E2;
+      color: #B91C1C;
+      border: 1px solid #FECACA;
+    }
+
+    .count-pill.check-needed {
+      background: #FEF3C7;
+      color: #B45309;
+      border: 1px solid #FDE68A;
+    }
+
+    .status-actions {
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .tag-category {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: #F4F5F7;
-      color: #666666;
-    }
-
-    .node-name {
+    .btn-text-action {
+      background: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      border-radius: 5px;
+      padding: 3px 8px;
       font-size: 11px;
       font-weight: 600;
-      color: #333333;
-      max-width: 140px;
+      color: #374151;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-text-action:hover {
+      background: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+
+    .btn-text-action.primary {
+      background: #EEF2FF;
+      border-color: #C7D2FE;
+      color: #1219F7;
+    }
+
+    .btn-text-action.primary:hover {
+      background: #E0E7FF;
+    }
+
+    /* 5. 이슈 스크롤 영역 */
+    .issues-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* 카테고리 그룹 섹션 */
+    .category-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-count {
+      font-size: 11px;
+      color: #6B7280;
+    }
+
+    /* 개별 이슈 카드 */
+    .issue-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .issue-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .issue-card.must-fix {
+      border-left: 3px solid #EF4444;
+    }
+
+    .issue-card.check-needed {
+      border-left: 3px solid #F59E0B;
+    }
+
+    .issue-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .meta-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+    }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+
+    .status-badge.must-fix {
+      background: #FEE2E2;
+      color: #B91C1C;
+    }
+
+    .status-badge.check-needed {
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .node-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #4B5563;
+      background: #F3F4F6;
+      padding: 1px 6px;
+      border-radius: 3px;
+      max-width: 170px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .issue-msg {
+    .issue-message {
       font-size: 12px;
       font-weight: 600;
-      color: #121212;
-      margin-bottom: 4px;
+      color: #111827;
+      line-height: 1.4;
     }
 
     .issue-details {
       font-size: 11px;
-      color: #666666;
+      color: #6B7280;
       line-height: 1.4;
-      margin-bottom: 8px;
     }
 
-    .issue-actions {
+    .issue-btn-row {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 6px;
+      padding-top: 4px;
+      margin-top: 2px;
+      border-top: 1px dashed #F1F5F9;
     }
 
-    .btn-focus {
-      flex: 1;
+    .btn-locate {
       height: 26px;
-      background: #F4F5F7;
-      border: 1px solid #EBEEF2;
-      border-radius: 5px;
-      color: #333333;
+      padding: 0 8px;
+      background: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      border-radius: 4px;
       font-size: 11px;
       font-weight: 600;
+      color: #374151;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 4px;
     }
 
-    .btn-focus:hover {
-      background: #EBEEF2;
+    .btn-locate:hover {
+      background: #F9FAFB;
+      border-color: #9CA3AF;
     }
 
-    .btn-fix {
+    .btn-fix-single {
       height: 26px;
       padding: 0 10px;
       background: #1219F7;
       border: none;
-      border-radius: 5px;
-      color: #FFFFFF;
+      border-radius: 4px;
       font-size: 11px;
       font-weight: 600;
+      color: #FFFFFF;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 4px;
     }
 
-    .btn-fix:hover {
-      background: #0f15c7;
+    .btn-fix-single:hover {
+      background: #0D14D1;
     }
 
-    /* 빈 상태 안내 */
-    .empty-state {
+    /* 빈 상태 */
+    .empty-container {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -391,172 +450,157 @@
       justify-content: center;
       padding: 40px 20px;
       text-align: center;
-      color: #666666;
+      color: #6B7280;
     }
 
-    .empty-icon {
-      font-size: 36px;
+    .empty-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 12px;
+      color: #9CA3AF;
+    }
+
+    .empty-icon-wrap.success {
+      background: #DCFCE7;
+      color: #16A34A;
     }
 
     .empty-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
-      color: #121212;
-      margin-bottom: 6px;
+      color: #111827;
+      margin-bottom: 4px;
     }
 
     .empty-desc {
-      font-size: 12px;
-      color: #888888;
+      font-size: 11px;
+      color: #6B7280;
       line-height: 1.5;
     }
 
-    /* 가이드 배너 (규칙 섞임 금지) */
-    .notice-bar {
-      background: #FFF7ED;
-      border-bottom: 1px solid #FFEDD5;
-      padding: 6px 16px;
-      font-size: 11px;
-      color: #C2410C;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    /* SVG 아이콘 스타일 */
+    .icon-svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
       flex-shrink: 0;
     }
   </style>
 </head>
 <body>
 
-  <!-- 상단 헤더 -->
-  <div class="header">
-    <div class="brand-row">
-      <div class="brand-title">
-        <span>다이사 디자인시스템 린터</span>
-        <span class="brand-badge" id="currentModeBadge">고객향 v2.0</span>
-      </div>
+  <!-- 1. 초경량 상단 헤더 -->
+  <header class="top-header">
+    <div class="brand-title">다이사 디자인시스템 린터</div>
+    <div class="mode-switch">
+      <button class="mode-tab active customer" id="btnCustomerMode">고객향 (B2C)</button>
+      <button class="mode-tab partner" id="btnPartnerMode">파트너향</button>
     </div>
-    <!-- 모드 선택 (고객향 vs 파트너향 엄격 분리) -->
-    <div class="mode-toggle">
-      <button class="mode-btn active customer" id="btnCustomerMode">
-        <span>🔵 고객향 (Customer)</span>
-      </button>
-      <button class="mode-btn partner" id="btnPartnerMode">
-        <span>🟢 파트너향 (Partner)</span>
-      </button>
-    </div>
-  </div>
+  </header>
 
-  <!-- 독립 가이드 배너 -->
-  <div class="notice-bar">
-    <span>🚨</span>
-    <span id="noticeText">고객향 명세서(Pretendard 짝수 크기, 카드 높이별 8/10/12px) 기준으로 검증합니다.</span>
-  </div>
-
-  <!-- 검사 컨트롤 -->
-  <div class="controls">
-    <div class="scope-row">
-      <select class="scope-select" id="scopeSelect">
-        <option value="selection">선택된 레이어 (Selection)</option>
-        <option value="page">현재 페이지 전체 (Current Page)</option>
-      </select>
-      <label class="checkbox-label">
-        <input type="checkbox" id="checkIgnoreHidden" checked>
-        <span>숨김 레이어 제외</span>
-      </label>
-    </div>
+  <!-- 2. 단일 행 컴팩트 컨트롤 바 -->
+  <div class="action-bar">
+    <select class="scope-select" id="scopeSelect">
+      <option value="selection">선택된 레이어</option>
+      <option value="page">현재 페이지 전체</option>
+    </select>
+    <label class="checkbox-wrap">
+      <input type="checkbox" id="checkIgnoreHidden" checked>
+      <span>숨김 레이어 제외</span>
+    </label>
     <button class="btn-run" id="btnRunLint">
-      <span>🔍 디자인시스템 규칙 검증 시작</span>
+      <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <span>검사 시작</span>
     </button>
   </div>
 
-  <!-- 요약 통계 & 일괄 액션 -->
-  <div class="dashboard" id="dashboard" style="display: none;">
-    <div class="stat-group">
-      <div class="stat-badge error">
-        <span>🚨</span>
-        <span>에러 <b id="errorCount">0</b></span>
-      </div>
-      <div class="stat-badge warning">
-        <span>⚠️</span>
-        <span>경고 <b id="warnCount">0</b></span>
-      </div>
+  <!-- 3. 카테고리별 탭 네비게이션 -->
+  <nav class="category-tabs" id="categoryTabs" style="display: none;">
+    <button class="cat-tab active" data-cat="all">전체 <span class="badge" id="badgeAll">0</span></button>
+    <button class="cat-tab" data-cat="typography">서체·폰트 <span class="badge" id="badgeTypo">0</span></button>
+    <button class="cat-tab" data-cat="color">컬러 <span class="badge" id="badgeColor">0</span></button>
+    <button class="cat-tab" data-cat="radius">곡률·보더 <span class="badge" id="badgeRadius">0</span></button>
+    <button class="cat-tab" data-cat="layout">기타 <span class="badge" id="badgeLayout">0</span></button>
+  </nav>
+
+  <!-- 4. 상태 통계 및 일괄 액션 바 -->
+  <div class="status-strip" id="statusStrip" style="display: none;">
+    <div class="status-counts">
+      <span class="count-pill must-fix">수정 필요 <b id="cntMustFix">0</b></span>
+      <span class="count-pill check-needed">확인 필요 <b id="cntCheckNeeded">0</b></span>
     </div>
-    <div style="display: flex; gap: 6px;">
-      <button class="btn-action-primary" id="btnFixAll" style="display: none;">⚡ 일괄 자동 수정</button>
-      <button class="btn-action-small" id="btnCopyReport">📋 결과 복사</button>
+    <div class="status-actions">
+      <button class="btn-text-action primary" id="btnFixAll" style="display: none;">
+        <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span>일괄 수정 (<span id="cntFixable">0</span>)</span>
+      </button>
+      <button class="btn-text-action" id="btnCopyReport">
+        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>결과 복사</span>
+      </button>
     </div>
   </div>
 
-  <!-- 카테고리 필터 탭 -->
-  <div class="filter-bar" id="filterBar" style="display: none;">
-    <button class="filter-chip active" data-category="all">전체 (<span id="countAll">0</span>)</button>
-    <button class="filter-chip" data-category="color">🎨 컬러 (<span id="countColor">0</span>)</button>
-    <button class="filter-chip" data-category="typography">🔤 타이포 (<span id="countTypo">0</span>)</button>
-    <button class="filter-chip" data-category="radius">📐 곡률/보더 (<span id="countRadius">0</span>)</button>
-    <button class="filter-chip" data-category="layout">📱 레이아웃 (<span id="countLayout">0</span>)</button>
-    <button class="filter-chip" data-category="emoji">😀 이모지 (<span id="countEmoji">0</span>)</button>
-  </div>
-
-  <!-- 이슈 목록 렌더링 컨테이너 -->
-  <div class="issues-container" id="issuesList">
-    <div class="empty-state">
-      <div class="empty-icon">🎨</div>
+  <!-- 5. 이슈 스크롤 영역 -->
+  <main class="issues-scroll" id="issuesList">
+    <div class="empty-container">
+      <div class="empty-icon-wrap">
+        <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      </div>
       <div class="empty-title">검증할 레이어를 선택하세요</div>
       <div class="empty-desc">
-        피그마 캔버스에서 프레임이나 컴포넌트를 선택한 후<br>
-        상단의 <b>[검증 시작]</b> 버튼을 누르면 규칙 위반 사항을 찾아냅니다.
+        피그마 캔버스에서 검사할 프레임을 선택한 뒤<br>
+        우측 상단 <b>[검사 시작]</b> 버튼을 눌러주세요.
       </div>
     </div>
-  </div>
+  </main>
 
   <script>
     let currentMode = 'customer';
     let currentIssues = [];
-    let currentCategoryFilter = 'all';
+    let currentCategory = 'all';
 
     const btnCustomerMode = document.getElementById('btnCustomerMode');
     const btnPartnerMode = document.getElementById('btnPartnerMode');
-    const currentModeBadge = document.getElementById('currentModeBadge');
-    const noticeText = document.getElementById('noticeText');
     const scopeSelect = document.getElementById('scopeSelect');
     const checkIgnoreHidden = document.getElementById('checkIgnoreHidden');
     const btnRunLint = document.getElementById('btnRunLint');
-    const dashboard = document.getElementById('dashboard');
-    const filterBar = document.getElementById('filterBar');
+    const categoryTabs = document.getElementById('categoryTabs');
+    const statusStrip = document.getElementById('statusStrip');
     const issuesList = document.getElementById('issuesList');
-    const errorCount = document.getElementById('errorCount');
-    const warnCount = document.getElementById('warnCount');
+    const cntMustFix = document.getElementById('cntMustFix');
+    const cntCheckNeeded = document.getElementById('cntCheckNeeded');
     const btnFixAll = document.getElementById('btnFixAll');
+    const cntFixable = document.getElementById('cntFixable');
     const btnCopyReport = document.getElementById('btnCopyReport');
 
     // 모드 전환
     btnCustomerMode.addEventListener('click', () => {
       currentMode = 'customer';
-      btnCustomerMode.className = 'mode-btn active customer';
-      btnPartnerMode.className = 'mode-btn partner';
-      currentModeBadge.textContent = '고객향 v2.0';
-      currentModeBadge.style.background = '#F4F5FF';
-      currentModeBadge.style.color = '#1219F7';
-      noticeText.textContent = '고객향 명세서(Pretendard 짝수 크기, 카드 높이별 8/10/12px) 기준으로 검증합니다.';
+      btnCustomerMode.className = 'mode-tab active customer';
+      btnPartnerMode.className = 'mode-tab partner';
       runLint();
     });
 
     btnPartnerMode.addEventListener('click', () => {
       currentMode = 'partner';
-      btnCustomerMode.className = 'mode-btn customer';
-      btnPartnerMode.className = 'mode-btn active partner';
-      currentModeBadge.textContent = '파트너향 v1.0';
-      currentModeBadge.style.background = '#F1F5F9';
-      currentModeBadge.style.color = '#1E2837';
-      noticeText.textContent = '파트너향 명세서(Radius 6px 고정, 기본 본문 18px, 12px 금지) 기준으로 검증합니다.';
+      btnCustomerMode.className = 'mode-tab customer';
+      btnPartnerMode.className = 'mode-tab active partner';
       runLint();
     });
 
-    // 검사 실행 함수
     function runLint() {
       btnRunLint.disabled = true;
-      btnRunLint.innerHTML = '<span>⏳ 검증 엔진 분석 중...</span>';
+      btnRunLint.innerHTML = '<svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg><span>분석 중...</span>';
 
       parent.postMessage({
         pluginMessage: {
@@ -570,142 +614,168 @@
 
     btnRunLint.addEventListener('click', runLint);
 
-    // 카테고리 필터 클릭
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        currentCategoryFilter = chip.dataset.category;
+    // 카테고리 탭 클릭
+    document.querySelectorAll('.cat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentCategory = tab.dataset.cat;
         renderIssues();
       });
     });
 
-    // 피그마 백엔드 메시지 수신
+    // 메시지 수신
     window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
       if (!msg) return;
 
       btnRunLint.disabled = false;
-      btnRunLint.innerHTML = '<span>🔍 디자인시스템 규칙 검증 시작</span>';
+      btnRunLint.innerHTML = '<svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>검사 시작</span>';
 
       if (msg.type === 'lint-error') {
+        categoryTabs.style.display = 'none';
+        statusStrip.style.display = 'none';
         issuesList.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">⚠️</div>
-            <div class="empty-title">알림</div>
-            <div class="empty-desc">${msg.message}</div>
+          <div class="empty-container">
+            <div class="empty-icon-wrap">
+              <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="empty-title">검사 대상 없음</div>
+            <div class="empty-desc">${escapeHtml(msg.message)}</div>
           </div>
         `;
-        dashboard.style.display = 'none';
-        filterBar.style.display = 'none';
         return;
       }
 
       if (msg.type === 'lint-results') {
+        const prevScroll = issuesList.scrollTop;
         currentIssues = msg.issues || [];
-        updateDashboard(currentIssues);
+        updateStatus();
         renderIssues();
-      }
-
-      if (msg.type === 'fix-success' || msg.type === 'fix-all-done') {
-        // 수정 완료 후 재검사
-        runLint();
+        issuesList.scrollTop = prevScroll;
       }
     };
 
-    function updateDashboard(issues) {
-      dashboard.style.display = 'flex';
-      filterBar.style.display = 'flex';
+    function updateStatus() {
+      categoryTabs.style.display = 'flex';
+      statusStrip.style.display = 'flex';
 
-      const errors = issues.filter(i => i.severity === 'error').length;
-      const warns = issues.filter(i => i.severity === 'warning').length;
+      const mustFixCount = currentIssues.filter(i => i.severity === 'must-fix').length;
+      const checkNeededCount = currentIssues.filter(i => i.severity === 'check-needed').length;
 
-      errorCount.textContent = errors;
-      warnCount.textContent = warns;
+      cntMustFix.textContent = mustFixCount;
+      cntCheckNeeded.textContent = checkNeededCount;
 
-      const autoFixableCount = issues.filter(i => i.autoFixable).length;
-      btnFixAll.style.display = autoFixableCount > 0 ? 'block' : 'none';
-      btnFixAll.textContent = `⚡ 자동 수정 (${autoFixableCount}개)`;
+      const fixableCount = currentIssues.filter(i => i.autoFixable).length;
+      if (fixableCount > 0) {
+        btnFixAll.style.display = 'inline-flex';
+        cntFixable.textContent = fixableCount;
+      } else {
+        btnFixAll.style.display = 'none';
+      }
 
-      // 카테고리별 카운트
-      document.getElementById('countAll').textContent = issues.length;
-      document.getElementById('countColor').textContent = issues.filter(i => i.category === 'color').length;
-      document.getElementById('countTypo').textContent = issues.filter(i => i.category === 'typography').length;
-      document.getElementById('countRadius').textContent = issues.filter(i => i.category === 'radius' || i.category === 'stroke').length;
-      document.getElementById('countLayout').textContent = issues.filter(i => i.category === 'layout').length;
-      document.getElementById('countEmoji').textContent = issues.filter(i => i.category === 'emoji').length;
+      // 탭 배지 카운트 갱신
+      document.getElementById('badgeAll').textContent = currentIssues.length;
+      document.getElementById('badgeTypo').textContent = currentIssues.filter(i => i.category === 'typography').length;
+      document.getElementById('badgeColor').textContent = currentIssues.filter(i => i.category === 'color').length;
+      document.getElementById('badgeRadius').textContent = currentIssues.filter(i => i.category === 'radius').length;
+      document.getElementById('badgeLayout').textContent = currentIssues.filter(i => i.category === 'layout').length;
     }
 
     function renderIssues() {
-      const filtered = currentIssues.filter(i => {
-        if (currentCategoryFilter === 'all') return true;
-        if (currentCategoryFilter === 'radius') return i.category === 'radius' || i.category === 'stroke';
-        return i.category === currentCategoryFilter;
-      });
-
-      if (filtered.length === 0) {
-        if (currentIssues.length === 0) {
-          issuesList.innerHTML = `
-            <div class="empty-state">
-              <div class="empty-icon">🎉</div>
-              <div class="empty-title">완벽합니다!</div>
-              <div class="empty-desc">
-                선택한 레이어에서 다이사 <b>[${currentMode === 'customer' ? '고객향' : '파트너향'}]</b><br>
-                디자인시스템 규칙 위반 사항이 전혀 발견되지 않았습니다.
-              </div>
+      if (currentIssues.length === 0) {
+        issuesList.innerHTML = `
+          <div class="empty-container">
+            <div class="empty-icon-wrap success">
+              <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
-          `;
-        } else {
-          issuesList.innerHTML = `
-            <div class="empty-state">
-              <div class="empty-icon">✅</div>
-              <div class="empty-title">해당 카테고리 이슈 없음</div>
-              <div class="empty-desc">선택된 카테고리에는 위반 사항이 없습니다.</div>
-            </div>
-          `;
-        }
-        return;
-      }
-
-      let html = '';
-      filtered.forEach(issue => {
-        const catMap = {
-          color: '🎨 컬러',
-          typography: '🔤 타이포',
-          radius: '📐 곡률',
-          stroke: '📏 보더',
-          layout: '📱 레이아웃',
-          emoji: '😀 이모지'
-        };
-
-        html += `
-          <div class="issue-card ${issue.severity}">
-            <div class="issue-header">
-              <div class="issue-tags">
-                <span class="tag-category">${catMap[issue.category] || issue.category}</span>
-                <span class="node-name" title="${escapeHtml(issue.nodeName)}">🏷️ ${escapeHtml(issue.nodeName)}</span>
-              </div>
-              <span style="font-size: 11px; font-weight: 700; color: ${issue.severity === 'error' ? '#F34766' : '#E68A00'};">
-                ${issue.severity === 'error' ? '🚨 ERROR' : '⚠️ WARN'}
-              </span>
-            </div>
-            <div class="issue-msg">${escapeHtml(issue.message)}</div>
-            ${issue.details ? `<div class="issue-details">${escapeHtml(issue.details)}</div>` : ''}
-            <div class="issue-actions">
-              <button class="btn-focus" onclick="selectNode('${issue.nodeId}')">
-                <span>🔍 위치 이동</span>
-              </button>
-              ${issue.autoFixable ? `
-                <button class="btn-fix" onclick="fixSingleIssue('${issue.nodeId}', '${issue.id}')">
-                  <span>⚡ 빠른 수정</span>
-                </button>
-              ` : ''}
+            <div class="empty-title">규칙 위반 사항 없음</div>
+            <div class="empty-desc">
+              선택한 레이어에서 다이사 <b>[${currentMode === 'customer' ? '고객향' : '파트너향'}]</b><br>
+              디자인시스템 규칙을 100% 완벽하게 준수하고 있습니다.
             </div>
           </div>
         `;
+        return;
+      }
+
+      const categories = [
+        { id: 'typography', title: '서체 및 폰트 규격' },
+        { id: 'color', title: '컬러 토큰 규격' },
+        { id: 'radius', title: '모서리 곡률 및 테두리' },
+        { id: 'layout', title: '기타 (이모지 및 레이아웃)' }
+      ];
+
+      let html = '';
+      let renderedCategoryCount = 0;
+
+      categories.forEach(cat => {
+        if (currentCategory !== 'all' && currentCategory !== cat.id) return;
+
+        const catIssues = currentIssues.filter(i => i.category === cat.id);
+        if (catIssues.length === 0) return;
+
+        renderedCategoryCount++;
+        const catMustFix = catIssues.filter(i => i.severity === 'must-fix').length;
+        const catCheckNeeded = catIssues.filter(i => i.severity === 'check-needed').length;
+
+        html += `
+          <div class="category-section">
+            <div class="section-title-row">
+              <div class="section-title">
+                <span>${cat.title}</span>
+              </div>
+              <div class="section-count">
+                ${catMustFix > 0 ? `<span style="color: #B91C1C; font-weight: 600;">수정 필요 ${catMustFix}</span>` : ''}
+                ${catMustFix > 0 && catCheckNeeded > 0 ? ' · ' : ''}
+                ${catCheckNeeded > 0 ? `<span style="color: #B45309; font-weight: 600;">확인 필요 ${catCheckNeeded}</span>` : ''}
+              </div>
+            </div>
+        `;
+
+        catIssues.forEach(issue => {
+          html += `
+            <div class="issue-card ${issue.severity}">
+              <div class="issue-meta-row">
+                <div class="meta-left">
+                  <span class="status-badge ${issue.severity}">${issue.severity === 'must-fix' ? '수정 필요' : '확인 필요'}</span>
+                  <span class="node-tag" title="${escapeHtml(issue.nodeName)}">${escapeHtml(issue.nodeName)}</span>
+                </div>
+              </div>
+              <div class="issue-message">${escapeHtml(issue.message)}</div>
+              ${issue.details ? `<div class="issue-details">${escapeHtml(issue.details)}</div>` : ''}
+              <div class="issue-btn-row">
+                <button class="btn-locate" onclick="selectNode('${issue.nodeId}')">
+                  <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                  <span>위치 확인</span>
+                </button>
+                ${issue.autoFixable ? `
+                  <button class="btn-fix-single" onclick="fixSingle('${issue.nodeId}', '${issue.id}')">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>${issue.fixAction && issue.fixAction.label ? issue.fixAction.label : '빠른 수정'}</span>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
       });
 
-      issuesList.innerHTML = html;
+      if (renderedCategoryCount === 0) {
+        issuesList.innerHTML = `
+          <div class="empty-container">
+            <div class="empty-icon-wrap success">
+              <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="empty-title">해당 항목 이상 없음</div>
+            <div class="empty-desc">선택된 카테고리에는 위반 사항이 없습니다.</div>
+          </div>
+        `;
+      } else {
+        issuesList.innerHTML = html;
+      }
     }
 
     function selectNode(nodeId) {
@@ -717,7 +787,7 @@
       }, '*');
     }
 
-    function fixSingleIssue(nodeId, issueId) {
+    function fixSingle(nodeId, issueId) {
       const issue = currentIssues.find(i => i.id === issueId);
       if (issue && issue.fixAction) {
         parent.postMessage({
@@ -730,12 +800,11 @@
       }
     }
 
-    // 일괄 자동 수정
     btnFixAll.addEventListener('click', () => {
       const fixable = currentIssues.filter(i => i.autoFixable);
       if (fixable.length === 0) return;
 
-      if (confirm(`자동 수정 가능한 ${fixable.length}개 항목을 한 번에 수정하시겠습니까?`)) {
+      if (confirm(`자동 보정 가능한 ${fixable.length}개 항목을 일괄 수정하시겠습니까?`)) {
         parent.postMessage({
           pluginMessage: {
             type: 'fix-all',
@@ -745,7 +814,7 @@
       }
     });
 
-    // 마크다운 리포트 클립보드 복사
+    // 마크다운 리포트 복사
     btnCopyReport.addEventListener('click', () => {
       if (currentIssues.length === 0) {
         alert('복사할 검증 결과가 없습니다.');
@@ -754,19 +823,20 @@
 
       let md = `# 다이사 디자인시스템 검증 리포트 (${currentMode === 'customer' ? '고객향' : '파트너향'})\n\n`;
       md += `- 검사 모드: ${currentMode === 'customer' ? '고객향 v2.0' : '파트너향 v1.0'}\n`;
-      md += `- 총 이슈: ${currentIssues.length}개 (에러: ${errorCount.textContent}개, 경고: ${warnCount.textContent}개)\n\n`;
+      md += `- 총 항목: ${currentIssues.length}건 (수정 필요: ${cntMustFix.textContent}건, 확인 필요: ${cntCheckNeeded.textContent}건)\n\n`;
       md += `| 구분 | 카테고리 | 레이어명 | 위반 내용 | 권장 수정 안내 |\n`;
       md += `| :--- | :--- | :--- | :--- | :--- |\n`;
 
       currentIssues.forEach(i => {
-        md += `| ${i.severity.toUpperCase()} | ${i.category} | ${i.nodeName} | ${i.message} | ${i.details || '-'} |\n`;
+        const statusLabel = i.severity === 'must-fix' ? '수정 필요' : '확인 필요';
+        md += `| ${statusLabel} | ${i.category} | ${i.nodeName} | ${i.message} | ${i.details || '-'} |\n`;
       });
 
       navigator.clipboard.writeText(md).then(() => {
         parent.postMessage({
           pluginMessage: {
             type: 'notify',
-            message: '검증 리포트가 마크다운(Markdown) 형태로 클립보드에 복사되었습니다.'
+            message: '검증 리포트가 클립보드에 복사되었습니다.'
           }
         }, '*');
       });
@@ -774,7 +844,7 @@
 
     function escapeHtml(text) {
       if (!text) return '';
-      return text
+      return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
