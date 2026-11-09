@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { HomeSection } from './components/sections/HomeSection';
 import { LayoutSection } from './components/sections/LayoutSection';
 import { WritingSection } from './components/sections/WritingSection';
@@ -14,7 +14,6 @@ import { IconSection } from './components/sections/IconSection';
 import {
   Menu,
   X,
-  Search,
   ChevronRight
 } from 'lucide-react';
 
@@ -22,55 +21,17 @@ export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [serviceMode, setServiceMode] = useState<'customer' | 'partner'>('customer');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
 
   const handleServiceModeChange = (newMode: 'customer' | 'partner') => {
     if (serviceMode === newMode) return;
     setServiceMode(newMode);
   };
 
-  const navItems = [
-    { id: 'home', label: 'Components', category: 'Overview', koLabel: '컴포넌트 모아보기' },
-    { id: 'archive', label: 'Resources', category: 'Overview', koLabel: '자료실' },
-    { id: 'colors', label: 'Colors', category: 'Foundations', koLabel: '색상 토큰' },
-    { id: 'typography', label: 'Typography', category: 'Foundations', koLabel: '타이포그래피' },
-    { id: 'icons', label: 'Icons', category: 'Foundations', koLabel: '아이콘' },
-    { id: 'spacing-radius', label: 'Spacing & Radius', category: 'Foundations', koLabel: '여백 및 라운드' },
-    { id: 'layout', label: 'Layout', category: 'Foundations', koLabel: '작업 규격' },
-    { id: 'writing', label: 'Writing Guide', category: 'Foundations', koLabel: '라이팅 가이드' },
-    { id: 'buttons', label: 'Buttons', category: 'Components', koLabel: '버튼' },
-    { id: 'inputs', label: 'Inputs', category: 'Components', koLabel: '입력창' },
-    { id: 'modals', label: 'Dialog & Sheet', category: 'Components', koLabel: '모달 및 바텀시트' },
-  ];
-
-  // Quick search filter
-  const filteredNavItems = navItems.filter(item =>
-    item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.koLabel.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const handleNavClick = (id: string) => {
     setActiveTab(id);
     setMobileMenuOpen(false);
-    setSearchQuery('');
-    setSearchFocused(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  // Keyboard shortcut '/' to focus search
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
-        e.preventDefault();
-        const searchInput = document.getElementById('toss-search-input');
-        searchInput?.focus();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col font-sans antialiased bg-white text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
@@ -98,63 +59,6 @@ export const App: React.FC = () => {
               className="h-[24px] md:h-[26px] w-auto object-contain transition-transform group-hover:scale-102"
             />
           </div>
-        </div>
-
-        {/* Center: Search Bar */}
-        <div className="relative hidden md:block w-[280px] lg:w-[320px]">
-          <div className={`flex items-center gap-2.5 px-3.5 py-2 rounded-[12px] transition-all border ${
-            searchFocused
-              ? 'bg-white border-[#3182F6] ring-2 ring-[#3182F6]/10'
-              : 'bg-[#F2F4F6] border-transparent hover:bg-[#E5E8EB]/70'
-          }`}>
-            <Search className="w-4 h-4 text-[#8B95A1]" />
-            <input
-              id="toss-search-input"
-              type="text"
-              placeholder="검색어를 입력하세요 (단축키 /)"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
-              className="w-full bg-transparent text-[13px] outline-none font-medium text-[#191F28] placeholder-[#8B95A1]"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="text-[12px] text-[#8B95A1] hover:text-[#191F28]"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Search Dropdown Results */}
-          {searchFocused && searchQuery && (
-            <div className="absolute top-[48px] left-0 right-0 rounded-[16px] shadow-[0_12px_36px_rgba(0,0,0,0.12)] border border-[#E5E8EB] bg-white p-2 space-y-1 z-50 animate-scaleUp">
-              {filteredNavItems.length > 0 ? (
-                filteredNavItems.map(item => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    className="w-full px-3.5 py-2.5 rounded-[10px] text-left flex items-center justify-between text-[13px] hover:bg-[#F2F4F6] transition-colors"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-[#191F28]">{item.label}</span>
-                      <span className="text-[11px] text-[#8B95A1]">({item.koLabel})</span>
-                    </div>
-                    <span className="text-[11px] px-2 py-0.5 rounded-full font-medium bg-[#F2F4F6] text-[#8B95A1]">
-                      {item.category}
-                    </span>
-                  </button>
-                ))
-              ) : (
-                <div className="p-4 text-center text-[13px] text-[#8B95A1]">
-                  검색 결과가 없습니다.
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Right Header Area: Customer / Partner Segmented Toggle */}

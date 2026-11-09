@@ -29,47 +29,39 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   }, [mode]);
 
   // ============================================================
-  // 1. Color Tokens Thumbnail
+  // 1. Color Tokens Thumbnail (3D overlapping tangible swatch cards)
   // ============================================================
   const renderColorThumbnail = () => (
     <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="relative flex items-center justify-center">
-        <div className="absolute w-24 h-24 rounded-full bg-[#1219F7]/8 blur-xl pointer-events-none" />
-        <div className="flex items-center -space-x-3">
-          <div
-            className={`w-14 h-14 ${
-              isPartner ? 'rounded-[8px]' : 'rounded-2xl'
-            } bg-[#1219F7] shadow-lg shadow-[#1219F7]/25 flex items-center justify-center transform -rotate-6 transition-transform duration-300 group-hover:-translate-y-1.5`}
-          >
-            <span className="text-white/90 text-[10px] font-extrabold tracking-wider">#12</span>
-          </div>
+      <div className="relative flex items-center justify-center h-full">
+        {/* White Card behind */}
+        <div
+          className={`w-16 h-22 bg-white ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[14px]'
+          } shadow-[0_6px_16px_rgba(0,0,0,0.06)] border border-[#E5E8EB] transform -rotate-14 -translate-x-9 transition-transform duration-300 group-hover:-translate-y-2`}
+        />
 
-          <div
-            className={`w-16 h-16 ${
-              isPartner ? 'rounded-[8px]' : 'rounded-2xl'
-            } bg-[#595EF9] shadow-lg shadow-[#595EF9]/25 flex items-center justify-center z-10 transition-transform duration-300 group-hover:-translate-y-2.5`}
-          >
-            <div className="w-5 h-5 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center">
-              <div className="w-2 h-2 rounded-full bg-white/80" />
-            </div>
-          </div>
+        {/* Secondary Color Card */}
+        <div
+          className={`w-18 h-24 bg-[#595EF9] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[14px]'
+          } shadow-[0_10px_22px_rgba(89,94,249,0.25)] flex flex-col justify-end p-2.5 transform -rotate-4 -translate-x-3 z-10 transition-transform duration-300 group-hover:-translate-y-3`}
+        >
+          <span className="text-[10px] font-extrabold text-white/90">#59</span>
+        </div>
 
-          <div
-            className={`w-14 h-14 ${
-              isPartner ? 'rounded-[8px]' : 'rounded-2xl'
-            } ${
-              isPartner ? 'bg-[#F7D915]' : 'bg-[#F34766]'
-            } shadow-lg ${
-              isPartner ? 'shadow-[#F7D915]/25' : 'shadow-[#F34766]/25'
-            } flex items-center justify-center transform rotate-6 transition-transform duration-300 group-hover:-translate-y-1.5`}
-          >
-            <span
-              className={`text-[10px] font-extrabold tracking-wider ${
-                isPartner ? 'text-[#191F28]' : 'text-white/90'
-              }`}
-            >
-              {isPartner ? 'Sub' : 'Err'}
-            </span>
+        {/* Main Royal Blue Card with volume */}
+        <div
+          className={`w-20 h-26 bg-[#1219F7] ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[16px]'
+          } shadow-[0_14px_30px_rgba(18,25,247,0.35)] flex flex-col justify-between p-3 transform rotate-8 translate-x-4 z-20 transition-transform duration-300 group-hover:-translate-y-3.5 group-hover:rotate-6`}
+        >
+          <div className="w-4 h-4 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center">
+            <div className="w-1.5 h-1.5 rounded-full bg-white" />
+          </div>
+          <div>
+            <div className="text-white text-[12px] font-black tracking-wider">#1219F7</div>
+            <div className="text-white/70 text-[9px] font-bold">Main 01</div>
           </div>
         </div>
       </div>
@@ -77,232 +69,272 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 2. Typography Thumbnail
+  // 2. Typography Thumbnail (Sculptural letterform with volume badge)
   // ============================================================
   const renderTypographyThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="flex flex-col items-center justify-center gap-2">
-        <div className="flex items-baseline gap-1.5">
+    <div className="w-full h-full flex items-center justify-center select-none px-6">
+      <div
+        className="w-[195px] h-[125px] bg-white rounded-[18px] p-4 shadow-[0_8px_24px_rgba(0,0,0,0.06)] border border-black/[0.04] flex flex-col justify-between transition-transform duration-300 group-hover:scale-105"
+      >
+        <div className="flex items-center justify-between">
           <span className="text-[44px] font-black text-[#191F28] leading-none tracking-tight">
             Aa
           </span>
-          <span
-            className={`text-[11px] font-bold px-1.5 py-0.5 ${
-              isPartner
-                ? 'rounded-[4px] bg-[#E8F3FF] text-[#1219F7]'
-                : 'rounded-full bg-[#F2F4F6] text-[#6B7684]'
-            }`}
-          >
+          <div className="rounded-full bg-[#1219F7] text-white text-[11px] font-extrabold px-3 py-1 shadow-md shadow-[#1219F7]/25">
             {isPartner ? '18px' : 'Pretendard'}
-          </span>
+          </div>
         </div>
-        <div className="w-28 space-y-1.5">
-          <div className="h-1.5 w-full bg-[#191F28]/15 rounded-full" />
-          <div className="h-1.5 w-3/4 bg-[#1219F7]/30 rounded-full mx-auto" />
+
+        {/* Typo Scale Preview Rhythm */}
+        <div className="space-y-1.5">
+          <div className="h-2 w-full bg-[#191F28]/15 rounded-full" />
+          <div className="h-2 w-3/4 bg-[#1219F7]/30 rounded-full" />
         </div>
       </div>
     </div>
   );
 
   // ============================================================
-  // 3. Spacing & Radius Thumbnail
+  // 3. Spacing & Radius Thumbnail (Clean tactile corner curve block)
   // ============================================================
   const renderSpacingRadiusThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="relative flex items-center justify-center">
-        <div className="w-36 h-24 rounded-[10px] border border-dashed border-[#CBD5E1] flex items-center justify-center p-2 bg-white/70">
-          <div
-            className={`w-24 h-16 bg-white border-2 border-[#1219F7] ${
-              isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
-            } shadow-xs flex flex-col items-center justify-center gap-0.5 transition-transform duration-300 group-hover:scale-105`}
-          >
-            <span className="text-[12px] font-extrabold text-[#1219F7]">
-              r: {isPartner ? '6px' : '10px'}
-            </span>
-            <span className="text-[9px] font-semibold text-[#8B95A1]">
-              {isPartner ? 'Partner Rule' : 'Standard'}
-            </span>
+    <div className="w-full h-full flex items-center justify-center select-none px-6">
+      <div
+        className="w-[190px] h-[120px] bg-white rounded-[16px] p-3.5 shadow-[0_8px_24px_rgba(0,0,0,0.06)] border border-black/[0.04] flex flex-col justify-between relative transition-transform duration-300 group-hover:scale-105"
+      >
+        {/* Top Curve Accent Guide with Pill Badge */}
+        <div className="flex items-start justify-between">
+          <div className="relative">
+            {/* Corner Arc Marker */}
+            <div className="w-10 h-10 border-t-3 border-l-3 border-[#1219F7] rounded-tl-[14px]" />
+          </div>
+          <div className="px-2.5 py-1 rounded-[8px] bg-[#1219F7] text-white font-black text-[12px] shadow-sm">
+            {isPartner ? 'Radius 6' : 'Radius 10'}
           </div>
         </div>
-        <div className="absolute -top-2 right-1 text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7] border border-[#1219F7]/20 shadow-2xs">
-          8 · 16px
+
+        {/* Inner Padding Container */}
+        <div className="w-full h-11 rounded-[10px] bg-[#E8F3FF] border border-dashed border-[#1219F7]/40 flex items-center justify-between px-3">
+          <span className="text-[10px] font-black text-[#1219F7]">P-16</span>
+          <div className="w-14 h-2 rounded-full bg-[#1219F7]/30" />
+          <span className="text-[10px] font-black text-[#1219F7]">P-16</span>
         </div>
       </div>
     </div>
   );
 
   // ============================================================
-  // 4. Layout Thumbnail
+  // 4. Layout Thumbnail (360px Canvas Safe Area Phone Mockup)
   // ============================================================
   const renderLayoutThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="flex items-center gap-3">
-        <div
-          className={`w-13 h-20 bg-white border-2 border-[#191F28] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } p-1.5 flex flex-col justify-between shadow-xs transition-transform duration-300 group-hover:-translate-y-1`}
-        >
-          <span className="text-[7px] font-bold text-[#8B95A1] text-center">360</span>
-          <div className="w-full h-1 bg-[#1219F7] rounded-full" />
-        </div>
-        <div
-          className={`w-28 h-20 bg-white border border-[#D1D6DB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } p-1.5 flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:-translate-y-1`}
-        >
-          <div
-            className={`w-16 h-full bg-[#E8F3FF] border border-[#1219F7]/30 ${
-              isPartner ? 'rounded-[4px]' : 'rounded-[6px]'
-            } p-1 flex flex-col justify-between`}
-          >
-            <span className="text-[8px] font-black text-[#1219F7] text-center">
-              {isPartner ? '627px' : '640px'}
-            </span>
-            <div className="w-full h-1 bg-[#1219F7] rounded-full" />
+    <div className="w-full h-full relative flex items-end justify-center select-none overflow-hidden">
+      {/* 360 Phone Viewport Frame */}
+      <div
+        className="w-[170px] h-[145px] bg-white rounded-t-[22px] shadow-[0_12px_28px_rgba(0,0,0,0.08)] border-t border-x border-black/[0.06] p-2.5 flex flex-col justify-between transition-transform duration-300 group-hover:translate-y-[-4px]"
+      >
+        {/* Phone Speaker Notch */}
+        <div className="w-12 h-1 bg-[#D1D6DB] rounded-full mx-auto" />
+
+        {/* 312px Safe Area Block with 24px side guides */}
+        <div className="relative w-full h-[95px] bg-[#E8F3FF] rounded-[10px] border border-dashed border-[#1219F7]/30 p-1.5 flex flex-col items-center justify-center gap-1.5">
+          {/* Side margin labels */}
+          <div className="absolute left-1 top-1 text-[8px] font-black text-[#1219F7]">24</div>
+          <div className="absolute right-1 top-1 text-[8px] font-black text-[#1219F7]">24</div>
+
+          {/* Centered Safe Area Container */}
+          <div className="w-[105px] h-[40px] bg-[#1219F7] rounded-[8px] flex items-center justify-center text-white font-black text-[12px] shadow-sm">
+            <span>{isPartner ? '312 / 627' : '312px'}</span>
           </div>
+          <span className="text-[9px] font-bold text-[#6B7684]">
+            {isPartner ? 'w: 360 & 1200' : 'w: 360px Safe'}
+          </span>
         </div>
       </div>
     </div>
   );
 
   // ============================================================
-  // 5. Writing Guide Thumbnail
+  // 5. Writing Guide (Yeogi inspired: Plump speech bubble with volume)
   // ============================================================
   const renderWritingThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="flex flex-col gap-2 w-44">
-        <div className="self-start bg-[#E8F3FF] border border-[#1219F7]/20 px-3 py-1.5 rounded-2xl rounded-tl-xs text-[11px] font-bold text-[#1219F7] shadow-xs flex items-center gap-1.5 transition-transform duration-300 group-hover:scale-102">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />
-          <span>출발지를 검색해 주세요</span>
+    <div className="w-full h-full relative flex flex-col items-center justify-center gap-2 select-none px-4">
+      {/* Abstract subtle background lines */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+        viewBox="0 0 200 150"
+        fill="none"
+      >
+        <path d="M-20 40 L220 110" stroke="white" strokeWidth="8" strokeLinecap="round" />
+        <path d="M120 -20 L80 170" stroke="white" strokeWidth="8" strokeLinecap="round" />
+      </svg>
+
+      {/* Main Blue Speech Bubble (~해요체) with rich volume */}
+      <div className="relative z-10 transition-transform duration-300 group-hover:scale-105">
+        <div className="bg-[#1219F7] text-white text-[13px] font-extrabold px-4 py-2.5 rounded-[16px] shadow-[0_10px_24px_rgba(18,25,247,0.32)] flex items-center gap-2">
+          <MapPin className="w-3.5 h-3.5 fill-white shrink-0" />
+          <span>{isPartner ? '배차 수락 3건' : '출발지를 검색해 주세요'}</span>
         </div>
-        <div className="self-end bg-white border border-[#E5E8EB] px-3 py-1.5 rounded-2xl rounded-tr-xs text-[11px] font-medium text-[#4E5968] shadow-xs transition-transform duration-300 group-hover:scale-102">
-          신청하기
-        </div>
+        {/* Speech Bubble Tail */}
+        <div className="w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-[#1219F7] mx-auto -mt-[1px]" />
+      </div>
+
+      {/* Secondary White Response Pill (~하기체) */}
+      <div className="relative z-10 bg-white text-[#191F28] text-[11px] font-bold px-3 py-1.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.06)] border border-black/[0.04]">
+        <span>{isPartner ? '신청 정보 확인' : '견적 신청하기'}</span>
       </div>
     </div>
   );
 
   // ============================================================
-  // 6. Icons Thumbnail
+  // 6. Icons (Tactile 3D floating icon tiles)
   // ============================================================
   const renderIconsThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="grid grid-cols-2 gap-2">
+    <div className="w-full h-full flex items-center justify-center select-none px-6">
+      <div className="grid grid-cols-2 gap-2.5">
+        {/* Main Blue Icon Tile */}
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-12 h-12 bg-[#1219F7] ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
+          } flex items-center justify-center text-white shadow-[0_8px_20px_rgba(18,25,247,0.3)] transition-transform duration-300 group-hover:scale-105`}
         >
-          <Sparkles className="w-5 h-5 text-[#1219F7]" />
+          <Sparkles className="w-6 h-6 stroke-[2.2]" />
         </div>
+
+        {/* White Tile with Blue Accent */}
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-12 h-12 bg-white ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
+          } border border-black/[0.04] flex items-center justify-center text-[#595EF9] shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:scale-105`}
         >
-          <Search className="w-5 h-5 text-[#3182F6]" />
+          <Search className="w-6 h-6 stroke-[2.5]" />
         </div>
+
+        {/* White Tile with Coral Accent */}
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-12 h-12 bg-white ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
+          } border border-black/[0.04] flex items-center justify-center text-[#F34766] shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:scale-105`}
         >
-          <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+          <MapPin className="w-6 h-6 stroke-[2.2]" />
         </div>
+
+        {/* Soft Blue Tile with Emerald Accent */}
         <div
-          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-12 h-12 bg-[#E8F3FF] ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
+          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
         >
-          <MapPin className="w-5 h-5 text-[#F34766]" />
+          <CheckCircle2 className="w-6 h-6 stroke-[2.2]" />
         </div>
       </div>
     </div>
   );
 
   // ============================================================
-  // 7. Buttons Thumbnail
+  // 7. Buttons (Yeogi inspired: Large tactile primary button + icon & sub button)
   // ============================================================
   const renderButtonsThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none px-4">
-      <div className="w-48 flex flex-col gap-2">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-3 select-none px-6">
+      {/* Primary Action Button with rich volume */}
+      <div
+        className={`w-full max-w-[200px] h-[46px] bg-[#1219F7] ${
+          isPartner ? 'rounded-[6px]' : 'rounded-[14px]'
+        } shadow-[0_8px_18px_rgba(18,25,247,0.24)] flex items-center justify-center text-white text-[15px] font-extrabold tracking-tight transition-transform duration-300 group-hover:scale-[1.03]`}
+      >
+        <span>{isPartner ? '오더 수락하기' : 'Button'}</span>
+      </div>
+
+      {/* Secondary Row: Icon circle button + soft secondary button */}
+      <div className="flex items-center gap-2.5 w-full max-w-[200px]">
         <div
-          className={`w-full h-11 bg-[#1219F7] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
-          } flex items-center justify-center text-white text-[13px] font-bold shadow-md shadow-[#1219F7]/20 transition-all duration-300 group-hover:scale-[1.02]`}
+          className={`w-10 h-10 rounded-full bg-[#E8F3FF] flex items-center justify-center text-[#1219F7] shadow-xs shrink-0 transition-transform duration-300 group-hover:rotate-6`}
         >
-          <span>{isPartner ? '오더 수락하기' : '견적 신청하기'}</span>
+          <Sparkles className="w-4 h-4 fill-[#1219F7]" />
         </div>
         <div
-          className={`w-full h-8 bg-white border border-[#D7DBE2] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
-          } flex items-center justify-center text-[#4E5968] text-[11px] font-semibold`}
+          className={`flex-1 h-10 bg-white ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[12px]'
+          } border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.04)] px-3.5 flex items-center`}
         >
-          보조 버튼
+          <div className="w-16 h-2 rounded-full bg-[#1219F7]/25" />
         </div>
       </div>
     </div>
   );
 
   // ============================================================
-  // 8. Inputs Thumbnail
+  // 8. Input Fields (Yeogi inspired: Cropped card sheet with prominent search bar)
   // ============================================================
   const renderInputsThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none px-4">
-      <div className="w-48 flex flex-col gap-1.5">
-        <div className="flex justify-between items-center text-[10px] font-bold text-[#6B7684]">
-          <span>{isPartner ? '금액' : '출발지'}</span>
-        </div>
+    <div className="w-full h-full relative flex items-end justify-end select-none overflow-hidden">
+      {/* Background white sheet container sliding from corner */}
+      <div
+        className="w-[230px] h-[155px] bg-white rounded-tl-[28px] shadow-[0_10px_28px_rgba(0,0,0,0.08)] border-t border-l border-black/[0.04] p-4 flex flex-col justify-between transition-transform duration-300 group-hover:translate-x-[-4px] group-hover:translate-y-[-4px]"
+      >
+        {/* Prominent Search/Text Input */}
         <div
-          className={`w-full h-11 bg-white border-2 border-[#1219F7] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
-          } px-3 flex items-center justify-between shadow-xs transition-all duration-300 group-hover:scale-[1.02]`}
+          className={`w-full h-[46px] rounded-[14px] border-2 border-[#1219F7] bg-white px-3 flex items-center gap-2.5 shadow-xs`}
         >
-          <div className="flex items-center gap-1.5">
-            <span className="text-[12px] font-medium text-[#191F28]">
-              {isPartner ? '견적 금액 입력' : '강남구 역삼동'}
-            </span>
-            <span className="w-0.5 h-3.5 bg-[#1219F7] animate-pulse" />
-          </div>
-          <Search className="w-4 h-4 text-[#8B95A1]" />
+          <Search className="w-5 h-5 text-[#1219F7] stroke-[2.5] shrink-0" />
+          <div className="w-[2px] h-4.5 bg-[#1219F7] rounded-full animate-pulse" />
+          <span className="text-[13px] font-bold text-[#191F28] truncate">
+            {isPartner ? '고객 주소 검색' : '출발지 검색'}
+          </span>
+        </div>
+
+        {/* Suggestion pill chips */}
+        <div className="flex items-center gap-2 pt-1">
+          <div className="w-16 h-4.5 rounded-full bg-[#E8F3FF]" />
+          <div className="w-24 h-4.5 rounded-full bg-[#F2F4F8]" />
         </div>
       </div>
     </div>
   );
 
   // ============================================================
-  // 9. Modals Thumbnail
+  // 9. Modals / Dialog & Sheet (Elevated dialog card with volume and backdrop)
   // ============================================================
   const renderModalsThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none px-4">
-      <div className="relative">
-        <div
-          className={`w-40 bg-white ${
-            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
-          } border border-[#E5E8EB] p-3.5 shadow-lg shadow-black/5 space-y-2 text-center transition-transform duration-300 group-hover:scale-105`}
-        >
-          <div className="text-[11px] font-bold text-[#191F28] leading-tight">
-            {isPartner ? '작업을 승인할까요?' : '신청을 취소할까요?'}
+    <div className="w-full h-full relative flex items-center justify-center select-none px-4">
+      {/* Dimmed backdrop circle */}
+      <div className="absolute w-36 h-36 rounded-full bg-black/[0.06] blur-md pointer-events-none" />
+
+      {/* Elevated White Modal Box */}
+      <div
+        className={`relative z-10 w-[205px] bg-white ${
+          isPartner ? 'rounded-[8px]' : 'rounded-[18px]'
+        } p-4 shadow-[0_16px_36px_rgba(0,0,0,0.12)] border border-black/[0.04] space-y-3 transition-transform duration-300 group-hover:scale-105`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full bg-[#E8F3FF] flex items-center justify-center text-[#1219F7] shrink-0">
+            <CheckCircle2 className="w-4 h-4 text-[#1219F7]" />
           </div>
-          <div className="flex gap-1.5 pt-0.5">
-            <div
-              className={`flex-1 py-1 ${
-                isPartner ? 'rounded-[4px]' : 'rounded-[6px]'
-              } bg-[#F2F4F6] text-[9px] font-bold text-[#4E5968]`}
-            >
-              취소
-            </div>
-            <div
-              className={`flex-1 py-1 ${
-                isPartner ? 'rounded-[4px]' : 'rounded-[6px]'
-              } bg-[#1219F7] text-[9px] font-bold text-white`}
-            >
-              확인
-            </div>
+          <span className="text-[13px] font-extrabold text-[#191F28] leading-tight">
+            {isPartner ? '배차 승인 완료' : '견적 신청 완료'}
+          </span>
+        </div>
+
+        {/* Dual Actions with volume */}
+        <div className="flex gap-2 pt-1">
+          <div
+            className={`flex-1 h-8 ${
+              isPartner ? 'rounded-[4px]' : 'rounded-[8px]'
+            } bg-[#F2F4F8] text-[11px] font-bold text-[#6B7684] flex items-center justify-center`}
+          >
+            취소
+          </div>
+          <div
+            className={`flex-1 h-8 ${
+              isPartner ? 'rounded-[4px]' : 'rounded-[8px]'
+            } bg-[#1219F7] text-[11px] font-bold text-white flex items-center justify-center shadow-[0_4px_10px_rgba(18,25,247,0.25)]`}
+          >
+            확인
           </div>
         </div>
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-[#D1D6DB] rounded-full" />
       </div>
+
+      {/* Floating Bottom Sheet Handlebar hint at bottom */}
+      <div className="absolute bottom-2.5 w-12 h-1 bg-[#D1D6DB] rounded-full" />
     </div>
   );
 
