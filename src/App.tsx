@@ -77,7 +77,7 @@ export const App: React.FC = () => {
       {/* ============================================================ */}
       {/* Toss Style GNB Header (Full Width Clean White) */}
       {/* ============================================================ */}
-      <header className="sticky top-0 z-40 h-[60px] backdrop-blur-md bg-white/95 border-b border-[#E5E8EB] px-6 lg:px-8 flex items-center justify-between w-full">
+      <header className="sticky top-0 z-40 h-[60px] backdrop-blur-md bg-white/95 px-6 lg:px-8 flex items-center justify-between w-full">
         <div className="flex items-center gap-6">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -97,9 +97,6 @@ export const App: React.FC = () => {
               alt="daisalibrary logo"
               className="h-[24px] md:h-[26px] w-auto object-contain transition-transform group-hover:scale-102"
             />
-            <span className="hidden sm:inline-block text-[13px] font-bold pl-2 border-l border-[#E5E8EB] text-[#8B95A1]">
-              {serviceMode === 'partner' ? '파트너향 디자인시스템' : '고객향 디자인시스템'}
-            </span>
           </div>
         </div>
 
@@ -195,7 +192,7 @@ export const App: React.FC = () => {
         {/* Left Sticky Sidebar (No scrollbar indicator, SEED neutral pills) */}
         {/* ============================================================ */}
         <aside
-          className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto no-scrollbar border-r border-[#E5E8EB] bg-white p-4 shrink-0 transition-transform duration-200 ${
+          className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto no-scrollbar bg-white p-4 shrink-0 transition-transform duration-200 ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
@@ -215,7 +212,6 @@ export const App: React.FC = () => {
                   }`}
                 >
                   <span>Components</span>
-                  {activeTab === 'home' && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                 </button>
 
                 <button
@@ -227,7 +223,6 @@ export const App: React.FC = () => {
                   }`}
                 >
                   <span>Resources</span>
-                  {activeTab === 'archive' && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                 </button>
               </div>
             </div>
@@ -265,7 +260,6 @@ export const App: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                     </button>
                   );
                 })}
@@ -295,7 +289,6 @@ export const App: React.FC = () => {
                       }`}
                     >
                       <span>{item.label}</span>
-                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                     </button>
                   );
                 })}
