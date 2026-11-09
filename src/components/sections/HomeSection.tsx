@@ -110,7 +110,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   const renderSpacingRadiusThumbnail = () => (
     <div className="w-full h-full flex items-center justify-center select-none">
       <div className="relative flex items-center justify-center">
-        <div className="w-36 h-24 rounded-[14px] border border-dashed border-[#D1D6DB] flex items-center justify-center p-2 bg-white/40">
+        <div className="w-36 h-24 rounded-[10px] border border-dashed border-[#CBD5E1] flex items-center justify-center p-2 bg-white/70">
           <div
             className={`w-24 h-16 bg-white border-2 border-[#1219F7] ${
               isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
@@ -189,30 +189,30 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
     <div className="w-full h-full flex items-center justify-center select-none">
       <div className="grid grid-cols-2 gap-2">
         <div
-          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-xl'
-          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
+          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
         >
           <Sparkles className="w-5 h-5 text-[#1219F7]" />
         </div>
         <div
-          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-xl'
-          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
+          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
         >
           <Search className="w-5 h-5 text-[#3182F6]" />
         </div>
         <div
-          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-xl'
-          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
+          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
         >
           <CheckCircle2 className="w-5 h-5 text-emerald-500" />
         </div>
         <div
-          className={`w-11 h-11 bg-[#F9FAFB] border border-[#E5E8EB] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-xl'
-          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
+          className={`w-11 h-11 bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[8px]'
+          } flex items-center justify-center text-[#1219F7] shadow-2xs transition-transform duration-300 group-hover:scale-105`}
         >
           <MapPin className="w-5 h-5 text-[#F34766]" />
         </div>
@@ -369,12 +369,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
         </p>
       </div>
 
-      {/* Grid of Component Cards (Seed Design Style: 독립된 흰색 썸네일 박스 + 하단 큰 타이틀 하나만) */}
+      {/* Grid of Component Cards (Seed Design Style: 당근 SEED 썸네일 박스 #F2F3F6 + radius 10px) */}
       {loadingShimmer ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
           {Array.from({ length: 9 }).map((_, i) => (
             <div key={i} className="space-y-3 animate-pulse">
-              <div className="h-[190px] rounded-[16px] bg-white shadow-xs" />
+              <div className="h-[190px] rounded-[10px] bg-[#F2F3F6]" />
               <div className="h-5 rounded w-1/2 bg-[#E5E8EB]" />
             </div>
           ))}
@@ -388,8 +388,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
               style={{ animationDelay: `${idx * 30}ms` }}
               className="group cursor-pointer select-none animate-fillUp"
             >
-              {/* 1. 상단 썸네일 박스 (배경 흰색, stroke 없음, 부드러운 라운드 16px, 그림자) */}
-              <div className="w-full h-[190px] bg-white rounded-[16px] shadow-xs flex items-center justify-center p-4 transition-all duration-200 group-hover:shadow-md overflow-hidden">
+              {/* 1. 상단 썸네일 박스 (당근 SEED 스타일: 배경 #F2F3F6, radius 10px, 그림자 없음, 호버 시 살짝 어두워짐) */}
+              <div className="w-full h-[190px] bg-[#F2F3F6] rounded-[10px] flex items-center justify-center p-4 transition-all duration-200 group-hover:bg-[#EAECEF] overflow-hidden">
                 {item.renderThumbnail()}
               </div>
 

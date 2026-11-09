@@ -73,7 +73,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans antialiased bg-[#EFF1F4] text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
+    <div className="min-h-screen flex flex-col font-sans antialiased bg-white text-[#191F28] selection:bg-[#E8F3FF] selection:text-[#1B64DA] relative">
       {/* ============================================================ */}
       {/* Toss Style GNB Header (Full Width Clean White) */}
       {/* ============================================================ */}
@@ -192,15 +192,15 @@ export const App: React.FC = () => {
       {/* ============================================================ */}
       <div className="flex-1 flex w-full">
         {/* ============================================================ */}
-        {/* Left Sticky Sidebar */}
+        {/* Left Sticky Sidebar (No scrollbar indicator, SEED neutral pills) */}
         {/* ============================================================ */}
         <aside
-          className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto border-r border-[#E5E8EB] bg-white p-4 shrink-0 transition-transform duration-200 ${
+          className={`fixed md:sticky top-[60px] left-0 z-30 w-[240px] lg:w-[250px] h-[calc(100vh-60px)] overflow-y-auto no-scrollbar border-r border-[#E5E8EB] bg-white p-4 shrink-0 transition-transform duration-200 ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
           }`}
         >
           <div className="space-y-6">
-            {/* Group 1: OVERVIEW (아이콘 삭제 및 영어 이름 적용) */}
+            {/* Group 1: OVERVIEW */}
             <div>
               <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">
                 Overview
@@ -208,26 +208,26 @@ export const App: React.FC = () => {
               <div className="space-y-0.5">
                 <button
                   onClick={() => handleNavClick('home')}
-                  className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                     activeTab === 'home'
-                      ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
-                      : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
+                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
                   }`}
                 >
                   <span>Components</span>
-                  {activeTab === 'home' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                  {activeTab === 'home' && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                 </button>
 
                 <button
                   onClick={() => handleNavClick('archive')}
-                  className={`w-full h-[40px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                     activeTab === 'archive'
-                      ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
-                      : 'text-[#333D4B] font-semibold hover:bg-[#F2F4F6] hover:text-[#191F28]'
+                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
                   }`}
                 >
                   <span>Resources</span>
-                  {activeTab === 'archive' && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                  {activeTab === 'archive' && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                 </button>
               </div>
             </div>
@@ -251,21 +251,21 @@ export const App: React.FC = () => {
                     <button
                       key={item.id}
                       onClick={() => handleNavClick(item.id)}
-                      className={`w-full h-[38px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                      className={`w-full h-[38px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                         isActive
-                          ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
-                          : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
+                          ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                          : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
                       }`}
                     >
                       <div className="flex items-center gap-2">
                         <span>{item.label}</span>
                         {item.isShared && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#E8F3FF] text-[#1B64DA]">
+                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#EEF2FF] text-[#1219F7]">
                             Shared
                           </span>
                         )}
                       </div>
-                      {isActive && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                     </button>
                   );
                 })}
@@ -288,14 +288,14 @@ export const App: React.FC = () => {
                     <button
                       key={item.id}
                       onClick={() => handleNavClick(item.id)}
-                      className={`w-full h-[38px] px-3.5 rounded-[12px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                      className={`w-full h-[38px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
                         isActive
-                          ? 'bg-[#E8F3FF] text-[#1B64DA] font-bold'
-                          : 'text-[#4E5968] font-medium hover:bg-[#F2F4F6] hover:text-[#191F28]'
+                          ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                          : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
                       }`}
                     >
                       <span>{item.label}</span>
-                      {isActive && <ChevronRight className="w-4 h-4 text-[#1B64DA]" />}
+                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />}
                     </button>
                   );
                 })}

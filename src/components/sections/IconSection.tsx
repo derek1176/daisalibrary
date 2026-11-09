@@ -755,7 +755,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
       </div>
 
       {/* 1단: 규격 + 이모지 금지 조화로운 단일 슬림 바 */}
-      <div className="bg-white rounded-[14px] px-4 py-2.5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-[12px]">
+      <div className="bg-white rounded-[14px] px-4 py-2.5 shadow-xs border border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-[12px]">
         <div className="flex items-center gap-3 text-[#4E5968]">
           <div className="flex items-center gap-1.5">
             <span className="font-bold text-[#191F28]">규격:</span>
@@ -779,8 +779,8 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         </div>
       </div>
 
-      {/* 2단: 검색 + 카테고리 탭 + 사이즈 컨트롤 바 (stroke 없음, 흰배경 + 그림자) */}
-      <div className="bg-white rounded-[16px] p-3.5 space-y-3 shadow-xs">
+      {/* 2단: 검색 + 카테고리 탭 + 사이즈 컨트롤 바 (흰배경 + 테두리 + 그림자) */}
+      <div className="bg-white rounded-[16px] p-3.5 space-y-3 shadow-xs border border-[#E5E8EB]">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           {/* Category Tabs */}
           <div className="flex items-center gap-1.5 p-1 rounded-[12px] overflow-x-auto scrollbar-none bg-[#F2F4F6]">
@@ -879,7 +879,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
                   key={`${item.category}-${item.name}`}
                   onClick={() => downloadSvgFile(item.name, item.icon)}
                   title={`${item.label} (${item.name}) SVG 다운로드`}
-                  className="group p-4 rounded-[16px] bg-white shadow-xs hover:shadow-md flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative select-none"
+                  className="group p-4 rounded-[16px] bg-white border border-[#E5E8EB] hover:border-[#1219F7] shadow-xs hover:shadow-md flex flex-col items-center justify-center gap-2 transition-all cursor-pointer relative select-none"
                 >
                   {/* Category Tag on Top Right */}
                   <span className={`absolute top-2 right-2 text-[9px] font-bold px-1.5 py-0.5 rounded-full ${

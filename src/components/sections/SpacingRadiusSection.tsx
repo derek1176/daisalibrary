@@ -144,7 +144,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
           <span className="text-[12px] font-mono text-[#8B95A1]">Base unit: 8px (2px micro)</span>
         </div>
 
-        <div className="bg-white rounded-[16px] shadow-xs overflow-hidden">
+        <div className="bg-white rounded-[16px] shadow-xs overflow-hidden border border-[#E5E8EB]">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
@@ -233,12 +233,12 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
         </div>
 
         {isPartner && (
-          <div className="p-4 bg-white rounded-[16px] shadow-xs text-[13px] text-[#4E5968] leading-relaxed">
+          <div className="p-4 bg-white rounded-[16px] shadow-xs border border-[#E5E8EB] text-[13px] text-[#4E5968] leading-relaxed">
             <strong className="text-[#191F28]">파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong className="text-[#1219F7]">Radius 6px</strong>를 기본으로 사용합니다. 단, 필터 및 선택 칩은 완전한 라운드(Full/Pill) 형태를 적용하며, 고객향의 10px, 16px 둥근 곡률은 사용이 엄격히 금지됩니다.
           </div>
         )}
 
-        <div className="bg-white rounded-[16px] shadow-xs overflow-hidden">
+        <div className="bg-white rounded-[16px] shadow-xs overflow-hidden border border-[#E5E8EB]">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>

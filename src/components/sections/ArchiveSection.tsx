@@ -389,8 +389,8 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         </button>
       </div>
 
-      {/* 3. Action Card (심플 & 직관적인 다운로드 및 복사 영역, stroke 없음) */}
-      <div className="bg-white rounded-[16px] p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* 3. Action Card (심플 & 직관적인 다운로드 및 복사 영역) */}
+      <div className="bg-white rounded-[16px] p-5 shadow-xs border border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="font-mono text-[16px] font-bold text-[#191F28]">
@@ -426,8 +426,8 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         </div>
       </div>
 
-      {/* 4. Raw Markdown Viewer (stroke 없는 화이트 뷰어) */}
-      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+      {/* 4. Raw Markdown Viewer */}
+      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs border border-[#E5E8EB]">
         <div className="px-5 py-3 border-b border-[#F2F4F8] flex items-center justify-between text-[12px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
           <span>{activeFileName} 미리보기</span>
           <button

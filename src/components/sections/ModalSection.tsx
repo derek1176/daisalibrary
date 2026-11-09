@@ -60,7 +60,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       {/* 2. 개별 실물 컴포넌트 프리뷰 (고객향 얼럿/컨펌 모달 & 고객향 바텀시트 프리뷰) - 맨 위 배치 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* 1. Modal Preview */}
-        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white">
+        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB]">
           <div className="border-b pb-3 border-[#F2F4F8] flex items-center justify-between">
             <h3 className="text-[16px] font-bold text-[#191F28]">
               {isPartner ? '파트너 알림 모달 (Confirm / Alert)' : '고객향 얼럿/컨펌 모달'}
@@ -108,7 +108,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </div>
 
         {/* 2. Bottom Sheet Preview */}
-        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white">
+        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB]">
           <div className="border-b pb-3 border-[#F2F4F8] flex items-center justify-between">
             <h3 className="text-[16px] font-bold text-[#191F28]">
               {isPartner ? '파트너 바텀시트 프리뷰' : '고객향 바텀시트 프리뷰'}
@@ -153,7 +153,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
           <span className="text-[12px] font-medium text-[#1219F7]">모바일 ↔ PC 최적화 표준</span>
         </div>
 
-        <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+        <div className="bg-white rounded-[16px] overflow-hidden shadow-xs border border-[#E5E8EB]">
           {/* Table Header */}
           <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#F2F4F8] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
             <div className="col-span-3">오버레이 구분</div>
@@ -185,7 +185,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       </div>
 
       {/* 4. 시각화 (슬라이더 배제, 모바일/태블릿/데스크톱 3개 버튼으로만 조절) */}
-      <div className="bg-white rounded-[16px] p-6 md:p-8 space-y-6 shadow-xs">
+      <div className="bg-white rounded-[16px] p-6 md:p-8 space-y-6 shadow-xs border border-[#E5E8EB]">
         {/* Header & 3-Button Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F2F4F8] pb-4">
           <div>

@@ -126,7 +126,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       </div>
 
       {/* Category / Token / Value 미니멀 테이블 (첨부파일 스타일) */}
-      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs border border-[#E5E8EB]">
         {/* Table Header */}
         <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#E5E8EB] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
           <div className="col-span-3">Category</div>

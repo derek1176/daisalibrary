@@ -204,7 +204,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
       </div>
 
       {/* 2. 서체 정보 카드 (고객향: Pretendard / 파트너향: Noto Sans KR) */}
-      <div className="bg-white rounded-[16px] p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-[16px] p-5 shadow-xs border border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="text-[11px] font-bold px-2 py-1 rounded-[6px] bg-[#EEF2FF] text-[#1219F7] shrink-0">
             {isPartner ? 'Partner Font' : 'Customer Font'}
@@ -238,7 +238,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
       </div>
 
       {/* 3. 타이포그래피 스펙 테이블 */}
-      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+      <div className="bg-white rounded-[16px] overflow-hidden shadow-xs border border-[#E5E8EB]">
         {/* Table Header */}
         <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#E5E8EB] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
           <div className="col-span-2">Style</div>

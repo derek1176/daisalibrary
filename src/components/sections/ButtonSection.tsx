@@ -82,7 +82,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       </div>
 
       {/* State & Device Control Bar */}
-      <div className="rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white shadow-xs">
+      <div className="rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white border border-[#E5E8EB] shadow-xs">
         {/* Device Switcher */}
         <div className="flex items-center gap-1.5 p-1 rounded-[10px] border bg-[#F2F4F6] border-[#E5E8EB]/50">
           <button

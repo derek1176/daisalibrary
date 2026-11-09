@@ -38,7 +38,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       {/* 2. Visual Canvas Diagram (모바일과 PC 각각 사용하는 영역과 마진 표기) */}
       <div className="space-y-6">
         {/* Mobile Canvas View */}
-        <div className="bg-white rounded-[16px] p-6 shadow-xs flex flex-col items-center select-none">
+        <div className="bg-white rounded-[16px] p-6 shadow-xs border border-[#E5E8EB] flex flex-col items-center select-none">
           <div className="text-[13px] font-semibold text-[#8B95A1] mb-4">
             Frame: 360px · Content: 312px (Mobile)
           </div>
@@ -86,7 +86,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         </div>
 
         {/* PC Canvas View (Max-width: 1200px) */}
-        <div className="bg-white rounded-[16px] p-6 shadow-xs flex flex-col items-center select-none overflow-x-auto">
+        <div className="bg-white rounded-[16px] p-6 shadow-xs border border-[#E5E8EB] flex flex-col items-center select-none overflow-x-auto">
           <div className="text-[13px] font-semibold text-[#8B95A1] mb-4">
             Max-width: 1200px · Content: {contentWidth} (Desktop)
           </div>
@@ -136,7 +136,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
       {/* 3. Detailed Guide Table (환경, 캔버스, 마진, 콘텐츠 영역 공식 규칙 표) */}
       <div className="space-y-3">
-        <div className="bg-white rounded-[16px] overflow-hidden shadow-xs">
+        <div className="bg-white rounded-[16px] overflow-hidden shadow-xs border border-[#E5E8EB]">
           {/* Table Header */}
           <div className="grid grid-cols-12 px-6 py-3.5 border-b border-[#F2F4F8] text-[13px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
             <div className="col-span-3">환경</div>
