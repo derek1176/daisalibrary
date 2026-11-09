@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// Figma Plugin Backend Code - Daisa Design System Linter v4
+// Figma Plugin Backend Code - Daisa Design System Linter v5
 // 다이사(da24) 디자인시스템 검증기 (고객향 & 파트너향 분리 린터)
 figma.showUI(__html__, { width: 480, height: 720, themeColors: true });
 // -------------------------------------------------------------
@@ -73,13 +73,58 @@ function rgbToHex(r, g, b) {
     };
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toLowerCase();
 }
+function hexToRgb(hex) {
+    const clean = hex.replace('#', '');
+    const num = parseInt(clean, 16);
+    return {
+        r: (num >> 16) & 255,
+        g: (num >> 8) & 255,
+        b: num & 255
+    };
+}
+// 색상 거리 계산 (가중치 RGB 유클리디안 거리)
+function colorDistance(c1, c2) {
+    const dr = c1.r - c2.r;
+    const dg = c1.g - c2.g;
+    const db = c1.b - c2.b;
+    return Math.sqrt(2 * dr * dr + 4 * dg * dg + 3 * db * db);
+}
+// 가장 가까운 가이드 내 공식 컬러 토큰 매칭
+function findNearestColorToken(hex, allowedColors) {
+    const rgb = hexToRgb(hex);
+    let bestHex = '';
+    let bestName = '';
+    let minDistance = Infinity;
+    for (const [tokenHex, tokenName] of Object.entries(allowedColors)) {
+        const tokenRgb = hexToRgb(tokenHex);
+        const dist = colorDistance(rgb, tokenRgb);
+        if (dist < minDistance) {
+            minDistance = dist;
+            bestHex = tokenHex;
+            bestName = tokenName;
+        }
+    }
+    // 임계값: 약 65 이하인 경우(근접한 회색, 화이트, 블랙 등) 추천 적용
+    if (minDistance <= 65) {
+        return { hex: bestHex, name: bestName, distance: minDistance };
+    }
+    return null;
+}
 function findNearestAllowedFontSize(current, allowed) {
     return allowed.reduce((prev, curr) => Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev);
+}
+// 시스템 UI (Status Bar, Home Bar 등) 자동 제외 판별
+function isSystemUI(node) {
+    const name = node.name.toLowerCase();
+    return name.includes('status bar') ||
+        name.includes('statusbar') ||
+        name.includes('home bar') ||
+        name.includes('home indicator') ||
+        name.includes('homebar');
 }
 // 토스트, 툴팁, 배지 등 특수 컴포넌트 예외 판별
 function isExemptFromRadiusCheck(node) {
     const name = node.name.toLowerCase();
-    // 1. 레이어명 키워드 검사 (토스트, 툴팁, 배지, 칩, 태그, 팝오버, 스낵바 등)
     const exemptKeywords = [
         'toast', 'tooltip', 'tip', 'snackbar', 'popover',
         'balloon', 'bubble', 'badge', 'tag', 'chip', 'indicator', 'pill', 'status'
@@ -87,14 +132,12 @@ function isExemptFromRadiusCheck(node) {
     if (exemptKeywords.some(kw => name.includes(kw))) {
         return true;
     }
-    // 2. 부모 레이어명도 검사 (예: Tooltip 컨테이너 내부의 Box)
     if (node.parent && 'name' in node.parent) {
         const parentName = node.parent.name.toLowerCase();
         if (exemptKeywords.some(kw => parentName.includes(kw))) {
             return true;
         }
     }
-    // 3. 높이 36px 이하의 초소형 인라인 요소 (초소형 태그, 칩 등)
     if ('height' in node && typeof node.height === 'number' && node.height <= 36) {
         return true;
     }
@@ -106,6 +149,9 @@ function isExemptFromRadiusCheck(node) {
 function lintNode(node, mode, issues, options) {
     if (options.ignoreHidden && !node.visible)
         return;
+    // ★ Status Bar - iPhone, Home Bar 등 시스템 UI는 완전 제외
+    if (isSystemUI(node))
+        return;
     const allowedColors = mode === 'customer' ? CUSTOMER_COLORS : PARTNER_COLORS;
     // 1. 색상 검사 (Fills)
     if ('fills' in node && Array.isArray(node.fills)) {
@@ -115,6 +161,7 @@ function lintNode(node, mode, issues, options) {
                 if (fill.opacity === 0)
                     continue;
                 if (mode === 'partner' && PARTNER_BANNED_COLORS[hex]) {
+                    const nearest = findNearestColorToken(hex, allowedColors);
                     issues.push({
                         id: `${node.id}-fill-banned-${hex}`,
                         nodeId: node.id,
@@ -125,10 +172,19 @@ function lintNode(node, mode, issues, options) {
                         groupKey: `fill-banned-${hex}`,
                         groupTitle: `폐기된 레거시 컬러 (${hex.toUpperCase()})`,
                         message: `폐기된 레거시 컬러 ${hex.toUpperCase()} 사용됨`,
-                        details: `${PARTNER_BANNED_COLORS[hex]} 사용 금지 규정`
+                        details: `${PARTNER_BANNED_COLORS[hex]} 사용 금지 규정`,
+                        autoFixable: !!nearest,
+                        fixAction: nearest ? {
+                            type: 'colorFill',
+                            originalHex: hex,
+                            targetValue: nearest.hex,
+                            label: `${nearest.hex.toUpperCase()}로 변경`
+                        } : undefined
                     });
                 }
                 else if (!allowedColors[hex]) {
+                    const nearest = findNearestColorToken(hex, allowedColors);
+                    const recText = nearest ? ` (추천 토큰: ${nearest.name} ${nearest.hex.toUpperCase()})` : '';
                     issues.push({
                         id: `${node.id}-fill-${hex}`,
                         nodeId: node.id,
@@ -138,8 +194,17 @@ function lintNode(node, mode, issues, options) {
                         category: 'color',
                         groupKey: `fill-unallowed-${hex}`,
                         groupTitle: `미허용 Fill 컬러 (${hex.toUpperCase()})`,
-                        message: `미허용 Fill 컬러 ${hex.toUpperCase()} 사용됨`,
-                        details: `${mode === 'customer' ? '고객향' : '파트너향'} 지정 컬러 토큰만 허용됩니다.`
+                        message: `미허용 Fill 컬러 ${hex.toUpperCase()} 사용됨${recText}`,
+                        details: nearest
+                            ? `가장 근접한 가이드 토큰: ${nearest.name} (${nearest.hex.toUpperCase()})`
+                            : `${mode === 'customer' ? '고객향' : '파트너향'} 13대 지정 컬러 토큰만 허용됩니다.`,
+                        autoFixable: !!nearest,
+                        fixAction: nearest ? {
+                            type: 'colorFill',
+                            originalHex: hex,
+                            targetValue: nearest.hex,
+                            label: `${nearest.hex.toUpperCase()}로 변경`
+                        } : undefined
                     });
                 }
             }
@@ -151,6 +216,7 @@ function lintNode(node, mode, issues, options) {
             if (stroke.visible !== false && stroke.type === 'SOLID') {
                 const hex = rgbToHex(stroke.color.r, stroke.color.g, stroke.color.b);
                 if (!allowedColors[hex]) {
+                    const nearest = findNearestColorToken(hex, allowedColors);
                     issues.push({
                         id: `${node.id}-stroke-${hex}`,
                         nodeId: node.id,
@@ -161,7 +227,16 @@ function lintNode(node, mode, issues, options) {
                         groupKey: `stroke-unallowed-${hex}`,
                         groupTitle: `미허용 테두리 컬러 (${hex.toUpperCase()})`,
                         message: `미허용 테두리 컬러 ${hex.toUpperCase()} 사용됨`,
-                        details: `지정된 보더 컬러(etc-02 #D7DBE2 등)를 사용하세요.`
+                        details: nearest
+                            ? `가장 근접한 가이드 토큰: ${nearest.name} (${nearest.hex.toUpperCase()})`
+                            : `지정된 보더 컬러(etc-02 #D7DBE2 등)를 사용하세요.`,
+                        autoFixable: !!nearest,
+                        fixAction: nearest ? {
+                            type: 'colorStroke',
+                            originalHex: hex,
+                            targetValue: nearest.hex,
+                            label: `${nearest.hex.toUpperCase()}로 변경`
+                        } : undefined
                     });
                 }
             }
@@ -354,7 +429,6 @@ function lintNode(node, mode, issues, options) {
                 const isModalOrSheet = node.name.toLowerCase().includes('modal') ||
                     node.name.toLowerCase().includes('sheet') ||
                     node.name.toLowerCase().includes('popup');
-                // 고객향 표준은 무조건 10px 고정! (모달/바텀시트 16px 허용)
                 const expectedRadius = 10;
                 if (radius === 16 && isModalOrSheet) {
                     // 모달/시트 16px 허용
@@ -471,7 +545,6 @@ function applyFontFamily(textNode, targetFamily) {
             textNode.fontName = primaryFont;
         }
         catch (err) {
-            // 지정 style 로드 실패 시 Bold 또는 Regular로 안전 fallback
             const fallbackStyle = targetStyle.toLowerCase().includes('bold') ? 'Bold' : 'Regular';
             const fallbackFont = { family: targetFamily, style: fallbackStyle };
             yield figma.loadFontAsync(fallbackFont);
@@ -491,6 +564,32 @@ function applyFixToNode(node, fixAction) {
                 textNode.fontSize = fixAction.targetValue;
             }
         }
+        else if (fixAction.type === 'colorFill' && 'fills' in node && Array.isArray(node.fills)) {
+            const rgb = hexToRgb(fixAction.targetValue);
+            const newFills = node.fills.map(fill => {
+                if (fill.type === 'SOLID') {
+                    const curHex = rgbToHex(fill.color.r, fill.color.g, fill.color.b);
+                    if (!fixAction.originalHex || curHex === fixAction.originalHex) {
+                        return Object.assign(Object.assign({}, fill), { color: { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 } });
+                    }
+                }
+                return fill;
+            });
+            node.fills = newFills;
+        }
+        else if (fixAction.type === 'colorStroke' && 'strokes' in node && Array.isArray(node.strokes)) {
+            const rgb = hexToRgb(fixAction.targetValue);
+            const newStrokes = node.strokes.map(stroke => {
+                if (stroke.type === 'SOLID') {
+                    const curHex = rgbToHex(stroke.color.r, stroke.color.g, stroke.color.b);
+                    if (!fixAction.originalHex || curHex === fixAction.originalHex) {
+                        return Object.assign(Object.assign({}, stroke), { color: { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 } });
+                    }
+                }
+                return stroke;
+            });
+            node.strokes = newStrokes;
+        }
         else if (fixAction.type === 'radius' && 'cornerRadius' in node) {
             node.cornerRadius = fixAction.targetValue;
         }
@@ -507,7 +606,7 @@ function applyFixToNode(node, fixAction) {
     });
 }
 figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
-    // 1) 검사 최초 실행 요청 (사용자가 버튼 클릭 시 타겟 세션 갱신)
+    // 1) 검사 최초 실행 요청
     if (msg.type === 'run-lint') {
         const { mode, scope, ignoreHidden } = msg;
         sessionMode = mode;
@@ -528,7 +627,7 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
         }
         executeLint();
     }
-    // 2) 특정 노드 선택 및 화면 줌 이동 (세션 타겟은 유지!)
+    // 2) 특정 노드 선택 및 화면 줌 이동
     if (msg.type === 'select-node') {
         const node = figma.getNodeById(msg.nodeId);
         if (node && 'type' in node) {
@@ -577,7 +676,7 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
         figma.notify(`해당 유형의 ${fixedCount}개 레이어를 일괄 수정했습니다.`);
         executeLint();
     }
-    // 5) 전체 일괄 수정
+    // 5) 전체 일괄 수정 (Fix All on Existing Frame)
     if (msg.type === 'fix-all') {
         const { issues } = msg;
         let fixedCount = 0;
@@ -598,7 +697,66 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
         figma.notify(`총 ${fixedCount}개 항목의 자동 수정을 완료했습니다.`);
         executeLint();
     }
-    // 6) 알림 메시지 표시
+    // 6) ★ 완성본 복제 생성 (Clone & Auto-Fix)
+    // 원본은 그대로 보존하고, 옆에 복제본을 만들어 모든 항목을 자동 수정한 뒤 비교할 수 있게 함!
+    if (msg.type === 'clone-and-fix') {
+        let sourceNodes = [];
+        for (const id of sessionTargetNodeIds) {
+            const node = figma.getNodeById(id);
+            if (node && 'type' in node) {
+                sourceNodes.push(node);
+            }
+        }
+        if (sourceNodes.length === 0) {
+            sourceNodes = [...figma.currentPage.selection];
+        }
+        if (sourceNodes.length === 0) {
+            figma.notify('복제하여 수정본을 생성할 프레임을 먼저 선택해주세요.');
+            return;
+        }
+        try {
+            const clonedNodes = [];
+            for (const originalNode of sourceNodes) {
+                const clone = originalNode.clone();
+                clone.name = `[수정본] ${originalNode.name}`;
+                // 원본 우측에 여백을 두고 나란히 배치
+                clone.x = originalNode.x + originalNode.width + 48;
+                clone.y = originalNode.y;
+                clonedNodes.push(clone);
+            }
+            // 복제된 레이어 트리를 대상으로 린트 재실행하여 모든 자동 수정 액션 적용
+            const cloneIssues = [];
+            for (const clone of clonedNodes) {
+                lintNode(clone, sessionMode, cloneIssues, { ignoreHidden: sessionIgnoreHidden });
+            }
+            let fixedCount = 0;
+            for (const item of cloneIssues) {
+                if (item.autoFixable && item.fixAction) {
+                    const node = figma.getNodeById(item.nodeId);
+                    if (node && 'type' in node) {
+                        try {
+                            yield applyFixToNode(node, item.fixAction);
+                            fixedCount++;
+                        }
+                        catch (e) {
+                            console.error('Clone fix item error', e);
+                        }
+                    }
+                }
+            }
+            // 새로 생성된 완성본 프레임을 선택하고 뷰포트 확대
+            figma.currentPage.selection = clonedNodes;
+            figma.viewport.scrollAndZoomIntoView(clonedNodes);
+            figma.notify(`새 [수정본] 프레임 생성 완료! (${fixedCount}개 항목 자동 보정됨)`);
+            // 린터 세션을 새로 생성된 복제본으로 전환하여 바로 검증 결과 확인
+            sessionTargetNodeIds = clonedNodes.map(n => n.id);
+            executeLint();
+        }
+        catch (e) {
+            figma.notify(`완성본 복제 생성 실패: ${e.message || e}`);
+        }
+    }
+    // 7) 알림 메시지 표시
     if (msg.type === 'notify') {
         figma.notify(msg.message);
     }

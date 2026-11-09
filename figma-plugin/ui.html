@@ -262,25 +262,30 @@
       border-color: #111827;
     }
 
-    /* 상단 일괄 액션 바 */
+    /* 상단 일괄 액션 바 (복제본 생성 / 직접 수정 / 복사) */
     .summary-bar {
-      padding: 6px 14px;
+      padding: 7px 14px;
       background: #F8F9FA;
       border-bottom: 1px solid #E5E7EB;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
+      gap: 8px;
     }
 
     .summary-text {
       font-size: 11px;
       color: #6B7280;
+      white-space: nowrap;
     }
 
     .summary-actions {
       display: flex;
-      gap: 6px;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .btn-subtle {
@@ -296,6 +301,7 @@
       align-items: center;
       gap: 4px;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
     .btn-subtle:hover {
@@ -303,14 +309,14 @@
       border-color: #D1D5DB;
     }
 
-    .btn-subtle.primary {
+    .btn-subtle.clone-action {
       color: #1219F7;
       border-color: #C7D2FE;
       background: #EEF2FF;
       font-weight: 600;
     }
 
-    .btn-subtle.primary:hover {
+    .btn-subtle.clone-action:hover {
       background: #E0E7FF;
     }
 
@@ -320,7 +326,7 @@
       min-height: 0;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 12px 14px 28px;
+      padding: 12px 14px 32px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -435,6 +441,7 @@
       align-items: center;
       gap: 4px;
       transition: background 0.15s ease;
+      white-space: nowrap;
     }
 
     .btn-group-fix:hover {
@@ -668,16 +675,25 @@
     </div>
   </div>
 
-  <!-- 상단 요약 바 -->
+  <!-- 상단 액션 바 (복제본 생성 / 직접 수정 / 복사) -->
   <div class="summary-bar" id="summaryBar" style="display: none;">
     <div class="summary-text" id="summarySummaryText">총 0개 항목 발견</div>
     <div class="summary-actions">
-      <button class="btn-subtle primary" id="btnFixAll" style="display: none;">
-        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        <span>전체 일괄 수정 (<span id="cntFixableTotal">0</span>)</span>
-      </button>
-      <button class="btn-subtle" id="btnCopyReport">
+      <!-- ★ 원본 보존 & 새 레이어로 완성본 복제 생성 버튼 -->
+      <button class="btn-subtle clone-action" id="btnCloneAndFix" title="원본을 그대로 두고, 옆에 자동 수정된 완성본 프레임을 새로 만듭니다.">
         <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>완성본 복제 생성</span>
+      </button>
+
+      <!-- 현재 레이어에서 직접 일괄 수정 버튼 -->
+      <button class="btn-subtle" id="btnFixAll" style="display: none;">
+        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>직접 수정 (<span id="cntFixableTotal">0</span>)</span>
+      </button>
+
+      <!-- 마크다운 리포트 클립보드 복사 -->
+      <button class="btn-subtle" id="btnCopyReport">
+        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
         <span>결과 복사</span>
       </button>
     </div>
@@ -716,6 +732,7 @@
     const pillAll = document.getElementById('pillAll');
     const pillMustFix = document.getElementById('pillMustFix');
     const pillCheckNeeded = document.getElementById('pillCheckNeeded');
+    const btnCloneAndFix = document.getElementById('btnCloneAndFix');
     const btnFixAll = document.getElementById('btnFixAll');
     const cntFixableTotal = document.getElementById('cntFixableTotal');
     const btnCopyReport = document.getElementById('btnCopyReport');
@@ -823,8 +840,10 @@
       if (fixableCount > 0) {
         btnFixAll.style.display = 'inline-flex';
         cntFixableTotal.textContent = fixableCount;
+        btnCloneAndFix.style.display = 'inline-flex';
       } else {
         btnFixAll.style.display = 'none';
+        btnCloneAndFix.style.display = 'none';
       }
 
       summarySummaryText.textContent = `총 ${currentIssues.length}개 레이어 (${mustFixCount > 0 ? `수정 필요 ${mustFixCount}개` : ''}${mustFixCount > 0 && checkNeededCount > 0 ? ' · ' : ''}${checkNeededCount > 0 ? `확인 필요 ${checkNeededCount}개` : ''})`;
@@ -1002,11 +1021,21 @@
       }, '*');
     }
 
+    // ★ 완성본 복제 생성 (Clone & Auto-Fix)
+    btnCloneAndFix.addEventListener('click', () => {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'clone-and-fix'
+        }
+      }, '*');
+    });
+
+    // 원본 직접 일괄 수정
     btnFixAll.addEventListener('click', () => {
       const fixable = currentIssues.filter(i => i.autoFixable);
       if (fixable.length === 0) return;
 
-      if (confirm(`자동 보정 가능한 ${fixable.length}개 항목을 일괄 수정하시겠습니까?`)) {
+      if (confirm(`자동 보정 가능한 ${fixable.length}개 항목을 현재 레이어에서 일괄 수정하시겠습니까?\n(원본 보존을 원하시면 [완성본 복제 생성]을 사용하세요)`)) {
         parent.postMessage({
           pluginMessage: {
             type: 'fix-all',
