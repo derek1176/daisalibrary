@@ -29,39 +29,64 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   }, [mode]);
 
   // ============================================================
-  // 1. Color Tokens Thumbnail (3D overlapping tangible swatch cards)
+  // 1. Color Tokens Thumbnail (Design lines + Black / Blue / White palette swatches)
   // ============================================================
   const renderColorThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none">
-      <div className="relative flex items-center justify-center h-full">
-        {/* White Card behind */}
-        <div
-          className={`w-16 h-22 bg-white ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[14px]'
-          } shadow-[0_6px_16px_rgba(0,0,0,0.06)] border border-[#E5E8EB] transform -rotate-14 -translate-x-9 transition-transform duration-300 group-hover:-translate-y-2`}
-        />
+    <div className="w-full h-full relative flex items-center justify-center select-none overflow-hidden">
+      {/* Abstract subtle background design geometry */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+        viewBox="0 0 200 150"
+        fill="none"
+      >
+        <circle cx="100" cy="75" r="48" stroke="white" strokeWidth="6" strokeLinecap="round" strokeDasharray="14 14" />
+        <path d="M35 125 L165 25" stroke="white" strokeWidth="6" strokeLinecap="round" />
+      </svg>
 
-        {/* Secondary Color Card */}
+      {/* 3 Tactile Swatch Cards: Black, Signature Blue, Pure White */}
+      <div className="relative z-10 flex items-center justify-center h-full">
+        {/* Left: Deep Charcoal / Black (#191F28) */}
         <div
-          className={`w-18 h-24 bg-[#595EF9] ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[14px]'
-          } shadow-[0_10px_22px_rgba(89,94,249,0.25)] flex flex-col justify-end p-2.5 transform -rotate-4 -translate-x-3 z-10 transition-transform duration-300 group-hover:-translate-y-3`}
+          className={`w-[66px] h-[98px] bg-[#191F28] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[12px]'
+          } shadow-[0_10px_22px_rgba(0,0,0,0.22)] p-2.5 flex flex-col justify-between transform -rotate-12 -translate-x-5 transition-transform duration-300 group-hover:-translate-y-2 group-hover:-rotate-14`}
         >
-          <span className="text-[10px] font-extrabold text-white/90">#59</span>
+          <div className="w-3 h-3 rounded-full bg-white/20 flex items-center justify-center">
+            <div className="w-1 h-1 rounded-full bg-white" />
+          </div>
+          <div>
+            <div className="text-white text-[10px] font-mono font-black tracking-tight">#191F28</div>
+            <div className="text-white/60 text-[8px] font-bold">Dark 01</div>
+          </div>
         </div>
 
-        {/* Main Royal Blue Card with volume */}
+        {/* Center: Hero Signature Blue (#1219F7) */}
         <div
-          className={`w-20 h-26 bg-[#1219F7] ${
-            isPartner ? 'rounded-[8px]' : 'rounded-[16px]'
-          } shadow-[0_14px_30px_rgba(18,25,247,0.35)] flex flex-col justify-between p-3 transform rotate-8 translate-x-4 z-20 transition-transform duration-300 group-hover:-translate-y-3.5 group-hover:rotate-6`}
+          className={`w-[72px] h-[108px] bg-[#1219F7] ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
+          } shadow-[0_14px_30px_rgba(18,25,247,0.32)] flex flex-col justify-between p-2.5 z-10 transform -translate-y-1 transition-transform duration-300 group-hover:-translate-y-3 group-hover:scale-102`}
         >
-          <div className="w-4 h-4 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center">
+          <div className="w-3.5 h-3.5 rounded-full bg-white/25 backdrop-blur-xs flex items-center justify-center">
             <div className="w-1.5 h-1.5 rounded-full bg-white" />
           </div>
           <div>
-            <div className="text-white text-[12px] font-black tracking-wider">#1219F7</div>
-            <div className="text-white/70 text-[9px] font-bold">Main 01</div>
+            <div className="text-white text-[11px] font-mono font-black tracking-tight">#1219F7</div>
+            <div className="text-white/80 text-[8px] font-bold">Main 01</div>
+          </div>
+        </div>
+
+        {/* Right: Crisp White (#FFFFFF) with 1px border */}
+        <div
+          className={`w-[66px] h-[98px] bg-white border border-[#E5E8EB] ${
+            isPartner ? 'rounded-[6px]' : 'rounded-[12px]'
+          } shadow-[0_8px_20px_rgba(0,0,0,0.06)] p-2.5 flex flex-col justify-between transform rotate-12 translate-x-5 transition-transform duration-300 group-hover:-translate-y-2 group-hover:rotate-14`}
+        >
+          <div className="w-3 h-3 rounded-full bg-[#191F28]/10 flex items-center justify-center">
+            <div className="w-1 h-1 rounded-full bg-[#191F28]" />
+          </div>
+          <div>
+            <div className="text-[#191F28] text-[10px] font-mono font-black tracking-tight">#FFFFFF</div>
+            <div className="text-[#8B95A1] text-[8px] font-bold">White</div>
           </div>
         </div>
       </div>
@@ -95,29 +120,59 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 3. Spacing & Radius Thumbnail (Clean tactile corner curve block)
+  // 3. Spacing & Radius Thumbnail (Blueprint Grid + Black Curved Block + Blue Guide)
   // ============================================================
   const renderSpacingRadiusThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none px-6">
-      <div
-        className="w-[190px] h-[120px] bg-white rounded-[16px] p-3.5 shadow-[0_8px_24px_rgba(0,0,0,0.06)] border border-black/[0.04] flex flex-col justify-between relative transition-transform duration-300 group-hover:scale-105"
+    <div className="w-full h-full relative flex items-center justify-center select-none px-6 overflow-hidden">
+      {/* Blueprint background grid lines */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+        viewBox="0 0 200 150"
+        fill="none"
       >
-        {/* Top Curve Accent Guide with Pill Badge */}
-        <div className="flex items-start justify-between">
+        <path d="M-10 35 L210 35 M-10 115 L210 115" stroke="white" strokeWidth="5" strokeDasharray="10 8" />
+        <path d="M45 -10 L45 160 M155 -10 L155 160" stroke="white" strokeWidth="5" strokeDasharray="10 8" />
+      </svg>
+
+      {/* Clean White Card with Solid Black Shape & Measurement */}
+      <div
+        className="relative z-10 w-[195px] h-[122px] bg-white rounded-[16px] p-3 shadow-[0_8px_24px_rgba(0,0,0,0.07)] border border-black/[0.04] flex flex-col justify-between transition-transform duration-300 group-hover:scale-105"
+      >
+        {/* Top: Black Shape with Corner Curve & Guide Arc */}
+        <div className="flex items-center justify-between">
           <div className="relative">
-            {/* Corner Arc Marker */}
-            <div className="w-10 h-10 border-t-3 border-l-3 border-[#1219F7] rounded-tl-[14px]" />
+            {/* Corner Radius Blue Arc Guide */}
+            <div className="absolute -top-1.5 -left-1.5 w-7 h-7 border-t-2 border-l-2 border-[#1219F7] rounded-tl-[12px]" />
+
+            {/* Solid Black Shape demonstrating corner radius */}
+            <div
+              className={`w-[108px] h-[48px] bg-[#191F28] ${
+                isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
+              } shadow-sm px-2.5 flex items-center justify-between text-white`}
+            >
+              <span className="text-[11px] font-bold tracking-tight">Box Radius</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1219F7]" />
+            </div>
           </div>
-          <div className="px-2.5 py-1 rounded-[8px] bg-[#1219F7] text-white font-black text-[12px] shadow-sm">
-            {isPartner ? 'Radius 6' : 'Radius 10'}
+
+          {/* Black Radius Badge */}
+          <div className="px-2.5 py-1 rounded-[8px] bg-[#191F28] text-white font-mono font-black text-[11px] shadow-xs flex items-center gap-1 border border-white/10">
+            <span>R</span>
+            <span className="text-[#595EF9]">{isPartner ? '6' : '10'}</span>
           </div>
         </div>
 
-        {/* Inner Padding Container */}
-        <div className="w-full h-11 rounded-[10px] bg-[#E8F3FF] border border-dashed border-[#1219F7]/40 flex items-center justify-between px-3">
-          <span className="text-[10px] font-black text-[#1219F7]">P-16</span>
-          <div className="w-14 h-2 rounded-full bg-[#1219F7]/30" />
-          <span className="text-[10px] font-black text-[#1219F7]">P-16</span>
+        {/* Bottom: Spacing / Margin measurement bar */}
+        <div className="w-full h-8 rounded-[8px] bg-[#F2F4F8] border border-black/[0.04] flex items-center justify-between px-3 text-[10px] font-mono font-bold text-[#4E5968]">
+          <div className="flex items-center gap-1">
+            <span className="text-[#191F28] font-black">16</span>
+            <span className="text-[8px] text-[#8B95A1]">pad</span>
+          </div>
+          <div className="w-12 h-1.5 rounded-full bg-[#191F28]/20" />
+          <div className="flex items-center gap-1">
+            <span className="text-[#1219F7] font-black">24</span>
+            <span className="text-[8px] text-[#8B95A1]">gap</span>
+          </div>
         </div>
       </div>
     </div>
@@ -186,45 +241,48 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 6. Icons (Tactile 3D floating icon tiles)
+  // 6. Icons (Icon Grid Construction + Black Hero Tile + Clean Floating Tiles)
   // ============================================================
   const renderIconsThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none px-6">
-      <div className="grid grid-cols-2 gap-2.5">
-        {/* Main Blue Icon Tile */}
-        <div
-          className={`w-12 h-12 bg-[#1219F7] ${
-            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
-          } flex items-center justify-center text-white shadow-[0_8px_20px_rgba(18,25,247,0.3)] transition-transform duration-300 group-hover:scale-105`}
-        >
-          <Sparkles className="w-6 h-6 stroke-[2.2]" />
-        </div>
+    <div className="w-full h-full relative flex items-center justify-center select-none px-6 overflow-hidden">
+      {/* Icon Design Construction Grid (Keyline Circle & Rect) */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
+        viewBox="0 0 200 150"
+        fill="none"
+      >
+        <circle cx="100" cy="75" r="44" stroke="white" strokeWidth="6" />
+        <rect x="66" y="41" width="68" height="68" rx="14" stroke="white" strokeWidth="5" strokeDasharray="12 8" />
+        <path d="M100 20 V130 M30 75 H170" stroke="white" strokeWidth="3" strokeDasharray="6 6" />
+      </svg>
 
-        {/* White Tile with Blue Accent */}
+      {/* 3 Staggered Floating Icon Tiles */}
+      <div className="relative z-10 flex items-center justify-center">
+        {/* Left: White Card with Deep Black Icon */}
         <div
           className={`w-12 h-12 bg-white ${
             isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
-          } border border-black/[0.04] flex items-center justify-center text-[#595EF9] shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:scale-105`}
+          } border border-black/[0.05] flex items-center justify-center text-[#191F28] shadow-[0_6px_16px_rgba(0,0,0,0.06)] transform -translate-x-3 transition-transform duration-300 group-hover:-translate-x-4`}
         >
-          <Search className="w-6 h-6 stroke-[2.5]" />
+          <Search className="w-5 h-5 stroke-[2.5] text-[#191F28]" />
         </div>
 
-        {/* White Tile with Coral Accent */}
+        {/* Center: Hero Deep Black Tile with White Sparkles Icon */}
+        <div
+          className={`w-14 h-14 bg-[#191F28] ${
+            isPartner ? 'rounded-[8px]' : 'rounded-[16px]'
+          } flex items-center justify-center text-white shadow-[0_12px_26px_rgba(0,0,0,0.25)] z-10 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1`}
+        >
+          <Sparkles className="w-7 h-7 stroke-[2.2] text-white fill-white/20" />
+        </div>
+
+        {/* Right: Clean White Card with Signature Blue Icon */}
         <div
           className={`w-12 h-12 bg-white ${
             isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
-          } border border-black/[0.04] flex items-center justify-center text-[#F34766] shadow-[0_6px_16px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:scale-105`}
+          } border border-black/[0.05] flex items-center justify-center text-[#1219F7] shadow-[0_6px_16px_rgba(0,0,0,0.06)] transform translate-x-3 transition-transform duration-300 group-hover:translate-x-4`}
         >
-          <MapPin className="w-6 h-6 stroke-[2.2]" />
-        </div>
-
-        {/* Soft Blue Tile with Emerald Accent */}
-        <div
-          className={`w-12 h-12 bg-[#E8F3FF] ${
-            isPartner ? 'rounded-[8px]' : 'rounded-[14px]'
-          } flex items-center justify-center text-[#1219F7] shadow-xs transition-transform duration-300 group-hover:scale-105`}
-        >
-          <CheckCircle2 className="w-6 h-6 stroke-[2.2]" />
+          <MapPin className="w-5 h-5 stroke-[2.2] text-[#1219F7] fill-[#1219F7]/20" />
         </div>
       </div>
     </div>
