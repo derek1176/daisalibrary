@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PublicButton, PartnerPrimaryButton, PartnerSecondaryButton, ModalButtons, Chip, ButtonState } from '../ui/Button';
-import { Smartphone, Monitor, ShieldCheck, CheckCircle2, Copy, Check, Sparkles } from 'lucide-react';
+import { Smartphone, Monitor, ShieldCheck, CheckCircle2, Copy, Check, Sparkles, ExternalLink } from 'lucide-react';
 import {
   copySvgToFigma,
   getMainButtonSvg,
@@ -8,6 +8,7 @@ import {
   getPartnerSecondaryPairSvg,
   getPartnerOutlinePairSvg,
   getChipSvg,
+  getFilterChipsRowSvg,
 } from '../../utils/figmaClipboard';
 
 export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
@@ -175,7 +176,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                 <PartnerPrimaryButton
                   state={btnState}
                   fluid
-                  onClick={() => alert('파트너 견적 제출')}
+                  onClick={() => {}}
                 >
                   견적 제출하기 (56px)
                 </PartnerPrimaryButton>
@@ -185,7 +186,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                 <PublicButton
                   state={btnState}
                   fluid
-                  onClick={() => alert('신청 완료')}
+                  onClick={() => {}}
                 >
                   견적 신청하기
                 </PublicButton>
@@ -242,13 +243,13 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   <PartnerSecondaryButton
                     variant="cancel"
                     className="flex-1"
-                    onClick={() => alert('취소 클릭')}
+                    onClick={() => {}}
                   >
                     취소
                   </PartnerSecondaryButton>
                   <button
                     type="button"
-                    onClick={() => alert('답변 생성')}
+                    onClick={() => {}}
                     className="flex-1 h-[51px] px-5 rounded-[6px] text-[16px] font-bold inline-flex items-center justify-center bg-[#1219F7] hover:bg-[#0E15D4] text-white transition-colors"
                   >
                     답변 생성
@@ -270,14 +271,14 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   <PartnerSecondaryButton
                     variant="outline"
                     className="flex-1"
-                    onClick={() => alert('상세 조회')}
+                    onClick={() => {}}
                   >
                     상세 조회 (51px)
                   </PartnerSecondaryButton>
                   <PartnerSecondaryButton
                     variant="outline"
                     className="flex-1"
-                    onClick={() => alert('조건 변경')}
+                    onClick={() => {}}
                   >
                     조건 변경
                   </PartnerSecondaryButton>
@@ -301,8 +302,8 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                     size={modalSize}
                     confirmText="확인"
                     cancelText="취소"
-                    onConfirm={() => alert('확인 클릭')}
-                    onCancel={() => alert('취소 클릭')}
+                    onConfirm={() => {}}
+                    onCancel={() => {}}
                   />
                 </div>
                 <div className="flex items-center gap-3 text-[12px] text-[#6B7684] pt-2">
@@ -361,7 +362,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                 3. 필터 및 선택 칩 (Filter Chips)
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
-                고객향 · 파트너향 공통: 라운드 규격에 구애받지 않고 전사 공통 <strong>완전한 라운드 형태 (rounded-full / Pill)</strong>를 적용합니다.
+                오토레이아웃 규격: 칩 간 간격 <strong>6px</strong> · 좌우 여백 <strong>20px</strong> · 전사 공통 <strong>완전한 라운드 형태 (rounded-full / Pill)</strong>
               </p>
             </div>
             <button
@@ -392,7 +393,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   key={chip}
                   type="button"
                   onClick={() => setActiveChip(chip)}
-                  className={`h-[36px] px-4 rounded-full text-[14px] font-semibold transition-all border ${
+                  className={`h-[36px] px-[20px] rounded-full text-[14px] font-semibold transition-all border ${
                     active
                       ? 'bg-[#1219F7] text-white border-[#1219F7] shadow-xs'
                       : 'bg-white text-[#4E5968] border-[#D7DBE2] hover:border-[#1219F7] hover:text-[#191F28]'

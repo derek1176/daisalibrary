@@ -126,7 +126,7 @@ export const ModalButtons: React.FC<{
   }
   return (
     <div className="w-[280px] flex gap-2">
-      <button type="button" onClick={onCancel} className={`${base} w-[136px] bg-etc-03 hover:bg-etc-02 text-text-02`}>
+      <button type="button" onClick={onCancel} className={`${base} w-[136px] bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA]`}>
         {cancelText}
       </button>
       <button type="button" onClick={onConfirm} className={`${base} w-[136px] bg-main-01 hover:bg-[#0E14D4] text-white`}>

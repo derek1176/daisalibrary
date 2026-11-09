@@ -38,13 +38,6 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
 
   const customerRadiusList = [
     {
-      val: '0px',
-      name: 'None',
-      desc: 'Floating CTA (하단 밀착 버튼)',
-      tailwind: 'rounded-none',
-      highlight: false,
-    },
-    {
       val: '6px',
       name: 'XS',
       desc: 'Tooltip 말풍선, 미니 배지',
