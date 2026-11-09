@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>다이사 디자인시스템 린터</title>
+  <title>다이사 교정기</title>
   <style>
     * {
       box-sizing: border-box;
@@ -49,7 +49,16 @@
     .brand-wrap {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
+    }
+
+    .brand-logo {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      display: block;
+      object-fit: contain;
+      flex-shrink: 0;
     }
 
     .brand-title {
@@ -1231,7 +1240,8 @@
   <!-- 1. 미니멀 상단 헤더 -->
   <header class="app-header">
     <div class="brand-wrap">
-      <span class="brand-title">daisalibrary</span>
+      <img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACoUlEQVR4AdSWMY4qMQxArb0AEj2cAApqGmoKqCmooaAGCWqQoKaAE1BDQQ0S1BRwAm7ACf7/L5JXJjPZmbB8rRbJJOM49ouTeOajWCz++Un5kB/+/W6Aer0uyHeS+FIGqtWq7Ha7T1kul1Iul1/iiAIoFAoym83kcDg8rbzT6cjlcpHRaCTYxJDkBuj3+y5Ir9cL+h8Ohw4OoKCRN5AJwB6zuul0+rS6x+Mhq9VKNpvNk0u2gi1hDv2nwZSHIACTdZ/p27n3+10ajYZMJhMZDAZSq9Vkv99bE3cmgADGn28NUwE03azeGmsfh6SbFh1A3W7XwdBHp8J2cGY4H6qzbQIAp6TbGmm6rXMcs0IcMwd7toNszOdzsbYcTICx8SUB4BuoU9LdbrcF59YGx9vtVgBS/WKxEGxvt5uqgm0mwHq9FjKAB1aFc1YJGDqEDLDXZIQ+Omx9WPS+ZAJocDsR5xw+9p2+jhEciGaz6VRpc92A+csEMLaJLiefbABjg7HnCeOA4lsA6pPtAEafY9q3AMQE9G3fDsCZQPxAoee3ApxOJ+Fgns/nULyE/m0AXNe8d99SZAKUSiVrH+xfr9fEGN8NCaWnyATghUS5jbla2PLd4Jd0L7Z7TABwn/1DRLnlhWLLrZud8gcsxcj/bvB96tRUAPaSu61GtFQ5v9yiV+HNSWBgyYDqWRAlmde36mybAGAQWqobVS4NhEDAAFWpVD6/DXlmvgrFicC8PwBRvW1TAdRAQYChr3patgOQ4/H49H3IGNex1Wq5K+nPY9zKlwBqSBbIBqn8yiGrHI/H7lWctxbkAlAQUpl2PggMHJDUA7XP00YB4JAMsCUEI9VI49/3IXCAYBMj0QDqHBCygdBXfWz7MkBsoJD9fwcIBVb9XwAAAP//2PrXGgAAAAZJREFUAwBOw23wM66LjwAAAABJRU5ErkJggg==" alt="다이사 교정기 로고" />
+      <span class="brand-title">다이사 교정기</span>
       <span class="brand-version" id="versionTag">고객향</span>
     </div>
     <!-- daisalibrary 스타일 세그먼트 스위처 -->

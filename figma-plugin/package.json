@@ -1,7 +1,7 @@
 {
   "name": "daisa-design-system-linter",
   "version": "1.0.0",
-  "description": "다이사(da24) 고객향 및 파트너향 디자인시스템 피그마 린터 플러그인",
+  "description": "다이사(da24) 디자인시스템 피그마 플러그인 - 다이사 교정기",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
