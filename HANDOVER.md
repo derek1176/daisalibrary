@@ -60,6 +60,14 @@ GitHub 저장소와 연동된 Vercel 자동 배포 프로젝트의 관리 권한
 
 ---
 
+## 5. 피그마 플러그인(Figma Linter) 자산 인계
+* **위치**: 저장소 내 `figma-plugin/` 디렉터리
+* **주요 파일**: `manifest.json`, `code.js`, `ui.html`, `README.md`
+* **디자이너 배포 방식**: 피그마 데스크톱 앱에서 **Plugins > Development > Import plugin from manifest...**를 통해 `figma-plugin/manifest.json`을 선택하면 즉시 등록되어 동작합니다.
+* **명세 수정 시**: `figma-plugin/src/code.ts` 및 `ui.html` 수정 후 `npm run build`를 실행하여 컴파일합니다.
+
+---
+
 ## 4. 후임자 최초 개발자 온보딩 가이드
 
 후임자가 프로젝트를 전달받은 뒤 최초로 동작을 확인하는 방법:

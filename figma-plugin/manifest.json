@@ -1,0 +1,11 @@
+{
+  "name": "다이사(da24) 디자인시스템 검증기",
+  "id": "daisa-design-system-linter",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}

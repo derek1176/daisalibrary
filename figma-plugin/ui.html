@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>다이사 디자인시스템 린터</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    body {
+      background-color: #FAFAFA;
+      color: #121212;
+      font-size: 13px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 상단 헤더 */
+    .header {
+      background: #FFFFFF;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid #EBEEF2;
+      flex-shrink: 0;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #121212;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #F4F5FF;
+      color: #1219F7;
+    }
+
+    /* 고객향 / 파트너향 세그먼트 토글 */
+    .mode-toggle {
+      display: flex;
+      background: #F4F5F7;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #666666;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .mode-btn.active.customer {
+      background: #1219F7;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(18, 25, 247, 0.25);
+    }
+
+    .mode-btn.active.partner {
+      background: #1E2837;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(30, 40, 55, 0.25);
+    }
+
+    /* 컨트롤 영역 */
+    .controls {
+      background: #FFFFFF;
+      padding: 12px 16px;
+      border-bottom: 1px solid #EBEEF2;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .scope-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .scope-select {
+      flex: 1;
+      height: 34px;
+      border: 1px solid #D7DBE2;
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 12px;
+      color: #333333;
+      background: #FFFFFF;
+      outline: none;
+    }
+
+    .scope-select:focus {
+      border-color: #1219F7;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #666666;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .btn-run {
+      width: 100%;
+      height: 38px;
+      background: #1219F7;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-run:hover {
+      background: #0f15c7;
+    }
+
+    .btn-run:disabled {
+      background: #D7DBE2;
+      cursor: not-allowed;
+    }
+
+    /* 요약 대시보드 */
+    .dashboard {
+      background: #FFFFFF;
+      padding: 10px 16px;
+      border-bottom: 1px solid #EBEEF2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .stat-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .stat-badge.error {
+      color: #F34766;
+    }
+
+    .stat-badge.warning {
+      color: #E68A00;
+    }
+
+    .btn-action-small {
+      border: 1px solid #D7DBE2;
+      background: #FFFFFF;
+      color: #333333;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-action-small:hover {
+      background: #F4F5F7;
+      border-color: #C4C9D1;
+    }
+
+    .btn-action-primary {
+      border: none;
+      background: #F4F5FF;
+      color: #1219F7;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-action-primary:hover {
+      background: #E5E8FF;
+    }
+
+    /* 필터 탭 바 */
+    .filter-bar {
+      display: flex;
+      overflow-x: auto;
+      padding: 8px 16px;
+      background: #FAFAFA;
+      border-bottom: 1px solid #EBEEF2;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .filter-chip {
+      border: 1px solid #D7DBE2;
+      background: #FFFFFF;
+      color: #666666;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .filter-chip.active {
+      background: #121212;
+      color: #FFFFFF;
+      border-color: #121212;
+    }
+
+    /* 결과 스크롤 리스트 */
+    .issues-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .issue-card {
+      background: #FFFFFF;
+      border: 1px solid #EBEEF2;
+      border-radius: 8px;
+      padding: 12px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .issue-card:hover {
+      border-color: #D7DBE2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .issue-card.error {
+      border-left: 3px solid #F34766;
+    }
+
+    .issue-card.warning {
+      border-left: 3px solid #E68A00;
+    }
+
+    .issue-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .issue-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-category {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #F4F5F7;
+      color: #666666;
+    }
+
+    .node-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #333333;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .issue-msg {
+      font-size: 12px;
+      font-weight: 600;
+      color: #121212;
+      margin-bottom: 4px;
+    }
+
+    .issue-details {
+      font-size: 11px;
+      color: #666666;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .issue-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-focus {
+      flex: 1;
+      height: 26px;
+      background: #F4F5F7;
+      border: 1px solid #EBEEF2;
+      border-radius: 5px;
+      color: #333333;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .btn-focus:hover {
+      background: #EBEEF2;
+    }
+
+    .btn-fix {
+      height: 26px;
+      padding: 0 10px;
+      background: #1219F7;
+      border: none;
+      border-radius: 5px;
+      color: #FFFFFF;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .btn-fix:hover {
+      background: #0f15c7;
+    }
+
+    /* 빈 상태 안내 */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      color: #666666;
+    }
+
+    .empty-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .empty-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #121212;
+      margin-bottom: 6px;
+    }
+
+    .empty-desc {
+      font-size: 12px;
+      color: #888888;
+      line-height: 1.5;
+    }
+
+    /* 가이드 배너 (규칙 섞임 금지) */
+    .notice-bar {
+      background: #FFF7ED;
+      border-bottom: 1px solid #FFEDD5;
+      padding: 6px 16px;
+      font-size: 11px;
+      color: #C2410C;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 헤더 -->
+  <div class="header">
+    <div class="brand-row">
+      <div class="brand-title">
+        <span>다이사 디자인시스템 린터</span>
+        <span class="brand-badge" id="currentModeBadge">고객향 v2.0</span>
+      </div>
+    </div>
+    <!-- 모드 선택 (고객향 vs 파트너향 엄격 분리) -->
+    <div class="mode-toggle">
+      <button class="mode-btn active customer" id="btnCustomerMode">
+        <span>🔵 고객향 (Customer)</span>
+      </button>
+      <button class="mode-btn partner" id="btnPartnerMode">
+        <span>🟢 파트너향 (Partner)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 독립 가이드 배너 -->
+  <div class="notice-bar">
+    <span>🚨</span>
+    <span id="noticeText">고객향 명세서(Pretendard 짝수 크기, 카드 높이별 8/10/12px) 기준으로 검증합니다.</span>
+  </div>
+
+  <!-- 검사 컨트롤 -->
+  <div class="controls">
+    <div class="scope-row">
+      <select class="scope-select" id="scopeSelect">
+        <option value="selection">선택된 레이어 (Selection)</option>
+        <option value="page">현재 페이지 전체 (Current Page)</option>
+      </select>
+      <label class="checkbox-label">
+        <input type="checkbox" id="checkIgnoreHidden" checked>
+        <span>숨김 레이어 제외</span>
+      </label>
+    </div>
+    <button class="btn-run" id="btnRunLint">
+      <span>🔍 디자인시스템 규칙 검증 시작</span>
+    </button>
+  </div>
+
+  <!-- 요약 통계 & 일괄 액션 -->
+  <div class="dashboard" id="dashboard" style="display: none;">
+    <div class="stat-group">
+      <div class="stat-badge error">
+        <span>🚨</span>
+        <span>에러 <b id="errorCount">0</b></span>
+      </div>
+      <div class="stat-badge warning">
+        <span>⚠️</span>
+        <span>경고 <b id="warnCount">0</b></span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 6px;">
+      <button class="btn-action-primary" id="btnFixAll" style="display: none;">⚡ 일괄 자동 수정</button>
+      <button class="btn-action-small" id="btnCopyReport">📋 결과 복사</button>
+    </div>
+  </div>
+
+  <!-- 카테고리 필터 탭 -->
+  <div class="filter-bar" id="filterBar" style="display: none;">
+    <button class="filter-chip active" data-category="all">전체 (<span id="countAll">0</span>)</button>
+    <button class="filter-chip" data-category="color">🎨 컬러 (<span id="countColor">0</span>)</button>
+    <button class="filter-chip" data-category="typography">🔤 타이포 (<span id="countTypo">0</span>)</button>
+    <button class="filter-chip" data-category="radius">📐 곡률/보더 (<span id="countRadius">0</span>)</button>
+    <button class="filter-chip" data-category="layout">📱 레이아웃 (<span id="countLayout">0</span>)</button>
+    <button class="filter-chip" data-category="emoji">😀 이모지 (<span id="countEmoji">0</span>)</button>
+  </div>
+
+  <!-- 이슈 목록 렌더링 컨테이너 -->
+  <div class="issues-container" id="issuesList">
+    <div class="empty-state">
+      <div class="empty-icon">🎨</div>
+      <div class="empty-title">검증할 레이어를 선택하세요</div>
+      <div class="empty-desc">
+        피그마 캔버스에서 프레임이나 컴포넌트를 선택한 후<br>
+        상단의 <b>[검증 시작]</b> 버튼을 누르면 규칙 위반 사항을 찾아냅니다.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'customer';
+    let currentIssues = [];
+    let currentCategoryFilter = 'all';
+
+    const btnCustomerMode = document.getElementById('btnCustomerMode');
+    const btnPartnerMode = document.getElementById('btnPartnerMode');
+    const currentModeBadge = document.getElementById('currentModeBadge');
+    const noticeText = document.getElementById('noticeText');
+    const scopeSelect = document.getElementById('scopeSelect');
+    const checkIgnoreHidden = document.getElementById('checkIgnoreHidden');
+    const btnRunLint = document.getElementById('btnRunLint');
+    const dashboard = document.getElementById('dashboard');
+    const filterBar = document.getElementById('filterBar');
+    const issuesList = document.getElementById('issuesList');
+    const errorCount = document.getElementById('errorCount');
+    const warnCount = document.getElementById('warnCount');
+    const btnFixAll = document.getElementById('btnFixAll');
+    const btnCopyReport = document.getElementById('btnCopyReport');
+
+    // 모드 전환
+    btnCustomerMode.addEventListener('click', () => {
+      currentMode = 'customer';
+      btnCustomerMode.className = 'mode-btn active customer';
+      btnPartnerMode.className = 'mode-btn partner';
+      currentModeBadge.textContent = '고객향 v2.0';
+      currentModeBadge.style.background = '#F4F5FF';
+      currentModeBadge.style.color = '#1219F7';
+      noticeText.textContent = '고객향 명세서(Pretendard 짝수 크기, 카드 높이별 8/10/12px) 기준으로 검증합니다.';
+      runLint();
+    });
+
+    btnPartnerMode.addEventListener('click', () => {
+      currentMode = 'partner';
+      btnCustomerMode.className = 'mode-btn customer';
+      btnPartnerMode.className = 'mode-btn active partner';
+      currentModeBadge.textContent = '파트너향 v1.0';
+      currentModeBadge.style.background = '#F1F5F9';
+      currentModeBadge.style.color = '#1E2837';
+      noticeText.textContent = '파트너향 명세서(Radius 6px 고정, 기본 본문 18px, 12px 금지) 기준으로 검증합니다.';
+      runLint();
+    });
+
+    // 검사 실행 함수
+    function runLint() {
+      btnRunLint.disabled = true;
+      btnRunLint.innerHTML = '<span>⏳ 검증 엔진 분석 중...</span>';
+
+      parent.postMessage({
+        pluginMessage: {
+          type: 'run-lint',
+          mode: currentMode,
+          scope: scopeSelect.value,
+          ignoreHidden: checkIgnoreHidden.checked
+        }
+      }, '*');
+    }
+
+    btnRunLint.addEventListener('click', runLint);
+
+    // 카테고리 필터 클릭
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentCategoryFilter = chip.dataset.category;
+        renderIssues();
+      });
+    });
+
+    // 피그마 백엔드 메시지 수신
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      btnRunLint.disabled = false;
+      btnRunLint.innerHTML = '<span>🔍 디자인시스템 규칙 검증 시작</span>';
+
+      if (msg.type === 'lint-error') {
+        issuesList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">⚠️</div>
+            <div class="empty-title">알림</div>
+            <div class="empty-desc">${msg.message}</div>
+          </div>
+        `;
+        dashboard.style.display = 'none';
+        filterBar.style.display = 'none';
+        return;
+      }
+
+      if (msg.type === 'lint-results') {
+        currentIssues = msg.issues || [];
+        updateDashboard(currentIssues);
+        renderIssues();
+      }
+
+      if (msg.type === 'fix-success' || msg.type === 'fix-all-done') {
+        // 수정 완료 후 재검사
+        runLint();
+      }
+    };
+
+    function updateDashboard(issues) {
+      dashboard.style.display = 'flex';
+      filterBar.style.display = 'flex';
+
+      const errors = issues.filter(i => i.severity === 'error').length;
+      const warns = issues.filter(i => i.severity === 'warning').length;
+
+      errorCount.textContent = errors;
+      warnCount.textContent = warns;
+
+      const autoFixableCount = issues.filter(i => i.autoFixable).length;
+      btnFixAll.style.display = autoFixableCount > 0 ? 'block' : 'none';
+      btnFixAll.textContent = `⚡ 자동 수정 (${autoFixableCount}개)`;
+
+      // 카테고리별 카운트
+      document.getElementById('countAll').textContent = issues.length;
+      document.getElementById('countColor').textContent = issues.filter(i => i.category === 'color').length;
+      document.getElementById('countTypo').textContent = issues.filter(i => i.category === 'typography').length;
+      document.getElementById('countRadius').textContent = issues.filter(i => i.category === 'radius' || i.category === 'stroke').length;
+      document.getElementById('countLayout').textContent = issues.filter(i => i.category === 'layout').length;
+      document.getElementById('countEmoji').textContent = issues.filter(i => i.category === 'emoji').length;
+    }
+
+    function renderIssues() {
+      const filtered = currentIssues.filter(i => {
+        if (currentCategoryFilter === 'all') return true;
+        if (currentCategoryFilter === 'radius') return i.category === 'radius' || i.category === 'stroke';
+        return i.category === currentCategoryFilter;
+      });
+
+      if (filtered.length === 0) {
+        if (currentIssues.length === 0) {
+          issuesList.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">🎉</div>
+              <div class="empty-title">완벽합니다!</div>
+              <div class="empty-desc">
+                선택한 레이어에서 다이사 <b>[${currentMode === 'customer' ? '고객향' : '파트너향'}]</b><br>
+                디자인시스템 규칙 위반 사항이 전혀 발견되지 않았습니다.
+              </div>
+            </div>
+          `;
+        } else {
+          issuesList.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">✅</div>
+              <div class="empty-title">해당 카테고리 이슈 없음</div>
+              <div class="empty-desc">선택된 카테고리에는 위반 사항이 없습니다.</div>
+            </div>
+          `;
+        }
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(issue => {
+        const catMap = {
+          color: '🎨 컬러',
+          typography: '🔤 타이포',
+          radius: '📐 곡률',
+          stroke: '📏 보더',
+          layout: '📱 레이아웃',
+          emoji: '😀 이모지'
+        };
+
+        html += `
+          <div class="issue-card ${issue.severity}">
+            <div class="issue-header">
+              <div class="issue-tags">
+                <span class="tag-category">${catMap[issue.category] || issue.category}</span>
+                <span class="node-name" title="${escapeHtml(issue.nodeName)}">🏷️ ${escapeHtml(issue.nodeName)}</span>
+              </div>
+              <span style="font-size: 11px; font-weight: 700; color: ${issue.severity === 'error' ? '#F34766' : '#E68A00'};">
+                ${issue.severity === 'error' ? '🚨 ERROR' : '⚠️ WARN'}
+              </span>
+            </div>
+            <div class="issue-msg">${escapeHtml(issue.message)}</div>
+            ${issue.details ? `<div class="issue-details">${escapeHtml(issue.details)}</div>` : ''}
+            <div class="issue-actions">
+              <button class="btn-focus" onclick="selectNode('${issue.nodeId}')">
+                <span>🔍 위치 이동</span>
+              </button>
+              ${issue.autoFixable ? `
+                <button class="btn-fix" onclick="fixSingleIssue('${issue.nodeId}', '${issue.id}')">
+                  <span>⚡ 빠른 수정</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      issuesList.innerHTML = html;
+    }
+
+    function selectNode(nodeId) {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'select-node',
+          nodeId
+        }
+      }, '*');
+    }
+
+    function fixSingleIssue(nodeId, issueId) {
+      const issue = currentIssues.find(i => i.id === issueId);
+      if (issue && issue.fixAction) {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'fix-issue',
+            nodeId,
+            fixAction: issue.fixAction
+          }
+        }, '*');
+      }
+    }
+
+    // 일괄 자동 수정
+    btnFixAll.addEventListener('click', () => {
+      const fixable = currentIssues.filter(i => i.autoFixable);
+      if (fixable.length === 0) return;
+
+      if (confirm(`자동 수정 가능한 ${fixable.length}개 항목을 한 번에 수정하시겠습니까?`)) {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'fix-all',
+            issues: fixable
+          }
+        }, '*');
+      }
+    });
+
+    // 마크다운 리포트 클립보드 복사
+    btnCopyReport.addEventListener('click', () => {
+      if (currentIssues.length === 0) {
+        alert('복사할 검증 결과가 없습니다.');
+        return;
+      }
+
+      let md = `# 다이사 디자인시스템 검증 리포트 (${currentMode === 'customer' ? '고객향' : '파트너향'})\n\n`;
+      md += `- 검사 모드: ${currentMode === 'customer' ? '고객향 v2.0' : '파트너향 v1.0'}\n`;
+      md += `- 총 이슈: ${currentIssues.length}개 (에러: ${errorCount.textContent}개, 경고: ${warnCount.textContent}개)\n\n`;
+      md += `| 구분 | 카테고리 | 레이어명 | 위반 내용 | 권장 수정 안내 |\n`;
+      md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+
+      currentIssues.forEach(i => {
+        md += `| ${i.severity.toUpperCase()} | ${i.category} | ${i.nodeName} | ${i.message} | ${i.details || '-'} |\n`;
+      });
+
+      navigator.clipboard.writeText(md).then(() => {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'notify',
+            message: '검증 리포트가 마크다운(Markdown) 형태로 클립보드에 복사되었습니다.'
+          }
+        }, '*');
+      });
+    });
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>

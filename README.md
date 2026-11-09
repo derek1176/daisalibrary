@@ -18,6 +18,16 @@
 
 ---
 
+## 🎨 다이사 피그마 플러그인 (Figma Linter)
+
+`figma-plugin/` 디렉터리에 피그마 디자인시스템 검증기(Linter)가 내장되어 있습니다:
+- **지원 모드**: 고객향(Customer) v2.0 & 파트너향(Partner) v1.0 원클릭 전환
+- **검증 대상**: 13대 컬러 토큰 준수 여부, Pretendard 짝수 폰트 크기(12~24px), 파트너 본문 18px 규격, 카드 높이별 Corner Radius (고객: 8/10/12px, 파트너: 6px 고정), 1px 보더 두께, 312px 모바일 안전영역, 비표준 이모지 감지
+- **편의 기능**: 위반 레이어 캔버스 즉시 포커스 이동, 원클릭 자동 수정(Auto-Fix), 마크다운 리포트 복사
+- **등록 방법**: 피그마 데스크톱 ➔ Plugins ➔ Development ➔ **Import plugin from manifest...** ➔ `figma-plugin/manifest.json` 선택
+
+---
+
 ## ⚡️ 빠른 시작 (로컬 개발)
 
 ### 1. 레포지토리 클론 및 의존성 설치
