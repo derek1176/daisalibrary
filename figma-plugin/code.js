@@ -651,58 +651,6 @@ function lintNode(node, mode, issues, options) {
             }
         }
     }
-    // 6. 구버전 레거시 Floating CTA (360x56, r:0px) 금지 검사
-    if (mode === 'customer') {
-        if (node.type === 'FRAME' || node.type === 'COMPONENT' || node.type === 'INSTANCE' || node.type === 'RECTANGLE') {
-            const isRootCanvas = node.parent && node.parent.type === 'PAGE';
-            if (!isRootCanvas) {
-                const w = Math.round(node.width);
-                const h = Math.round(node.height);
-                // 너비 360px 전폭에 높이 48~64px 사이의 하단 버튼
-                if (w === 360 && h >= 48 && h <= 64) {
-                    let radius = 0;
-                    if ('cornerRadius' in node && typeof node.cornerRadius === 'number') {
-                        radius = node.cornerRadius;
-                    }
-                    const name = node.name.toLowerCase();
-                    const isButtonLike = name.includes('cta') || name.includes('btn') || name.includes('button') ||
-                        name.includes('floating') || name.includes('하단') || name.includes('신청') ||
-                        name.includes('완료') || name.includes('확인') || name.includes('다음');
-                    let hasBlueBg = false;
-                    if ('fills' in node && Array.isArray(node.fills)) {
-                        for (const f of node.fills) {
-                            if (f.type === 'SOLID' && f.visible !== false) {
-                                const hex = rgbToHex(f.color.r, f.color.g, f.color.b);
-                                if (hex === '#1219f7' || hex === '#595ef9')
-                                    hasBlueBg = true;
-                            }
-                        }
-                    }
-                    // 반경이 0px(완전 직각)인 360 전폭 하단 CTA는 구버전 레거시 규격으로 에러 검출!
-                    if (radius === 0 && (isButtonLike || hasBlueBg)) {
-                        issues.push({
-                            id: `${node.id}-legacy-floating-cta`,
-                            nodeId: node.id,
-                            nodeName: node.name,
-                            nodeType: node.type,
-                            severity: 'must-fix',
-                            category: 'layout',
-                            groupKey: 'legacy-floating-cta',
-                            groupTitle: '레거시 Floating CTA (360x56, r:0px) 사용 금지',
-                            message: '구버전 전폭 Floating CTA (360x56, r:0px)가 사용되었습니다',
-                            details: '다이사 v2.0 공식 표준 버튼(너비 312px, 높이 56px, Corner Radius 10px)으로 수정해야 합니다.',
-                            autoFixable: true,
-                            fixAction: {
-                                type: 'legacyCtaFix',
-                                targetValue: { width: 312, height: 56, radius: 10 },
-                                label: '표준 312x56 (r:10px)로 변경'
-                            }
-                        });
-                    }
-                }
-            }
-        }
-    }
     // 자식 노드 재귀 탐색
     if ('children' in node) {
         for (const child of node.children) {
@@ -857,17 +805,6 @@ function applyFixToNode(node, fixAction) {
                 textNode.letterSpacing = fixAction.targetValue;
             }
         }
-        else if (fixAction.type === 'legacyCtaFix') {
-            if ('resize' in node) {
-                node.resize(312, 56);
-            }
-            if ('cornerRadius' in node) {
-                node.cornerRadius = 10;
-            }
-            if (node.parent && 'width' in node.parent && Math.round(node.parent.width) === 360) {
-                node.x = 24;
-            }
-        }
     });
 }
 // ★ 피그마 캔버스 선택 변경 실시간 자동 감지 (selectionchange)
@@ -889,13 +826,80 @@ figma.on('selectionchange', () => {
         });
     }
 });
+// 페이지 이름 또는 이전 저장 상태 기반 초기 모드 결정
+function detectModeFromPageName(name) {
+    const lower = name.toLowerCase();
+    if (lower.includes('파트너') || lower.includes('partner') || lower.includes('b2b')) {
+        return 'partner';
+    }
+    if (lower.includes('고객') || lower.includes('customer') || lower.includes('b2c')) {
+        return 'customer';
+    }
+    return null;
+}
+function resolveInitialMode() {
+    return __awaiter(this, void 0, void 0, function* () {
+        // 1순위: 피그마 현재 페이지 이름 ([고객향] 프로젝트 / [파트너향] 프로젝트)
+        const fromPage = detectModeFromPageName(figma.currentPage ? figma.currentPage.name : '');
+        if (fromPage)
+            return fromPage;
+        // 2순위: 이전 종료 시점 기억된 사용자 선택 모드 (clientStorage)
+        try {
+            const saved = yield figma.clientStorage.getAsync('daisa_last_mode');
+            if (saved === 'partner' || saved === 'customer') {
+                return saved;
+            }
+        }
+        catch (e) {
+            console.error('Failed to read clientStorage', e);
+        }
+        // 기본값: 고객향
+        return 'customer';
+    });
+}
+// 피그마 페이지 변경 자동 감지
+figma.on('currentpagechange', () => {
+    const pageMode = detectModeFromPageName(figma.currentPage ? figma.currentPage.name : '');
+    if (pageMode) {
+        sessionMode = pageMode;
+        try {
+            figma.clientStorage.setAsync('daisa_last_mode', pageMode);
+        }
+        catch (e) { }
+        figma.ui.postMessage({
+            type: 'page-mode-change',
+            mode: pageMode,
+            pageName: figma.currentPage.name
+        });
+    }
+    if (sessionScope === 'page') {
+        sessionTargetNodeIds = figma.currentPage.children.map(n => n.id);
+    }
+    else {
+        sessionTargetNodeIds = figma.currentPage.selection.map(n => n.id);
+    }
+    executeLint();
+});
 figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
+    // 모드 변경 명시적 수신
+    if (msg.type === 'set-mode') {
+        sessionMode = msg.mode;
+        try {
+            yield figma.clientStorage.setAsync('daisa_last_mode', msg.mode);
+        }
+        catch (e) { }
+        return;
+    }
     // 1) 검사 요청 (모드 또는 스코프 변경 시)
     if (msg.type === 'run-lint') {
         const { mode, scope, ignoreHidden } = msg;
         sessionMode = mode;
         sessionScope = scope || 'selection';
         sessionIgnoreHidden = ignoreHidden !== undefined ? !!ignoreHidden : true;
+        try {
+            yield figma.clientStorage.setAsync('daisa_last_mode', mode);
+        }
+        catch (e) { }
         if (sessionScope === 'selection') {
             const selection = figma.currentPage.selection;
             if (selection.length === 0) {
@@ -1049,8 +1053,16 @@ figma.ui.onmessage = (msg) => __awaiter(void 0, void 0, void 0, function* () {
         figma.notify(msg.message);
     }
 });
-// 최초 실행 시 현재 선택된 요소가 있다면 바로 실시간 검사 실행
-if (figma.currentPage.selection.length > 0) {
-    sessionTargetNodeIds = figma.currentPage.selection.map(n => n.id);
-    executeLint();
-}
+// 최초 실행 시 페이지 이름 또는 이전 저장 모드로 초기화 후 검사 실행
+resolveInitialMode().then((initialMode) => {
+    sessionMode = initialMode;
+    figma.ui.postMessage({
+        type: 'init-mode',
+        mode: initialMode,
+        pageName: figma.currentPage ? figma.currentPage.name : ''
+    });
+    if (figma.currentPage.selection.length > 0) {
+        sessionTargetNodeIds = figma.currentPage.selection.map(n => n.id);
+        executeLint();
+    }
+});

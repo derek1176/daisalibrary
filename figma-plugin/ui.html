@@ -850,6 +850,380 @@
       stroke-linejoin: round;
       flex-shrink: 0;
     }
+
+    /* =============================================================
+       파트너향 전용 다크 모드 (Dark Mode Theme for Partner)
+       고객향(라이트 모드)과 시각적으로 명확하게 구분
+       ============================================================= */
+    body[data-theme="dark"] {
+      background: #101216;
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .app-header {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .brand-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .brand-version {
+      background: #20242D;
+      color: #60A5FA;
+      border: 1px solid #2D3340;
+    }
+
+    body[data-theme="dark"] .mode-segmented {
+      background: #20242D;
+    }
+
+    body[data-theme="dark"] .mode-item {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .mode-item.active {
+      background: #2D3340;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-theme="dark"] .control-bar {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .scope-toggle {
+      background: #20242D;
+    }
+
+    body[data-theme="dark"] .scope-btn {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .scope-btn.active {
+      background: #2D3340;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-theme="dark"] .btn-icon-refresh {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-icon-refresh:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+      border-color: #3E4657;
+    }
+
+    body[data-theme="dark"] .filter-panel {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .severity-tabs {
+      border-bottom: 1px solid #222630;
+    }
+
+    body[data-theme="dark"] .sev-tab {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .sev-tab:hover {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .sev-tab.active {
+      color: #F3F4F6;
+      border-bottom-color: #3B82F6;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.must-fix {
+      color: #F87171;
+      border-bottom-color: #EF4444;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.check-needed {
+      color: #9CA3AF;
+      border-bottom-color: #6B7280;
+    }
+
+    body[data-theme="dark"] .sev-pill {
+      background: #252A36;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .sev-tab.active .sev-pill {
+      background: #3B82F6;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.must-fix .sev-pill {
+      background: #DC2626;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.check-needed .sev-pill {
+      background: #374151;
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .category-chips {
+      background: #13151A;
+    }
+
+    body[data-theme="dark"] .cat-chip {
+      background: #1F232C;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .cat-chip:hover {
+      border-color: #3E4657;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .cat-chip.active {
+      background: #3B82F6;
+      color: #FFFFFF;
+      border-color: #3B82F6;
+    }
+
+    body[data-theme="dark"] .summary-bar {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .summary-text {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-subtle {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .btn-subtle:hover {
+      background: #2B313E;
+      border-color: #3E4657;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .btn-subtle.clone-action {
+      background: #1E293B;
+      border-color: #3B82F6;
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .btn-subtle.clone-action:hover {
+      background: #253858;
+    }
+
+    body[data-theme="dark"] .issue-scroll-area {
+      background: #101216;
+    }
+
+    body[data-theme="dark"] .group-card {
+      background: #17191F;
+      border-color: #262933;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-theme="dark"] .group-header:hover {
+      background: #1D212A;
+    }
+
+    body[data-theme="dark"] .group-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .group-count-tag {
+      background: #20242D;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-chevron {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-chevron:hover {
+      color: #F3F4F6;
+      background: #252A36;
+    }
+
+    body[data-theme="dark"] .btn-group-fix {
+      background: #1E293B;
+      border-color: #3B82F6;
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .btn-group-fix:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .group-items-list {
+      background: #13151A;
+      border-top-color: #262933;
+    }
+
+    body[data-theme="dark"] .layer-item-row {
+      border-bottom-color: #1E222B;
+    }
+
+    body[data-theme="dark"] .layer-item-row:hover {
+      background: #181C23;
+    }
+
+    body[data-theme="dark"] .layer-name-tag {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .layer-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-mini-locate {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-mini-locate:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+      border-color: #3E4657;
+    }
+
+    body[data-theme="dark"] .btn-mini-fix {
+      background: #1E293B;
+      border-color: #3B82F6;
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .btn-mini-fix:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .empty-state-box {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .empty-icon-circle {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .empty-state-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .empty-state-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .docs-modal-box {
+      background: #17191F;
+    }
+
+    body[data-theme="dark"] .docs-modal-header {
+      background: #17191F;
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-segmented {
+      background: #20242D;
+    }
+
+    body[data-theme="dark"] .docs-tab-btn {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .docs-tab-btn.active {
+      background: #2D3340;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .btn-copy-md {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .btn-copy-md:hover {
+      background: #2B313E;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .btn-close-docs {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-close-docs:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .docs-content-area {
+      background: #101216;
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .docs-content-area h1 {
+      color: #F3F4F6;
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-content-area h2 {
+      color: #F3F4F6;
+      border-bottom-color: #20242D;
+    }
+
+    body[data-theme="dark"] .docs-content-area h3 {
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .docs-content-area code {
+      background: #20242D;
+      color: #93C5FD;
+      border: 1px solid #2D3340;
+    }
+
+    body[data-theme="dark"] .docs-content-area blockquote {
+      background: #1A2130;
+      border-left-color: #3B82F6;
+      color: #93C5FD;
+    }
+
+    body[data-theme="dark"] .docs-content-area table {
+      background: #17191F;
+      border-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-content-area th,
+    body[data-theme="dark"] .docs-content-area td {
+      border-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-content-area th {
+      background: #20242D;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .docs-content-area hr {
+      border-top-color: #262933;
+    }
   </style>
 </head>
 <body>
@@ -1156,22 +1530,41 @@
     }
 
 
-    // 모드 전환
+    // 모드 설정 및 다크모드/라이트모드 테마 동기화
+    function setMode(mode, notifyBackend = true) {
+      currentMode = mode;
+      if (mode === 'partner') {
+        tabCustomer.className = 'mode-item';
+        tabPartner.className = 'mode-item active';
+        versionTag.textContent = '파트너향';
+        document.body.setAttribute('data-theme', 'dark');
+      } else {
+        tabCustomer.className = 'mode-item active';
+        tabPartner.className = 'mode-item';
+        versionTag.textContent = '고객향';
+        document.body.setAttribute('data-theme', 'light');
+      }
+
+      if (notifyBackend) {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'set-mode',
+            mode: currentMode
+          }
+        }, '*');
+      }
+    }
+
+    // 모드 탭 클릭 전환
     tabCustomer.addEventListener('click', () => {
       if (currentMode === 'customer') return;
-      currentMode = 'customer';
-      tabCustomer.className = 'mode-item active';
-      tabPartner.className = 'mode-item';
-      versionTag.textContent = '고객향';
+      setMode('customer', true);
       requestLint();
     });
 
     tabPartner.addEventListener('click', () => {
       if (currentMode === 'partner') return;
-      currentMode = 'partner';
-      tabCustomer.className = 'mode-item';
-      tabPartner.className = 'mode-item active';
-      versionTag.textContent = '파트너향';
+      setMode('partner', true);
       requestLint();
     });
 
@@ -1231,6 +1624,17 @@
     window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
       if (!msg) return;
+
+      // 페이지 이름 감지 또는 이전 저장 모드 수신 시 동기화
+      if (msg.type === 'init-mode' || msg.type === 'page-mode-change') {
+        if (msg.mode && msg.mode !== currentMode) {
+          setMode(msg.mode, false);
+          requestLint();
+        } else if (msg.mode) {
+          setMode(msg.mode, false);
+        }
+        return;
+      }
 
       if (msg.type === 'lint-empty-selection') {
         filterPanel.style.display = 'none';
