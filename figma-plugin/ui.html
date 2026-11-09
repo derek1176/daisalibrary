@@ -388,6 +388,166 @@
       margin: 14px 0;
     }
 
+    /* 6. 일괄 수정 선택 모달 (Light Mode) */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(17, 24, 39, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .fix-modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .fix-modal-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .fix-modal-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .btn-close-modal {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      color: #9CA3AF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-close-modal:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .fix-modal-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fix-modal-desc {
+      font-size: 11px;
+      color: #6B7280;
+      margin-bottom: 2px;
+    }
+
+    .fix-option-card {
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .fix-option-card:hover {
+      border-color: #1219F7;
+      background: #F8FAFF;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(18, 25, 247, 0.08);
+    }
+
+    .fix-option-card.recommended {
+      border-color: #C7D2FE;
+      background: #F8FAFF;
+    }
+
+    .fix-option-card.recommended:hover {
+      border-color: #1219F7;
+      background: #EEF2FF;
+    }
+
+    .fix-option-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .fix-option-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1219F7;
+    }
+
+    .fix-option-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .fix-option-desc {
+      font-size: 10.5px;
+      color: #6B7280;
+      line-height: 1.4;
+    }
+
+    .fix-modal-footer {
+      padding: 10px 16px 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-modal-cancel {
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-modal-cancel:hover {
+      background: #E5E7EB;
+      color: #111827;
+    }
+
     /* 3. 2단 필터 내비게이션 (심각도 필터 & 카테고리 필터) */
     .filter-panel {
       background: #FFFFFF;
@@ -1259,6 +1419,77 @@
     body[data-theme="dark"] .docs-content-area hr {
       border-top-color: #262933;
     }
+
+    body[data-theme="dark"] .fix-modal-box {
+      background: #17191F;
+      border: 1px solid #262933;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    body[data-theme="dark"] .fix-modal-header {
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .fix-modal-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .btn-close-modal {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-close-modal:hover {
+      background: #252A36;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .fix-modal-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .fix-option-card {
+      background: #1C2028;
+      border-color: #2D3340;
+    }
+
+    body[data-theme="dark"] .fix-option-card:hover {
+      border-color: #3B82F6;
+      background: #202736;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.15);
+    }
+
+    body[data-theme="dark"] .fix-option-card.recommended {
+      background: #1A2130;
+      border-color: #2B426B;
+    }
+
+    body[data-theme="dark"] .fix-option-card.recommended:hover {
+      background: #202B40;
+      border-color: #3B82F6;
+    }
+
+    body[data-theme="dark"] .fix-option-count {
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .fix-option-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .fix-option-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-modal-cancel {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-modal-cancel:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+    }
   </style>
 </head>
 <body>
@@ -1374,6 +1605,48 @@
         </div>
       </div>
       <div class="docs-content-area" id="docsContent"></div>
+    </div>
+  </div>
+
+  <!-- 6. 일괄 수정 범위 선택 모달 -->
+  <div class="modal-backdrop" id="fixModal" style="display: none;">
+    <div class="fix-modal-box">
+      <div class="fix-modal-header">
+        <div class="fix-modal-title" id="fixModalTitle">이 프레임에서 수정</div>
+        <button class="btn-close-modal" id="btnCloseFixModal" title="닫기">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="fix-modal-body">
+        <div class="fix-modal-desc">원하시는 자동 수정 범위를 선택해주세요.</div>
+
+        <button class="fix-option-card recommended" id="btnOptMustOnly" type="button">
+          <div class="fix-option-top">
+            <span class="badge-severity must-fix">수정 필요만</span>
+            <span class="fix-option-count" id="txtFixMustCount">0개</span>
+          </div>
+          <div class="fix-option-title">'수정 필요' 항목만 수정</div>
+          <div class="fix-option-desc">
+            규격 위반이 명확한 항목만 안전하게 자동 교정합니다. (권장)
+          </div>
+        </button>
+
+        <button class="fix-option-card" id="btnOptAllItems" type="button">
+          <div class="fix-option-top">
+            <span class="badge-severity check-needed">전체 수정</span>
+            <span class="fix-option-count" id="txtFixAllCount">0개</span>
+          </div>
+          <div class="fix-option-title">모든 항목 일괄 수정</div>
+          <div class="fix-option-desc">
+            '확인 필요' 항목까지 포함하여 자동 수정 가능한 모든 항목을 한 번에 교정합니다.
+          </div>
+        </button>
+      </div>
+
+      <div class="fix-modal-footer">
+        <button class="btn-modal-cancel" id="btnCancelFixModal" type="button">취소</button>
+      </div>
     </div>
   </div>
 
@@ -1725,11 +1998,11 @@
       pillMustFix.textContent = mustFixCount;
       pillCheckNeeded.textContent = checkNeededCount;
 
-      // ★ 일괄 수정 버튼들(이 프레임에서 수정, 수정된 복제본 생성)은 오직 '수정 필요' 항목만 자동 수정
-      const mustFixFixableCount = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable).length;
-      if (mustFixFixableCount > 0) {
+      // 자동 수정 가능한 항목이 1개라도 있으면 버튼 노출
+      const allFixableCount = currentIssues.filter(i => i.autoFixable).length;
+      if (allFixableCount > 0) {
         btnFixAll.style.display = 'inline-flex';
-        cntFixableTotal.textContent = mustFixFixableCount;
+        cntFixableTotal.textContent = allFixableCount;
         btnCloneAndFix.style.display = 'inline-flex';
       } else {
         btnFixAll.style.display = 'none';
@@ -1911,27 +2184,100 @@
       }, '*');
     }
 
-    btnCloneAndFix.addEventListener('click', () => {
-      parent.postMessage({
-        pluginMessage: {
-          type: 'clone-and-fix'
-        }
-      }, '*');
+    let currentFixTarget = 'in-place'; // 'in-place' | 'clone'
+
+    const fixModal = document.getElementById('fixModal');
+    const fixModalTitle = document.getElementById('fixModalTitle');
+    const btnCloseFixModal = document.getElementById('btnCloseFixModal');
+    const btnCancelFixModal = document.getElementById('btnCancelFixModal');
+    const btnOptMustOnly = document.getElementById('btnOptMustOnly');
+    const btnOptAllItems = document.getElementById('btnOptAllItems');
+    const txtFixMustCount = document.getElementById('txtFixMustCount');
+    const txtFixAllCount = document.getElementById('txtFixAllCount');
+
+    function openFixModal(target) {
+      currentFixTarget = target;
+      const mustFixFixable = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable);
+      const allFixable = currentIssues.filter(i => i.autoFixable);
+
+      if (target === 'in-place') {
+        fixModalTitle.textContent = '이 프레임에서 수정';
+      } else {
+        fixModalTitle.textContent = '수정된 복제본 생성';
+      }
+
+      txtFixMustCount.textContent = `${mustFixFixable.length}개`;
+      txtFixAllCount.textContent = `${allFixable.length}개`;
+
+      fixModal.style.display = 'flex';
+    }
+
+    function closeFixModal() {
+      fixModal.style.display = 'none';
+    }
+
+    btnCloseFixModal.addEventListener('click', closeFixModal);
+    btnCancelFixModal.addEventListener('click', closeFixModal);
+    fixModal.addEventListener('click', (e) => {
+      if (e.target === fixModal) closeFixModal();
     });
 
-    btnFixAll.addEventListener('click', () => {
-      // ★ 일괄 수정은 오직 '수정 필요' 항목만 적용 ('확인 필요'는 검토 후 개별 행에서 수정)
-      const fixable = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable);
-      if (fixable.length === 0) return;
-
-      if (confirm(`'수정 필요' 항목 중 자동 보정 가능한 ${fixable.length}개를 현재 프레임에서 바로 수정하시겠습니까?\n(원본 프레임 보존을 원하시면 우측 [수정된 복제본 생성]을 사용하세요)`)) {
+    // 1) '수정 필요' 항목만 수정
+    btnOptMustOnly.addEventListener('click', () => {
+      closeFixModal();
+      const mustFixFixable = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable);
+      if (currentFixTarget === 'in-place') {
+        if (mustFixFixable.length === 0) {
+          alert('수정 필요한 항목이 없습니다.');
+          return;
+        }
         parent.postMessage({
           pluginMessage: {
             type: 'fix-all',
-            issues: fixable
+            issues: mustFixFixable
+          }
+        }, '*');
+      } else {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'clone-and-fix',
+            scopeMode: 'must-fix'
           }
         }, '*');
       }
+    });
+
+    // 2) 모든 항목 일괄 수정
+    btnOptAllItems.addEventListener('click', () => {
+      closeFixModal();
+      const allFixable = currentIssues.filter(i => i.autoFixable);
+      if (currentFixTarget === 'in-place') {
+        if (allFixable.length === 0) {
+          alert('자동 수정 가능한 항목이 없습니다.');
+          return;
+        }
+        parent.postMessage({
+          pluginMessage: {
+            type: 'fix-all',
+            issues: allFixable
+          }
+        }, '*');
+      } else {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'clone-and-fix',
+            scopeMode: 'all'
+          }
+        }, '*');
+      }
+    });
+
+    btnFixAll.addEventListener('click', () => {
+      openFixModal('in-place');
+    });
+
+    btnCloneAndFix.addEventListener('click', () => {
+      openFixModal('clone');
     });
 
     function escapeHtml(text) {
