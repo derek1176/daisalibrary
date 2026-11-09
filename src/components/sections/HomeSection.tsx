@@ -94,28 +94,13 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 2. Typography Thumbnail (Sculptural letterform with volume badge)
+  // 2. Typography Thumbnail (Pure bold Aa centered without card UI)
   // ============================================================
   const renderTypographyThumbnail = () => (
-    <div className="w-full h-full flex items-center justify-center select-none px-6">
-      <div
-        className="w-[195px] h-[125px] bg-white rounded-[18px] p-4 shadow-[0_8px_24px_rgba(0,0,0,0.06)] border border-black/[0.04] flex flex-col justify-between transition-transform duration-300 group-hover:scale-105"
-      >
-        <div className="flex items-center justify-between">
-          <span className="text-[44px] font-black text-[#191F28] leading-none tracking-tight">
-            Aa
-          </span>
-          <div className="rounded-full bg-[#1219F7] text-white text-[11px] font-extrabold px-3 py-1 shadow-md shadow-[#1219F7]/25">
-            {isPartner ? '18px' : 'Pretendard'}
-          </div>
-        </div>
-
-        {/* Typo Scale Preview Rhythm */}
-        <div className="space-y-1.5">
-          <div className="h-2 w-full bg-[#191F28]/15 rounded-full" />
-          <div className="h-2 w-3/4 bg-[#1219F7]/30 rounded-full" />
-        </div>
-      </div>
+    <div className="w-full h-full flex items-center justify-center select-none">
+      <span className="text-[82px] md:text-[88px] font-black text-[#191F28] leading-none tracking-tight select-none transition-transform duration-300 group-hover:scale-108">
+        Aa
+      </span>
     </div>
   );
 
@@ -179,30 +164,50 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 4. Layout Thumbnail (360px Canvas Safe Area Phone Mockup)
+  // 4. Layout Thumbnail (Responsive Column Grid Screen)
   // ============================================================
   const renderLayoutThumbnail = () => (
-    <div className="w-full h-full relative flex items-end justify-center select-none overflow-hidden">
-      {/* 360 Phone Viewport Frame */}
-      <div
-        className="w-[170px] h-[145px] bg-white rounded-t-[22px] shadow-[0_12px_28px_rgba(0,0,0,0.08)] border-t border-x border-black/[0.06] p-2.5 flex flex-col justify-between transition-transform duration-300 group-hover:translate-y-[-4px]"
-      >
-        {/* Phone Speaker Notch */}
-        <div className="w-12 h-1 bg-[#D1D6DB] rounded-full mx-auto" />
-
-        {/* 312px Safe Area Block with 24px side guides */}
-        <div className="relative w-full h-[95px] bg-[#E8F3FF] rounded-[10px] border border-dashed border-[#1219F7]/30 p-1.5 flex flex-col items-center justify-center gap-1.5">
-          {/* Side margin labels */}
-          <div className="absolute left-1 top-1 text-[8px] font-black text-[#1219F7]">24</div>
-          <div className="absolute right-1 top-1 text-[8px] font-black text-[#1219F7]">24</div>
-
-          {/* Centered Safe Area Container */}
-          <div className="w-[105px] h-[40px] bg-[#1219F7] rounded-[8px] flex items-center justify-center text-white font-black text-[12px] shadow-sm">
-            <span>{isPartner ? '312 / 627' : '312px'}</span>
+    <div className="w-full h-full relative flex items-center justify-center select-none px-6">
+      <div className="w-[200px] h-[126px] bg-white rounded-[14px] p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.07)] border border-black/[0.04] flex flex-col justify-between transition-transform duration-300 group-hover:scale-105">
+        {/* Screen Top Bar */}
+        <div className="flex items-center justify-between pb-1.5 border-b border-black/[0.04]">
+          <div className="flex items-center gap-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#191F28]/20" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#191F28]/20" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#191F28]/20" />
           </div>
-          <span className="text-[9px] font-bold text-[#6B7684]">
-            {isPartner ? 'w: 360 & 1200' : 'w: 360px Safe'}
-          </span>
+          <span className="text-[9px] font-mono font-bold text-[#8B95A1]">4 Columns Grid · 24px Margin</span>
+        </div>
+
+        {/* Grid Screen Body */}
+        <div className="grid grid-cols-4 gap-2 h-[76px] relative px-1 py-1 bg-[#F8F9FB] rounded-[8px]">
+          {/* 4 Column Bands */}
+          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
+            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">1</span>
+          </div>
+          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
+            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">2</span>
+          </div>
+          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
+            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">3</span>
+          </div>
+          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
+            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">4</span>
+          </div>
+
+          {/* Overlaid UI Component Block snapping to 312px container */}
+          <div className="absolute inset-x-2 top-2 h-6 bg-[#191F28] rounded-[6px] shadow-xs flex items-center justify-between px-2.5 z-10">
+            <span className="text-[9px] font-bold text-white tracking-tight">Content Safe Area</span>
+            <span className="text-[8px] font-mono text-[#595EF9] font-black">{isPartner ? '627px' : '312px'}</span>
+          </div>
+          <div className="absolute inset-x-2 bottom-2 flex gap-1.5 z-10">
+            <div className="flex-1 h-5 bg-[#1219F7] rounded-[5px] flex items-center justify-center text-[8px] font-bold text-white shadow-xs">
+              Col 1-2
+            </div>
+            <div className="flex-1 h-5 bg-white border border-black/[0.08] rounded-[5px] flex items-center justify-center text-[8px] font-bold text-[#4E5968]">
+              Col 3-4
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -289,33 +294,17 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 7. Buttons (Yeogi inspired: Large tactile primary button + icon & sub button)
+  // 7. Buttons Thumbnail (Single solid main color button with rich volume)
   // ============================================================
   const renderButtonsThumbnail = () => (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-3 select-none px-6">
-      {/* Primary Action Button with rich volume */}
+    <div className="w-full h-full flex items-center justify-center select-none px-6">
+      {/* Exactly one solid main color button */}
       <div
-        className={`w-full max-w-[200px] h-[46px] bg-[#1219F7] ${
+        className={`w-full max-w-[210px] h-[52px] bg-[#1219F7] ${
           isPartner ? 'rounded-[6px]' : 'rounded-[14px]'
-        } shadow-[0_8px_18px_rgba(18,25,247,0.24)] flex items-center justify-center text-white text-[15px] font-extrabold tracking-tight transition-transform duration-300 group-hover:scale-[1.03]`}
+        } shadow-[0_10px_24px_rgba(18,25,247,0.28)] flex items-center justify-center text-white text-[16px] font-extrabold tracking-tight transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_12px_28px_rgba(18,25,247,0.36)]`}
       >
         <span>{isPartner ? '오더 수락하기' : 'Button'}</span>
-      </div>
-
-      {/* Secondary Row: Icon circle button + soft secondary button */}
-      <div className="flex items-center gap-2.5 w-full max-w-[200px]">
-        <div
-          className={`w-10 h-10 rounded-full bg-[#E8F3FF] flex items-center justify-center text-[#1219F7] shadow-xs shrink-0 transition-transform duration-300 group-hover:rotate-6`}
-        >
-          <Sparkles className="w-4 h-4 fill-[#1219F7]" />
-        </div>
-        <div
-          className={`flex-1 h-10 bg-white ${
-            isPartner ? 'rounded-[6px]' : 'rounded-[12px]'
-          } border border-black/[0.04] shadow-[0_2px_8px_rgba(0,0,0,0.04)] px-3.5 flex items-center`}
-        >
-          <div className="w-16 h-2 rounded-full bg-[#1219F7]/25" />
-        </div>
       </div>
     </div>
   );
