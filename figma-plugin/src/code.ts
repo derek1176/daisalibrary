@@ -134,8 +134,26 @@ function findNearestColorToken(
 }
 
 function findNearestAllowedFontSize(current: number, allowed: number[]): number {
-  return allowed.reduce((prev, curr) => 
-    Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev
+  const sorted = [...allowed].sort((a, b) => a - b);
+  if (current <= sorted[0]) return sorted[0];
+  if (current >= sorted[sorted.length - 1]) return sorted[sorted.length - 1];
+
+  // 13, 15, 17 등 중간 홀수값 및 동간격 값은 상위 표준 사이즈로 올림 (13 -> 14, 15 -> 16, 17 -> 18 등)
+  const nextHigher = sorted.find(s => s >= current);
+  const prevLower = sorted.filter(s => s <= current).pop();
+
+  if (nextHigher !== undefined && prevLower !== undefined) {
+    const distLower = Math.abs(current - prevLower);
+    const distHigher = Math.abs(nextHigher - current);
+    // 거리가 같거나 (13 -> 12와 14의 정중앙) 상위에 더 가까우면 무조건 상위 짝수/표준 규격으로 올림
+    if (distHigher <= distLower) {
+      return nextHigher;
+    }
+    return prevLower;
+  }
+
+  return sorted.reduce((prev, curr) => 
+    Math.abs(curr - current) <= Math.abs(prev - current) ? curr : prev
   );
 }
 
