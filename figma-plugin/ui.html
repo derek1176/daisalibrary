@@ -86,71 +86,64 @@
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-    /* 2. 컨트롤 바 (단일 행) */
+    /* 2. 컨트롤 바 (선택 레이어 vs 전체 페이지) */
     .control-bar {
       background: #FFFFFF;
       padding: 8px 14px;
       border-bottom: 1px solid #E5E7EB;
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
       flex-shrink: 0;
+      gap: 8px;
     }
 
-    .scope-select {
-      height: 30px;
-      border: 1px solid #E5E7EB;
+    .scope-toggle {
+      display: flex;
+      background: #F3F4F6;
       border-radius: 5px;
-      padding: 0 8px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .scope-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
       font-size: 11px;
       font-weight: 500;
-      color: #374151;
+      color: #6B7280;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .scope-btn.active {
       background: #FFFFFF;
-      outline: none;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-    .scope-select:focus {
-      border-color: #1219F7;
-    }
-
-    .check-label {
+    .btn-icon-refresh {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 4px;
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 11px;
+      justify-content: center;
       color: #6B7280;
       cursor: pointer;
+      transition: all 0.15s ease;
     }
 
-    .check-label input {
-      accent-color: #1219F7;
-      cursor: pointer;
-    }
-
-    .btn-lint {
-      height: 30px;
-      padding: 0 14px;
-      background: #1219F7;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-left: auto;
-      transition: background 0.15s ease;
-    }
-
-    .btn-lint:hover {
-      background: #0D14D1;
-    }
-
-    .btn-lint:disabled {
-      background: #9CA3AF;
-      cursor: not-allowed;
+    .btn-icon-refresh:hover {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #D1D5DB;
     }
 
     /* 3. 2단 필터 내비게이션 (심각도 필터 & 카테고리 필터) */
@@ -262,7 +255,7 @@
       border-color: #111827;
     }
 
-    /* 상단 일괄 액션 바 (복제본 생성 / 직접 수정 / 복사) */
+    /* 상단 액션 바 (복제본 생성 / 직접 수정) */
     .summary-bar {
       padding: 7px 14px;
       background: #F8F9FA;
@@ -631,19 +624,14 @@
     </div>
   </header>
 
-  <!-- 2. 단일 행 컴팩트 컨트롤 -->
+  <!-- 2. 컨트롤 바 (실시간 검사: 선택 레이어 vs 전체 페이지) -->
   <div class="control-bar">
-    <select class="scope-select" id="scopeSelect">
-      <option value="selection">선택된 레이어</option>
-      <option value="page">현재 페이지 전체</option>
-    </select>
-    <label class="check-label">
-      <input type="checkbox" id="checkIgnoreHidden" checked>
-      <span>숨김 레이어 제외</span>
-    </label>
-    <button class="btn-lint" id="btnRunLint">
-      <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <span>검사 시작</span>
+    <div class="scope-toggle">
+      <button class="scope-btn active" id="btnScopeSelection">선택된 레이어 (실시간)</button>
+      <button class="scope-btn" id="btnScopePage">현재 페이지 전체</button>
+    </div>
+    <button class="btn-icon-refresh" id="btnRefresh" title="새로고침">
+      <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
     </button>
   </div>
 
@@ -675,7 +663,7 @@
     </div>
   </div>
 
-  <!-- 상단 액션 바 (복제본 생성 / 직접 수정 / 복사) -->
+  <!-- 상단 액션 바 (복제본 생성 / 직접 수정) -->
   <div class="summary-bar" id="summaryBar" style="display: none;">
     <div class="summary-text" id="summarySummaryText">총 0개 항목 발견</div>
     <div class="summary-actions">
@@ -701,14 +689,15 @@
       </div>
       <div class="empty-state-title">검사할 대상을 선택하세요</div>
       <div class="empty-state-desc">
-        피그마 캔버스에서 검증할 프레임을 선택한 뒤<br>
-        우측 상단 <b>[검사 시작]</b> 버튼을 누르면 동일 피드백별로 묶어서 안내합니다.
+        피그마 캔버스에서 검증할 프레임을 클릭하면<br>
+        버튼을 누르지 않아도 실시간으로 바로 검사합니다.
       </div>
     </div>
   </main>
 
   <script>
     let currentMode = 'customer';
+    let currentScope = 'selection'; // 'selection' | 'page'
     let currentIssues = [];
     let currentSeverity = 'all';
     let currentCategory = 'all';
@@ -717,9 +706,9 @@
     const tabCustomer = document.getElementById('tabCustomer');
     const tabPartner = document.getElementById('tabPartner');
     const versionTag = document.getElementById('versionTag');
-    const scopeSelect = document.getElementById('scopeSelect');
-    const checkIgnoreHidden = document.getElementById('checkIgnoreHidden');
-    const btnRunLint = document.getElementById('btnRunLint');
+    const btnScopeSelection = document.getElementById('btnScopeSelection');
+    const btnScopePage = document.getElementById('btnScopePage');
+    const btnRefresh = document.getElementById('btnRefresh');
     const filterPanel = document.getElementById('filterPanel');
     const summaryBar = document.getElementById('summaryBar');
     const summarySummaryText = document.getElementById('summarySummaryText');
@@ -738,7 +727,7 @@
       tabCustomer.className = 'mode-item active';
       tabPartner.className = 'mode-item';
       versionTag.textContent = '고객향';
-      runLint();
+      requestLint();
     });
 
     tabPartner.addEventListener('click', () => {
@@ -747,24 +736,40 @@
       tabCustomer.className = 'mode-item';
       tabPartner.className = 'mode-item active';
       versionTag.textContent = '파트너향';
-      runLint();
+      requestLint();
     });
 
-    function runLint() {
-      btnRunLint.disabled = true;
-      btnRunLint.innerHTML = '<svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg><span>분석 중...</span>';
+    // 스코프 전환 (선택 레이어 vs 전체 페이지)
+    btnScopeSelection.addEventListener('click', () => {
+      if (currentScope === 'selection') return;
+      currentScope = 'selection';
+      btnScopeSelection.className = 'scope-btn active';
+      btnScopePage.className = 'scope-btn';
+      requestLint();
+    });
 
+    btnScopePage.addEventListener('click', () => {
+      if (currentScope === 'page') return;
+      currentScope = 'page';
+      btnScopeSelection.className = 'scope-btn';
+      btnScopePage.className = 'scope-btn active';
+      requestLint();
+    });
+
+    btnRefresh.addEventListener('click', () => {
+      requestLint();
+    });
+
+    function requestLint() {
       parent.postMessage({
         pluginMessage: {
           type: 'run-lint',
           mode: currentMode,
-          scope: scopeSelect.value,
-          ignoreHidden: checkIgnoreHidden.checked
+          scope: currentScope,
+          ignoreHidden: true
         }
       }, '*');
     }
-
-    btnRunLint.addEventListener('click', runLint);
 
     // 심각도 탭 전환
     document.querySelectorAll('.sev-tab').forEach(tab => {
@@ -791,8 +796,23 @@
       const msg = event.data.pluginMessage;
       if (!msg) return;
 
-      btnRunLint.disabled = false;
-      btnRunLint.innerHTML = '<svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>검사 시작</span>';
+      if (msg.type === 'lint-empty-selection') {
+        filterPanel.style.display = 'none';
+        summaryBar.style.display = 'none';
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            </div>
+            <div class="empty-state-title">검사할 대상을 선택하세요</div>
+            <div class="empty-state-desc">
+              피그마 캔버스에서 검증할 프레임을 클릭하면<br>
+              버튼을 누르지 않아도 실시간으로 바로 검사합니다.
+            </div>
+          </div>
+        `;
+        return;
+      }
 
       if (msg.type === 'lint-error') {
         filterPanel.style.display = 'none';
@@ -802,7 +822,7 @@
             <div class="empty-icon-circle">
               <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
             </div>
-            <div class="empty-state-title">검사 대상 없음</div>
+            <div class="empty-state-title">알림</div>
             <div class="empty-state-desc">${escapeHtml(msg.message)}</div>
           </div>
         `;
@@ -1014,7 +1034,6 @@
       }, '*');
     }
 
-    // ★ 완성본 복제 생성 (Clone & Auto-Fix)
     btnCloneAndFix.addEventListener('click', () => {
       parent.postMessage({
         pluginMessage: {
@@ -1023,7 +1042,6 @@
       }, '*');
     });
 
-    // 원본 직접 일괄 수정
     btnFixAll.addEventListener('click', () => {
       const fixable = currentIssues.filter(i => i.autoFixable);
       if (fixable.length === 0) return;
@@ -1047,6 +1065,9 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
+
+    // 초기 실행
+    requestLint();
   </script>
 </body>
 </html>
