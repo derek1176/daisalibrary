@@ -231,7 +231,7 @@ function hasDimmedBackdropInHierarchy(node: SceneNode): boolean {
   // 형제 레이어 검사
   if (node.parent && 'children' in node.parent) {
     for (const sibling of node.parent.children) {
-      if (sibling.id !== node.id && isDimmedLayer(sibling)) {
+      if (sibling.id !== node.id && sibling.visible && isDimmedLayer(sibling)) {
         return true;
       }
     }
@@ -240,20 +240,7 @@ function hasDimmedBackdropInHierarchy(node: SceneNode): boolean {
   // 부모의 형제 레이어 검사
   if (node.parent && node.parent.parent && 'children' in node.parent.parent) {
     for (const sibling of node.parent.parent.children) {
-      if (sibling.id !== node.parent.id && isDimmedLayer(sibling)) {
-        return true;
-      }
-    }
-  }
-
-  // 상위 루트 컨테이너 자식 검사
-  let root: BaseNode | null = node.parent;
-  while (root && root.parent && root.parent.type !== 'PAGE' && root.parent.type !== 'DOCUMENT') {
-    root = root.parent;
-  }
-  if (root && 'children' in root) {
-    for (const child of (root as any).children) {
-      if (isDimmedLayer(child)) {
+      if (sibling.id !== node.parent.id && sibling.visible && isDimmedLayer(sibling)) {
         return true;
       }
     }
@@ -262,13 +249,13 @@ function hasDimmedBackdropInHierarchy(node: SceneNode): boolean {
   return false;
 }
 
-// ★ 모달 / 바텀시트 / 팝업 스마트 판별 (이름, 조상 계층, 딤드 오버레이 연계 등)
+// ★ 모달 / 바텀시트 / 팝업 스마트 판별 (이름, 직계 부모, 직계 딤드 연계 등)
 // 모달로 판별된 레이어 및 그 하위 요소는 곡률(Corner Radius) 검증을 일체 수행하지 않습니다.
 function isModalOrSheet(node: SceneNode): boolean {
   const modalKeywords = [
-    'modal', 'popup', 'dialog', 'sheet', 'bottomsheet', 'bottom_sheet', 
-    'alert', 'confirm', 'notice', 'overlay', '모달', '팝업', '다이얼로그', 
-    '바텀시트', '알림', '안내', '안내창', '확인창', '취소창', '경고창', '레이어팝업', '탈퇴',
+    'modal', 'popup', 'dialog', 'bottomsheet', 'bottom_sheet', 
+    'alert', 'confirm', '모달', '팝업', '다이얼로그', 
+    '바텀시트', '안내창', '확인창', '취소창', '경고창', '레이어팝업', '탈퇴',
     'dimmed', 'dim', 'scrim', 'backdrop', '딤드'
   ];
 
@@ -276,36 +263,21 @@ function isModalOrSheet(node: SceneNode): boolean {
   const name = node.name.toLowerCase();
   if (modalKeywords.some(kw => name.includes(kw))) return true;
 
-  // 2. 조상 레이어 전체 탐색 (모달 하위 모든 요소 포함)
-  let curr: BaseNode | null = node.parent;
-  while (curr && curr.type !== 'PAGE' && curr.type !== 'DOCUMENT') {
-    const parentName = curr.name.toLowerCase();
-    if (modalKeywords.some(kw => parentName.includes(kw))) {
-      return true;
+  // 2. 직계 부모(1~2단계)만 탐색
+  if (node.parent && node.parent.type !== 'PAGE' && node.parent.type !== 'DOCUMENT') {
+    const p1 = node.parent.name.toLowerCase();
+    if (modalKeywords.some(kw => p1.includes(kw))) return true;
+
+    if (node.parent.parent && node.parent.parent.type !== 'PAGE' && node.parent.parent.type !== 'DOCUMENT') {
+      const p2 = node.parent.parent.name.toLowerCase();
+      if (modalKeywords.some(kw => p2.includes(kw))) return true;
     }
-    curr = curr.parent;
   }
 
-  // 3. 같은 화면 또는 컨테이너 내 딤드(Dimmed 60% 블랙) 오버레이가 공존하는 경우
-  // (뒷배경에 딤드가 깔려있는 화면의 중앙/하단 카드 컴포넌트는 100% 모달 다이얼로그)
+  // 3. 같은 컨테이너 내 딤드 오버레이가 직계로 공존하는 경우
   if (hasDimmedBackdropInHierarchy(node)) {
     if (!isDimmedLayer(node)) {
       return true;
-    }
-  }
-
-  // 4. 모바일/웹 모달 다이얼로그 전형적 규격
-  // (너비 260~360px 또는 400~560px에 드롭섀도가 있거나 배경이 채워진 공중에 뜬 프레임)
-  if ('width' in node && typeof node.width === 'number') {
-    const w = Math.round(node.width);
-    if ((w >= 260 && w <= 360) || (w >= 400 && w <= 560)) {
-      if ('effects' in node && Array.isArray(node.effects)) {
-        const hasShadow = node.effects.some(e => e.type === 'DROP_SHADOW' && e.visible !== false);
-        if (hasShadow) return true;
-      }
-      if ('cornerRadius' in node && typeof node.cornerRadius === 'number' && (node.cornerRadius >= 14 && node.cornerRadius <= 28)) {
-        return true;
-      }
     }
   }
 
@@ -325,7 +297,7 @@ interface LintIssue {
   details?: string;
   autoFixable?: boolean;
   fixAction?: {
-    type: 'fontSize' | 'fontFamily' | 'radius' | 'strokeWeight' | 'letterSpacing' | 'colorFill' | 'colorStroke';
+    type: 'fontSize' | 'fontFamily' | 'radius' | 'strokeWeight' | 'letterSpacing' | 'colorFill' | 'colorStroke' | 'gradientStop';
     targetValue: any;
     originalHex?: string;
     label?: string;
@@ -349,7 +321,7 @@ function lintNode(
 
   const allowedColors = mode === 'customer' ? CUSTOMER_COLORS : PARTNER_COLORS;
 
-  // 1. 색상 검사 (Fills)
+  // 1. 색상 검사 (Fills: 단색 및 그라데이션)
   if ('fills' in node && Array.isArray(node.fills)) {
     for (const fill of node.fills as Paint[]) {
       if (fill.visible !== false && fill.type === 'SOLID') {
@@ -418,6 +390,36 @@ function lintNode(
             } : undefined
           });
         }
+      } else if (fill.visible !== false && fill.type.startsWith('GRADIENT_') && 'gradientStops' in fill) {
+        // 그라데이션 스톱 컬러 개별 검증
+        const gradFill = fill as GradientPaint;
+        gradFill.gradientStops.forEach((stop, stopIdx) => {
+          const hex = rgbToHex(stop.color.r, stop.color.g, stop.color.b);
+          if (!allowedColors[hex]) {
+            const nearest = findNearestColorToken(hex, allowedColors);
+            issues.push({
+              id: `${node.id}-grad-stop-${stopIdx}-${hex}`,
+              nodeId: node.id,
+              nodeName: node.name,
+              nodeType: node.type,
+              severity: 'must-fix',
+              category: 'color',
+              groupKey: `grad-unallowed-${hex}`,
+              groupTitle: `미허용 그라데이션 컬러 (${hex.toUpperCase()})`,
+              message: `그라데이션 색상 ${hex.toUpperCase()} 사용됨 (규격 외)`,
+              details: nearest
+                ? `가장 근접한 가이드 토큰: ${nearest.name} (${nearest.hex.toUpperCase()})`
+                : `${mode === 'customer' ? '고객향' : '파트너향'} 지정 컬러 토큰만 허용됩니다.`,
+              autoFixable: !!nearest,
+              fixAction: nearest ? {
+                type: 'gradientStop',
+                originalHex: hex,
+                targetValue: { stopIndex: stopIdx, hex: nearest.hex },
+                label: `${nearest.hex.toUpperCase()}로 변경`
+              } : undefined
+            });
+          }
+        });
       }
     }
   }
@@ -590,10 +592,22 @@ function lintNode(
       }
     }
 
-    // 자간 검사 (Letter Spacing: -1% / -0.01em)
+    // 자간 검사 (Letter Spacing: -1% / -0.01em 권장)
+    let lsObj: LetterSpacing | null = null;
     if (textNode.letterSpacing !== figma.mixed) {
-      const ls = textNode.letterSpacing;
-      if (ls.unit === 'PERCENT' && Math.round(ls.value) !== -1) {
+      lsObj = textNode.letterSpacing;
+    } else if (textNode.characters.length > 0) {
+      const ls0 = textNode.getRangeLetterSpacing(0, 1);
+      if (ls0 !== figma.mixed) {
+        lsObj = ls0;
+      }
+    }
+
+    if (lsObj) {
+      const isNotNegOne = (lsObj.unit === 'PERCENT' && Math.round(lsObj.value) !== -1) ||
+                          (lsObj.unit === 'PIXELS' && Math.abs(lsObj.value - (-0.16)) > 0.05 && lsObj.value !== -1);
+      if (isNotNegOne) {
+        const valStr = lsObj.unit === 'PERCENT' ? `${lsObj.value}%` : `${lsObj.value}px`;
         issues.push({
           id: `${node.id}-letter-spacing`,
           nodeId: node.id,
@@ -601,10 +615,10 @@ function lintNode(
           nodeType: node.type,
           severity: 'check-needed',
           category: 'typography',
-          groupKey: `letter-spacing-${Math.round(ls.value)}`,
-          groupTitle: `자간 ${ls.value}% 설정됨 (-1% 권장)`,
-          message: `자간이 ${ls.value}%로 설정됨 (-1% 권장)`,
-          details: `다이사 디자인시스템은 모든 텍스트에 letter-spacing: -1px (-1%) 적용을 권장합니다.`,
+          groupKey: `letter-spacing-${Math.round(lsObj.value)}`,
+          groupTitle: `자간 ${valStr} 설정됨 (-1% 권장)`,
+          message: `자간이 ${valStr}로 설정됨 (-1% 권장)`,
+          details: `다이사 디자인시스템은 모든 텍스트에 letter-spacing: -1% 적용을 권장합니다.`,
           autoFixable: true,
           fixAction: { type: 'letterSpacing', targetValue: { value: -1, unit: 'PERCENT' }, label: '-1%로 변경' }
         });
@@ -647,8 +661,26 @@ function lintNode(
 
   // 4. 모서리 곡률 (Corner Radius) 검사
   // 고객향 표준 10px 고정 (단, Pill, 배지/툴팁/토스트 등 특수 요소, 모달/바텀시트/팝업은 완전 제외)
-  if ('cornerRadius' in node && typeof node.cornerRadius === 'number' && node.cornerRadius > 0) {
-    const radius = node.cornerRadius;
+  let detectedRadius: number | null = null;
+  let isMixedRadius = false;
+  if ('cornerRadius' in node) {
+    if (typeof (node as any).cornerRadius === 'number' && (node as any).cornerRadius > 0) {
+      detectedRadius = (node as any).cornerRadius;
+    } else if ((node as any).cornerRadius === figma.mixed) {
+      isMixedRadius = true;
+      const rTopL = typeof (node as any).topLeftRadius === 'number' ? (node as any).topLeftRadius : 0;
+      const rTopR = typeof (node as any).topRightRadius === 'number' ? (node as any).topRightRadius : 0;
+      const rBotR = typeof (node as any).bottomRightRadius === 'number' ? (node as any).bottomRightRadius : 0;
+      const rBotL = typeof (node as any).bottomLeftRadius === 'number' ? (node as any).bottomLeftRadius : 0;
+      const maxR = Math.max(rTopL, rTopR, rBotR, rBotL);
+      if (maxR > 0) {
+        detectedRadius = maxR;
+      }
+    }
+  }
+
+  if (detectedRadius !== null && detectedRadius > 0) {
+    const radius = detectedRadius;
     const height = node.height;
     const isPill = radius >= height / 2 - 1;
 
@@ -657,7 +689,7 @@ function lintNode(
     // 3) ★ 모달 / 바텀시트 / 팝업 / 다이얼로그 / 딤드 연계 컴포넌트는 곡률 검증 완전 면제!
     if (!isPill && !isExemptFromRadiusCheck(node) && !isModalOrSheet(node)) {
       if (mode === 'customer') {
-        if (radius !== 10) {
+        if (radius !== 10 || isMixedRadius) {
           issues.push({
             id: `${node.id}-radius`,
             nodeId: node.id,
@@ -666,8 +698,8 @@ function lintNode(
             severity: 'must-fix',
             category: 'radius',
             groupKey: `radius-${radius}-exp-10`,
-            groupTitle: `곡률 ${radius}px 적용됨 (10px 표준 필요)`,
-            message: `곡률 ${radius}px 적용됨 (고객향 표준 10px 필요)`,
+            groupTitle: isMixedRadius ? `비대칭/비표준 곡률 (${radius}px 등, 10px 표준 필요)` : `곡률 ${radius}px 적용됨 (10px 표준 필요)`,
+            message: isMixedRadius ? `각 모서리 곡률이 비대칭이거나 비표준입니다 (고객향 표준 10px 균일)` : `곡률 ${radius}px 적용됨 (고객향 표준 10px 필요)`,
             details: `고객향 디자인시스템은 기본 카드/컨테이너 모서리 곡률을 10px로 통일합니다. (모달/바텀시트는 예외 허용)`,
             autoFixable: true,
             fixAction: { type: 'radius', targetValue: 10, label: '10px로 변경' }
@@ -677,7 +709,7 @@ function lintNode(
         // [파트너향] 전사 6px 고정
         const allowedPartnerRadius = [6];
 
-        if (!allowedPartnerRadius.includes(radius)) {
+        if (!allowedPartnerRadius.includes(radius) || isMixedRadius) {
           const isCustomerRadius = radius === 10 || radius === 16;
           issues.push({
             id: `${node.id}-radius`,
@@ -687,7 +719,7 @@ function lintNode(
             severity: isCustomerRadius ? 'must-fix' : 'check-needed',
             category: 'radius',
             groupKey: `radius-partner-${radius}`,
-            groupTitle: `파트너 규격 외 곡률 ${radius}px (6px 고정 필수)`,
+            groupTitle: isMixedRadius ? `비대칭 곡률 사용됨 (6px 고정 필수)` : `파트너 규격 외 곡률 ${radius}px (6px 고정 필수)`,
             message: `파트너 규격 외 곡률 ${radius}px 사용됨 (6px 고정 필수)`,
             details: isCustomerRadius 
               ? `고객향 라운드(${radius}px)는 파트너 화면에서 엄격히 금지됩니다. 6px로 수정하세요.`
@@ -767,6 +799,31 @@ function executeLint() {
   });
 }
 
+// 텍스트 노드의 모든 폰트 스타일 비동기 일괄 로드
+async function loadAllFontsForTextNode(textNode: TextNode): Promise<void> {
+  const len = textNode.characters.length;
+  if (len === 0) return;
+  if (textNode.fontName !== figma.mixed) {
+    try {
+      await figma.loadFontAsync(textNode.fontName);
+    } catch (e) {}
+    return;
+  }
+  const loaded = new Set<string>();
+  for (let i = 0; i < len; i++) {
+    const f = textNode.getRangeFontName(i, i + 1);
+    if (f !== figma.mixed) {
+      const key = `${f.family}:${f.style}`;
+      if (!loaded.has(key)) {
+        loaded.add(key);
+        try {
+          await figma.loadFontAsync(f);
+        } catch (e) {}
+      }
+    }
+  }
+}
+
 // 폰트 교체 안전 도우미
 async function applyFontFamily(textNode: TextNode, targetFamily: string) {
   const len = textNode.characters.length;
@@ -795,18 +852,7 @@ async function applyFontFamily(textNode: TextNode, targetFamily: string) {
   }
 
   try {
-    if (textNode.fontName !== figma.mixed) {
-      await figma.loadFontAsync(textNode.fontName);
-    } else {
-      for (let i = 0; i < len; i++) {
-        const rf = textNode.getRangeFontName(i, i + 1);
-        if (rf !== figma.mixed) {
-          try {
-            await figma.loadFontAsync(rf);
-          } catch (e2) {}
-        }
-      }
-    }
+    await loadAllFontsForTextNode(textNode);
   } catch (e) {}
 
   try {
@@ -825,17 +871,15 @@ async function applyFixToNode(node: SceneNode, fixAction: any) {
     await applyFontFamily(node as TextNode, fixAction.targetValue);
   } else if (fixAction.type === 'fontSize' && node.type === 'TEXT') {
     const textNode = node as TextNode;
-    if (textNode.fontName !== figma.mixed) {
-      await figma.loadFontAsync(textNode.fontName);
+    await loadAllFontsForTextNode(textNode);
+    try {
       textNode.fontSize = fixAction.targetValue;
-    } else {
+    } catch (e) {
       const len = textNode.characters.length;
       if (len > 0) {
-        const f0 = textNode.getRangeFontName(0, 1);
-        if (f0 !== figma.mixed) {
-          await figma.loadFontAsync(f0);
-        }
-        textNode.fontSize = fixAction.targetValue;
+        try {
+          textNode.setRangeFontSize(0, len, fixAction.targetValue);
+        } catch (e2) {}
       }
     }
   } else if (fixAction.type === 'colorFill' && 'fills' in node && Array.isArray(node.fills)) {
@@ -849,6 +893,28 @@ async function applyFixToNode(node: SceneNode, fixAction: any) {
             color: { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 }
           };
         }
+      }
+      return fill;
+    });
+    (node as any).fills = newFills;
+  } else if (fixAction.type === 'gradientStop' && 'fills' in node && Array.isArray(node.fills)) {
+    const { stopIndex, hex } = fixAction.targetValue;
+    const rgb = hexToRgb(hex);
+    const newFills = (node.fills as Paint[]).map(fill => {
+      if (fill.type.startsWith('GRADIENT_') && 'gradientStops' in fill) {
+        const newStops = (fill as GradientPaint).gradientStops.map((stop, idx) => {
+          if (idx === stopIndex) {
+            return {
+              ...stop,
+              color: { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255, a: stop.color.a }
+            };
+          }
+          return stop;
+        });
+        return {
+          ...fill,
+          gradientStops: newStops
+        };
       }
       return fill;
     });
@@ -869,14 +935,30 @@ async function applyFixToNode(node: SceneNode, fixAction: any) {
     });
     (node as any).strokes = newStrokes;
   } else if (fixAction.type === 'radius' && 'cornerRadius' in node) {
-    (node as any).cornerRadius = fixAction.targetValue;
+    try {
+      (node as any).cornerRadius = fixAction.targetValue;
+    } catch (e) {
+      if ('topLeftRadius' in node) {
+        (node as any).topLeftRadius = fixAction.targetValue;
+        (node as any).topRightRadius = fixAction.targetValue;
+        (node as any).bottomRightRadius = fixAction.targetValue;
+        (node as any).bottomLeftRadius = fixAction.targetValue;
+      }
+    }
   } else if (fixAction.type === 'strokeWeight' && 'strokeWeight' in node) {
     (node as any).strokeWeight = fixAction.targetValue;
   } else if (fixAction.type === 'letterSpacing' && node.type === 'TEXT') {
     const textNode = node as TextNode;
-    if (textNode.fontName !== figma.mixed) {
-      await figma.loadFontAsync(textNode.fontName);
+    await loadAllFontsForTextNode(textNode);
+    try {
       textNode.letterSpacing = fixAction.targetValue;
+    } catch (e) {
+      const len = textNode.characters.length;
+      if (len > 0) {
+        try {
+          textNode.setRangeLetterSpacing(0, len, fixAction.targetValue);
+        } catch (e2) {}
+      }
     }
   }
 }
