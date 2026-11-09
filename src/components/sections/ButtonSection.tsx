@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { PublicButton, PartnerPrimaryButton, PartnerSecondaryButton, ModalButtons, Chip, ButtonState } from '../ui/Button';
-import { Smartphone, Monitor, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Smartphone, Monitor, ShieldCheck, CheckCircle2, Copy, Check, Sparkles } from 'lucide-react';
+import {
+  copySvgToFigma,
+  getMainButtonSvg,
+  getModalButtonsSvg,
+  getPartnerSecondaryPairSvg,
+  getPartnerOutlinePairSvg,
+  getChipSvg,
+} from '../../utils/figmaClipboard';
 
 export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -9,16 +17,68 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
   const [modalType, setModalType] = useState<'double' | 'single'>('double');
   const [modalSize, setModalSize] = useState<48 | 56>(56);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [toastText, setToastText] = useState<string | null>(null);
 
   const chips = ['가정이사 (포장)', '원룸/소형이사', '사무실 이전', '보관이사', '에어컨 분해청소'];
 
+  const triggerCopy = async (key: string, svg: string, label: string) => {
+    const success = await copySvgToFigma(svg);
+    if (success) {
+      setCopiedKey(key);
+      setToastText(`[${label}] 피그마 클립보드에 복사되었습니다! 피그마에서 Cmd+V 로 붙여넣으세요.`);
+      setTimeout(() => setCopiedKey(null), 2000);
+      setTimeout(() => setToastText(null), 3500);
+    }
+  };
+
+  const handleCopyMainButton = () => {
+    const svg = getMainButtonSvg({
+      mode,
+      device: deviceView,
+      state: btnState,
+    });
+    triggerCopy('main', svg, isPartner ? '파트너 메인 버튼' : '고객향 표준 버튼');
+  };
+
+  const handleCopyModalButton = () => {
+    const svg = getModalButtonsSvg({
+      type: modalType,
+      size: modalSize,
+    });
+    triggerCopy('modal', svg, `모달 버튼 (${modalType === 'double' ? '2분할' : '단일'})`);
+  };
+
+  const handleCopyPartnerSecondary = (type: 'pair' | 'outline') => {
+    const svg = type === 'pair' ? getPartnerSecondaryPairSvg() : getPartnerOutlinePairSvg();
+    triggerCopy(`partner-${type}`, svg, type === 'pair' ? '파트너 서브 액션 (취소+메인)' : '파트너 아웃라인 버튼');
+  };
+
+  const handleCopyChip = () => {
+    const svg = getChipSvg(activeChip, true);
+    triggerCopy('chip', svg, `선택 칩 (${activeChip})`);
+  };
+
   return (
-    <section id="buttons" className="space-y-10">
+    <section id="buttons" className="space-y-10 relative">
+      {/* Toast Notification */}
+      {toastText && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-[#111827] text-white rounded-[12px] shadow-2xl text-[13px] font-semibold animate-bounce-in border border-white/10">
+          <Sparkles className="w-4 h-4 text-[#595EF9]" />
+          <span>{toastText}</span>
+        </div>
+      )}
+
       {/* Section Header */}
-      <div className="border-b pb-4 border-[#E5E8EB]">
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
-          Buttons
-        </h2>
+      <div className="border-b pb-4 border-[#E5E8EB] flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+            Buttons
+          </h2>
+          <p className="text-[14px] text-[#6B7684] mt-1">
+            원하는 버튼의 <strong>[피그마로 복사]</strong>를 누른 후 피그마에서 붙여넣기(Cmd+V)하면 네이티브 레이어로 바로 생성됩니다.
+          </p>
+        </div>
       </div>
 
       {/* State & Device Control Bar */}
@@ -73,7 +133,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       <div className="border border-[#E5E8EB] rounded-[20px] p-6 md:p-8 space-y-8 bg-white shadow-sm">
         {/* 1. Main Button Section */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between border-b pb-3 border-[#F2F4F6]">
+          <div className="flex flex-wrap items-center justify-between border-b pb-3 border-[#F2F4F6] gap-2">
             <div>
               <h3 className="text-[17px] font-extrabold text-[#191F28]">
                 {isPartner ? '1. 파트너 메인 CTA 버튼 (Primary Button 56px)' : '1. 본문 표준 버튼 (Public Button)'}
@@ -84,9 +144,29 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   : `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '640px'} · Corner Radius 10px · 폰트 16px Bold`}
               </p>
             </div>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
-              {isPartner ? '높이 56px / r:6' : '높이 56px / r:10'}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-bold px-2 py-1 rounded bg-[#E8F3FF] text-[#1B64DA]">
+                {isPartner ? '높이 56px / r:6' : '높이 56px / r:10'}
+              </span>
+              <button
+                type="button"
+                onClick={handleCopyMainButton}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12px] font-bold bg-[#1219F7] text-white hover:bg-[#0E14D4] transition-all select-none shadow-xs cursor-pointer active:scale-95"
+                title="피그마 클립보드로 복사합니다"
+              >
+                {copiedKey === 'main' ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-white" />
+                    <span>복사 완료!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>피그마로 복사</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
@@ -116,7 +196,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
         {/* 2. Secondary Action Buttons */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between border-b pb-3 border-[#F2F4F6]">
+          <div className="flex flex-wrap items-center justify-between border-b pb-3 border-[#F2F4F6] gap-2">
             <div>
               <h3 className="text-[17px] font-extrabold text-[#191F28]">
                 {isPartner ? '2. 파트너 서브 액션 버튼 (Secondary & Modal Action 51px)' : '2. 모달 버튼 (Modal Buttons)'}
@@ -127,9 +207,31 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   : '너비 280px (136px + 8px + 136px 2분할) · 높이 56px 또는 48px · Corner Radius 10px'}
               </p>
             </div>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
-              {isPartner ? '높이 51px / r:6' : '높이 56px / 48px'}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-bold px-2 py-1 rounded bg-[#E8F3FF] text-[#1B64DA]">
+                {isPartner ? '높이 51px / r:6' : '높이 56px / 48px'}
+              </span>
+              {!isPartner && (
+                <button
+                  type="button"
+                  onClick={handleCopyModalButton}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12px] font-bold bg-[#1219F7] text-white hover:bg-[#0E14D4] transition-all select-none shadow-xs cursor-pointer active:scale-95"
+                  title="피그마 클립보드로 복사합니다"
+                >
+                  {copiedKey === 'modal' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-white" />
+                      <span>복사 완료!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>피그마로 복사</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="rounded-[16px] p-8 flex flex-col items-center justify-center gap-4 border bg-[#F9FAFB] border-[#E5E8EB]">
@@ -152,8 +254,19 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                     답변 생성
                   </button>
                 </div>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => handleCopyPartnerSecondary('pair')}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[11px] font-bold bg-[#1219F7]/10 text-[#1219F7] hover:bg-[#1219F7]/20 transition-all cursor-pointer"
+                  >
+                    {copiedKey === 'partner-pair' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    <span>취소+답변생성 피그마 복사</span>
+                  </button>
+                </div>
+
                 {/* Outline Sub Action */}
-                <div className="flex items-center gap-2.5 w-full">
+                <div className="flex items-center gap-2.5 w-full pt-2">
                   <PartnerSecondaryButton
                     variant="outline"
                     className="flex-1"
@@ -169,17 +282,72 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                     조건 변경
                   </PartnerSecondaryButton>
                 </div>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => handleCopyPartnerSecondary('outline')}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[6px] text-[11px] font-bold bg-[#1219F7]/10 text-[#1219F7] hover:bg-[#1219F7]/20 transition-all cursor-pointer"
+                  >
+                    {copiedKey === 'partner-outline' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    <span>아웃라인 피그마 복사</span>
+                  </button>
+                </div>
               </div>
             ) : (
-              <div className="w-[280px]">
-                <ModalButtons
-                  type={modalType}
-                  size={modalSize}
-                  confirmText="확인"
-                  cancelText="취소"
-                  onConfirm={() => alert('확인 클릭')}
-                  onCancel={() => alert('취소 클릭')}
-                />
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-[280px]">
+                  <ModalButtons
+                    type={modalType}
+                    size={modalSize}
+                    confirmText="확인"
+                    cancelText="취소"
+                    onConfirm={() => alert('확인 클릭')}
+                    onCancel={() => alert('취소 클릭')}
+                  />
+                </div>
+                <div className="flex items-center gap-3 text-[12px] text-[#6B7684] pt-2">
+                  <span className="font-medium">모달 옵션 변경:</span>
+                  <div className="flex items-center gap-1 bg-[#E5E8EB]/50 p-1 rounded-[6px]">
+                    <button
+                      type="button"
+                      onClick={() => setModalType('double')}
+                      className={`px-2 py-0.5 rounded-[4px] text-[11px] font-semibold ${
+                        modalType === 'double' ? 'bg-white text-[#191F28] shadow-xs' : 'text-[#6B7684]'
+                      }`}
+                    >
+                      2분할 (취소/확인)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalType('single')}
+                      className={`px-2 py-0.5 rounded-[4px] text-[11px] font-semibold ${
+                        modalType === 'single' ? 'bg-white text-[#191F28] shadow-xs' : 'text-[#6B7684]'
+                      }`}
+                    >
+                      단일 (확인)
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-1 bg-[#E5E8EB]/50 p-1 rounded-[6px]">
+                    <button
+                      type="button"
+                      onClick={() => setModalSize(56)}
+                      className={`px-2 py-0.5 rounded-[4px] text-[11px] font-semibold ${
+                        modalSize === 56 ? 'bg-white text-[#191F28] shadow-xs' : 'text-[#6B7684]'
+                      }`}
+                    >
+                      56px
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalSize(48)}
+                      className={`px-2 py-0.5 rounded-[4px] text-[11px] font-semibold ${
+                        modalSize === 48 ? 'bg-white text-[#191F28] shadow-xs' : 'text-[#6B7684]'
+                      }`}
+                    >
+                      48px
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -187,13 +355,33 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
         {/* 3. Filter Chips */}
         <div className="space-y-4">
-          <div className="border-b pb-3 border-[#F2F4F6]">
-            <h3 className="text-[17px] font-extrabold text-[#191F28]">
-              3. 필터 및 선택 칩 (Filter Chips)
-            </h3>
-            <p className="text-[13px] mt-0.5 text-[#6B7684]">
-              고객향 · 파트너향 공통: 라운드 규격(6px/10px)에 구애받지 않고 전사 공통 <strong>완전한 라운드 형태 (rounded-full / Pill)</strong>를 적용합니다.
-            </p>
+          <div className="flex flex-wrap items-center justify-between border-b pb-3 border-[#F2F4F6] gap-2">
+            <div>
+              <h3 className="text-[17px] font-extrabold text-[#191F28]">
+                3. 필터 및 선택 칩 (Filter Chips)
+              </h3>
+              <p className="text-[13px] mt-0.5 text-[#6B7684]">
+                고객향 · 파트너향 공통: 라운드 규격에 구애받지 않고 전사 공통 <strong>완전한 라운드 형태 (rounded-full / Pill)</strong>를 적용합니다.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleCopyChip}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-[12px] font-bold bg-[#1219F7] text-white hover:bg-[#0E14D4] transition-all select-none shadow-xs cursor-pointer active:scale-95"
+              title="선택된 칩을 피그마 클립보드로 복사합니다"
+            >
+              {copiedKey === 'chip' ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-white" />
+                  <span>복사 완료!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>선택된 칩 피그마로 복사</span>
+                </>
+              )}
+            </button>
           </div>
 
           <div className="rounded-[16px] p-6 flex flex-wrap gap-2.5 border bg-[#F9FAFB] border-[#E5E8EB]">
