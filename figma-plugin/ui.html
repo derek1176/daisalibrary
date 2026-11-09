@@ -157,6 +157,228 @@
       border-color: #D1D5DB;
     }
 
+    .control-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 5. 디자인시스템 MD 명세서 뷰어 모달 */
+    .docs-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(17, 24, 39, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .docs-modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .docs-modal-header {
+      padding: 8px 12px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      flex-shrink: 0;
+      gap: 8px;
+    }
+
+    .docs-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .docs-segmented {
+      display: inline-flex;
+      background: #F3F4F6;
+      border-radius: 5px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .docs-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .docs-tab-btn.active {
+      background: #FFFFFF;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .docs-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy-md {
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-copy-md:hover {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .btn-close-docs {
+      width: 26px;
+      height: 26px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 4px;
+      color: #6B7280;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-close-docs:hover {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #D1D5DB;
+    }
+
+    .docs-content-area {
+      flex: 1 1 0px;
+      overflow-y: auto;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #1F2937;
+      background: #FFFFFF;
+    }
+
+    .docs-content-area h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .docs-content-area h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .docs-content-area h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .docs-content-area p {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .docs-content-area ul {
+      margin-top: 4px;
+      margin-bottom: 8px;
+      padding-left: 18px;
+    }
+
+    .docs-content-area li {
+      margin-bottom: 3px;
+    }
+
+    .docs-content-area code {
+      background: #F1F5F9;
+      color: #0F172A;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .docs-content-area blockquote {
+      margin: 8px 0;
+      padding: 6px 10px;
+      background: #F8FAFC;
+      border-left: 3px solid #3B82F6;
+      color: #475569;
+      font-size: 11px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .docs-content-area table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px;
+      font-size: 10.5px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .docs-content-area th, .docs-content-area td {
+      border: 1px solid #E5E7EB;
+      padding: 5px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .docs-content-area th {
+      background: #F9FAFB;
+      font-weight: 600;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .docs-content-area hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 14px 0;
+    }
+
     /* 3. 2단 필터 내비게이션 (심각도 필터 & 카테고리 필터) */
     .filter-panel {
       background: #FFFFFF;
@@ -651,9 +873,14 @@
       <button class="scope-btn active" id="btnScopeSelection">선택된 레이어 (실시간)</button>
       <button class="scope-btn" id="btnScopePage">현재 페이지 전체</button>
     </div>
-    <button class="btn-icon-refresh" id="btnRefresh" title="새로고침">
-      <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-    </button>
+    <div class="control-actions-right">
+      <button class="btn-icon-refresh" id="btnOpenDocs" title="디자인시스템 명세서(MD) 보기">
+        <span style="font-family: monospace; font-weight: 700; font-size: 13px; line-height: 1;">{ }</span>
+      </button>
+      <button class="btn-icon-refresh" id="btnRefresh" title="새로고침">
+        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+      </button>
+    </div>
   </div>
 
   <!-- 3. 필터 내비게이션 -->
@@ -684,20 +911,20 @@
     </div>
   </div>
 
-  <!-- 상단 액션 바 (복제본 생성 / 직접 수정) -->
+  <!-- 상단 액션 바 (이 프레임에서 수정 / 수정된 복제본 생성) -->
   <div class="summary-bar" id="summaryBar" style="display: none;">
     <div class="summary-text" id="summarySummaryText">총 0개 항목 발견</div>
     <div class="summary-actions">
-      <!-- ★ 원본 보존 & 새 레이어로 완성본 복제 생성 버튼 -->
-      <button class="btn-subtle clone-action" id="btnCloneAndFix" title="원본을 그대로 두고, 옆에 자동 수정된 완성본 프레임을 새로 만듭니다.">
-        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        <span>완성본 복제 생성</span>
+      <!-- 1) 현재 프레임에서 직접 수정 (왼쪽) -->
+      <button class="btn-subtle" id="btnFixAll" style="display: none;" title="현재 프레임 내에서 '수정 필요' 항목을 바로 수정합니다.">
+        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>이 프레임에서 수정 (<span id="cntFixableTotal">0</span>)</span>
       </button>
 
-      <!-- 현재 레이어에서 직접 일괄 수정 버튼 -->
-      <button class="btn-subtle" id="btnFixAll" style="display: none;">
-        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        <span>직접 수정 (<span id="cntFixableTotal">0</span>)</span>
+      <!-- 2) 원본 보존 & 새 레이어로 수정된 복제본 생성 (오른쪽) -->
+      <button class="btn-subtle clone-action" id="btnCloneAndFix" style="display: none;" title="원본을 그대로 두고, 옆에 '수정 필요' 항목이 자동 보정된 복제본 프레임을 새로 만듭니다.">
+        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>수정된 복제본 생성</span>
       </button>
     </div>
   </div>
@@ -715,6 +942,30 @@
       </div>
     </div>
   </main>
+
+  <!-- 5. 디자인시스템 MD 명세서 뷰어 모달 -->
+  <div class="docs-modal-backdrop" id="docsModal" style="display: none;">
+    <div class="docs-modal-box">
+      <div class="docs-modal-header">
+        <div class="docs-header-left">
+          <div class="docs-segmented">
+            <button class="docs-tab-btn active" id="docsTabCustomer">고객향 MD</button>
+            <button class="docs-tab-btn" id="docsTabPartner">파트너향 MD</button>
+          </div>
+        </div>
+        <div class="docs-header-actions">
+          <button class="btn-copy-md" id="btnCopyDocsRaw" title="마크다운 전문 복사">
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="txtCopyLabel">MD 복사</span>
+          </button>
+          <button class="btn-close-docs" id="btnCloseDocs" title="닫기">
+            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+      <div class="docs-content-area" id="docsContent"></div>
+    </div>
+  </div>
 
   <script>
     let currentMode = 'customer';
@@ -740,6 +991,170 @@
     const btnFixAll = document.getElementById('btnFixAll');
     const cntFixableTotal = document.getElementById('cntFixableTotal');
     const issueScrollArea = document.getElementById('issueScrollArea');
+
+    const btnOpenDocs = document.getElementById("btnOpenDocs");
+    const docsModal = document.getElementById("docsModal");
+    const docsTabCustomer = document.getElementById("docsTabCustomer");
+    const docsTabPartner = document.getElementById("docsTabPartner");
+    const btnCopyDocsRaw = document.getElementById("btnCopyDocsRaw");
+    const txtCopyLabel = document.getElementById("txtCopyLabel");
+    const btnCloseDocs = document.getElementById("btnCloseDocs");
+    const docsContent = document.getElementById("docsContent");
+    let currentDocsTab = "customer";
+
+    const CUSTOMER_MD = "# 다이사(da24) 공식 고객향 디자인시스템 명세서 (Daisa Customer Design System)\n\n> **문서 버전**: v2.0.0 (Figma Linter & AI Engine Edition)  \n> **최종 갱신일**: 2026-11-09  \n> **적용 대상**: 다이사(da24) B2C 고객향 웹 & 모바일 서비스 전반  \n> 🚨 **절대 원칙 (Non-Negotiable)**: 절대 파트너향과 고객향의 md 파일 및 명세는 섞여서는 안 되며, 반드시 각자의 md 파일을 기준으로 독립적으로 작업해야 합니다. 사용자가 \"두 개를 동시에 바꿔라\" 또는 \"통일시켜라\"라고 명시적으로 지시하지 않는 한, 절대로 두 시스템을 임의로 통일시키지 마십시오.\n\n---\n\n## 1. 레벨 1: 절대 불변 규칙 (Hard Rules / 플러그인 100% 차단 대상)\n\n### 1-1. 타이포그래피 (Typography)\n* **단일 서체**: 오직 **`Pretendard`** 단일 서체만 사용합니다. (시스템 산세리프, AppleGothic, Roboto 등 혼용 금지)\n* **자간**: 모든 텍스트 레이어에 **`letter-spacing: -1px` (`-0.01em`)** 고정 적용.\n* **굵기**: **`Bold (700)`**과 **`Regular (400)`** 2종만 허용.\n* **짝수 6종 크기 원칙**: **`12, 14, 16, 18, 20, 24px`** 외 홀수(13, 15, 17px) 및 소수점 폰트 크기 사용 엄격 차단.\n  * **예외 허용 (Micro Badge)**: 실시간 알림 카운트 배지(`N개`, `3`), 상태 태그 등 특수 초소형 배지에 한하여 **`10px` 또는 `11px`** 사용 허용.\n* **타이포그래피 스케일 표**:\n\n| 토큰명 | 크기 (Size) | 행간 (Line-Height) | 굵기 | 주요 권장 용도 |\n| :--- | :---: | :---: | :---: | :--- |\n| **Headline** | `24px` | `140% (34px)` | Bold / Regular | 페이지 메인 헤드라인, 신청 완료 대타이틀 |\n| **Title** | `20px` | `150% (30px)` | Bold / Regular | 섹션 대제목, 팝업 및 모달 제목 |\n| **Button / Body High**| `18px` | `140% (25px) / 150%` | Bold / Regular | 메인 액션 버튼(56px), 견적 금액 등 강조 본문 |\n| **Body (★ 기본 본문)**| `16px` | `150% (24px)` | Bold / Regular | **고객향 기본 본문 텍스트**, 인풋 입력 값, 라벨, 모달 설명문 |\n| **Sub** | `14px` | `140% (20px)` | Bold / Regular | 서브 라벨, 인풋 하단 에러 메시지, 설명 보조 문구 |\n| **Caption** | `12px` | `130% (16px)` | Bold / Regular | 각주 약관 동의, 부가 메타데이터, 날짜/시간 표기 |\n| *Micro Badge (예외)*| `10px / 11px`| `120%` | Bold | 알림 카운트 배지 전용 |\n\n---\n\n### 1-2. 컬러 토큰 (Color Tokens & Role Mapping)\n허용된 13대 Hex 토큰 외의 임의 색상 사용은 피그마 플러그인 린터에서 에러로 검출합니다.\n\n| 토큰명 | Hex 코드 | 역할 및 적용 위치 (Role Mapping) |\n| :--- | :---: | :--- |\n| **main-01** | `#1219F7` | 메인 브랜드 키컬러, Primary CTA 버튼 배경, 포커스 인풋 보더 |\n| **main-02** | `#595EF9` | 보조 블루 포인트, 서브 버튼 텍스트/보더 |\n| **main-03** | `#1219F7 ~ #595EF9` | 대형 프로모션 배너 및 브랜드 그라디언트 |\n| **main-04** | `#F4F5FF` | 키컬러 배경 틴트, 파란색 안내 뱃지 배경 |\n| **sub-02** | `#F34766` | 에러 1px 스트로크, 하단 오류 피드백 텍스트 |\n| **text-01** | `#121212` | 페이지 메인 대제목, 주요 강조 헤드라인 |\n| **text-02** | `#333333` | 본문 기본 텍스트, 인풋 입력 값, 라벨 텍스트 |\n| **text-03** | `#666666` | 보조 설명문, 입력창 힌트 문구, 주소 검색 팁 |\n| **text-04** | `#888888` | 인풋 플레이스홀더, 비활성 텍스트, 각주 약관 |\n| **etc-01** | `#FFFFFF` | 카드 컨테이너 배경, 인풋 필드 배경, 모달 팝업 배경 |\n| **etc-02** | `#D7DBE2` | 기본 1px 테두리 (인풋 외곽선, 기본 카드 스트로크) |\n| **etc-03** | `#EBEEF2` | 영역 구분선(Divider 1px), 모달 취소 버튼 배경 |\n| **etc-04** | `#F7F8FA` | 비활성 인풋 배경, 비활성 버튼 배경 |\n| **etc-05** | `#FAFAFA` | 서비스 기본 페이지 배경 |\n| **dimmed** | `rgba(0,0,0,0.6)` | 모달 및 바텀시트 뒷배경 오버레이 (60%) |\n\n---\n\n### 1-3. 캔버스 및 레이아웃 안전 영역 (Layout Safe Area)\n* **모바일 (Mobile)**:\n  * 기준 프레임 캔버스 너비: **`360px`**\n  * 좌우 마진 여백: **양측 각 `24px`** 고정\n  * 본문 콘텐츠 안전 영역 (Safe Area): **`312px`** (360 - 24 * 2 = 312px)\n  * 모든 메인 버튼, 폼 인풋, 기본 카드는 반드시 312px 이내로 배치합니다.\n* **웹/PC (Desktop)**:\n  * 기준 캔버스 너비: **`1200px`**\n  * 콘텐츠 단일 열 집중: **`640px` 중앙 단일 열 정렬** (헤더, 본문 폼, 하단 버튼 모두 640px 일치)\n  * 좌우 안전 여백: 각 `280px`\n\n---\n\n### 1-4. UX 라이팅 및 이모지 금지 룰 (UX Writing & Emoji)\n* **이모지 전면 금지**: 텍스트 레이어에 `📦, 🔥, ✨, 🚚` 등 비표준 이모지 사용 절대 금지 (공식 선형 아이콘으로 대체).\n* **문체 원칙**:\n  * 타이틀: `~해요체` (마침표 없음) ➔ *ex. 출발지를 검색해 주세요*\n  * 설명: `~해요체` (마침표 있음) ➔ *ex. 업체에게 모든걸 맡기세요.*\n  * 유의사항/힌트: `~합니다체` (마침표 있음) ➔ *ex. 이벤트 신청은 1건당 1회 가능합니다.*\n  * 버튼 텍스트: `~하기체` 또는 명사형 ➔ *ex. 설정하러 가기, 신청 정보 확인 완료*\n* **외 표기법**:\n  * 금액: `48만 원`, `총 200만 원`, `340,000원` (단위 간 띄어쓰기 준수)\n  * 날짜: `2024.07.06` (연도 4자리 온점 표기)\n  * 슬래시: 앞뒤 띄어쓰기 없음 (`알림톡/mms`)\n  * 괄호: 국문 앞 붙여쓰기 (`원룸/오피스텔(9평 이하)`), 영문/숫자 앞 띄어쓰기 (`oneroom (9평 이하)`)\n  * 콜론: 붙여쓰기 (`1:1`), 앰퍼샌드: 띄어쓰기 (`조건 & 혜택`)\n\n---\n\n## 2. 레벨 2: 필수 공통 컴포넌트 4대 규격 (Core 4 Components)\n\n### 2-1. 버튼 (Button)\n* **본문 표준 버튼 (Public Button - 공식 표준)**:\n  * 크기: 모바일 너비 `312px` (PC `640px`), 높이 `56px`\n  * Corner Radius: **`10px`**\n  * 텍스트: `16px Bold White`, 중앙 정렬\n  * 상태: Normal `#1219F7` / Loading (인디케이터) / Disabled `#F7F8FA` (텍스트 `#888888`)\n  * ⚠️ **Floating CTA (360x56, r:0px)**는 구버전 레거시 규격으로 사용 금지.\n* **모달 다이얼로그 버튼 (Modal Buttons)**:\n  * 전체 너비 `280px`, 높이 `56px` (또는 `48px`), Corner Radius **`10px`**\n  * [좌측 취소]: 너비 `136px`, 배경 `#EBEEF2`, 텍스트 `#666666 16px Bold`\n  * [우측 확인]: 너비 `136px`, 배경 `#1219F7`, 텍스트 `#FFFFFF 16px Bold` (버튼 간 간격 8px)\n\n### 2-2. 입력창 (Form Input)\n* **규격**: 너비 `312px`, 높이 `56px`, Corner Radius **`10px`**, 좌우 패딩 `16px`\n* **보더 스트로크**: 무조건 **`1px solid`** 고정 (두꺼운 2px 스트로크 금지)\n  * 기본 상태: 보더 `#D7DBE2`, 배경 `#FFFFFF`, 텍스트 `#333333 (16px Regular)`\n  * 포커스 상태: 보더 `#1219F7`\n  * 에러 상태: 보더 **`#F34766`**, 텍스트 `#F34766`\n  * 🚨 **에러 인풋 내 느낌표(`!`) 아이콘 절대 사용 금지** (1px 에러 보더와 하단 14px 안내 문구로만 피드백).\n* **라벨**: 입력창 상단 `14px Bold (#121212)`\n\n### 2-3. 오버레이 (Modal & Bottom Sheet)\n* **Alert / Confirm 모달**: 너비 `312px` 중앙 정렬, Corner Radius **`16px`**, 배경 딤드 60%\n* **바텀시트**: 모바일 전폭 `360px`, 상단 모서리만 **`16px`** (`rounded-t-[16px]`), 상단 중앙 핸들바 (`36x4px, r:full, #D7DBE2`)\n* **1200px 반응형 절대 분기**:\n  * `360px ~ 1199px`: 하단에서 슬라이드 업되는 **가변 바텀시트** (뷰포트 너비 대응)\n  * `1200px 이상`: 화면 정중앙에 고정되는 **중앙 고정 모달** (`w-[440px]`, r:16px, 핸들바 숨김)\n\n### 2-4. 카드 컨테이너 (Card Box)\n* **배경 & 보더**: 순수 흰색 `#FFFFFF` 배경 + **`1px solid #D7DBE2` (또는 `#E5E8EB`)**\n* **높이별 Corner Radius 3단계 (신규 확정 규격)**:\n  * **소형 인라인 카드 (높이 ~ 79px)**: **`8px`** (`rounded-[8px]`) ➔ *단일 옵션 행, 1줄짜리 소형 정보 박스*\n  * **표준 카드 (높이 80px ~ 240px)**: **`10px`** (`rounded-[10px]`) ➔ *견적 요약 카드, 기본 폼 블록 (전사 표준)*\n  * **대형 컨테이너 카드 (높이 241px 이상)**: **`12px`** (`rounded-[12px]`) ➔ *화면 전체를 감싸는 대형 섹션 그룹*\n\n---\n\n## 3. 레벨 3: 디자이너 자유 영역 (Flexibility)\n\n위의 4대 핵심 컴포넌트(버튼, 인풋, 오버레이, 카드)와 레벨 1의 토큰(서체, 짝수 크기, 컬러, 캔버스 안전영역)만 준수한다면:\n1. 화면 내 카드들의 세로 배치 순서 및 그룹핑\n2. 이사 날짜 선택 달력 레이아웃이나 세부 체크박스 목록 조합\n3. 서비스 프로모션 안내 배너의 시각 구도\n등은 **디자이너가 서비스 기획 의도에 맞춰 100% 자유롭게 디자인**할 수 있습니다.\n";
+    const PARTNER_MD = "# 다이사(da24) 공식 파트너향 디자인시스템 명세서 (Daisa Partner Design System)\n\n> **문서 버전**: v2.0.0 (Figma Linter & AI Engine Edition)  \n> **최종 갱신일**: 2026-11-09  \n> **적용 대상**: 다이사(da24) 및 위매치(wematch) 파트너(이사업체, 청소업체, 기사님, 시공업체) 모바일 웹 & PC 파트너 관리 콘솔  \n> 🚨 **절대 원칙 (Non-Negotiable)**: 절대 파트너향과 고객향의 md 파일 및 명세는 섞여서는 안 되며, 반드시 각자의 md 파일을 기준으로 독립적으로 작업해야 합니다. 사용자가 \"두 개를 동시에 바꿔라\" 또는 \"통일시켜라\"라고 명시적으로 지시하지 않는 한, 절대로 두 시스템을 임의로 통일시키지 마십시오.  \n> **기준 피그마**: `[파트너] 스타일가이드` (`loNec9fjF6nIEgkwxH7aSN`), `[개발] v1.2` (`G5JiHI51FV6XFImlsyON6u`)\n\n---\n\n## 1. 레벨 1: 절대 불변 규칙 (Hard Rules / 플러그인 100% 차단 대상)\n\n고객향 디자인시스템이 부드러운 라운드(10px)와 컴팩트한 본문(16px) 중심의 B2C 서비스라면, **파트너향 디자인시스템은 현장 기사님과 업체의 신속하고 정확한 조작성을 보장하는 고신뢰 파트너 규격**을 적용합니다.\n\n### 1-1. 모서리 곡률 (Corner Radius) 절대 기준: 6px 고정\n* **표준 기본값**: 모든 카드 컨테이너, 폼 인풋, 메인 CTA 버튼의 Corner Radius는 **`6px`** 고정입니다.\n* **서브 컴포넌트 허용값**: 좁은 테이블 인라인 액션 버튼, 작은 태그 칩은 **`4px`** 적용 가능.\n* **특수 제외 대상**:\n  * 캡슐형 칩/배지: **Pill (`rounded-full`)** 형태 예외 허용.\n  * 모달 및 바텀시트: 화면 환경에 맞추어 유연하게 적용할 수 있도록 **곡률 검증 완전 면제**.\n* 🚨 **엄격한 금지 규격 (Anti-Pattern)**:\n  * 고객향에서 쓰이는 둥근 라운드(**`10px`, `16px`**) 사용 절대 금지 (플러그인 '수정 필요'로 차단 및 6px로 자동 교정).\n  * 20px 이상의 과도한 곡률(Pill 제외) 및 0px 완전 직각 컨테이너 사용 금지.\n  * 파트너 화면은 **`Radius 6px`**을 기본 아이덴티티로 통일하여 단단하고 신뢰감 있는 인터페이스를 유지합니다.\n\n---\n\n### 1-2. 타이포그래피 (Typography) 가독성 절대 기준: 기본 18px (Body 1)\n현장 이동 중이거나 야외 채광 환경에서 모바일 및 태블릿을 주로 다루는 기사님의 특성을 반영하여, **기본 본문 텍스트를 18px로 대폭 상향**합니다.\n\n* **서체**: **`Pretendard`** 또는 **`Noto Sans KR`** 단일 서체만 사용합니다.\n* **자간**: 모든 텍스트 레이어에 **`letter-spacing: -1px` (`-0.01em`)** 고정 적용.\n* **굵기**: **`Bold (700)`**과 **`Regular (400)`** 2종만 허용.\n* **7단계 폰트 스케일 원칙**: **`14, 16, 18, 20, 24, 28, 32px`** 외 홀수 및 소수점 폰트 크기 사용 엄격 차단.\n* 🚨 **극소 폰트 절대 금지 (Anti-Pattern)**:\n  * 기사님 현장 시인성을 위해 고객향의 **12px 이하 극소 폰트는 사용이 전면 금지**됩니다. (최소 14px 필수)\n* **파트너 타이포그래피 스케일 표**:\n\n| 토큰명 | 크기 (Size) | 행간 (Line-Height) | 굵기 | 주요 권장 용도 |\n| :--- | :---: | :---: | :---: | :--- |\n| **Display** | `32px` | `140% (45px)` | Bold / Regular | 환영 메시지, 핵심 성과 지표 대형 수치 |\n| **Headline** | `28px` | `140% (39px)` | Bold / Regular | 대분류 페이지 메인 헤더, 완료 대타이틀 |\n| **Title** | `24px` | `140% (34px)` | Bold / Regular | 섹션 대제목, 팝업 제목 |\n| **Sub-Title** | `20px` | `150% (30px)` | Bold / Regular | 그룹 소제목, 모달 타이틀 |\n| **Body 1 (★ 파트너 기본 본문)** | `18px` | `150% (27px)` | Bold / Regular | **파트너 기본 본문 텍스트**, 주문 정보, 고객 견적 세부 내역, 폼 라벨, 폼 입력 텍스트 |\n| **Body 2** | `16px` | `150% (24px)` | Bold / Regular | 보조 설명문, 테이블 서브 본문 데이터 |\n| **Caption** | `14px` | `150% (21px)` | Bold / Regular | 각주 약관 동의, 날짜/시간 메타데이터 (※ 12px 극소 텍스트 사용 금지) |\n\n---\n\n### 1-3. 컬러 토큰 (Color Tokens & Role Mapping)\n피그마 `[파트너] 스타일가이드` 노드 `1:305` 공식 등록 16대 Hex 토큰 외의 임의 색상 및 레거시 폐기 색상은 플러그인에서 엄격히 차단합니다.\n\n| 토큰명 | Hex 코드 | 역할 및 적용 위치 (Role Mapping) |\n| :--- | :---: | :--- |\n| **main-01** | `#1219F7` | 메인 키컬러 (메인 CTA 버튼 배경, 주요 활성 상태, 승인 완료) |\n| **main-02** | `#595EF9` | 서브 블루 포인트 (보조 인터랙션, 그래픽 강조 포인트, 아웃라인 보더) |\n| **main-03** | `#1219F7 ~ #595EF9` | 브랜드 그라데이션 |\n| **main-04** | `#F4F5FF` | 틴트 배경 (배지, 선택된 리스트 카드 배경) |\n| **sub-01** | `#F7D915` | 서브 옐로우 (주의 알림, 배차 추천 하이라이트) |\n| **sub-02** | `#F34766` | 서브 레드 / 에러 (취소, 경고 피드백, 반려) |\n| **system-01** | `#000000` | 순수 블랙 |\n| **system-02** | `#FFFFFF` | 순수 화이트 |\n| **text-01** | `#121212` | 타이틀, 견적 금액, 주문 번호 등 주요 정보 |\n| **text-02** | `#333333` | 본문 기본 텍스트, 폼 입력 텍스트, 고객명, 주소 라벨 |\n| **text-03** | `#666666` | 보조 설명, 견적 일시, 부가 정보 안내문 |\n| **text-04** | `#888888` | 캡션, 인풋 플레이스홀더, 비활성 텍스트 |\n| **etc-01** | `#C4C9D1` | 진한 구분선, 서브 보더 |\n| **etc-02** | `#D7DBE2` | 기본 1px 보더 (인풋창, 기본 카드 외곽 테두리 1px) |\n| **etc-03** | `#EBEEF2` | 연한 구분선 Divider, 비활성 버튼 테두리 |\n| **etc-04** | `#F7F8FA` | 비활성 배경, 카드 배경, 인풋 Disabled BG |\n| **etc-05** | `#FAFAFA` | 가장 연한 영역 배경 |\n| **dimmed** | `rgba(0,0,0,0.6)` | 모달 및 바텀시트 뒷배경 오버레이 (60%) |\n| 🚫 **notused-01** | `#999999` | **레거시 폐기 색상 (사용 엄격 금지 ➔ text-03 또는 etc-01로 교체)** |\n| 🚫 **notused-02** | `#BCC0C6` | **레거시 폐기 색상 (사용 엄격 금지 ➔ etc-01 또는 etc-02로 교체)** |\n\n---\n\n### 1-4. 캔버스 및 레이아웃 안전 영역 (Layout Safe Area)\n* **모바일 현장 뷰 (Mobile)**:\n  * 기준 캔버스 너비: **`360px`**\n  * 좌우 마진 여백: **양측 각 `24px`** 고정\n  * 본문 콘텐츠 안전 영역 (Safe Area): **`312px`** (360 - 24 * 2 = 312px)\n  * 상단 네비게이션: 헤더 높이 **`56px`**\n* **웹/PC 관리자 콘솔 (Desktop)**:\n  * 기준 캔버스 너비: **`1200px`**\n  * 글로벌 네비게이션(GNB): 높이 **`80px`** (전폭 1200px)\n  * **콘텐츠 카드 단일 안전 너비: `627px`** (Order Container 규격)\n    * 1200px 캔버스 중앙에 `627px` 단일 열 카드를 배치하고 모서리 라운드 **`6px`** 적용.\n    * 내부 컨테이너 여백: 기본 패딩 **`24px`**.\n\n---\n\n### 1-5. UX 라이팅 및 이모지 금지 룰 (UX Writing & Emoji)\n* **이모지 전면 금지**: 텍스트 레이어에 `📦, 🔥, ✨, 🚚` 등 비표준 네이티브 이모지 사용 절대 금지 (공식 선형 SVG 아이콘으로 대체).\n* **문체 원칙**: 신속하고 명확한 업무 소통을 위해 간결한 명사형 또는 정중한 안내체 유지.\n\n---\n\n## 2. 레벨 2: 필수 공통 컴포넌트 4대 규격 (Core 4 Components)\n\n### 2-1. 버튼 (Button)\n* **Primary Bottom CTA (하단 고정 및 페이지 메인 버튼)**:\n  * 크기: 모바일 너비 **`312px`** (PC **`627px`**), 높이 **`56px`** 또는 **`62px`**\n  * Corner Radius: **`6px`**\n  * 타이포그래피: **`18px Bold White`** (`#FFFFFF`, 배경 `#1219F7`)\n* **Secondary / Inline 액션 버튼 (통화하기, 채팅하기, 수정하기 등)**:\n  * 크기: 높이 **`51px`** 또는 **`48px`**\n  * Corner Radius: **`6px`** (초소형 마이크로 버튼은 **`4px`**)\n  * 타이포그래피: **`16px Bold`** 또는 **`18px Bold`**\n  * 스타일: 취소(배경 `#F2F4F6`, 텍스트 `#191F28`) 또는 아웃라인(보더 1px `#595EF9`, 텍스트 `#595EF9`)\n\n### 2-2. 입력창 (Form Input)\n* **표준 인풋 (Text, Number, Select)**:\n  * 너비: **`312px`** (모바일 전폭 안전영역)\n  * 높이: **`56px`** (패딩 좌우 16px)\n  * Corner Radius: **`6px`**\n  * 텍스트 크기: **`18px`** (입력값 text-01 `#121212`, 플레이스홀더 text-04 `#888888`)\n  * 보더 스타일: 기본 etc-02 `#D7DBE2` (1px solid), 포커스 시 main-01 `#1219F7` (2px solid), 에러 시 sub-02 `#F34766`\n  * 비활성 상태: 배경 etc-04 `#F7F8FA`, 보더 etc-03 `#EBEEF2`\n\n### 2-3. 오버레이 및 다이얼로그 (Modals & Popups)\n* **Alert / Confirm 모달**:\n  * 너비: **`312px`** (모바일 전폭 안전영역 중앙 정렬)\n  * Corner Radius: **`6px`** (플러그인에서는 모달 판별 시 곡률 검증 면제)\n  * 배경 딤드: `rgba(0, 0, 0, 0.6)` 60%\n  * 타이틀: **`20px Bold`** (`lh 150%`)\n  * 본문: **`18px Regular`** (`lh 150%`)\n  * 하단 버튼: 높이 **`48px`** 또는 **`51px`**, Corner Radius **`6px`**\n* **바텀시트 (Bottom Sheet)**:\n  * 너비: 모바일 전폭 **`360px`**\n  * 상단 모서리 라운드: **`16px`** (기사님이 한 손으로 밀어 올릴 수 있는 슬라이드 제스처 영역)\n  * 리스트 아이템: 높이 **`56px`**, 텍스트 **`18px`**\n\n### 2-4. 필터 칩 및 태그 (Filter Chips)\n* **형태**: 라운드 수치(6px)에 구애받지 않고 전사 공통 **완전한 라운드 형태 (Pill / rounded-full)** 적용.\n* **규격**: 높이 **`36px`**, 텍스트 **`14px Semibold`**.\n\n---\n\n## 3. 고객향 vs 파트너향 핵심 비교 요약표\n\n| 항목 | 고객향 (Customer) | 파트너향 (Partner) |\n| :--- | :--- | :--- |\n| **기본 본문 텍스트** | `16px` (Body) | **`18px` (Body 1)** (현장 가독성 강화) |\n| **최소 캡션 크기** | `12px` | **`14px`** (`12px` 금지) |\n| **기본 모서리 곡률** | `10px` (카드), `16px` (모달) | **`6px`** (카드, 인풋, 버튼 등 전사 통일) |\n| **메인 CTA 버튼** | 높이 `56px`, Radius `10px`, `16px Bold` | 높이 **`56px/62px`**, Radius **`6px`**, **`18px Bold`** |\n| **폼 인풋 규격** | 너비 `312px`, 높이 `56px`, Radius `10px` | 너비 `312px`, 높이 `56px`, Radius **`6px`** |\n| **웹(Web) 콘텐츠 열 너비**| `1200px` 캔버스 내 `640px` 열 | `1200px` 캔버스 내 **`627px`** 주문 카드 열 |\n| **모바일(Mobile) 콘텐츠** | `360px` 캔버스 내 `312px` 열 | `360px` 캔버스 내 **`312px`** 열 |\n| **UI 테마 성격** | 모던 Toss 라이트 스타일 | **모던 Toss 라이트 스타일 (파트너 전용 18px / 6px)** |\n";
+
+    // 명세서 뷰어 ({ }) 모달 제어
+    btnOpenDocs.addEventListener("click", () => {
+      currentDocsTab = currentMode;
+      renderDocsTab();
+      docsModal.style.display = "flex";
+    });
+
+    btnCloseDocs.addEventListener("click", () => {
+      docsModal.style.display = "none";
+    });
+
+    docsModal.addEventListener("click", (e) => {
+      if (e.target === docsModal) {
+        docsModal.style.display = "none";
+      }
+    });
+
+    docsTabCustomer.addEventListener("click", () => {
+      currentDocsTab = "customer";
+      renderDocsTab();
+    });
+
+    docsTabPartner.addEventListener("click", () => {
+      currentDocsTab = "partner";
+      renderDocsTab();
+    });
+
+    function renderDocsTab() {
+      if (currentDocsTab === "customer") {
+        docsTabCustomer.className = "docs-tab-btn active";
+        docsTabPartner.className = "docs-tab-btn";
+        docsContent.innerHTML = renderMarkdown(CUSTOMER_MD);
+      } else {
+        docsTabCustomer.className = "docs-tab-btn";
+        docsTabPartner.className = "docs-tab-btn active";
+        docsContent.innerHTML = renderMarkdown(PARTNER_MD);
+      }
+      docsContent.scrollTop = 0;
+    }
+
+    btnCopyDocsRaw.addEventListener("click", () => {
+      const rawText = currentDocsTab === "customer" ? CUSTOMER_MD : PARTNER_MD;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(rawText).then(() => {
+          showCopySuccess();
+        }).catch(() => fallbackCopy(rawText));
+      } else {
+        fallbackCopy(rawText);
+      }
+    });
+
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showCopySuccess();
+      } catch (err) {
+        alert("클립보드 복사에 실패했습니다.");
+      }
+      document.body.removeChild(ta);
+    }
+
+    function showCopySuccess() {
+      const orig = txtCopyLabel.textContent;
+      txtCopyLabel.textContent = "복사 완료!";
+      setTimeout(() => {
+        txtCopyLabel.textContent = orig;
+      }, 1500);
+    }
+
+    function renderMarkdown(md) {
+      const lines = md.split("\n");
+      const out = [];
+      let inTable = false;
+      let inList = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+
+        if (line.trim().startsWith("|") && line.trim().endsWith("|")) {
+          if (inList) { out.push("</ul>"); inList = false; }
+          if (!inTable) {
+            inTable = true;
+            out.push("<table>");
+          }
+          if (line.includes("---")) continue;
+          const cells = line.split("|").slice(1, -1).map(c => c.trim());
+          const isHeader = (i > 0 && lines[i+1] && lines[i+1].includes("---"));
+          const tag = isHeader ? "th" : "td";
+          out.push("<tr>" + cells.map(c => "<" + tag + ">" + formatInline(c) + "</" + tag + ">").join("") + "</tr>");
+          continue;
+        } else if (inTable) {
+          out.push("</table>");
+          inTable = false;
+        }
+
+        if (line.trim().startsWith("* ") || line.trim().startsWith("- ")) {
+          if (!inList) {
+            inList = true;
+            out.push("<ul>");
+          }
+          const isSub = line.startsWith("  ") || line.startsWith("\t");
+          const content = line.trim().replace(/^[\*\-]\s+/, "");
+          out.push("<li style=\"" + (isSub ? "margin-left: 14px; list-style-type: circle;" : "") + "\">" + formatInline(content) + "</li>");
+          continue;
+        } else if (inList) {
+          out.push("</ul>");
+          inList = false;
+        }
+
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        if (trimmed.startsWith("# ")) {
+          out.push("<h1>" + formatInline(trimmed.slice(2)) + "</h1>");
+        } else if (trimmed.startsWith("## ")) {
+          out.push("<h2>" + formatInline(trimmed.slice(3)) + "</h2>");
+        } else if (trimmed.startsWith("### ")) {
+          out.push("<h3>" + formatInline(trimmed.slice(4)) + "</h3>");
+        } else if (trimmed.startsWith("> ")) {
+          out.push("<blockquote>" + formatInline(trimmed.slice(2)) + "</blockquote>");
+        } else if (trimmed === "---") {
+          out.push("<hr>");
+        } else {
+          out.push("<p>" + formatInline(trimmed) + "</p>");
+        }
+      }
+
+      if (inTable) out.push("</table>");
+      if (inList) out.push("</ul>");
+
+      return out.join("");
+    }
+
+    function formatInline(str) {
+      if (!str) return "";
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(new RegExp("`([^`]+)`", "g"), "<code>$1</code>");
+    }
+
 
     // 모드 전환
     tabCustomer.addEventListener('click', () => {
@@ -870,10 +1285,11 @@
       pillMustFix.textContent = mustFixCount;
       pillCheckNeeded.textContent = checkNeededCount;
 
-      const fixableCount = currentIssues.filter(i => i.autoFixable).length;
-      if (fixableCount > 0) {
+      // ★ 일괄 수정 버튼들(이 프레임에서 수정, 수정된 복제본 생성)은 오직 '수정 필요' 항목만 자동 수정
+      const mustFixFixableCount = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable).length;
+      if (mustFixFixableCount > 0) {
         btnFixAll.style.display = 'inline-flex';
-        cntFixableTotal.textContent = fixableCount;
+        cntFixableTotal.textContent = mustFixFixableCount;
         btnCloneAndFix.style.display = 'inline-flex';
       } else {
         btnFixAll.style.display = 'none';
@@ -1064,10 +1480,11 @@
     });
 
     btnFixAll.addEventListener('click', () => {
-      const fixable = currentIssues.filter(i => i.autoFixable);
+      // ★ 일괄 수정은 오직 '수정 필요' 항목만 적용 ('확인 필요'는 검토 후 개별 행에서 수정)
+      const fixable = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable);
       if (fixable.length === 0) return;
 
-      if (confirm(`자동 보정 가능한 ${fixable.length}개 항목을 현재 레이어에서 일괄 수정하시겠습니까?\n(원본 보존을 원하시면 [완성본 복제 생성]을 사용하세요)`)) {
+      if (confirm(`'수정 필요' 항목 중 자동 보정 가능한 ${fixable.length}개를 현재 프레임에서 바로 수정하시겠습니까?\n(원본 프레임 보존을 원하시면 우측 [수정된 복제본 생성]을 사용하세요)`)) {
         parent.postMessage({
           pluginMessage: {
             type: 'fix-all',

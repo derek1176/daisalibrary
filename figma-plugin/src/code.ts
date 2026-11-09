@@ -1051,7 +1051,8 @@ figma.ui.onmessage = async (msg) => {
     let fixedCount = 0;
 
     for (const item of issues) {
-      if (item.autoFixable && item.fixAction) {
+      // ★ '수정 필요' (must-fix) 항목만 일괄 자동 보정 ('확인 필요'는 검토 후 개별 수정)
+      if (item.severity === 'must-fix' && item.autoFixable && item.fixAction) {
         const node = figma.getNodeById(item.nodeId);
         if (node && 'type' in node) {
           try {
@@ -1064,7 +1065,7 @@ figma.ui.onmessage = async (msg) => {
       }
     }
 
-    figma.notify(`총 ${fixedCount}개 항목의 자동 수정을 완료했습니다.`);
+    figma.notify(`총 ${fixedCount}개의 '수정 필요' 항목을 자동 수정했습니다.`);
     executeLint();
   }
 
@@ -1105,7 +1106,8 @@ figma.ui.onmessage = async (msg) => {
 
       let fixedCount = 0;
       for (const item of cloneIssues) {
-        if (item.autoFixable && item.fixAction) {
+        // ★ '수정 필요' (must-fix) 항목만 복제본 생성 시 일괄 자동 보정 ('확인 필요'는 검토 후 개별 수정)
+        if (item.severity === 'must-fix' && item.autoFixable && item.fixAction) {
           const node = figma.getNodeById(item.nodeId);
           if (node && 'type' in node) {
             try {
@@ -1123,7 +1125,7 @@ figma.ui.onmessage = async (msg) => {
       figma.viewport.scrollAndZoomIntoView(clonedNodes);
       setTimeout(() => { isNavigatingSelection = false; }, 350);
 
-      figma.notify(`새 [수정본] 프레임 생성 완료! (${fixedCount}개 항목 자동 보정됨)`);
+      figma.notify(`새 [수정본] 프레임 생성 완료! ('수정 필요' ${fixedCount}개 항목 자동 보정됨)`);
 
       sessionTargetNodeIds = clonedNodes.map(n => n.id);
       executeLint();
