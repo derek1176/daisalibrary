@@ -58,8 +58,22 @@ const PARTNER_BANNED_COLORS = {
 const CUSTOMER_FONT_SIZES = [10, 11, 12, 14, 16, 18, 20, 24];
 // [파트너향] 폰트 크기 규격 (7단계, 최소 14px, 기본 18px)
 const PARTNER_FONT_SIZES = [14, 16, 18, 20, 24, 28, 32];
-// 이모지 정규식
-const EMOJI_REGEX = /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g;
+// ★ 순수 픽토리얼 이모지만 판별 (-, +, *, •, 숫자, 화살표, 수학기호 등 특수기호 제외)
+function containsPictorialEmoji(text) {
+    if (!text)
+        return false;
+    const matches = text.match(/\p{Extended_Pictographic}/gu);
+    if (!matches)
+        return false;
+    const nonEmojiSet = new Set([
+        '#', '*', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        '©', '®', '™', '+', '-', '±', '×', '÷', '=', '<', '>', '/', '%',
+        '•', '·', '…', '★', '☆', '→', '←', '↑', '↓', '↔',
+        '!', '?', '.', ',', ':', ';', '"', "'", '`', '~', '^', '_', '|',
+        '(', ')', '[', ']', '{', '}', '₩', '$', '€', '¥'
+    ]);
+    return matches.some(m => !nonEmojiSet.has(m) && m.trim().length > 0);
+}
 // -------------------------------------------------------------
 // 2. 도우미 함수 및 세션 캐시
 // -------------------------------------------------------------
@@ -113,12 +127,39 @@ function findNearestAllowedFontSize(current, allowed) {
     return allowed.reduce((prev, curr) => Math.abs(curr - current) < Math.abs(prev - current) ? curr : prev);
 }
 function isSystemUI(node) {
-    const name = node.name.toLowerCase();
-    return name.includes('status bar') ||
-        name.includes('statusbar') ||
-        name.includes('home bar') ||
-        name.includes('home indicator') ||
-        name.includes('homebar');
+    // 1. 조상 노드 전체 탐색 (Status Bar / Home Bar 내부 자식 레이어까지 완벽 제외)
+    let curr = node;
+    while (curr && curr.type !== 'PAGE' && curr.type !== 'DOCUMENT') {
+        const name = curr.name.toLowerCase();
+        if (name.includes('status bar') ||
+            name.includes('statusbar') ||
+            name.includes('status_bar') ||
+            name.includes('home bar') ||
+            name.includes('homebar') ||
+            name.includes('home indicator') ||
+            name.includes('homeindicator') ||
+            name.includes('dynamic island') ||
+            name.includes('notch') ||
+            name.includes('navigation bar') ||
+            name.includes('ios / status') ||
+            name.includes('iphone / status') ||
+            name.includes('ios status') ||
+            name.includes('system bar')) {
+            return true;
+        }
+        curr = curr.parent;
+    }
+    // 2. iOS/Android 시스템 UI 고유 레이어명 (Time, Cap, Battery, Cellular, Wifi 등)
+    const name = node.name.toLowerCase().trim();
+    const systemNames = [
+        'time', 'cap', 'capacity', 'battery', 'border', 'wifi', 'cellular',
+        'cellular connection', 'reception', 'signal', 'home indicator',
+        'status bar - iphone', 'status bar'
+    ];
+    if (systemNames.includes(name)) {
+        return true;
+    }
+    return false;
 }
 function isExemptFromRadiusCheck(node) {
     const name = node.name.toLowerCase();
@@ -140,7 +181,60 @@ function isExemptFromRadiusCheck(node) {
     }
     return false;
 }
-// ★ 모달 / 바텀시트 스마트 판별 (이름이 modal이 아니어도 16px 곡률 인정)
+// 딤드 레이어 판별
+function isDimmedLayer(node) {
+    const name = node.name.toLowerCase();
+    if (name.includes('dim') || name.includes('overlay') || name.includes('scrim') || name.includes('backdrop')) {
+        return true;
+    }
+    if ('fills' in node && Array.isArray(node.fills)) {
+        for (const f of node.fills) {
+            if (f.type === 'SOLID' && f.visible !== false) {
+                const hex = rgbToHex(f.color.r, f.color.g, f.color.b);
+                const fillOp = typeof f.opacity === 'number' ? f.opacity : 1;
+                const nodeOp = 'opacity' in node && typeof node.opacity === 'number' ? node.opacity : 1;
+                const totalOp = fillOp * nodeOp;
+                if (hex === '#000000' && totalOp >= 0.35 && totalOp <= 0.85) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+// 상하위 계층 내 딤드 오버레이 존재 여부 검사
+function hasDimmedBackdropInHierarchy(node) {
+    // 형제 레이어 검사
+    if (node.parent && 'children' in node.parent) {
+        for (const sibling of node.parent.children) {
+            if (sibling.id !== node.id && isDimmedLayer(sibling)) {
+                return true;
+            }
+        }
+    }
+    // 부모의 형제 레이어 검사
+    if (node.parent && node.parent.parent && 'children' in node.parent.parent) {
+        for (const sibling of node.parent.parent.children) {
+            if (sibling.id !== node.parent.id && isDimmedLayer(sibling)) {
+                return true;
+            }
+        }
+    }
+    // 상위 루트 컨테이너 자식 검사
+    let root = node.parent;
+    while (root && root.parent && root.parent.type !== 'PAGE' && root.parent.type !== 'DOCUMENT') {
+        root = root.parent;
+    }
+    if (root && 'children' in root) {
+        for (const child of root.children) {
+            if (isDimmedLayer(child)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+// ★ 모달 / 바텀시트 스마트 판별 (이름이 modal이 아니어도 딤드 배경이나 규격으로 16px 곡률 인정)
 function isModalOrSheet(node) {
     const name = node.name.toLowerCase();
     // 1. 국/영문 키워드 검사
@@ -150,34 +244,73 @@ function isModalOrSheet(node) {
     ];
     if (modalKeywords.some(kw => name.includes(kw)))
         return true;
-    // 2. 부모 또는 형제 레이어에 딤드(Dimmed 60% 블랙) 오버레이 배경이 있는 경우
-    if (node.parent) {
-        const parentName = node.parent.name.toLowerCase();
-        if (modalKeywords.some(kw => parentName.includes(kw)))
+    // 2. 조상 레이어 이름 검사
+    let curr = node.parent;
+    while (curr && curr.type !== 'PAGE' && curr.type !== 'DOCUMENT') {
+        if (modalKeywords.some(kw => curr.name.toLowerCase().includes(kw))) {
             return true;
-        if ('children' in node.parent) {
-            for (const sibling of node.parent.children) {
-                if (sibling.id !== node.id && 'fills' in sibling && Array.isArray(sibling.fills)) {
-                    for (const f of sibling.fills) {
-                        if (f.type === 'SOLID' && f.visible !== false) {
-                            const hex = rgbToHex(f.color.r, f.color.g, f.color.b);
-                            const fillOp = typeof f.opacity === 'number' ? f.opacity : 1;
-                            const nodeOp = 'opacity' in sibling ? sibling.opacity : 1;
-                            const totalOp = fillOp * (typeof nodeOp === 'number' ? nodeOp : 1);
-                            if (hex === '#000000' && totalOp >= 0.4 && totalOp <= 0.8) {
-                                return true; // 뒷배경에 딤드가 깔려있는 다이얼로그 모달임!
-                            }
-                        }
-                    }
-                }
+        }
+        curr = curr.parent;
+    }
+    // 3. 딤드 오버레이 연계 검사
+    if (hasDimmedBackdropInHierarchy(node))
+        return true;
+    // 4. 모바일/웹 모달 다이얼로그 규격 (너비 260~360px 또는 400~500px에 곡률 16px 적용된 컨테이너)
+    if ('width' in node && typeof node.width === 'number') {
+        const w = Math.round(node.width);
+        if ((w >= 260 && w <= 360) || (w >= 400 && w <= 500)) {
+            if ('cornerRadius' in node && node.cornerRadius === 16) {
+                return true;
             }
         }
     }
-    // 3. 모바일/웹 모달 다이얼로그 규격 (너비 280~360px 또는 400~460px에 곡률 16px 적용된 흰색 컨테이너)
-    if ('width' in node && typeof node.width === 'number') {
-        const w = Math.round(node.width);
-        if ((w >= 280 && w <= 360) || (w >= 400 && w <= 460)) {
-            if ('cornerRadius' in node && node.cornerRadius === 16) {
+    return false;
+}
+// ★ 버튼 내부 주 텍스트 노드 탐색 도우미
+function findPrimaryTextNode(node) {
+    if (node.type === 'TEXT')
+        return node;
+    if ('children' in node) {
+        for (const child of node.children) {
+            if (child.type === 'TEXT')
+                return child;
+            if ('children' in child) {
+                const nested = findPrimaryTextNode(child);
+                if (nested)
+                    return nested;
+            }
+        }
+    }
+    return null;
+}
+// ★ 스마트 버튼 컨테이너 판별 (이름이 Frame이어도 버튼 형태면 인식)
+function isButtonContainer(node) {
+    if (node.type !== 'FRAME' && node.type !== 'COMPONENT' && node.type !== 'INSTANCE' && node.type !== 'GROUP') {
+        return false;
+    }
+    if (!node.parent || node.parent.type === 'PAGE' || node.parent.type === 'DOCUMENT') {
+        return false;
+    }
+    const name = node.name.toLowerCase();
+    const w = Math.round(node.width);
+    const h = Math.round(node.height);
+    const buttonKeywords = [
+        'button', 'btn', 'cta', '버튼', '플로팅', 'floating',
+        '견적 받기', '견적받기', '견적 신청', '견적신청', '신청하기', '신청',
+        '제출', '확인', '취소', '완료', '다음', '조회', '상세보기', '더보기', '추가'
+    ];
+    const nameMatches = buttonKeywords.some(kw => name.includes(kw));
+    const primaryText = findPrimaryTextNode(node);
+    const hasTextChild = !!primaryText;
+    const hasVisualSkin = ('fills' in node && Array.isArray(node.fills) && node.fills.length > 0) ||
+        ('strokes' in node && Array.isArray(node.strokes) && node.strokes.length > 0);
+    const validButtonDimensions = h >= 32 && h <= 72 && w >= 80 && w <= 680;
+    if (nameMatches && hasTextChild)
+        return true;
+    if (validButtonDimensions && hasTextChild && hasVisualSkin) {
+        if (primaryText && primaryText.characters.trim().length <= 30) {
+            const childCount = 'children' in node ? node.children.length : 0;
+            if (childCount <= 4) {
                 return true;
             }
         }
@@ -449,9 +582,9 @@ function lintNode(node, mode, issues, options) {
                 });
             }
         }
-        // 이모지 검사
+        // 이모지 검사 (순수 픽토리얼 이모지만 검사, -, +, *, • 등 특수문자 완벽 제외)
         const chars = textNode.characters;
-        if (EMOJI_REGEX.test(chars)) {
+        if (containsPictorialEmoji(chars)) {
             issues.push({
                 id: `${node.id}-emoji`,
                 nodeId: node.id,
@@ -481,9 +614,9 @@ function lintNode(node, mode, issues, options) {
             });
         }
     }
-    // 4. 모서리 곡률 (Corner Radius) 검사
+    // 4. 모서리 곡률 (Corner Radius) 검사 (일반 컨테이너용, 버튼은 6번에서 전담)
     // 고객향 표준 10px 고정 (토스트/툴팁/배지는 자동 제외, 모달/바텀시트 16px은 정상 승인)
-    if ('cornerRadius' in node && typeof node.cornerRadius === 'number' && node.cornerRadius > 0) {
+    if (!isButtonContainer(node) && 'cornerRadius' in node && typeof node.cornerRadius === 'number' && node.cornerRadius > 0) {
         const radius = node.cornerRadius;
         const height = node.height;
         const isPill = radius >= height / 2 - 1;
@@ -566,7 +699,185 @@ function lintNode(node, mode, issues, options) {
             }
         }
     }
-    // 6. 구버전 레거시 Floating CTA (360x56, r:0px) 금지 검사
+    // 6. ★ 버튼 심층 검증 (버튼 사이즈 & 내부 폰트 사이즈/굵기 & 모서리 곡률 분석)
+    if (isButtonContainer(node)) {
+        const w = Math.round(node.width);
+        const h = Math.round(node.height);
+        // 6-1. 버튼 높이 분석
+        if (mode === 'customer') {
+            // 고객향 표준 높이: 56px (모달 서브 버튼은 48px 허용)
+            if (h !== 56 && h !== 48) {
+                const isFarOff = h < 44 || h > 64;
+                issues.push({
+                    id: `${node.id}-btn-height`,
+                    nodeId: node.id,
+                    nodeName: node.name,
+                    nodeType: node.type,
+                    severity: isFarOff ? 'must-fix' : 'check-needed',
+                    category: 'button',
+                    groupKey: `btn-height-${h}`,
+                    groupTitle: `버튼 높이 ${h}px (표준 56px 권장)`,
+                    message: `버튼 높이가 ${h}px입니다 (다이사 표준: 56px, 모달 서브: 48px)`,
+                    details: `고객향 주요 CTA 버튼은 높이 56px(모달 서브 버튼 48px) 규격을 준수해야 합니다.`,
+                    autoFixable: true,
+                    fixAction: { type: 'buttonHeight', targetValue: 56, label: '높이 56px로 변경' }
+                });
+            }
+        }
+        else {
+            // 파트너향 표준 높이: 56px(Primary) 또는 51px(Secondary) (레거시 62px / 48px 허용)
+            if (h !== 56 && h !== 51 && h !== 62 && h !== 48) {
+                issues.push({
+                    id: `${node.id}-btn-height-partner`,
+                    nodeId: node.id,
+                    nodeName: node.name,
+                    nodeType: node.type,
+                    severity: 'must-fix',
+                    category: 'button',
+                    groupKey: `btn-height-partner-${h}`,
+                    groupTitle: `파트너 버튼 높이 ${h}px (표준 56px 권장)`,
+                    message: `파트너 버튼 높이가 ${h}px입니다 (표준 56px 또는 51px 권장)`,
+                    details: `파트너 메인 버튼은 56px, 서브 버튼은 51px 규격을 사용해야 합니다.`,
+                    autoFixable: true,
+                    fixAction: { type: 'buttonHeight', targetValue: 56, label: '높이 56px로 변경' }
+                });
+            }
+        }
+        // 6-2. 버튼 너비 분석 (모바일 360 화면 기준)
+        if (w >= 280 && w <= 359 && w !== 312 && w !== 280 && w !== 136) {
+            issues.push({
+                id: `${node.id}-btn-width`,
+                nodeId: node.id,
+                nodeName: node.name,
+                nodeType: node.type,
+                severity: 'check-needed',
+                category: 'button',
+                groupKey: `btn-width-${w}`,
+                groupTitle: `버튼 너비 ${w}px (모바일 312px 권장)`,
+                message: `버튼 너비가 ${w}px입니다 (모바일 360 기준 312px 권장)`,
+                details: `모바일 360px 캔버스에서 주요 CTA 버튼은 좌우 24px 여백을 고려한 312px 너비가 원칙입니다.`,
+                autoFixable: true,
+                fixAction: { type: 'buttonWidth', targetValue: 312, label: '너비 312px로 변경' }
+            });
+        }
+        // 6-3. 버튼 내부 텍스트 폰트 크기 및 두께 분석
+        const primaryText = findPrimaryTextNode(node);
+        if (primaryText) {
+            let btnFontSize = null;
+            if (primaryText.fontSize !== figma.mixed) {
+                btnFontSize = primaryText.fontSize;
+            }
+            else if (primaryText.characters.length > 0) {
+                const fs0 = primaryText.getRangeFontSize(0, 1);
+                if (typeof fs0 === 'number')
+                    btnFontSize = fs0;
+            }
+            if (btnFontSize !== null) {
+                if (mode === 'customer') {
+                    // 고객향 버튼 표준 폰트 크기: 16px
+                    if (btnFontSize !== 16) {
+                        issues.push({
+                            id: `${primaryText.id}-btn-font-size`,
+                            nodeId: primaryText.id,
+                            nodeName: `${node.name} > ${primaryText.name}`,
+                            nodeType: primaryText.type,
+                            severity: 'must-fix',
+                            category: 'button',
+                            groupKey: `btn-font-size-${btnFontSize}`,
+                            groupTitle: `버튼 텍스트 크기 ${btnFontSize}px (표준 16px 필요)`,
+                            message: `버튼 내부 텍스트 크기가 ${btnFontSize}px입니다 (표준 16px 필요)`,
+                            details: `고객향 본문 및 주요 버튼 텍스트는 16px Bold가 표준 규격입니다.`,
+                            autoFixable: true,
+                            fixAction: { type: 'fontSize', targetValue: 16, label: '16px로 변경' }
+                        });
+                    }
+                }
+                else {
+                    // 파트너향 버튼 표준 폰트 크기: 최소 16px 이상 (기본 18px Bold)
+                    if (btnFontSize < 16) {
+                        issues.push({
+                            id: `${primaryText.id}-btn-font-size-partner`,
+                            nodeId: primaryText.id,
+                            nodeName: `${node.name} > ${primaryText.name}`,
+                            nodeType: primaryText.type,
+                            severity: 'must-fix',
+                            category: 'button',
+                            groupKey: `btn-font-size-partner-${btnFontSize}`,
+                            groupTitle: `파트너 버튼 텍스트 크기 ${btnFontSize}px (18px Bold 필요)`,
+                            message: `파트너 버튼 내부 텍스트가 ${btnFontSize}px로 너무 작습니다 (최소 16px/18px 필요)`,
+                            details: `기사님 현장 시인성을 위해 파트너 버튼 텍스트는 18px Bold(보조 16px) 이상이어야 합니다.`,
+                            autoFixable: true,
+                            fixAction: { type: 'fontSize', targetValue: 18, label: '18px로 변경' }
+                        });
+                    }
+                }
+            }
+            // 폰트 두께(Weight) 분석
+            let isBold = false;
+            let fontStyleStr = 'Regular';
+            if (primaryText.fontName !== figma.mixed) {
+                fontStyleStr = primaryText.fontName.style;
+                const s = fontStyleStr.toLowerCase();
+                isBold = s.includes('bold') || s.includes('700') || s.includes('800') || s.includes('900') || s.includes('semibold');
+            }
+            if (!isBold) {
+                issues.push({
+                    id: `${primaryText.id}-btn-font-weight`,
+                    nodeId: primaryText.id,
+                    nodeName: `${node.name} > ${primaryText.name}`,
+                    nodeType: primaryText.type,
+                    severity: 'check-needed',
+                    category: 'button',
+                    groupKey: `btn-font-weight-${fontStyleStr.toLowerCase()}`,
+                    groupTitle: `버튼 텍스트 굵기 ${fontStyleStr} (Bold 권장)`,
+                    message: `버튼 내부 텍스트가 ${fontStyleStr}로 설정되어 있습니다 (Bold 권장)`,
+                    details: `버튼 클릭 유도 및 CTA 시인성 강화를 위해 Bold 스타일을 권장합니다.`,
+                    autoFixable: true,
+                    fixAction: { type: 'fontStyle', targetValue: 'Bold', label: 'Bold로 변경' }
+                });
+            }
+        }
+        // 6-4. 버튼 코너 곡률 (Corner Radius) 분석
+        if ('cornerRadius' in node && typeof node.cornerRadius === 'number') {
+            const radius = node.cornerRadius;
+            const isPill = radius >= h / 2 - 1;
+            if (!isPill) {
+                if (mode === 'customer' && radius !== 10) {
+                    issues.push({
+                        id: `${node.id}-btn-radius`,
+                        nodeId: node.id,
+                        nodeName: node.name,
+                        nodeType: node.type,
+                        severity: 'must-fix',
+                        category: 'button',
+                        groupKey: `btn-radius-${radius}`,
+                        groupTitle: `버튼 모서리 곡률 ${radius}px (표준 10px 필요)`,
+                        message: `버튼 모서리 곡률이 ${radius}px입니다 (고객향 표준 10px)`,
+                        details: `고객향 디자인시스템 표준 버튼 모서리 곡률은 10px입니다.`,
+                        autoFixable: true,
+                        fixAction: { type: 'radius', targetValue: 10, label: '10px로 변경' }
+                    });
+                }
+                else if (mode === 'partner' && radius !== 6) {
+                    issues.push({
+                        id: `${node.id}-btn-radius-partner`,
+                        nodeId: node.id,
+                        nodeName: node.name,
+                        nodeType: node.type,
+                        severity: 'must-fix',
+                        category: 'button',
+                        groupKey: `btn-radius-partner-${radius}`,
+                        groupTitle: `파트너 버튼 모서리 곡률 ${radius}px (표준 6px 필요)`,
+                        message: `파트너 버튼 모서리 곡률이 ${radius}px입니다 (파트너 표준 6px)`,
+                        details: `파트너 디자인시스템 표준 버튼 곡률은 6px입니다.`,
+                        autoFixable: true,
+                        fixAction: { type: 'radius', targetValue: 6, label: '6px로 변경' }
+                    });
+                }
+            }
+        }
+    }
+    // 7. 구버전 레거시 Floating CTA (360x56, r:0px) 금지 검사
     if (mode === 'customer') {
         if (node.type === 'FRAME' || node.type === 'COMPONENT' || node.type === 'INSTANCE' || node.type === 'RECTANGLE') {
             const isRootCanvas = node.parent && node.parent.type === 'PAGE';
@@ -781,6 +1092,36 @@ function applyFixToNode(node, fixAction) {
             }
             if (node.parent && 'width' in node.parent && Math.round(node.parent.width) === 360) {
                 node.x = 24;
+            }
+        }
+        else if (fixAction.type === 'buttonHeight') {
+            if ('resize' in node) {
+                node.resize(node.width, fixAction.targetValue);
+            }
+        }
+        else if (fixAction.type === 'buttonWidth') {
+            if ('resize' in node) {
+                node.resize(fixAction.targetValue, node.height);
+            }
+        }
+        else if (fixAction.type === 'fontStyle' && node.type === 'TEXT') {
+            const textNode = node;
+            let family = 'Pretendard';
+            if (textNode.fontName !== figma.mixed) {
+                family = textNode.fontName.family;
+            }
+            const targetFont = { family, style: fixAction.targetValue };
+            try {
+                yield figma.loadFontAsync(targetFont);
+                textNode.fontName = targetFont;
+            }
+            catch (e) {
+                const fallbackFont = { family: 'Pretendard', style: 'Bold' };
+                try {
+                    yield figma.loadFontAsync(fallbackFont);
+                    textNode.fontName = fallbackFont;
+                }
+                catch (e2) { }
             }
         }
     });

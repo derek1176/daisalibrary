@@ -12,15 +12,26 @@
       letter-spacing: -0.01em;
     }
 
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
     body {
       background-color: #F8F9FA;
       color: #111827;
       font-size: 13px;
-      line-height: 1.4;
+      line-height: 1.5;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      height: 100%;
+      box-sizing: border-box;
       user-select: none;
     }
 
@@ -315,25 +326,29 @@
 
     /* 4. 이슈 리스트 스크롤 영역 (스크롤 완벽 지원) */
     .issue-scroll-area {
-      flex: 1 1 0%;
+      flex: 1 1 0px;
+      height: 0;
       min-height: 0;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 12px 14px 32px;
+      padding: 12px 14px 40px;
       display: flex;
       flex-direction: column;
       gap: 8px;
+      box-sizing: border-box;
     }
 
-    /* 5. 피드백 그룹 아코디언 카드 (찌그러짐 방지 flex-shrink: 0) */
+    /* 5. 피드백 그룹 아코디언 카드 (찌그러짐 방지 flex-shrink: 0, min-height 48px) */
     .group-card {
       background: #FFFFFF;
       border: 1px solid #E5E7EB;
       border-radius: 8px;
       flex-shrink: 0;
+      min-height: 48px;
       display: flex;
       flex-direction: column;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      box-sizing: border-box;
       transition: border-color 0.15s ease;
     }
 
@@ -343,8 +358,9 @@
 
     /* 그룹 헤더 */
     .group-header {
-      min-height: 44px;
-      padding: 10px 12px;
+      min-height: 48px;
+      height: auto;
+      padding: 11px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -353,6 +369,7 @@
       border-radius: 8px;
       transition: background 0.15s ease;
       flex-shrink: 0;
+      box-sizing: border-box;
     }
 
     .group-header:hover {
@@ -371,8 +388,12 @@
     .badge-severity {
       font-size: 10px;
       font-weight: 700;
-      line-height: 1.2;
-      padding: 3px 6px;
+      line-height: 1;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
       border-radius: 4px;
       white-space: nowrap;
       flex-shrink: 0;
@@ -393,7 +414,7 @@
     .group-title {
       font-size: 12px;
       font-weight: 600;
-      line-height: 1.4;
+      line-height: 1.5;
       color: #111827;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -656,6 +677,7 @@
     <!-- 3-2. 카테고리 칩 -->
     <div class="category-chips">
       <button class="cat-chip active" data-cat="all">전체</button>
+      <button class="cat-chip" data-cat="button">버튼</button>
       <button class="cat-chip" data-cat="typography">서체·폰트</button>
       <button class="cat-chip" data-cat="color">컬러</button>
       <button class="cat-chip" data-cat="radius">곡률·보더</button>
