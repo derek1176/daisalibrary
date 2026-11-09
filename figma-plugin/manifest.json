@@ -1,10 +1,11 @@
 {
   "name": "다이사 교정기",
-  "id": "daisa-design-system-linter",
+  "id": "1701500498028389673",
   "api": "1.0.0",
   "main": "code.js",
   "ui": "ui.html",
   "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
   "networkAccess": {
     "allowedDomains": ["none"]
   }
