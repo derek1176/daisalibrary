@@ -8,8 +8,9 @@ interface LogoSectionProps {
 interface LogoVariant {
   id: string;
   name: string;
-  filename: string;
-  bgType: 'white' | 'blue' | 'dark';
+  svgFilename: string;
+  pngFilename: string;
+  bgType: 'white' | 'blue';
   bgColor: string;
   borderColor: string;
   logoColorName: string;
@@ -41,19 +42,16 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
 
   const SVG_MAP = {
     comboBlue: createSvgMarkup('0 0 860 694', PATHS.combination, '#1219F7'),
-    comboDark: createSvgMarkup('0 0 860 694', PATHS.combination, '#191F28'),
     comboWhite: createSvgMarkup('0 0 860 694', PATHS.combination, '#FFFFFF'),
 
     symbolBlue: createSvgMarkup('0 0 359 408', PATHS.symbol, '#1219F7'),
-    symbolDark: createSvgMarkup('0 0 359 408', PATHS.symbol, '#191F28'),
     symbolWhite: createSvgMarkup('0 0 359 408', PATHS.symbol, '#FFFFFF'),
 
     wordmarkBlue: createSvgMarkup('0 0 860 225', PATHS.wordmark, '#1219F7'),
-    wordmarkDark: createSvgMarkup('0 0 860 225', PATHS.wordmark, '#191F28'),
     wordmarkWhite: createSvgMarkup('0 0 860 225', PATHS.wordmark, '#FFFFFF'),
   };
 
-  const handleDownload = (svgContent: string, fileName: string) => {
+  const handleDownloadSvg = (svgContent: string, fileName: string) => {
     const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -63,6 +61,15 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownloadPng = (pngFilename: string) => {
+    const link = document.createElement('a');
+    link.href = '/logos/' + pngFilename;
+    link.download = pngFilename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleCopy = (svgContent: string, id: string) => {
@@ -77,12 +84,13 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       title: '조합형 로고 (Combination)',
       subtitle: 'Primary Signature',
       description: '상단 헥사곤 큐브 심볼과 하단 볼드 워드마크가 결합된 공식 시그니처 로고입니다.',
-      recommendedUse: '앱 스플래시 화면, 서비스 메인 헤더, 옥외 광고물, 온·오프라인 대표 마케팅 에셋',
+      recommendedUse: '앱 스플래시 화면, 서비스 메인 헤더, 온·오프라인 대표 마케팅 에셋',
       variants: [
         {
           id: 'combo-blue',
           name: '시그니처 블루',
-          filename: 'daisa-combination-blue.svg',
+          svgFilename: 'daisa-combination-blue.svg',
+          pngFilename: 'daisa-combination-blue.png',
           bgType: 'white',
           bgColor: 'bg-white',
           borderColor: 'border-[#E5E8EB]',
@@ -90,19 +98,10 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
           svgContent: SVG_MAP.comboBlue,
         },
         {
-          id: 'combo-dark',
-          name: '다크',
-          filename: 'daisa-combination-dark.svg',
-          bgType: 'white',
-          bgColor: 'bg-[#F8F9FA]',
-          borderColor: 'border-[#E5E8EB]',
-          logoColorName: '#191F28',
-          svgContent: SVG_MAP.comboDark,
-        },
-        {
           id: 'combo-white',
           name: '화이트 (반전용)',
-          filename: 'daisa-combination-white.svg',
+          svgFilename: 'daisa-combination-white.svg',
+          pngFilename: 'daisa-combination-white.png',
           bgType: 'blue',
           bgColor: 'bg-[#1219F7]',
           borderColor: 'border-[#1219F7]',
@@ -116,12 +115,13 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       title: '심볼 단독형 (Symbol Mark)',
       subtitle: 'Hexagon & 3D Cube',
       description: '육각형 프레임과 입체적인 3D 이사 큐브 박스를 형상화한 핵심 심볼 그래픽입니다.',
-      recommendedUse: '모바일 앱 아이콘, 웹 파비콘(Favicon), SNS 프로필 아바타, 좁은 UI 헤더 및 푸터',
+      recommendedUse: '모바일 앱 아이콘, 웹 파비콘(Favicon), SNS 프로필 아바타, 좁은 UI 영역',
       variants: [
         {
           id: 'symbol-blue',
           name: '시그니처 블루',
-          filename: 'daisa-symbol-blue.svg',
+          svgFilename: 'daisa-symbol-blue.svg',
+          pngFilename: 'daisa-symbol-blue.png',
           bgType: 'white',
           bgColor: 'bg-white',
           borderColor: 'border-[#E5E8EB]',
@@ -129,19 +129,10 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
           svgContent: SVG_MAP.symbolBlue,
         },
         {
-          id: 'symbol-dark',
-          name: '다크',
-          filename: 'daisa-symbol-dark.svg',
-          bgType: 'white',
-          bgColor: 'bg-[#F8F9FA]',
-          borderColor: 'border-[#E5E8EB]',
-          logoColorName: '#191F28',
-          svgContent: SVG_MAP.symbolDark,
-        },
-        {
           id: 'symbol-white',
           name: '화이트 (반전용)',
-          filename: 'daisa-symbol-white.svg',
+          svgFilename: 'daisa-symbol-white.svg',
+          pngFilename: 'daisa-symbol-white.png',
           bgType: 'blue',
           bgColor: 'bg-[#1219F7]',
           borderColor: 'border-[#1219F7]',
@@ -155,12 +146,13 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       title: '워드마크 단독형 (Wordmark)',
       subtitle: 'Korean Dynamic Wordmark',
       description: '다이사 고유의 스피드감 있는 이탤릭 앵글과 볼드한 웨이트의 한글 타이포그래피 로고입니다.',
-      recommendedUse: '상단 네비게이션 바(GNB), 공식 인쇄 서식, 견적 계약서 서명란, 파트너 명함',
+      recommendedUse: '상단 네비게이션 바(GNB), 공식 인쇄 서식, 견적 계약서 서명란',
       variants: [
         {
           id: 'wordmark-blue',
           name: '시그니처 블루',
-          filename: 'daisa-wordmark-blue.svg',
+          svgFilename: 'daisa-wordmark-blue.svg',
+          pngFilename: 'daisa-wordmark-blue.png',
           bgType: 'white',
           bgColor: 'bg-white',
           borderColor: 'border-[#E5E8EB]',
@@ -168,19 +160,10 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
           svgContent: SVG_MAP.wordmarkBlue,
         },
         {
-          id: 'wordmark-dark',
-          name: '다크',
-          filename: 'daisa-wordmark-dark.svg',
-          bgType: 'white',
-          bgColor: 'bg-[#F8F9FA]',
-          borderColor: 'border-[#E5E8EB]',
-          logoColorName: '#191F28',
-          svgContent: SVG_MAP.wordmarkDark,
-        },
-        {
           id: 'wordmark-white',
           name: '화이트 (반전용)',
-          filename: 'daisa-wordmark-white.svg',
+          svgFilename: 'daisa-wordmark-white.svg',
+          pngFilename: 'daisa-wordmark-white.png',
           bgType: 'blue',
           bgColor: 'bg-[#1219F7]',
           borderColor: 'border-[#1219F7]',
@@ -202,11 +185,11 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
           Logo
         </h1>
         <p className="text-[15px] text-[#6B7684] leading-relaxed max-w-2xl">
-          다이사 브랜드 아이덴티티를 형성하는 3가지 공식 로고 에셋과 배경색별 적용 규칙입니다. 로고 카드에 마우스를 올리면 고해상도 벡터 SVG 다운로드 및 코드 복사가 가능합니다.
+          다이사 브랜드 아이덴티티를 형성하는 3가지 공식 로고 에셋과 배경색별 적용 규칙입니다. 로고 카드에 마우스를 올리면 SVG, PNG 파일 다운로드 및 코드 복사가 가능합니다.
         </p>
       </div>
 
-      {/* 2. 3대 핵심 로고 인터랙티브 쇼케이스 */}
+      {/* 2. 3대 핵심 로고 인터랙티브 쇼케이스 (시그니처 블루 & 화이트 반전용 2개씩) */}
       <div className="space-y-10">
         {logoGroups.map((group) => (
           <section key={group.id} className="space-y-3.5">
@@ -224,14 +207,14 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
               </p>
             </div>
 
-            {/* 3 Color Variants Cards (Hover to download) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* 2 Color Variants Cards (Blue & White) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
               {group.variants.map((variant) => (
                 <div
                   key={variant.id}
                   className="group relative rounded-[12px] border border-[#E5E8EB] overflow-hidden bg-white shadow-2xs transition-all duration-200 hover:shadow-sm hover:border-[#1219F7]/40 flex flex-col justify-between"
                 >
-                  {/* Visual Canvas Area with Logo (Clean Responsive Aspect) */}
+                  {/* Visual Canvas Area with Logo */}
                   <div
                     className={"h-[160px] " + variant.bgColor + " relative flex items-center justify-center p-6 overflow-hidden transition-all duration-200"}
                   >
@@ -241,15 +224,26 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
                       dangerouslySetInnerHTML={{ __html: variant.svgContent }}
                     />
 
-                    {/* Hover Floating Action Bar */}
+                    {/* Hover Floating Action Bar: SVG, PNG, 복사 */}
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4">
                       <button
                         type="button"
-                        onClick={() => handleDownload(variant.svgContent, variant.filename)}
-                        className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1.5 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                        onClick={() => handleDownloadSvg(variant.svgContent, variant.svgFilename)}
+                        className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                        title="SVG 다운로드"
                       >
                         <Download className="w-3.5 h-3.5 text-[#1219F7]" />
                         <span>SVG</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadPng(variant.pngFilename)}
+                        className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                        title="PNG 다운로드"
+                      >
+                        <Download className="w-3.5 h-3.5 text-[#1219F7]" />
+                        <span>PNG</span>
                       </button>
 
                       <button
@@ -266,7 +260,7 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
                         ) : (
                           <>
                             <Copy className="w-3.5 h-3.5 text-[#6B7684]" />
-                            <span className="text-[11px]">코드</span>
+                            <span className="text-[11px]">복사</span>
                           </>
                         )}
                       </button>
@@ -274,7 +268,7 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
                   </div>
 
                   {/* Card Bottom Meta Info */}
-                  <div className="px-3 py-2.5 bg-white border-t border-[#F2F4F8] flex items-center justify-between text-[11px]">
+                  <div className="px-3.5 py-2.5 bg-white border-t border-[#F2F4F8] flex items-center justify-between text-[11px]">
                     <span className="font-medium text-[#191F28]">{variant.name}</span>
                     <span className="font-mono font-bold text-[#8B95A1]">{variant.logoColorName}</span>
                   </div>
@@ -285,66 +279,49 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
         ))}
       </div>
 
-      {/* 3. 배경색별 로고 색상 적용 원칙 */}
+      {/* 3. 배경색별 로고 색상 적용 원칙 (밝은 배경: 파란색 로고 / 파란 배경: 흰색 로고) */}
       <section className="space-y-4 pt-6 border-t border-[#E5E8EB]">
         <div className="space-y-1">
           <h2 className="text-[18px] font-bold text-[#191F28]">
             배경색별 적용 원칙
           </h2>
           <p className="text-[13px] text-[#6B7684]">
-            어떤 배경 환경에서도 명확한 시인성을 보장받을 수 있도록 배경색에 따라 정해진 로고 컬러 규칙을 준수합니다.
+            다이사 로고는 블랙을 사용하지 않으며, <strong>흰 배경에는 파란색 로고</strong>, <strong>파란 배경에는 흰색 로고</strong> 2가지만 공식으로 사용합니다.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-          {/* Rule 1: 화이트/라이트 배경 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 max-w-3xl">
+          {/* Rule 1: 밝은 배경 -> 파란색 메인컬러 로고 */}
           <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-4 space-y-3">
             <div className="flex items-center justify-between text-[12px]">
-              <span className="font-bold text-[#191F28]">밝은 배경</span>
-              <span className="text-[11px] font-bold text-[#1219F7]">표준 적용</span>
+              <span className="font-bold text-[#191F28]">밝은 배경 (White / Light)</span>
+              <span className="text-[11px] font-bold text-[#1219F7]">블루 로고</span>
             </div>
-            <div className="h-[84px] bg-[#FAFAFA] border border-[#E5E8EB] rounded-[8px] flex items-center justify-center p-3 overflow-hidden">
+            <div className="h-[90px] bg-[#FAFAFA] border border-[#E5E8EB] rounded-[8px] flex items-center justify-center p-3 overflow-hidden">
               <div
-                className="w-full h-full max-w-[110px] max-h-[50px] flex items-center justify-center select-none"
-                dangerouslySetInnerHTML={{ __html: SVG_MAP.comboDark }}
+                className="w-full h-full max-w-[110px] max-h-[52px] flex items-center justify-center select-none"
+                dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }}
               />
             </div>
             <p className="text-[12px] text-[#4E5968] leading-relaxed">
-              흰색(#FFFFFF) 및 밝은 회색 배경에서는 <strong>다크(#191F28)</strong> 또는 <strong>시그니처 블루(#1219F7)</strong> 로고를 사용합니다.
+              흰색(#FFFFFF) 및 밝은 회색 배경에서는 <strong>시그니처 블루(#1219F7) 로고</strong>를 기본 표준으로 사용합니다.
             </p>
           </div>
 
-          {/* Rule 2: 다이사 블루 배경 (핵심 강조 규칙) */}
-          <div className="bg-white rounded-[12px] border-2 border-[#1219F7] p-4 space-y-3 shadow-2xs">
-            <div className="flex items-center justify-between text-[12px]">
-              <span className="font-bold text-[#1219F7]">파란색 배경</span>
-              <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-[#1219F7] text-white">화이트 필수</span>
-            </div>
-            <div className="h-[84px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-3 overflow-hidden shadow-inner">
-              <div
-                className="w-full h-full max-w-[110px] max-h-[50px] flex items-center justify-center select-none"
-                dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }}
-              />
-            </div>
-            <p className="text-[12px] text-[#191F28] font-medium leading-relaxed">
-              배경이 파란색(#1219F7)일 경우에는 반드시 <strong>화이트(#FFFFFF) 로고</strong>만 사용해야 합니다. (블랙 로고 사용 금지)
-            </p>
-          </div>
-
-          {/* Rule 3: 다크/블랙 배경 */}
+          {/* Rule 2: 파란색 배경 -> 화이트 로고 (동일한 얇은 stroke, 차분한 UI) */}
           <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-4 space-y-3">
             <div className="flex items-center justify-between text-[12px]">
-              <span className="font-bold text-[#191F28]">어두운 배경</span>
-              <span className="text-[11px] font-bold text-[#6B7684]">화이트 로고</span>
+              <span className="font-bold text-[#191F28]">파란색 배경 (Brand Blue)</span>
+              <span className="text-[11px] font-bold text-[#1219F7]">화이트 로고</span>
             </div>
-            <div className="h-[84px] bg-[#191F28] rounded-[8px] flex items-center justify-center p-3 overflow-hidden">
+            <div className="h-[90px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-3 overflow-hidden shadow-inner">
               <div
-                className="w-full h-full max-w-[110px] max-h-[50px] flex items-center justify-center select-none"
+                className="w-full h-full max-w-[110px] max-h-[52px] flex items-center justify-center select-none"
                 dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }}
               />
             </div>
             <p className="text-[12px] text-[#4E5968] leading-relaxed">
-              어두운 배경(#191F28, #121212)이나 딤드 오버레이 위에서는 시인성 확보를 위해 <strong>화이트(#FFFFFF) 로고</strong>를 적용합니다.
+              파란색(#1219F7) 배경에서는 시인성 확보를 위해 <strong>화이트(#FFFFFF) 로고</strong>를 적용합니다.
             </p>
           </div>
         </div>
@@ -366,27 +343,27 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
           <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-3 space-y-2">
             <div className="flex items-center gap-1.5 text-emerald-600 font-bold text-[12px]">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>DO: 블루 배경 + 화이트 로고</span>
+              <span>DO: 블루/화이트 표준 적용</span>
             </div>
             <div className="h-[72px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
               <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }} />
             </div>
             <p className="text-[11px] text-[#6B7684] leading-normal">
-              블루 배경에서는 높은 대비비를 위해 100% 화이트 로고를 사용합니다.
+              흰 배경에는 블루 로고, 파란 배경에는 화이트 로고를 사용합니다.
             </p>
           </div>
 
-          {/* Card 2: DONT (Blue background + Black logo) */}
+          {/* Card 2: DONT (Black logo) */}
           <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
             <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
               <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-              <span>DON'T: 파란 배경에 검정 로고</span>
+              <span>DON'T: 블랙 로고 사용 금지</span>
             </div>
-            <div className="h-[72px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden opacity-60">
-              <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboDark }} />
+            <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
+              <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center [&>svg_path]:fill-[#191F28]" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
             </div>
             <p className="text-[11px] text-red-600 font-medium leading-normal">
-              파란 배경에 검정 로고 사용을 금지합니다. (시인성 훼손)
+              블랙 로고는 사용하지 않으며, 블루와 화이트 2가지만 공식 적용합니다.
             </p>
           </div>
 
@@ -397,7 +374,7 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
               <span>DON'T: 비율 왜곡 금지</span>
             </div>
             <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
-              <div className="w-[80px] h-[36px] flex items-center justify-center scale-x-135 scale-y-70" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboDark }} />
+              <div className="w-[80px] h-[36px] flex items-center justify-center scale-x-135 scale-y-70" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
             </div>
             <p className="text-[11px] text-red-600 font-medium leading-normal">
               가로세로 비율(종횡비)을 임의로 늘리거나 줄여서는 안 됩니다.
@@ -411,7 +388,7 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
               <span>DON'T: 임의 색상 및 그림자</span>
             </div>
             <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
-              <div className="w-[80px] h-[40px] flex items-center justify-center [filter:drop-shadow(0_2px_4px_rgba(239,68,68,0.7))] [&>svg_path]:fill-red-500" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboDark }} />
+              <div className="w-[80px] h-[40px] flex items-center justify-center [filter:drop-shadow(0_2px_4px_rgba(239,68,68,0.7))] [&>svg_path]:fill-red-500" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
             </div>
             <p className="text-[11px] text-red-600 font-medium leading-normal">
               지정되지 않은 색상 변경이나 외곽선, 그림자 효과를 적용하지 않습니다.
