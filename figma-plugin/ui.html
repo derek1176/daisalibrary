@@ -548,6 +548,144 @@
       color: #111827;
     }
 
+    /* 7. 도움말 안내 모달 (Light Mode) */
+    .help-modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 320px;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .help-modal-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F3F4F6;
+      flex-shrink: 0;
+    }
+
+    .help-modal-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .help-modal-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #374151;
+    }
+
+    .help-intro-box {
+      background: #F8FAFF;
+      border: 1px solid #E0E7FF;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #1E293B;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .help-intro-box b {
+      color: #1219F7;
+    }
+
+    .help-section {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .help-section-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .help-section-desc {
+      font-size: 11px;
+      color: #6B7280;
+      line-height: 1.45;
+    }
+
+    .help-feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    .help-feature-pill {
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #4B5563;
+      text-align: center;
+    }
+
+    .help-notice-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .help-notice-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400E;
+    }
+
+    .help-notice-desc {
+      font-size: 10.5px;
+      color: #B45309;
+      line-height: 1.4;
+    }
+
+    .help-modal-footer {
+      padding: 10px 16px 14px;
+      display: flex;
+      justify-content: flex-end;
+      border-top: 1px solid #F3F4F6;
+      flex-shrink: 0;
+    }
+
+    .btn-help-confirm {
+      padding: 6px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: #1219F7;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-help-confirm:hover {
+      background: #0B11D4;
+    }
+
     /* 3. 2단 필터 내비게이션 (심각도 필터 & 카테고리 필터) */
     .filter-panel {
       background: #FFFFFF;
@@ -1490,6 +1628,73 @@
       background: #2D3340;
       color: #F3F4F6;
     }
+
+    body[data-theme="dark"] .help-modal-box {
+      background: #17191F;
+      border: 1px solid #262933;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    body[data-theme="dark"] .help-modal-header {
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .help-modal-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .help-modal-body {
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .help-intro-box {
+      background: #1A2130;
+      border-color: #2B426B;
+      color: #E2E8F0;
+    }
+
+    body[data-theme="dark"] .help-intro-box b {
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .help-section-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .help-section-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .help-feature-pill {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .help-notice-box {
+      background: #2A2114;
+      border-color: #4D3B1C;
+    }
+
+    body[data-theme="dark"] .help-notice-title {
+      color: #FBBF24;
+    }
+
+    body[data-theme="dark"] .help-notice-desc {
+      color: #FCD34D;
+    }
+
+    body[data-theme="dark"] .help-modal-footer {
+      border-top-color: #262933;
+    }
+
+    body[data-theme="dark"] .btn-help-confirm {
+      background: #3B82F6;
+    }
+
+    body[data-theme="dark"] .btn-help-confirm:hover {
+      background: #2563EB;
+    }
   </style>
 </head>
 <body>
@@ -1497,7 +1702,6 @@
   <!-- 1. 미니멀 상단 헤더 -->
   <header class="app-header">
     <div class="brand-wrap">
-      <img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACoUlEQVR4AdSWMY4qMQxArb0AEj2cAApqGmoKqCmooaAGCWqQoKaAE1BDQQ0S1BRwAm7ACf7/L5JXJjPZmbB8rRbJJOM49ouTeOajWCz++Un5kB/+/W6Aer0uyHeS+FIGqtWq7Ha7T1kul1Iul1/iiAIoFAoym83kcDg8rbzT6cjlcpHRaCTYxJDkBuj3+y5Ir9cL+h8Ohw4OoKCRN5AJwB6zuul0+rS6x+Mhq9VKNpvNk0u2gi1hDv2nwZSHIACTdZ/p27n3+10ajYZMJhMZDAZSq9Vkv99bE3cmgADGn28NUwE03azeGmsfh6SbFh1A3W7XwdBHp8J2cGY4H6qzbQIAp6TbGmm6rXMcs0IcMwd7toNszOdzsbYcTICx8SUB4BuoU9LdbrcF59YGx9vtVgBS/WKxEGxvt5uqgm0mwHq9FjKAB1aFc1YJGDqEDLDXZIQ+Omx9WPS+ZAJocDsR5xw+9p2+jhEciGaz6VRpc92A+csEMLaJLiefbABjg7HnCeOA4lsA6pPtAEafY9q3AMQE9G3fDsCZQPxAoee3ApxOJ+Fgns/nULyE/m0AXNe8d99SZAKUSiVrH+xfr9fEGN8NCaWnyATghUS5jbla2PLd4Jd0L7Z7TABwn/1DRLnlhWLLrZud8gcsxcj/bvB96tRUAPaSu61GtFQ5v9yiV+HNSWBgyYDqWRAlmde36mybAGAQWqobVS4NhEDAAFWpVD6/DXlmvgrFicC8PwBRvW1TAdRAQYChr3patgOQ4/H49H3IGNex1Wq5K+nPY9zKlwBqSBbIBqn8yiGrHI/H7lWctxbkAlAQUpl2PggMHJDUA7XP00YB4JAMsCUEI9VI49/3IXCAYBMj0QDqHBCygdBXfWz7MkBsoJD9fwcIBVb9XwAAAP//2PrXGgAAAAZJREFUAwBOw23wM66LjwAAAABJRU5ErkJggg==" alt="다이사 교정기 로고" />
       <span class="brand-title">다이사 교정기</span>
       <span class="brand-version" id="versionTag">고객향</span>
     </div>
@@ -1518,8 +1722,8 @@
       <button class="btn-icon-refresh" id="btnOpenDocs" title="디자인시스템 명세서(MD) 보기">
         <span style="font-family: monospace; font-weight: 700; font-size: 13px; line-height: 1;">{ }</span>
       </button>
-      <button class="btn-icon-refresh" id="btnRefresh" title="새로고침">
-        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+      <button class="btn-icon-refresh" id="btnOpenHelp" title="다이사 교정기 안내">
+        <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
       </button>
     </div>
   </div>
@@ -1650,6 +1854,55 @@
     </div>
   </div>
 
+  <!-- 7. 도움말 안내 모달 -->
+  <div class="modal-backdrop" id="helpModal" style="display: none;">
+    <div class="help-modal-box">
+      <div class="help-modal-header">
+        <div class="help-modal-title">다이사 교정기 안내</div>
+        <button class="btn-close-modal" id="btnCloseHelpModal" title="닫기">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="help-modal-body">
+        <div class="help-intro-box">
+          다이사 디자인시스템과 일치하는지 검증하고, 일관된 디자인을 위해 <b>반드시 정해진 규칙만 사용해야 하는 요소</b>들을 찾아내고 교정하는 도구입니다.
+        </div>
+
+        <div class="help-section">
+          <div class="help-section-title">주요 교정 필수 요소</div>
+          <div class="help-feature-grid">
+            <div class="help-feature-pill">서체 (Pretendard)</div>
+            <div class="help-feature-pill">폰트 크기 스케일</div>
+            <div class="help-feature-pill">공식 컬러 토큰</div>
+            <div class="help-feature-pill">모서리 곡률 (Radius)</div>
+          </div>
+          <div class="help-section-desc">
+            복잡한 컴포넌트 형태 대신 <b>폰트, 폰트사이즈, 색상, 곡률</b> 등 기본적이고 필수적인 핵심 요소들만 빠르고 정확하게 교정합니다.
+          </div>
+        </div>
+
+        <div class="help-section">
+          <div class="help-section-title">스마트 근접값 자동 보정</div>
+          <div class="help-section-desc">
+            폰트 사이즈와 색상의 경우, 정해진 규격을 사용하지 않았을 때 일괄 수정 시 <b>자동으로 가장 근접한 공식 폰트사이즈와 유사한 공식 컬러 토큰</b>으로 변경됩니다.
+          </div>
+        </div>
+
+        <div class="help-notice-box">
+          <div class="help-notice-title">수정 반영 후 최종 확인 필수</div>
+          <div class="help-notice-desc">
+            이 도구는 육안으로 한눈에 보기 어려운 규격 위반을 빠르게 잡아내는 보조 도구입니다. 일괄 수정 반영 후 레이아웃 의도에 맞게 추가 수정이 필요할 수 있으니 <b>반드시 화면을 직접 확인</b>해 주세요.
+          </div>
+        </div>
+      </div>
+
+      <div class="help-modal-footer">
+        <button class="btn-help-confirm" id="btnConfirmHelpModal" type="button">확인</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let currentMode = 'customer';
     let currentScope = 'selection'; // 'selection' | 'page'
@@ -1663,7 +1916,10 @@
     const versionTag = document.getElementById('versionTag');
     const btnScopeSelection = document.getElementById('btnScopeSelection');
     const btnScopePage = document.getElementById('btnScopePage');
-    const btnRefresh = document.getElementById('btnRefresh');
+    const btnOpenHelp = document.getElementById('btnOpenHelp');
+    const helpModal = document.getElementById('helpModal');
+    const btnCloseHelpModal = document.getElementById('btnCloseHelpModal');
+    const btnConfirmHelpModal = document.getElementById('btnConfirmHelpModal');
     const filterPanel = document.getElementById('filterPanel');
     const summaryBar = document.getElementById('summaryBar');
     const summarySummaryText = document.getElementById('summarySummaryText');
@@ -1894,8 +2150,18 @@
       requestLint();
     });
 
-    btnRefresh.addEventListener('click', () => {
-      requestLint();
+    btnOpenHelp.addEventListener('click', () => {
+      helpModal.style.display = 'flex';
+    });
+
+    function closeHelpModal() {
+      helpModal.style.display = 'none';
+    }
+
+    btnCloseHelpModal.addEventListener('click', closeHelpModal);
+    btnConfirmHelpModal.addEventListener('click', closeHelpModal);
+    helpModal.addEventListener('click', (e) => {
+      if (e.target === helpModal) closeHelpModal();
     });
 
     function requestLint() {
