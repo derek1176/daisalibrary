@@ -1043,8 +1043,28 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
 
+    body[data-theme="dark"] .group-card:hover {
+      border-color: #3E4657;
+    }
+
+    body[data-theme="dark"] .group-header {
+      background: #17191F;
+    }
+
     body[data-theme="dark"] .group-header:hover {
       background: #1D212A;
+    }
+
+    body[data-theme="dark"] .badge-severity.must-fix {
+      background: #3B181E;
+      color: #F87171;
+      border: 1px solid #5C2229;
+    }
+
+    body[data-theme="dark"] .badge-severity.check-needed {
+      background: #252A36;
+      color: #9CA3AF;
+      border: 1px solid #2D3340;
     }
 
     body[data-theme="dark"] .group-title {
@@ -1130,6 +1150,12 @@
       background: #20242D;
       border-color: #2D3340;
       color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .empty-icon-circle.success {
+      background: #132D21;
+      border-color: #1B4D36;
+      color: #34D399;
     }
 
     body[data-theme="dark"] .empty-state-title {
