@@ -14,7 +14,7 @@
 
     body {
       background-color: #F8F9FA;
-      color: #121212;
+      color: #111827;
       font-size: 13px;
       line-height: 1.4;
       display: flex;
@@ -24,8 +24,8 @@
       user-select: none;
     }
 
-    /* 1. 컴팩트 헤더 */
-    .top-header {
+    /* 1. 상단 미니멀 헤더 */
+    .app-header {
       background: #FFFFFF;
       padding: 10px 14px;
       border-bottom: 1px solid #E5E7EB;
@@ -33,31 +33,45 @@
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
-      gap: 10px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .brand-title {
       font-size: 14px;
       font-weight: 700;
       color: #111827;
-      white-space: nowrap;
+      letter-spacing: -0.02em;
     }
 
-    /* 모드 전환 토글 (고객향 vs 파트너향) */
-    .mode-switch {
-      display: flex;
+    .brand-version {
+      font-size: 10px;
+      font-weight: 600;
+      color: #6B7280;
       background: #F3F4F6;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* daisalibrary 스타일 세그먼트 모드 전환 */
+    .mode-segmented {
+      display: flex;
+      background: #F1F3F5;
       border-radius: 6px;
       padding: 2px;
       gap: 2px;
     }
 
-    .mode-tab {
+    .mode-item {
       border: none;
       background: transparent;
-      padding: 5px 10px;
+      padding: 5px 12px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: #6B7280;
       border-radius: 4px;
       cursor: pointer;
@@ -65,20 +79,15 @@
       white-space: nowrap;
     }
 
-    .mode-tab.active.customer {
-      background: #1219F7;
-      color: #FFFFFF;
-      box-shadow: 0 1px 2px rgba(18, 25, 247, 0.2);
+    .mode-item.active {
+      background: #FFFFFF;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-    .mode-tab.active.partner {
-      background: #1E293B;
-      color: #FFFFFF;
-      box-shadow: 0 1px 2px rgba(30, 41, 59, 0.2);
-    }
-
-    /* 2. 컴팩트 컨트롤 바 (단일 행 구성) */
-    .action-bar {
+    /* 2. 컨트롤 바 (단일 행) */
+    .control-bar {
       background: #FFFFFF;
       padding: 8px 14px;
       border-bottom: 1px solid #E5E7EB;
@@ -89,117 +98,174 @@
     }
 
     .scope-select {
-      height: 32px;
-      border: 1px solid #D1D5DB;
-      border-radius: 6px;
+      height: 30px;
+      border: 1px solid #E5E7EB;
+      border-radius: 5px;
       padding: 0 8px;
       font-size: 11px;
       font-weight: 500;
       color: #374151;
       background: #FFFFFF;
       outline: none;
-      flex: 1;
-      max-width: 140px;
     }
 
     .scope-select:focus {
       border-color: #1219F7;
     }
 
-    .checkbox-wrap {
+    .check-label {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       font-size: 11px;
       color: #6B7280;
       cursor: pointer;
-      white-space: nowrap;
     }
 
-    .checkbox-wrap input {
+    .check-label input {
+      accent-color: #1219F7;
       cursor: pointer;
     }
 
-    .btn-run {
-      height: 32px;
+    .btn-lint {
+      height: 30px;
       padding: 0 14px;
       background: #1219F7;
       color: #FFFFFF;
       border: none;
-      border-radius: 6px;
-      font-size: 12px;
+      border-radius: 5px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
+      gap: 5px;
       margin-left: auto;
       transition: background 0.15s ease;
     }
 
-    .btn-run:hover {
+    .btn-lint:hover {
       background: #0D14D1;
     }
 
-    .btn-run:disabled {
+    .btn-lint:disabled {
       background: #9CA3AF;
       cursor: not-allowed;
     }
 
-    /* 3. 카테고리 탭 네비게이션 */
-    .category-tabs {
-      display: flex;
+    /* 3. 2단 필터 내비게이션 (심각도 필터 & 카테고리 필터) */
+    .filter-panel {
       background: #FFFFFF;
       border-bottom: 1px solid #E5E7EB;
-      padding: 0 14px;
+      display: flex;
+      flex-direction: column;
       flex-shrink: 0;
-      overflow-x: auto;
     }
 
-    .cat-tab {
-      padding: 9px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #6B7280;
+    /* 3-1. 심각도 탭 (전체 / 수정 필요 / 확인 필요) */
+    .severity-tabs {
+      display: flex;
+      padding: 0 14px;
+      border-bottom: 1px solid #F3F4F6;
+      gap: 16px;
+    }
+
+    .sev-tab {
+      padding: 8px 0;
       border: none;
       background: transparent;
       border-bottom: 2px solid transparent;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6B7280;
       cursor: pointer;
-      white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       transition: all 0.15s ease;
     }
 
-    .cat-tab:hover {
+    .sev-tab:hover {
       color: #111827;
     }
 
-    .cat-tab.active {
-      color: #1219F7;
-      border-bottom-color: #1219F7;
+    .sev-tab.active {
+      color: #111827;
+      font-weight: 700;
+      border-bottom-color: #111827;
     }
 
-    .cat-tab .badge {
+    .sev-tab.active.must-fix {
+      color: #DC2626;
+      border-bottom-color: #DC2626;
+    }
+
+    .sev-tab.active.check-needed {
+      color: #4B5563;
+      border-bottom-color: #4B5563;
+    }
+
+    .sev-pill {
       font-size: 10px;
       font-weight: 700;
       padding: 1px 5px;
       border-radius: 10px;
       background: #F3F4F6;
-      color: #4B5563;
+      color: #6B7280;
     }
 
-    .cat-tab.active .badge {
-      background: #EEF2FF;
-      color: #1219F7;
+    .sev-tab.active .sev-pill {
+      background: #111827;
+      color: #FFFFFF;
     }
 
-    /* 4. 상태 및 일괄 액션 바 */
-    .status-strip {
-      background: #F9FAFB;
+    .sev-tab.active.must-fix .sev-pill {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    .sev-tab.active.check-needed .sev-pill {
+      background: #E5E7EB;
+      color: #374151;
+    }
+
+    /* 3-2. 카테고리 칩 바 */
+    .category-chips {
+      display: flex;
       padding: 6px 14px;
+      gap: 6px;
+      background: #FAFAFA;
+      overflow-x: auto;
+    }
+
+    .cat-chip {
+      padding: 3px 8px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .cat-chip:hover {
+      border-color: #D1D5DB;
+      color: #111827;
+    }
+
+    .cat-chip.active {
+      background: #111827;
+      color: #FFFFFF;
+      border-color: #111827;
+    }
+
+    /* 상단 일괄 액션 바 (클립보드 복사 등) */
+    .summary-bar {
+      padding: 6px 14px;
+      background: #F8F9FA;
       border-bottom: 1px solid #E5E7EB;
       display: flex;
       align-items: center;
@@ -207,242 +273,273 @@
       flex-shrink: 0;
     }
 
-    .status-counts {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .count-pill {
+    .summary-text {
       font-size: 11px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      color: #6B7280;
     }
 
-    .count-pill.must-fix {
-      background: #FEE2E2;
-      color: #B91C1C;
-      border: 1px solid #FECACA;
-    }
-
-    .count-pill.check-needed {
-      background: #FEF3C7;
-      color: #B45309;
-      border: 1px solid #FDE68A;
-    }
-
-    .status-actions {
+    .summary-actions {
       display: flex;
-      align-items: center;
       gap: 6px;
     }
 
-    .btn-text-action {
+    .btn-subtle {
       background: #FFFFFF;
-      border: 1px solid #D1D5DB;
-      border-radius: 5px;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
       padding: 3px 8px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: #374151;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      transition: all 0.15s ease;
     }
 
-    .btn-text-action:hover {
+    .btn-subtle:hover {
       background: #F3F4F6;
-      border-color: #9CA3AF;
+      border-color: #D1D5DB;
     }
 
-    .btn-text-action.primary {
-      background: #EEF2FF;
-      border-color: #C7D2FE;
+    .btn-subtle.primary {
       color: #1219F7;
+      border-color: #C7D2FE;
+      background: #EEF2FF;
+      font-weight: 600;
     }
 
-    .btn-text-action.primary:hover {
+    .btn-subtle.primary:hover {
       background: #E0E7FF;
     }
 
-    /* 5. 이슈 스크롤 영역 */
-    .issues-scroll {
+    /* 4. 이슈 리스트 스크롤 영역 */
+    .issue-scroll-area {
       flex: 1;
       overflow-y: auto;
       padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
-    /* 카테고리 그룹 섹션 */
-    .category-section {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .section-title-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 4px;
-      border-bottom: 1px solid #E5E7EB;
-    }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: #111827;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section-count {
-      font-size: 11px;
-      color: #6B7280;
-    }
-
-    /* 개별 이슈 카드 */
-    .issue-card {
+    /* 5. 피드백 그룹 아코디언 카드 */
+    .group-card {
       background: #FFFFFF;
       border: 1px solid #E5E7EB;
-      border-radius: 6px;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .group-card:hover {
+      border-color: #D1D5DB;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    /* 그룹 헤더 */
+    .group-header {
       padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-
-    .issue-card:hover {
-      border-color: #CBD5E1;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .issue-card.must-fix {
-      border-left: 3px solid #EF4444;
-    }
-
-    .issue-card.check-needed {
-      border-left: 3px solid #F59E0B;
-    }
-
-    .issue-meta-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      cursor: pointer;
+      background: #FFFFFF;
+      transition: background 0.15s ease;
     }
 
-    .meta-left {
+    .group-header:hover {
+      background: #F9FAFB;
+    }
+
+    .group-info-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       overflow: hidden;
+      flex: 1;
     }
 
-    .status-badge {
+    .badge-severity {
       font-size: 10px;
       font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 3px;
+      padding: 2px 6px;
+      border-radius: 4px;
       white-space: nowrap;
     }
 
-    .status-badge.must-fix {
-      background: #FEE2E2;
-      color: #B91C1C;
+    .badge-severity.must-fix {
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FEE2E2;
     }
 
-    .status-badge.check-needed {
-      background: #FEF3C7;
-      color: #B45309;
-    }
-
-    .node-tag {
-      font-size: 11px;
-      font-weight: 600;
-      color: #4B5563;
+    .badge-severity.check-needed {
       background: #F3F4F6;
-      padding: 1px 6px;
-      border-radius: 3px;
-      max-width: 170px;
+      color: #4B5563;
+      border: 1px solid #E5E7EB;
+    }
+
+    .group-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #111827;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .issue-message {
-      font-size: 12px;
-      font-weight: 600;
-      color: #111827;
-      line-height: 1.4;
-    }
-
-    .issue-details {
+    .group-count-tag {
       font-size: 11px;
+      font-weight: 600;
       color: #6B7280;
-      line-height: 1.4;
+      background: #F3F4F6;
+      padding: 1px 6px;
+      border-radius: 10px;
+      white-space: nowrap;
     }
 
-    .issue-btn-row {
+    .group-actions-right {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
       gap: 6px;
-      padding-top: 4px;
-      margin-top: 2px;
-      border-top: 1px dashed #F1F5F9;
+      flex-shrink: 0;
+      margin-left: 8px;
     }
 
-    .btn-locate {
-      height: 26px;
+    .btn-group-fix {
+      height: 24px;
       padding: 0 8px;
-      background: #FFFFFF;
-      border: 1px solid #D1D5DB;
+      background: #EEF2FF;
+      color: #1219F7;
+      border: 1px solid #C7D2FE;
       border-radius: 4px;
       font-size: 11px;
       font-weight: 600;
-      color: #374151;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      transition: background 0.15s ease;
     }
 
-    .btn-locate:hover {
-      background: #F9FAFB;
-      border-color: #9CA3AF;
+    .btn-group-fix:hover {
+      background: #E0E7FF;
     }
 
-    .btn-fix-single {
-      height: 26px;
-      padding: 0 10px;
+    .btn-chevron {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6B7280;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.15s ease;
+    }
+
+    .btn-chevron.expanded {
+      transform: rotate(180deg);
+    }
+
+    /* 그룹 하위 레이어 드롭다운 목록 */
+    .group-items-list {
+      background: #FAFAFA;
+      border-top: 1px solid #F3F4F6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .layer-item-row {
+      padding: 8px 12px;
+      border-bottom: 1px solid #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .layer-item-row:last-child {
+      border-bottom: none;
+    }
+
+    .layer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .layer-name-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .layer-desc {
+      font-size: 11px;
+      color: #6B7280;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .layer-btns {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .btn-mini-locate {
+      height: 22px;
+      padding: 0 6px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 500;
+      color: #4B5563;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-mini-locate:hover {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .btn-mini-fix {
+      height: 22px;
+      padding: 0 6px;
       background: #1219F7;
       border: none;
-      border-radius: 4px;
-      font-size: 11px;
+      border-radius: 3px;
+      font-size: 10px;
       font-weight: 600;
       color: #FFFFFF;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
-    .btn-fix-single:hover {
+    .btn-mini-fix:hover {
       background: #0D14D1;
     }
 
-    /* 빈 상태 */
-    .empty-container {
+    /* 빈 화면 */
+    .empty-state-box {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -453,40 +550,40 @@
       color: #6B7280;
     }
 
-    .empty-icon-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: 24px;
+    .empty-icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
       background: #F3F4F6;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 12px;
-      color: #9CA3AF;
+      color: #6B7280;
     }
 
-    .empty-icon-wrap.success {
-      background: #DCFCE7;
-      color: #16A34A;
+    .empty-icon-circle.success {
+      background: #EEF2FF;
+      color: #1219F7;
     }
 
-    .empty-title {
+    .empty-state-title {
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 600;
       color: #111827;
       margin-bottom: 4px;
     }
 
-    .empty-desc {
+    .empty-state-desc {
       font-size: 11px;
       color: #6B7280;
       line-height: 1.5;
     }
 
-    /* SVG 아이콘 스타일 */
-    .icon-svg {
-      width: 14px;
-      height: 14px;
+    /* 공통 SVG 아이콘 */
+    .svg-icon {
+      width: 13px;
+      height: 13px;
       stroke-width: 2;
       stroke: currentColor;
       fill: none;
@@ -498,68 +595,88 @@
 </head>
 <body>
 
-  <!-- 1. 초경량 상단 헤더 -->
-  <header class="top-header">
-    <div class="brand-title">다이사 디자인시스템 린터</div>
-    <div class="mode-switch">
-      <button class="mode-tab active customer" id="btnCustomerMode">고객향 (B2C)</button>
-      <button class="mode-tab partner" id="btnPartnerMode">파트너향</button>
+  <!-- 1. 미니멀 상단 헤더 -->
+  <header class="app-header">
+    <div class="brand-wrap">
+      <span class="brand-title">daisalibrary</span>
+      <span class="brand-version" id="versionTag">B2C 고객향</span>
+    </div>
+    <!-- daisalibrary 스타일 세그먼트 스위처 -->
+    <div class="mode-segmented">
+      <button class="mode-item active" id="tabCustomer">고객향 (B2C)</button>
+      <button class="mode-item" id="tabPartner">파트너향</button>
     </div>
   </header>
 
-  <!-- 2. 단일 행 컴팩트 컨트롤 바 -->
-  <div class="action-bar">
+  <!-- 2. 단일 행 컴팩트 컨트롤 -->
+  <div class="control-bar">
     <select class="scope-select" id="scopeSelect">
       <option value="selection">선택된 레이어</option>
       <option value="page">현재 페이지 전체</option>
     </select>
-    <label class="checkbox-wrap">
+    <label class="check-label">
       <input type="checkbox" id="checkIgnoreHidden" checked>
       <span>숨김 레이어 제외</span>
     </label>
-    <button class="btn-run" id="btnRunLint">
-      <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <button class="btn-lint" id="btnRunLint">
+      <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <span>검사 시작</span>
     </button>
   </div>
 
-  <!-- 3. 카테고리별 탭 네비게이션 -->
-  <nav class="category-tabs" id="categoryTabs" style="display: none;">
-    <button class="cat-tab active" data-cat="all">전체 <span class="badge" id="badgeAll">0</span></button>
-    <button class="cat-tab" data-cat="typography">서체·폰트 <span class="badge" id="badgeTypo">0</span></button>
-    <button class="cat-tab" data-cat="color">컬러 <span class="badge" id="badgeColor">0</span></button>
-    <button class="cat-tab" data-cat="radius">곡률·보더 <span class="badge" id="badgeRadius">0</span></button>
-    <button class="cat-tab" data-cat="layout">기타 <span class="badge" id="badgeLayout">0</span></button>
-  </nav>
-
-  <!-- 4. 상태 통계 및 일괄 액션 바 -->
-  <div class="status-strip" id="statusStrip" style="display: none;">
-    <div class="status-counts">
-      <span class="count-pill must-fix">수정 필요 <b id="cntMustFix">0</b></span>
-      <span class="count-pill check-needed">확인 필요 <b id="cntCheckNeeded">0</b></span>
-    </div>
-    <div class="status-actions">
-      <button class="btn-text-action primary" id="btnFixAll" style="display: none;">
-        <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-        <span>일괄 수정 (<span id="cntFixable">0</span>)</span>
+  <!-- 3. 필터 내비게이션 -->
+  <div class="filter-panel" id="filterPanel" style="display: none;">
+    <!-- 3-1. 심각도 모아보기 (전체 / 수정 필요 / 확인 필요) -->
+    <div class="severity-tabs">
+      <button class="sev-tab active" data-sev="all">
+        <span>전체</span>
+        <span class="sev-pill" id="pillAll">0</span>
       </button>
-      <button class="btn-text-action" id="btnCopyReport">
-        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      <button class="sev-tab must-fix" data-sev="must-fix">
+        <span>수정 필요</span>
+        <span class="sev-pill" id="pillMustFix">0</span>
+      </button>
+      <button class="sev-tab check-needed" data-sev="check-needed">
+        <span>확인 필요</span>
+        <span class="sev-pill" id="pillCheckNeeded">0</span>
+      </button>
+    </div>
+
+    <!-- 3-2. 카테고리 칩 -->
+    <div class="category-chips">
+      <button class="cat-chip active" data-cat="all">전체</button>
+      <button class="cat-chip" data-cat="typography">서체·폰트</button>
+      <button class="cat-chip" data-cat="color">컬러</button>
+      <button class="cat-chip" data-cat="radius">곡률·보더</button>
+      <button class="cat-chip" data-cat="layout">기타</button>
+    </div>
+  </div>
+
+  <!-- 상단 요약 바 -->
+  <div class="summary-bar" id="summaryBar" style="display: none;">
+    <div class="summary-text" id="summarySummaryText">총 0개 항목 발견</div>
+    <div class="summary-actions">
+      <button class="btn-subtle primary" id="btnFixAll" style="display: none;">
+        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>전체 일괄 수정 (<span id="cntFixableTotal">0</span>)</span>
+      </button>
+      <button class="btn-subtle" id="btnCopyReport">
+        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         <span>결과 복사</span>
       </button>
     </div>
   </div>
 
-  <!-- 5. 이슈 스크롤 영역 -->
-  <main class="issues-scroll" id="issuesList">
-    <div class="empty-container">
-      <div class="empty-icon-wrap">
-        <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+  <!-- 4. 피드백 그룹 아코디언 리스트 -->
+  <main class="issue-scroll-area" id="issueScrollArea">
+    <div class="empty-state-box">
+      <div class="empty-icon-circle">
+        <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
       </div>
-      <div class="empty-title">검증할 레이어를 선택하세요</div>
-      <div class="empty-desc">
-        피그마 캔버스에서 검사할 프레임을 선택한 뒤<br>
-        우측 상단 <b>[검사 시작]</b> 버튼을 눌러주세요.
+      <div class="empty-state-title">검사할 대상을 선택하세요</div>
+      <div class="empty-state-desc">
+        피그마 캔버스에서 검증할 프레임을 선택한 뒤<br>
+        우측 상단 <b>[검사 시작]</b> 버튼을 누르면 동일 피드백별로 묶어서 안내합니다.
       </div>
     </div>
   </main>
@@ -567,40 +684,49 @@
   <script>
     let currentMode = 'customer';
     let currentIssues = [];
-    let currentCategory = 'all';
+    let currentSeverity = 'all'; // 'all' | 'must-fix' | 'check-needed'
+    let currentCategory = 'all'; // 'all' | 'typography' | 'color' | 'radius' | 'layout'
+    let expandedGroupKeys = new Set(); // 펼쳐진 아코디언 상태 보존
 
-    const btnCustomerMode = document.getElementById('btnCustomerMode');
-    const btnPartnerMode = document.getElementById('btnPartnerMode');
+    const tabCustomer = document.getElementById('tabCustomer');
+    const tabPartner = document.getElementById('tabPartner');
+    const versionTag = document.getElementById('versionTag');
     const scopeSelect = document.getElementById('scopeSelect');
     const checkIgnoreHidden = document.getElementById('checkIgnoreHidden');
     const btnRunLint = document.getElementById('btnRunLint');
-    const categoryTabs = document.getElementById('categoryTabs');
-    const statusStrip = document.getElementById('statusStrip');
-    const issuesList = document.getElementById('issuesList');
-    const cntMustFix = document.getElementById('cntMustFix');
-    const cntCheckNeeded = document.getElementById('cntCheckNeeded');
+    const filterPanel = document.getElementById('filterPanel');
+    const summaryBar = document.getElementById('summaryBar');
+    const summarySummaryText = document.getElementById('summarySummaryText');
+    const pillAll = document.getElementById('pillAll');
+    const pillMustFix = document.getElementById('pillMustFix');
+    const pillCheckNeeded = document.getElementById('pillCheckNeeded');
     const btnFixAll = document.getElementById('btnFixAll');
-    const cntFixable = document.getElementById('cntFixable');
+    const cntFixableTotal = document.getElementById('cntFixableTotal');
     const btnCopyReport = document.getElementById('btnCopyReport');
+    const issueScrollArea = document.getElementById('issueScrollArea');
 
     // 모드 전환
-    btnCustomerMode.addEventListener('click', () => {
+    tabCustomer.addEventListener('click', () => {
+      if (currentMode === 'customer') return;
       currentMode = 'customer';
-      btnCustomerMode.className = 'mode-tab active customer';
-      btnPartnerMode.className = 'mode-tab partner';
+      tabCustomer.className = 'mode-item active';
+      tabPartner.className = 'mode-item';
+      versionTag.textContent = 'B2C 고객향';
       runLint();
     });
 
-    btnPartnerMode.addEventListener('click', () => {
+    tabPartner.addEventListener('click', () => {
+      if (currentMode === 'partner') return;
       currentMode = 'partner';
-      btnCustomerMode.className = 'mode-tab customer';
-      btnPartnerMode.className = 'mode-tab active partner';
+      tabCustomer.className = 'mode-item';
+      tabPartner.className = 'mode-item active';
+      versionTag.textContent = '파트너향';
       runLint();
     });
 
     function runLint() {
       btnRunLint.disabled = true;
-      btnRunLint.innerHTML = '<svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg><span>분석 중...</span>';
+      btnRunLint.innerHTML = '<svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg><span>분석 중...</span>';
 
       parent.postMessage({
         pluginMessage: {
@@ -614,170 +740,221 @@
 
     btnRunLint.addEventListener('click', runLint);
 
-    // 카테고리 탭 클릭
-    document.querySelectorAll('.cat-tab').forEach(tab => {
+    // 심각도 탭 전환 (전체 / 수정 필요 / 확인 필요)
+    document.querySelectorAll('.sev-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sev-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        currentCategory = tab.dataset.cat;
-        renderIssues();
+        currentSeverity = tab.dataset.sev;
+        renderGroups();
       });
     });
 
-    // 메시지 수신
+    // 카테고리 칩 전환
+    document.querySelectorAll('.cat-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentCategory = chip.dataset.cat;
+        renderGroups();
+      });
+    });
+
+    // 피그마 통신
     window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
       if (!msg) return;
 
       btnRunLint.disabled = false;
-      btnRunLint.innerHTML = '<svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>검사 시작</span>';
+      btnRunLint.innerHTML = '<svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><span>검사 시작</span>';
 
       if (msg.type === 'lint-error') {
-        categoryTabs.style.display = 'none';
-        statusStrip.style.display = 'none';
-        issuesList.innerHTML = `
-          <div class="empty-container">
-            <div class="empty-icon-wrap">
-              <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        filterPanel.style.display = 'none';
+        summaryBar.style.display = 'none';
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
             </div>
-            <div class="empty-title">검사 대상 없음</div>
-            <div class="empty-desc">${escapeHtml(msg.message)}</div>
+            <div class="empty-state-title">검사 대상 없음</div>
+            <div class="empty-state-desc">${escapeHtml(msg.message)}</div>
           </div>
         `;
         return;
       }
 
       if (msg.type === 'lint-results') {
-        const prevScroll = issuesList.scrollTop;
+        const prevScroll = issueScrollArea.scrollTop;
         currentIssues = msg.issues || [];
-        updateStatus();
-        renderIssues();
-        issuesList.scrollTop = prevScroll;
+        updateCounts();
+        renderGroups();
+        issueScrollArea.scrollTop = prevScroll;
       }
     };
 
-    function updateStatus() {
-      categoryTabs.style.display = 'flex';
-      statusStrip.style.display = 'flex';
+    function updateCounts() {
+      filterPanel.style.display = 'flex';
+      summaryBar.style.display = 'flex';
 
       const mustFixCount = currentIssues.filter(i => i.severity === 'must-fix').length;
       const checkNeededCount = currentIssues.filter(i => i.severity === 'check-needed').length;
 
-      cntMustFix.textContent = mustFixCount;
-      cntCheckNeeded.textContent = checkNeededCount;
+      pillAll.textContent = currentIssues.length;
+      pillMustFix.textContent = mustFixCount;
+      pillCheckNeeded.textContent = checkNeededCount;
 
       const fixableCount = currentIssues.filter(i => i.autoFixable).length;
       if (fixableCount > 0) {
         btnFixAll.style.display = 'inline-flex';
-        cntFixable.textContent = fixableCount;
+        cntFixableTotal.textContent = fixableCount;
       } else {
         btnFixAll.style.display = 'none';
       }
 
-      // 탭 배지 카운트 갱신
-      document.getElementById('badgeAll').textContent = currentIssues.length;
-      document.getElementById('badgeTypo').textContent = currentIssues.filter(i => i.category === 'typography').length;
-      document.getElementById('badgeColor').textContent = currentIssues.filter(i => i.category === 'color').length;
-      document.getElementById('badgeRadius').textContent = currentIssues.filter(i => i.category === 'radius').length;
-      document.getElementById('badgeLayout').textContent = currentIssues.filter(i => i.category === 'layout').length;
+      summarySummaryText.textContent = `총 ${currentIssues.length}개 레이어 (${mustFixCount > 0 ? `수정 필요 ${mustFixCount}개` : ''}${mustFixCount > 0 && checkNeededCount > 0 ? ' · ' : ''}${checkNeededCount > 0 ? `확인 필요 ${checkNeededCount}개` : ''})`;
     }
 
-    function renderIssues() {
+    // 동일 피드백 묶기 (Group by groupKey)
+    function buildGroups(issues) {
+      const groupMap = new Map();
+
+      issues.forEach(issue => {
+        const key = issue.groupKey || issue.message;
+        if (!groupMap.has(key)) {
+          groupMap.set(key, {
+            key,
+            title: issue.groupTitle || issue.message,
+            severity: issue.severity,
+            category: issue.category,
+            details: issue.details,
+            autoFixable: issue.autoFixable,
+            fixAction: issue.fixAction,
+            items: []
+          });
+        }
+        groupMap.get(key).items.push(issue);
+      });
+
+      return Array.from(groupMap.values());
+    }
+
+    function renderGroups() {
       if (currentIssues.length === 0) {
-        issuesList.innerHTML = `
-          <div class="empty-container">
-            <div class="empty-icon-wrap success">
-              <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle success">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
-            <div class="empty-title">규칙 위반 사항 없음</div>
-            <div class="empty-desc">
-              선택한 레이어에서 다이사 <b>[${currentMode === 'customer' ? '고객향' : '파트너향'}]</b><br>
-              디자인시스템 규칙을 100% 완벽하게 준수하고 있습니다.
+            <div class="empty-state-title">디자인시스템 규칙을 완벽히 준수하고 있습니다</div>
+            <div class="empty-state-desc">
+              선택한 영역에서 <b>[${currentMode === 'customer' ? 'B2C 고객향' : '파트너향'}]</b> 규격 위반 사항이 전혀 없습니다.
             </div>
           </div>
         `;
         return;
       }
 
-      const categories = [
-        { id: 'typography', title: '서체 및 폰트 규격' },
-        { id: 'color', title: '컬러 토큰 규격' },
-        { id: 'radius', title: '모서리 곡률 및 테두리' },
-        { id: 'layout', title: '기타 (이모지 및 레이아웃)' }
-      ];
-
-      let html = '';
-      let renderedCategoryCount = 0;
-
-      categories.forEach(cat => {
-        if (currentCategory !== 'all' && currentCategory !== cat.id) return;
-
-        const catIssues = currentIssues.filter(i => i.category === cat.id);
-        if (catIssues.length === 0) return;
-
-        renderedCategoryCount++;
-        const catMustFix = catIssues.filter(i => i.severity === 'must-fix').length;
-        const catCheckNeeded = catIssues.filter(i => i.severity === 'check-needed').length;
-
-        html += `
-          <div class="category-section">
-            <div class="section-title-row">
-              <div class="section-title">
-                <span>${cat.title}</span>
-              </div>
-              <div class="section-count">
-                ${catMustFix > 0 ? `<span style="color: #B91C1C; font-weight: 600;">수정 필요 ${catMustFix}</span>` : ''}
-                ${catMustFix > 0 && catCheckNeeded > 0 ? ' · ' : ''}
-                ${catCheckNeeded > 0 ? `<span style="color: #B45309; font-weight: 600;">확인 필요 ${catCheckNeeded}</span>` : ''}
-              </div>
-            </div>
-        `;
-
-        catIssues.forEach(issue => {
-          html += `
-            <div class="issue-card ${issue.severity}">
-              <div class="issue-meta-row">
-                <div class="meta-left">
-                  <span class="status-badge ${issue.severity}">${issue.severity === 'must-fix' ? '수정 필요' : '확인 필요'}</span>
-                  <span class="node-tag" title="${escapeHtml(issue.nodeName)}">${escapeHtml(issue.nodeName)}</span>
-                </div>
-              </div>
-              <div class="issue-message">${escapeHtml(issue.message)}</div>
-              ${issue.details ? `<div class="issue-details">${escapeHtml(issue.details)}</div>` : ''}
-              <div class="issue-btn-row">
-                <button class="btn-locate" onclick="selectNode('${issue.nodeId}')">
-                  <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-                  <span>위치 확인</span>
-                </button>
-                ${issue.autoFixable ? `
-                  <button class="btn-fix-single" onclick="fixSingle('${issue.nodeId}', '${issue.id}')">
-                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>${issue.fixAction && issue.fixAction.label ? issue.fixAction.label : '빠른 수정'}</span>
-                  </button>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        });
-
-        html += `</div>`;
+      // 필터 적용 (심각도 & 카테고리)
+      const filteredIssues = currentIssues.filter(i => {
+        if (currentSeverity !== 'all' && i.severity !== currentSeverity) return false;
+        if (currentCategory !== 'all' && i.category !== currentCategory) return false;
+        return true;
       });
 
-      if (renderedCategoryCount === 0) {
-        issuesList.innerHTML = `
-          <div class="empty-container">
-            <div class="empty-icon-wrap success">
-              <svg class="icon-svg" style="width: 24px; height: 24px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      if (filteredIssues.length === 0) {
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
-            <div class="empty-title">해당 항목 이상 없음</div>
-            <div class="empty-desc">선택된 카테고리에는 위반 사항이 없습니다.</div>
+            <div class="empty-state-title">해당 조건에 해당하는 항목 없음</div>
+            <div class="empty-state-desc">선택된 필터 조건에 해당하는 위반 사항이 없습니다.</div>
           </div>
         `;
-      } else {
-        issuesList.innerHTML = html;
+        return;
       }
+
+      const groups = buildGroups(filteredIssues);
+
+      // 수정 필요 항목을 상단에 우선 정렬
+      groups.sort((a, b) => {
+        if (a.severity === 'must-fix' && b.severity !== 'must-fix') return -1;
+        if (a.severity !== 'must-fix' && b.severity === 'must-fix') return 1;
+        return b.items.length - a.items.length;
+      });
+
+      let html = '';
+
+      groups.forEach(group => {
+        const isExpanded = expandedGroupKeys.has(group.key);
+        const fixableItems = group.items.filter(i => i.autoFixable);
+
+        html += `
+          <div class="group-card" id="group-${escapeHtml(group.key)}">
+            <div class="group-header" onclick="toggleGroup('${escapeHtml(group.key)}')">
+              <div class="group-info-left">
+                <span class="badge-severity ${group.severity}">
+                  ${group.severity === 'must-fix' ? '수정 필요' : '확인 필요'}
+                </span>
+                <span class="group-title" title="${escapeHtml(group.title)}">
+                  ${escapeHtml(group.title)}
+                </span>
+                <span class="group-count-tag">${group.items.length}개 레이어</span>
+              </div>
+              <div class="group-actions-right" onclick="event.stopPropagation()">
+                ${group.autoFixable && fixableItems.length > 0 ? `
+                  <button class="btn-group-fix" onclick="fixGroup('${escapeHtml(group.key)}')">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>${group.fixAction && group.fixAction.label ? group.fixAction.label : '일괄 수정'}</span>
+                  </button>
+                ` : ''}
+                <button class="btn-chevron ${isExpanded ? 'expanded' : ''}" onclick="toggleGroup('${escapeHtml(group.key)}')">
+                  <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+              </div>
+            </div>
+
+            ${isExpanded ? `
+              <div class="group-items-list">
+                ${group.items.map(item => `
+                  <div class="layer-item-row">
+                    <div class="layer-left">
+                      <div class="layer-name-tag">${escapeHtml(item.nodeName)}</div>
+                      <div class="layer-desc">${escapeHtml(item.details || item.message)}</div>
+                    </div>
+                    <div class="layer-btns">
+                      <button class="btn-mini-locate" onclick="selectNode('${item.nodeId}')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                        <span>위치 이동</span>
+                      </button>
+                      ${item.autoFixable ? `
+                        <button class="btn-mini-fix" onclick="fixSingle('${item.nodeId}', '${item.id}')">
+                          <span>수정</span>
+                        </button>
+                      ` : ''}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+
+      issueScrollArea.innerHTML = html;
     }
 
+    // 아코디언 토글
+    function toggleGroup(key) {
+      if (expandedGroupKeys.has(key)) {
+        expandedGroupKeys.delete(key);
+      } else {
+        expandedGroupKeys.add(key);
+      }
+      renderGroups();
+    }
+
+    // 특정 레이어로 캔버스 줌 이동
     function selectNode(nodeId) {
       parent.postMessage({
         pluginMessage: {
@@ -787,6 +964,7 @@
       }, '*');
     }
 
+    // 단일 이슈 수정
     function fixSingle(nodeId, issueId) {
       const issue = currentIssues.find(i => i.id === issueId);
       if (issue && issue.fixAction) {
@@ -800,6 +978,20 @@
       }
     }
 
+    // 동일 유형 그룹 일괄 수정
+    function fixGroup(groupKey) {
+      const itemsToFix = currentIssues.filter(i => (i.groupKey || i.message) === groupKey && i.autoFixable);
+      if (itemsToFix.length === 0) return;
+
+      parent.postMessage({
+        pluginMessage: {
+          type: 'fix-group',
+          issues: itemsToFix
+        }
+      }, '*');
+    }
+
+    // 전체 일괄 수정
     btnFixAll.addEventListener('click', () => {
       const fixable = currentIssues.filter(i => i.autoFixable);
       if (fixable.length === 0) return;
@@ -814,22 +1006,22 @@
       }
     });
 
-    // 마크다운 리포트 복사
+    // 마크다운 리포트 클립보드 복사
     btnCopyReport.addEventListener('click', () => {
       if (currentIssues.length === 0) {
         alert('복사할 검증 결과가 없습니다.');
         return;
       }
 
-      let md = `# 다이사 디자인시스템 검증 리포트 (${currentMode === 'customer' ? '고객향' : '파트너향'})\n\n`;
-      md += `- 검사 모드: ${currentMode === 'customer' ? '고객향 v2.0' : '파트너향 v1.0'}\n`;
-      md += `- 총 항목: ${currentIssues.length}건 (수정 필요: ${cntMustFix.textContent}건, 확인 필요: ${cntCheckNeeded.textContent}건)\n\n`;
-      md += `| 구분 | 카테고리 | 레이어명 | 위반 내용 | 권장 수정 안내 |\n`;
-      md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+      let md = `# 다이사 디자인시스템 검증 리포트 (${currentMode === 'customer' ? 'B2C 고객향' : '파트너향'})\n\n`;
+      md += `- 검사 모드: ${currentMode === 'customer' ? 'B2C 고객향 v2.0' : '파트너향 v1.0'}\n`;
+      md += `- 총 위반 레이어: ${currentIssues.length}개 (수정 필요: ${pillMustFix.textContent}개, 확인 필요: ${pillCheckNeeded.textContent}개)\n\n`;
+      md += `| 구분 | 문제 유형 | 레이어명 | 상세 가이드 |\n`;
+      md += `| :--- | :--- | :--- | :--- |\n`;
 
       currentIssues.forEach(i => {
-        const statusLabel = i.severity === 'must-fix' ? '수정 필요' : '확인 필요';
-        md += `| ${statusLabel} | ${i.category} | ${i.nodeName} | ${i.message} | ${i.details || '-'} |\n`;
+        const sevLabel = i.severity === 'must-fix' ? '수정 필요' : '확인 필요';
+        md += `| ${sevLabel} | ${i.groupTitle || i.message} | ${i.nodeName} | ${i.details || '-'} |\n`;
       });
 
       navigator.clipboard.writeText(md).then(() => {
