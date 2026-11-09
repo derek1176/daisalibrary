@@ -175,18 +175,12 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
   ];
 
   return (
-    <div className="space-y-12 animate-fadeIn pb-16 max-w-5xl">
-      {/* 1. Header (Clean & Minimal) */}
-      <div className="space-y-2 border-b border-[#E5E8EB] pb-6">
-        <span className="text-[12px] font-bold text-[#1219F7]">
-          Foundations
-        </span>
-        <h1 className="text-[32px] md:text-[36px] font-extrabold tracking-tight text-[#191F28]">
+    <div className="space-y-8 animate-fadeIn">
+      {/* 1. Header (심플 영문 타이틀만 - 타 페이지와 일치) */}
+      <div className="border-b pb-4 border-[#E5E8EB]">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
           Logo
-        </h1>
-        <p className="text-[15px] text-[#6B7684] leading-relaxed max-w-2xl">
-          다이사 브랜드 아이덴티티를 형성하는 3가지 공식 로고 에셋과 배경색별 적용 규칙입니다. 로고 카드에 마우스를 올리면 SVG, PNG 파일 다운로드 및 코드 복사가 가능합니다.
-        </p>
+        </h2>
       </div>
 
       {/* 2. 3대 핵심 로고 인터랙티브 쇼케이스 (시그니처 블루 & 화이트 반전용 2개씩) */}
