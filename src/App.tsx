@@ -10,6 +10,7 @@ import { InputSection } from './components/sections/InputSection';
 import { ModalSection } from './components/sections/ModalSection';
 import { ArchiveSection } from './components/sections/ArchiveSection';
 import { IconSection } from './components/sections/IconSection';
+import { LogoSection } from './components/sections/LogoSection';
 
 import {
   Menu,
@@ -138,6 +139,7 @@ export const App: React.FC = () => {
               </div>
               <div className="space-y-0.5">
                 {[
+                  { id: 'logo', label: 'Logo', isShared: true },
                   { id: 'colors', label: 'Colors' },
                   { id: 'typography', label: 'Typography' },
                   { id: 'icons', label: 'Icons', isShared: true },
@@ -220,6 +222,7 @@ export const App: React.FC = () => {
           <div className="max-w-[1040px] mx-auto space-y-16">
             {activeTab === 'home' && <HomeSection mode={serviceMode} onSelectTab={(id) => handleNavClick(id)} />}
             {activeTab === 'archive' && <ArchiveSection mode={serviceMode} />}
+            {activeTab === 'logo' && <LogoSection mode={serviceMode} />}
             {activeTab === 'colors' && <ColorSection mode={serviceMode} />}
             {activeTab === 'typography' && <TypographySection mode={serviceMode} />}
             {activeTab === 'icons' && <IconSection mode={serviceMode} />}
