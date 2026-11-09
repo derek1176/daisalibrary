@@ -262,7 +262,7 @@
       border-color: #111827;
     }
 
-    /* 상단 일괄 액션 바 (클립보드 복사 등) */
+    /* 상단 일괄 액션 바 */
     .summary-bar {
       padding: 6px 14px;
       background: #F8F9FA;
@@ -314,39 +314,46 @@
       background: #E0E7FF;
     }
 
-    /* 4. 이슈 리스트 스크롤 영역 */
+    /* 4. 이슈 리스트 스크롤 영역 (스크롤 완벽 지원) */
     .issue-scroll-area {
-      flex: 1;
+      flex: 1 1 0%;
+      min-height: 0;
       overflow-y: auto;
-      padding: 12px 14px;
+      overflow-x: hidden;
+      padding: 12px 14px 28px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
-    /* 5. 피드백 그룹 아코디언 카드 */
+    /* 5. 피드백 그룹 아코디언 카드 (찌그러짐 방지 flex-shrink: 0) */
     .group-card {
       background: #FFFFFF;
       border: 1px solid #E5E7EB;
       border-radius: 8px;
-      overflow: hidden;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      transition: border-color 0.15s ease;
     }
 
     .group-card:hover {
       border-color: #D1D5DB;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     /* 그룹 헤더 */
     .group-header {
+      min-height: 44px;
       padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
       background: #FFFFFF;
+      border-radius: 8px;
       transition: background 0.15s ease;
+      flex-shrink: 0;
     }
 
     .group-header:hover {
@@ -359,14 +366,17 @@
       gap: 8px;
       overflow: hidden;
       flex: 1;
+      min-width: 0;
     }
 
     .badge-severity {
       font-size: 10px;
       font-weight: 700;
-      padding: 2px 6px;
+      line-height: 1.2;
+      padding: 3px 6px;
       border-radius: 4px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .badge-severity.must-fix {
@@ -384,10 +394,12 @@
     .group-title {
       font-size: 12px;
       font-weight: 600;
+      line-height: 1.4;
       color: #111827;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      min-width: 0;
     }
 
     .group-count-tag {
@@ -395,9 +407,10 @@
       font-weight: 600;
       color: #6B7280;
       background: #F3F4F6;
-      padding: 1px 6px;
+      padding: 2px 7px;
       border-radius: 10px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .group-actions-right {
@@ -409,7 +422,7 @@
     }
 
     .btn-group-fix {
-      height: 24px;
+      height: 26px;
       padding: 0 8px;
       background: #EEF2FF;
       color: #1219F7;
@@ -429,8 +442,8 @@
     }
 
     .btn-chevron {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       border: none;
       background: transparent;
       border-radius: 4px;
@@ -450,12 +463,14 @@
     .group-items-list {
       background: #FAFAFA;
       border-top: 1px solid #F3F4F6;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
       display: flex;
       flex-direction: column;
     }
 
     .layer-item-row {
-      padding: 8px 12px;
+      padding: 9px 12px;
       border-bottom: 1px solid #F3F4F6;
       display: flex;
       align-items: center;
@@ -473,6 +488,7 @@
       gap: 2px;
       overflow: hidden;
       flex: 1;
+      min-width: 0;
     }
 
     .layer-name-tag {
@@ -500,11 +516,11 @@
     }
 
     .btn-mini-locate {
-      height: 22px;
-      padding: 0 6px;
+      height: 24px;
+      padding: 0 7px;
       background: #FFFFFF;
       border: 1px solid #E5E7EB;
-      border-radius: 3px;
+      border-radius: 4px;
       font-size: 10px;
       font-weight: 500;
       color: #4B5563;
@@ -520,11 +536,11 @@
     }
 
     .btn-mini-fix {
-      height: 22px;
-      padding: 0 6px;
+      height: 24px;
+      padding: 0 8px;
       background: #1219F7;
       border: none;
-      border-radius: 3px;
+      border-radius: 4px;
       font-size: 10px;
       font-weight: 600;
       color: #FFFFFF;
@@ -545,7 +561,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
       text-align: center;
       color: #6B7280;
     }
@@ -684,9 +700,9 @@
   <script>
     let currentMode = 'customer';
     let currentIssues = [];
-    let currentSeverity = 'all'; // 'all' | 'must-fix' | 'check-needed'
-    let currentCategory = 'all'; // 'all' | 'typography' | 'color' | 'radius' | 'layout'
-    let expandedGroupKeys = new Set(); // 펼쳐진 아코디언 상태 보존
+    let currentSeverity = 'all';
+    let currentCategory = 'all';
+    let expandedGroupKeys = new Set();
 
     const tabCustomer = document.getElementById('tabCustomer');
     const tabPartner = document.getElementById('tabPartner');
@@ -740,7 +756,7 @@
 
     btnRunLint.addEventListener('click', runLint);
 
-    // 심각도 탭 전환 (전체 / 수정 필요 / 확인 필요)
+    // 심각도 탭 전환
     document.querySelectorAll('.sev-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.sev-tab').forEach(t => t.classList.remove('active'));
@@ -760,7 +776,7 @@
       });
     });
 
-    // 피그마 통신
+    // 피그마 통신 수신
     window.onmessage = (event) => {
       const msg = event.data.pluginMessage;
       if (!msg) return;
@@ -814,7 +830,6 @@
       summarySummaryText.textContent = `총 ${currentIssues.length}개 레이어 (${mustFixCount > 0 ? `수정 필요 ${mustFixCount}개` : ''}${mustFixCount > 0 && checkNeededCount > 0 ? ' · ' : ''}${checkNeededCount > 0 ? `확인 필요 ${checkNeededCount}개` : ''})`;
     }
 
-    // 동일 피드백 묶기 (Group by groupKey)
     function buildGroups(issues) {
       const groupMap = new Map();
 
@@ -854,7 +869,6 @@
         return;
       }
 
-      // 필터 적용 (심각도 & 카테고리)
       const filteredIssues = currentIssues.filter(i => {
         if (currentSeverity !== 'all' && i.severity !== currentSeverity) return false;
         if (currentCategory !== 'all' && i.category !== currentCategory) return false;
@@ -876,7 +890,6 @@
 
       const groups = buildGroups(filteredIssues);
 
-      // 수정 필요 항목을 상단에 우선 정렬
       groups.sort((a, b) => {
         if (a.severity === 'must-fix' && b.severity !== 'must-fix') return -1;
         if (a.severity !== 'must-fix' && b.severity === 'must-fix') return 1;
@@ -890,7 +903,7 @@
         const fixableItems = group.items.filter(i => i.autoFixable);
 
         html += `
-          <div class="group-card" id="group-${escapeHtml(group.key)}">
+          <div class="group-card">
             <div class="group-header" onclick="toggleGroup('${escapeHtml(group.key)}')">
               <div class="group-info-left">
                 <span class="badge-severity ${group.severity}">
@@ -944,17 +957,17 @@
       issueScrollArea.innerHTML = html;
     }
 
-    // 아코디언 토글
     function toggleGroup(key) {
       if (expandedGroupKeys.has(key)) {
         expandedGroupKeys.delete(key);
       } else {
         expandedGroupKeys.add(key);
       }
+      const prevScroll = issueScrollArea.scrollTop;
       renderGroups();
+      issueScrollArea.scrollTop = prevScroll;
     }
 
-    // 특정 레이어로 캔버스 줌 이동
     function selectNode(nodeId) {
       parent.postMessage({
         pluginMessage: {
@@ -964,7 +977,6 @@
       }, '*');
     }
 
-    // 단일 이슈 수정
     function fixSingle(nodeId, issueId) {
       const issue = currentIssues.find(i => i.id === issueId);
       if (issue && issue.fixAction) {
@@ -978,7 +990,6 @@
       }
     }
 
-    // 동일 유형 그룹 일괄 수정
     function fixGroup(groupKey) {
       const itemsToFix = currentIssues.filter(i => (i.groupKey || i.message) === groupKey && i.autoFixable);
       if (itemsToFix.length === 0) return;
@@ -991,7 +1002,6 @@
       }, '*');
     }
 
-    // 전체 일괄 수정
     btnFixAll.addEventListener('click', () => {
       const fixable = currentIssues.filter(i => i.autoFixable);
       if (fixable.length === 0) return;
@@ -1006,7 +1016,6 @@
       }
     });
 
-    // 마크다운 리포트 클립보드 복사
     btnCopyReport.addEventListener('click', () => {
       if (currentIssues.length === 0) {
         alert('복사할 검증 결과가 없습니다.');

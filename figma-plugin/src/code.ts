@@ -1,4 +1,4 @@
-// Figma Plugin Backend Code - Daisa Design System Linter v3
+// Figma Plugin Backend Code - Daisa Design System Linter v4
 // 다이사(da24) 디자인시스템 검증기 (고객향 & 파트너향 분리 린터)
 
 figma.showUI(__html__, { width: 480, height: 720, themeColors: true });
@@ -81,6 +81,35 @@ function findNearestAllowedFontSize(current: number, allowed: number[]): number 
   );
 }
 
+// 토스트, 툴팁, 배지 등 특수 컴포넌트 예외 판별
+function isExemptFromRadiusCheck(node: SceneNode): boolean {
+  const name = node.name.toLowerCase();
+  
+  // 1. 레이어명 키워드 검사 (토스트, 툴팁, 배지, 칩, 태그, 팝오버, 스낵바 등)
+  const exemptKeywords = [
+    'toast', 'tooltip', 'tip', 'snackbar', 'popover', 
+    'balloon', 'bubble', 'badge', 'tag', 'chip', 'indicator', 'pill', 'status'
+  ];
+  if (exemptKeywords.some(kw => name.includes(kw))) {
+    return true;
+  }
+
+  // 2. 부모 레이어명도 검사 (예: Tooltip 컨테이너 내부의 Box)
+  if (node.parent && 'name' in node.parent) {
+    const parentName = node.parent.name.toLowerCase();
+    if (exemptKeywords.some(kw => parentName.includes(kw))) {
+      return true;
+    }
+  }
+
+  // 3. 높이 36px 이하의 초소형 인라인 요소 (초소형 태그, 칩 등)
+  if ('height' in node && typeof node.height === 'number' && node.height <= 36) {
+    return true;
+  }
+
+  return false;
+}
+
 interface LintIssue {
   id: string;
   nodeId: string;
@@ -94,7 +123,7 @@ interface LintIssue {
   details?: string;
   autoFixable?: boolean;
   fixAction?: {
-    type: 'fontSize' | 'radius' | 'strokeWeight' | 'letterSpacing';
+    type: 'fontSize' | 'fontFamily' | 'radius' | 'strokeWeight' | 'letterSpacing';
     targetValue: any;
     label?: string;
   };
@@ -200,7 +229,7 @@ function lintNode(
   if (node.type === 'TEXT') {
     const textNode = node as TextNode;
 
-    // 3-1. 폰트 패밀리 검사
+    // 3-1. 폰트 패밀리 검사 및 자동 교체(Auto-Fix) 지원
     if (textNode.fontName !== figma.mixed) {
       const family = textNode.fontName.family;
       if (mode === 'customer') {
@@ -215,7 +244,9 @@ function lintNode(
             groupKey: `font-family-${family.toLowerCase().replace(/\s+/g, '-')}`,
             groupTitle: `비표준 서체 (${family})`,
             message: `비표준 서체 (${family}) 사용됨`,
-            details: `고객향은 Pretendard 단일 서체만 허용합니다.`
+            details: `고객향은 Pretendard 단일 서체만 허용합니다.`,
+            autoFixable: true,
+            fixAction: { type: 'fontFamily', targetValue: 'Pretendard', label: 'Pretendard로 변경' }
           });
         }
       } else {
@@ -231,7 +262,9 @@ function lintNode(
             groupKey: `font-family-${family.toLowerCase().replace(/\s+/g, '-')}`,
             groupTitle: `비표준 서체 (${family})`,
             message: `비표준 서체 (${family}) 사용됨`,
-            details: `파트너향은 Pretendard 또는 Noto Sans KR만 허용합니다.`
+            details: `파트너향은 Pretendard 또는 Noto Sans KR만 허용합니다.`,
+            autoFixable: true,
+            fixAction: { type: 'fontFamily', targetValue: 'Pretendard', label: 'Pretendard로 변경' }
           });
         }
       }
@@ -352,33 +385,24 @@ function lintNode(
   }
 
   // 4. 모서리 곡률 (Corner Radius) 검사
+  // 고객 요청 반영: 고객향은 무조건 10px 고정! (토스트/툴팁/배지는 자동 예외 처리)
   if ('cornerRadius' in node && typeof node.cornerRadius === 'number' && node.cornerRadius > 0) {
     const radius = node.cornerRadius;
     const height = node.height;
     const isPill = radius >= height / 2 - 1;
 
-    if (!isPill) {
+    // Pill 형태이거나 토스트/툴팁/배지 등 특수 요소는 검사 제외
+    if (!isPill && !isExemptFromRadiusCheck(node)) {
       if (mode === 'customer') {
         const isModalOrSheet = node.name.toLowerCase().includes('modal') || 
                                node.name.toLowerCase().includes('sheet') || 
                                node.name.toLowerCase().includes('popup');
 
-        let expectedRadius = 10;
-        let expectedDesc = '';
-
-        if (height < 80) {
-          expectedRadius = 8;
-          expectedDesc = '소형 카드/행 (높이 < 80px) ➔ 8px';
-        } else if (height <= 240) {
-          expectedRadius = 10;
-          expectedDesc = '표준 카드 (높이 80~240px) ➔ 10px';
-        } else {
-          expectedRadius = 12;
-          expectedDesc = '대형 컨테이너 (높이 ≥ 241px) ➔ 12px';
-        }
+        // 고객향 표준은 무조건 10px 고정! (모달/바텀시트 16px 허용)
+        const expectedRadius = 10;
 
         if (radius === 16 && isModalOrSheet) {
-          // 모달 16px 허용
+          // 모달/시트 16px 허용
         } else if (radius !== expectedRadius) {
           issues.push({
             id: `${node.id}-radius`,
@@ -387,17 +411,17 @@ function lintNode(
             nodeType: node.type,
             severity: radius === 16 ? 'check-needed' : 'must-fix',
             category: 'radius',
-            groupKey: `radius-${radius}-exp-${expectedRadius}`,
-            groupTitle: `곡률 ${radius}px 적용됨 (${expectedRadius}px 권장)`,
-            message: `곡률 ${radius}px 적용됨 (높이 ${Math.round(height)}px 기준 ${expectedRadius}px 필요)`,
-            details: expectedDesc,
+            groupKey: `radius-${radius}-exp-10`,
+            groupTitle: `곡률 ${radius}px 적용됨 (10px 표준 필요)`,
+            message: `곡률 ${radius}px 적용됨 (고객향 표준 10px 필요)`,
+            details: `고객향 디자인시스템은 기본 카드/컨테이너 모서리 곡률을 10px로 통일합니다.`,
             autoFixable: true,
-            fixAction: { type: 'radius', targetValue: expectedRadius, label: `${expectedRadius}px로 변경` }
+            fixAction: { type: 'radius', targetValue: 10, label: '10px로 변경' }
           });
         }
       } else {
-        const isSubSmall = height <= 32 || node.name.toLowerCase().includes('chip') || node.name.toLowerCase().includes('tag');
-        const allowedPartnerRadius = isSubSmall ? [4, 6] : [6];
+        // [파트너향] 전사 6px 고정
+        const allowedPartnerRadius = [6];
 
         if (!allowedPartnerRadius.includes(radius)) {
           const isCustomerRadius = radius === 10 || radius === 16;
@@ -487,6 +511,48 @@ function executeLint() {
   });
 }
 
+// 폰트 교체 안전 도우미 (Pretendard의 같은 weight를 로드하거나 fallback)
+async function applyFontFamily(textNode: TextNode, targetFamily: string) {
+  let targetStyle = 'Regular';
+  if (textNode.fontName !== figma.mixed) {
+    targetStyle = textNode.fontName.style || 'Regular';
+  }
+
+  const primaryFont: FontName = { family: targetFamily, style: targetStyle };
+  try {
+    await figma.loadFontAsync(primaryFont);
+    textNode.fontName = primaryFont;
+  } catch (err) {
+    // 지정 style 로드 실패 시 Bold 또는 Regular로 안전 fallback
+    const fallbackStyle = targetStyle.toLowerCase().includes('bold') ? 'Bold' : 'Regular';
+    const fallbackFont: FontName = { family: targetFamily, style: fallbackStyle };
+    await figma.loadFontAsync(fallbackFont);
+    textNode.fontName = fallbackFont;
+  }
+}
+
+async function applyFixToNode(node: SceneNode, fixAction: any) {
+  if (fixAction.type === 'fontFamily' && node.type === 'TEXT') {
+    await applyFontFamily(node as TextNode, fixAction.targetValue);
+  } else if (fixAction.type === 'fontSize' && node.type === 'TEXT') {
+    const textNode = node as TextNode;
+    if (textNode.fontName !== figma.mixed) {
+      await figma.loadFontAsync(textNode.fontName);
+      textNode.fontSize = fixAction.targetValue;
+    }
+  } else if (fixAction.type === 'radius' && 'cornerRadius' in node) {
+    (node as any).cornerRadius = fixAction.targetValue;
+  } else if (fixAction.type === 'strokeWeight' && 'strokeWeight' in node) {
+    (node as any).strokeWeight = fixAction.targetValue;
+  } else if (fixAction.type === 'letterSpacing' && node.type === 'TEXT') {
+    const textNode = node as TextNode;
+    if (textNode.fontName !== figma.mixed) {
+      await figma.loadFontAsync(textNode.fontName);
+      textNode.letterSpacing = fixAction.targetValue;
+    }
+  }
+}
+
 figma.ui.onmessage = async (msg) => {
   // 1) 검사 최초 실행 요청 (사용자가 버튼 클릭 시 타겟 세션 갱신)
   if (msg.type === 'run-lint') {
@@ -533,28 +599,8 @@ figma.ui.onmessage = async (msg) => {
     }
 
     try {
-      if (fixAction.type === 'fontSize' && node.type === 'TEXT') {
-        const textNode = node as TextNode;
-        if (textNode.fontName !== figma.mixed) {
-          await figma.loadFontAsync(textNode.fontName);
-          textNode.fontSize = fixAction.targetValue;
-          figma.notify(`폰트 크기를 ${fixAction.targetValue}px로 수정했습니다.`);
-        }
-      } else if (fixAction.type === 'radius' && 'cornerRadius' in node) {
-        (node as any).cornerRadius = fixAction.targetValue;
-        figma.notify(`모서리 곡률을 ${fixAction.targetValue}px로 수정했습니다.`);
-      } else if (fixAction.type === 'strokeWeight' && 'strokeWeight' in node) {
-        (node as any).strokeWeight = fixAction.targetValue;
-        figma.notify(`테두리 두께를 ${fixAction.targetValue}px로 수정했습니다.`);
-      } else if (fixAction.type === 'letterSpacing' && node.type === 'TEXT') {
-        const textNode = node as TextNode;
-        if (textNode.fontName !== figma.mixed) {
-          await figma.loadFontAsync(textNode.fontName);
-          textNode.letterSpacing = fixAction.targetValue;
-          figma.notify(`자간을 -1%로 수정했습니다.`);
-        }
-      }
-
+      await applyFixToNode(node as SceneNode, fixAction);
+      figma.notify('수정이 완료되었습니다.');
       executeLint();
     } catch (e: any) {
       figma.notify(`자동 수정 실패: ${e.message || e}`);
@@ -571,27 +617,8 @@ figma.ui.onmessage = async (msg) => {
         const node = figma.getNodeById(item.nodeId);
         if (node && 'type' in node) {
           try {
-            if (item.fixAction.type === 'fontSize' && node.type === 'TEXT') {
-              const textNode = node as TextNode;
-              if (textNode.fontName !== figma.mixed) {
-                await figma.loadFontAsync(textNode.fontName);
-                textNode.fontSize = item.fixAction.targetValue;
-                fixedCount++;
-              }
-            } else if (item.fixAction.type === 'radius' && 'cornerRadius' in node) {
-              (node as any).cornerRadius = item.fixAction.targetValue;
-              fixedCount++;
-            } else if (item.fixAction.type === 'strokeWeight' && 'strokeWeight' in node) {
-              (node as any).strokeWeight = item.fixAction.targetValue;
-              fixedCount++;
-            } else if (item.fixAction.type === 'letterSpacing' && node.type === 'TEXT') {
-              const textNode = node as TextNode;
-              if (textNode.fontName !== figma.mixed) {
-                await figma.loadFontAsync(textNode.fontName);
-                textNode.letterSpacing = item.fixAction.targetValue;
-                fixedCount++;
-              }
-            }
+            await applyFixToNode(node as SceneNode, item.fixAction);
+            fixedCount++;
           } catch (e) {
             console.error('Group auto fix error for node', item.nodeId, e);
           }
@@ -599,7 +626,7 @@ figma.ui.onmessage = async (msg) => {
       }
     }
 
-    figma.notify(`해당 유형의 ${fixedCount}개 레이어를 수정했습니다.`);
+    figma.notify(`해당 유형의 ${fixedCount}개 레이어를 일괄 수정했습니다.`);
     executeLint();
   }
 
@@ -613,27 +640,8 @@ figma.ui.onmessage = async (msg) => {
         const node = figma.getNodeById(item.nodeId);
         if (node && 'type' in node) {
           try {
-            if (item.fixAction.type === 'fontSize' && node.type === 'TEXT') {
-              const textNode = node as TextNode;
-              if (textNode.fontName !== figma.mixed) {
-                await figma.loadFontAsync(textNode.fontName);
-                textNode.fontSize = item.fixAction.targetValue;
-                fixedCount++;
-              }
-            } else if (item.fixAction.type === 'radius' && 'cornerRadius' in node) {
-              (node as any).cornerRadius = item.fixAction.targetValue;
-              fixedCount++;
-            } else if (item.fixAction.type === 'strokeWeight' && 'strokeWeight' in node) {
-              (node as any).strokeWeight = item.fixAction.targetValue;
-              fixedCount++;
-            } else if (item.fixAction.type === 'letterSpacing' && node.type === 'TEXT') {
-              const textNode = node as TextNode;
-              if (textNode.fontName !== figma.mixed) {
-                await figma.loadFontAsync(textNode.fontName);
-                textNode.letterSpacing = item.fixAction.targetValue;
-                fixedCount++;
-              }
-            }
+            await applyFixToNode(node as SceneNode, item.fixAction);
+            fixedCount++;
           } catch (e) {
             console.error('Auto fix error for node', item.nodeId, e);
           }
