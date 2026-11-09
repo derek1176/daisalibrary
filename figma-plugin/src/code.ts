@@ -1,4 +1,4 @@
-// Figma Plugin Backend Code - Daisa Design System Linter v5
+// Figma Plugin Backend Code - Daisa Design System Linter v6
 // 다이사(da24) 디자인시스템 검증기 (고객향 & 파트너향 분리 린터)
 
 figma.showUI(__html__, { width: 480, height: 720, themeColors: true });
@@ -85,7 +85,6 @@ function hexToRgb(hex: string): { r: number, g: number, b: number } {
   };
 }
 
-// 색상 거리 계산 (가중치 RGB 유클리디안 거리)
 function colorDistance(c1: { r: number, g: number, b: number }, c2: { r: number, g: number, b: number }): number {
   const dr = c1.r - c2.r;
   const dg = c1.g - c2.g;
@@ -93,7 +92,6 @@ function colorDistance(c1: { r: number, g: number, b: number }, c2: { r: number,
   return Math.sqrt(2 * dr * dr + 4 * dg * dg + 3 * db * db);
 }
 
-// 가장 가까운 가이드 내 공식 컬러 토큰 매칭
 function findNearestColorToken(
   hex: string, 
   allowedColors: Record<string, string>
@@ -113,7 +111,6 @@ function findNearestColorToken(
     }
   }
 
-  // 임계값: 약 65 이하인 경우(근접한 회색, 화이트, 블랙 등) 추천 적용
   if (minDistance <= 65) {
     return { hex: bestHex, name: bestName, distance: minDistance };
   }
@@ -126,7 +123,6 @@ function findNearestAllowedFontSize(current: number, allowed: number[]): number 
   );
 }
 
-// 시스템 UI (Status Bar, Home Bar 등) 자동 제외 판별
 function isSystemUI(node: SceneNode): boolean {
   const name = node.name.toLowerCase();
   return name.includes('status bar') || 
@@ -136,7 +132,6 @@ function isSystemUI(node: SceneNode): boolean {
          name.includes('homebar');
 }
 
-// 토스트, 툴팁, 배지 등 특수 컴포넌트 예외 판별
 function isExemptFromRadiusCheck(node: SceneNode): boolean {
   const name = node.name.toLowerCase();
   
@@ -167,10 +162,10 @@ interface LintIssue {
   nodeId: string;
   nodeName: string;
   nodeType: string;
-  severity: 'must-fix' | 'check-needed'; // '수정 필요' | '확인 필요'
+  severity: 'must-fix' | 'check-needed';
   category: 'typography' | 'color' | 'radius' | 'layout';
-  groupKey: string;     // 동일 피드백 그룹핑 키
-  groupTitle: string;   // 그룹 대표 타이틀
+  groupKey: string;
+  groupTitle: string;
   message: string;
   details?: string;
   autoFixable?: boolean;
@@ -194,7 +189,7 @@ function lintNode(
 ) {
   if (options.ignoreHidden && !node.visible) return;
 
-  // ★ Status Bar - iPhone, Home Bar 등 시스템 UI는 완전 제외
+  // Status Bar, Home Bar 등 시스템 UI 완전 제외
   if (isSystemUI(node)) return;
 
   const allowedColors = mode === 'customer' ? CUSTOMER_COLORS : PARTNER_COLORS;
@@ -205,6 +200,25 @@ function lintNode(
       if (fill.visible !== false && fill.type === 'SOLID') {
         const hex = rgbToHex(fill.color.r, fill.color.g, fill.color.b);
         if (fill.opacity === 0) continue;
+
+        // ★ 딤드(Dimmed) 60% 블랙 오버레이 판별: 
+        // 1) fill.opacity가 약 60%이거나
+        // 2) 레이어 자체 opacity가 약 60%이거나
+        // 3) 레이어명에 dim/overlay/backdrop이 들어간 반투명 블랙인 경우
+        const isBlack = hex === '#000000';
+        const fillOp = typeof fill.opacity === 'number' ? fill.opacity : 1;
+        const nodeOp = 'opacity' in node && typeof (node as any).opacity === 'number' ? (node as any).opacity : 1;
+        const totalOp = fillOp * nodeOp;
+        const isDimmedOpacity = (totalOp >= 0.5 && totalOp <= 0.7); // 50% ~ 70% (공식 60%)
+        const nameMatchesDimmed = node.name.toLowerCase().includes('dim') || 
+                                  node.name.toLowerCase().includes('overlay') || 
+                                  node.name.toLowerCase().includes('backdrop') || 
+                                  node.name.toLowerCase().includes('scrim');
+
+        if (isBlack && (isDimmedOpacity || (totalOp < 1 && nameMatchesDimmed))) {
+          // 다이사 공식 dimmed: rgba(0,0,0,0.6) 토큰이므로 정상 허용!
+          continue;
+        }
 
         if (mode === 'partner' && PARTNER_BANNED_COLORS[hex]) {
           const nearest = findNearestColorToken(hex, allowedColors);
@@ -289,7 +303,6 @@ function lintNode(
       }
     }
 
-    // 스트로크 두께 검사 (기본 1px 규칙, 2px 이상은 확인 필요)
     if ('strokeWeight' in node && typeof node.strokeWeight === 'number' && node.strokeWeight > 1) {
       const isPartnerFocus = mode === 'partner' && node.strokeWeight === 2 && node.name.toLowerCase().includes('focus');
       if (!isPartnerFocus) {
@@ -311,54 +324,67 @@ function lintNode(
     }
   }
 
-  // 3. 타이포그래피 검사 (TEXT Node)
+  // 3. 타이포그래피 검사 (TEXT Node - figma.mixed 완벽 대응)
   if (node.type === 'TEXT') {
     const textNode = node as TextNode;
 
-    // 3-1. 폰트 패밀리 검사 및 자동 교체(Auto-Fix) 지원
+    // 3-1. 폰트 패밀리 검사 (단일 또는 mixed 검사)
+    let isNonPretendard = false;
+    let detectedFamily = 'Unknown';
+
     if (textNode.fontName !== figma.mixed) {
-      const family = textNode.fontName.family;
+      detectedFamily = textNode.fontName.family;
       if (mode === 'customer') {
-        if (!family.toLowerCase().includes('pretendard')) {
-          issues.push({
-            id: `${node.id}-font-family`,
-            nodeId: node.id,
-            nodeName: node.name,
-            nodeType: node.type,
-            severity: 'must-fix',
-            category: 'typography',
-            groupKey: `font-family-${family.toLowerCase().replace(/\s+/g, '-')}`,
-            groupTitle: `비표준 서체 (${family})`,
-            message: `비표준 서체 (${family}) 사용됨`,
-            details: `고객향은 Pretendard 단일 서체만 허용합니다.`,
-            autoFixable: true,
-            fixAction: { type: 'fontFamily', targetValue: 'Pretendard', label: 'Pretendard로 변경' }
-          });
-        }
+        isNonPretendard = !detectedFamily.toLowerCase().includes('pretendard');
       } else {
-        const isAllowed = family.toLowerCase().includes('pretendard') || family.toLowerCase().includes('noto sans');
-        if (!isAllowed) {
-          issues.push({
-            id: `${node.id}-font-family`,
-            nodeId: node.id,
-            nodeName: node.name,
-            nodeType: node.type,
-            severity: 'must-fix',
-            category: 'typography',
-            groupKey: `font-family-${family.toLowerCase().replace(/\s+/g, '-')}`,
-            groupTitle: `비표준 서체 (${family})`,
-            message: `비표준 서체 (${family}) 사용됨`,
-            details: `파트너향은 Pretendard 또는 Noto Sans KR만 허용합니다.`,
-            autoFixable: true,
-            fixAction: { type: 'fontFamily', targetValue: 'Pretendard', label: 'Pretendard로 변경' }
-          });
+        isNonPretendard = !detectedFamily.toLowerCase().includes('pretendard') && !detectedFamily.toLowerCase().includes('noto sans');
+      }
+    } else {
+      // figma.mixed인 경우 첫 글자부터 폰트 패밀리 확인
+      const len = textNode.characters.length;
+      if (len > 0) {
+        const f0 = textNode.getRangeFontName(0, 1);
+        if (f0 !== figma.mixed) {
+          detectedFamily = f0.family;
+          if (mode === 'customer') {
+            isNonPretendard = !f0.family.toLowerCase().includes('pretendard');
+          } else {
+            isNonPretendard = !f0.family.toLowerCase().includes('pretendard') && !f0.family.toLowerCase().includes('noto sans');
+          }
         }
       }
     }
 
+    if (isNonPretendard) {
+      issues.push({
+        id: `${node.id}-font-family`,
+        nodeId: node.id,
+        nodeName: node.name,
+        nodeType: node.type,
+        severity: 'must-fix',
+        category: 'typography',
+        groupKey: `font-family-${detectedFamily.toLowerCase().replace(/\s+/g, '-')}`,
+        groupTitle: `비표준 서체 (${detectedFamily})`,
+        message: `비표준 서체 (${detectedFamily}) 사용됨`,
+        details: `${mode === 'customer' ? '고객향' : '파트너향'} 공식 Pretendard 서체로 교체해야 합니다.`,
+        autoFixable: true,
+        fixAction: { type: 'fontFamily', targetValue: 'Pretendard', label: 'Pretendard로 변경' }
+      });
+    }
+
     // 3-2. 폰트 크기 검사
+    let fontSizeValue: number | null = null;
     if (textNode.fontSize !== figma.mixed) {
-      const size = textNode.fontSize;
+      fontSizeValue = textNode.fontSize;
+    } else if (textNode.characters.length > 0) {
+      const fs0 = textNode.getRangeFontSize(0, 1);
+      if (typeof fs0 === 'number') {
+        fontSizeValue = fs0;
+      }
+    }
+
+    if (fontSizeValue !== null) {
+      const size = fontSizeValue;
       const allowedSizes = mode === 'customer' ? CUSTOMER_FONT_SIZES : PARTNER_FONT_SIZES;
 
       if (mode === 'customer') {
@@ -596,22 +622,60 @@ function executeLint() {
   });
 }
 
-// 폰트 교체 안전 도우미 (Pretendard의 같은 weight를 로드하거나 fallback)
+// 폰트 교체 안전 도우미 (Pretendard의 같은 weight를 로드하거나 fallback, mixed 완벽 지원)
 async function applyFontFamily(textNode: TextNode, targetFamily: string) {
-  let targetStyle = 'Regular';
+  const len = textNode.characters.length;
+  if (len === 0) return;
+
+  // 1. 기존 폰트의 스타일(굵기) 판별
+  let isBold = false;
   if (textNode.fontName !== figma.mixed) {
-    targetStyle = textNode.fontName.style || 'Regular';
+    const s = textNode.fontName.style.toLowerCase();
+    isBold = s.includes('bold') || s.includes('semibold') || s.includes('700') || s.includes('800') || s.includes('900');
+  } else {
+    const f0 = textNode.getRangeFontName(0, 1);
+    if (f0 !== figma.mixed) {
+      const s = f0.style.toLowerCase();
+      isBold = s.includes('bold') || s.includes('semibold') || s.includes('700');
+    }
   }
 
-  const primaryFont: FontName = { family: targetFamily, style: targetStyle };
+  const targetStyle = isBold ? 'Bold' : 'Regular';
+  const targetFont: FontName = { family: targetFamily, style: targetStyle };
+  const fallbackFont: FontName = { family: targetFamily, style: 'Regular' };
+
+  // 2. 피그마에 대상 폰트 로드
   try {
-    await figma.loadFontAsync(primaryFont);
-    textNode.fontName = primaryFont;
-  } catch (err) {
-    const fallbackStyle = targetStyle.toLowerCase().includes('bold') ? 'Bold' : 'Regular';
-    const fallbackFont: FontName = { family: targetFamily, style: fallbackStyle };
+    await figma.loadFontAsync(targetFont);
+  } catch (e) {
     await figma.loadFontAsync(fallbackFont);
-    textNode.fontName = fallbackFont;
+  }
+
+  // 3. ★ 피그마 API 핵심: 텍스트 노드를 수정하기 전, 해당 텍스트에 사용된 기존 폰트들을 먼저 로드해야 수정 에러가 안 남!
+  try {
+    if (textNode.fontName !== figma.mixed) {
+      await figma.loadFontAsync(textNode.fontName);
+    } else {
+      for (let i = 0; i < len; i++) {
+        const rf = textNode.getRangeFontName(i, i + 1);
+        if (rf !== figma.mixed) {
+          try {
+            await figma.loadFontAsync(rf);
+          } catch (e2) {}
+        }
+      }
+    }
+  } catch (e) {}
+
+  // 4. 새로운 서체 적용
+  try {
+    textNode.fontName = targetFont;
+  } catch (err) {
+    try {
+      textNode.setRangeFontName(0, len, targetFont);
+    } catch (err2) {
+      textNode.fontName = fallbackFont;
+    }
   }
 }
 
@@ -620,9 +684,19 @@ async function applyFixToNode(node: SceneNode, fixAction: any) {
     await applyFontFamily(node as TextNode, fixAction.targetValue);
   } else if (fixAction.type === 'fontSize' && node.type === 'TEXT') {
     const textNode = node as TextNode;
+    // 폰트 크기 변경 시에도 폰트 로드 선행 필수
     if (textNode.fontName !== figma.mixed) {
       await figma.loadFontAsync(textNode.fontName);
       textNode.fontSize = fixAction.targetValue;
+    } else {
+      const len = textNode.characters.length;
+      if (len > 0) {
+        const f0 = textNode.getRangeFontName(0, 1);
+        if (f0 !== figma.mixed) {
+          await figma.loadFontAsync(f0);
+        }
+        textNode.fontSize = fixAction.targetValue;
+      }
     }
   } else if (fixAction.type === 'colorFill' && 'fills' in node && Array.isArray(node.fills)) {
     const rgb = hexToRgb(fixAction.targetValue);
@@ -668,7 +742,7 @@ async function applyFixToNode(node: SceneNode, fixAction: any) {
 }
 
 figma.ui.onmessage = async (msg) => {
-  // 1) 검사 최초 실행 요청
+  // 1) 검사 최초 실행 요청 (현재 캔버스의 실시간 상태를 그대로 반영)
   if (msg.type === 'run-lint') {
     const { mode, scope, ignoreHidden } = msg;
     sessionMode = mode;
@@ -715,6 +789,7 @@ figma.ui.onmessage = async (msg) => {
     try {
       await applyFixToNode(node as SceneNode, fixAction);
       figma.notify('수정이 완료되었습니다.');
+      // 실시간 재검사하여 최신 상태 즉시 반영
       executeLint();
     } catch (e: any) {
       figma.notify(`자동 수정 실패: ${e.message || e}`);
@@ -768,7 +843,6 @@ figma.ui.onmessage = async (msg) => {
   }
 
   // 6) ★ 완성본 복제 생성 (Clone & Auto-Fix)
-  // 원본은 그대로 보존하고, 옆에 복제본을 만들어 모든 항목을 자동 수정한 뒤 비교할 수 있게 함!
   if (msg.type === 'clone-and-fix') {
     let sourceNodes: SceneNode[] = [];
     for (const id of sessionTargetNodeIds) {
@@ -793,8 +867,6 @@ figma.ui.onmessage = async (msg) => {
       for (const originalNode of sourceNodes) {
         const clone = originalNode.clone();
         clone.name = `[수정본] ${originalNode.name}`;
-        
-        // 원본 우측에 여백을 두고 나란히 배치
         clone.x = originalNode.x + originalNode.width + 48;
         clone.y = originalNode.y;
         clonedNodes.push(clone);
@@ -821,13 +893,10 @@ figma.ui.onmessage = async (msg) => {
         }
       }
 
-      // 새로 생성된 완성본 프레임을 선택하고 뷰포트 확대
       figma.currentPage.selection = clonedNodes;
       figma.viewport.scrollAndZoomIntoView(clonedNodes);
-
       figma.notify(`새 [수정본] 프레임 생성 완료! (${fixedCount}개 항목 자동 보정됨)`);
 
-      // 린터 세션을 새로 생성된 복제본으로 전환하여 바로 검증 결과 확인
       sessionTargetNodeIds = clonedNodes.map(n => n.id);
       executeLint();
     } catch (e: any) {

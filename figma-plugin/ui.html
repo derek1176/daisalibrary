@@ -622,11 +622,11 @@
   <header class="app-header">
     <div class="brand-wrap">
       <span class="brand-title">daisalibrary</span>
-      <span class="brand-version" id="versionTag">B2C 고객향</span>
+      <span class="brand-version" id="versionTag">고객향</span>
     </div>
     <!-- daisalibrary 스타일 세그먼트 스위처 -->
     <div class="mode-segmented">
-      <button class="mode-item active" id="tabCustomer">고객향 (B2C)</button>
+      <button class="mode-item active" id="tabCustomer">고객향</button>
       <button class="mode-item" id="tabPartner">파트너향</button>
     </div>
   </header>
@@ -737,7 +737,7 @@
       currentMode = 'customer';
       tabCustomer.className = 'mode-item active';
       tabPartner.className = 'mode-item';
-      versionTag.textContent = 'B2C 고객향';
+      versionTag.textContent = '고객향';
       runLint();
     });
 
@@ -874,7 +874,7 @@
             </div>
             <div class="empty-state-title">디자인시스템 규칙을 완벽히 준수하고 있습니다</div>
             <div class="empty-state-desc">
-              선택한 영역에서 <b>[${currentMode === 'customer' ? 'B2C 고객향' : '파트너향'}]</b> 규격 위반 사항이 전혀 없습니다.
+              선택한 영역에서 <b>[${currentMode === 'customer' ? '고객향' : '파트너향'}]</b> 규격 위반 사항이 전혀 없습니다.
             </div>
           </div>
         `;
