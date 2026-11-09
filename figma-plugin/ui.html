@@ -690,12 +690,6 @@
         <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
         <span>직접 수정 (<span id="cntFixableTotal">0</span>)</span>
       </button>
-
-      <!-- 마크다운 리포트 클립보드 복사 -->
-      <button class="btn-subtle" id="btnCopyReport">
-        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-        <span>결과 복사</span>
-      </button>
     </div>
   </div>
 
@@ -735,7 +729,6 @@
     const btnCloneAndFix = document.getElementById('btnCloneAndFix');
     const btnFixAll = document.getElementById('btnFixAll');
     const cntFixableTotal = document.getElementById('cntFixableTotal');
-    const btnCopyReport = document.getElementById('btnCopyReport');
     const issueScrollArea = document.getElementById('issueScrollArea');
 
     // 모드 전환
@@ -1043,33 +1036,6 @@
           }
         }, '*');
       }
-    });
-
-    btnCopyReport.addEventListener('click', () => {
-      if (currentIssues.length === 0) {
-        alert('복사할 검증 결과가 없습니다.');
-        return;
-      }
-
-      let md = `# 다이사 디자인시스템 검증 리포트 (${currentMode === 'customer' ? 'B2C 고객향' : '파트너향'})\n\n`;
-      md += `- 검사 모드: ${currentMode === 'customer' ? 'B2C 고객향 v2.0' : '파트너향 v1.0'}\n`;
-      md += `- 총 위반 레이어: ${currentIssues.length}개 (수정 필요: ${pillMustFix.textContent}개, 확인 필요: ${pillCheckNeeded.textContent}개)\n\n`;
-      md += `| 구분 | 문제 유형 | 레이어명 | 상세 가이드 |\n`;
-      md += `| :--- | :--- | :--- | :--- |\n`;
-
-      currentIssues.forEach(i => {
-        const sevLabel = i.severity === 'must-fix' ? '수정 필요' : '확인 필요';
-        md += `| ${sevLabel} | ${i.groupTitle || i.message} | ${i.nodeName} | ${i.details || '-'} |\n`;
-      });
-
-      navigator.clipboard.writeText(md).then(() => {
-        parent.postMessage({
-          pluginMessage: {
-            type: 'notify',
-            message: '검증 리포트가 클립보드에 복사되었습니다.'
-          }
-        }, '*');
-      });
     });
 
     function escapeHtml(text) {
