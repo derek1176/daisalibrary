@@ -3,7 +3,8 @@ import {
   Sparkles,
   Search,
   CheckCircle2,
-  MapPin
+  MapPin,
+  Truck
 } from 'lucide-react';
 
 interface HomeSectionProps {
@@ -164,50 +165,45 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 4. Layout Thumbnail (Responsive Column Grid Screen)
+  // 4. Layout Thumbnail (Simplified Mobile Canvas from Layout page)
   // ============================================================
   const renderLayoutThumbnail = () => (
-    <div className="w-full h-full relative flex items-center justify-center select-none px-6">
-      <div className="w-[200px] h-[126px] bg-white rounded-[14px] p-2.5 shadow-[0_8px_24px_rgba(0,0,0,0.07)] border border-black/[0.04] flex flex-col justify-between transition-transform duration-300 group-hover:scale-105">
-        {/* Screen Top Bar */}
-        <div className="flex items-center justify-between pb-1.5 border-b border-black/[0.04]">
-          <div className="flex items-center gap-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#191F28]/20" />
-            <div className="w-1.5 h-1.5 rounded-full bg-[#191F28]/20" />
-            <div className="w-1.5 h-1.5 rounded-full bg-[#191F28]/20" />
-          </div>
-          <span className="text-[9px] font-mono font-bold text-[#8B95A1]">4 Columns Grid · 24px Margin</span>
+    <div className="w-full h-full flex items-center justify-center select-none px-6">
+      <div className="w-full max-w-[210px] bg-white rounded-[14px] p-3 shadow-[0_6px_20px_rgba(0,0,0,0.06)] border border-[#E5E8EB] flex flex-col gap-2.5 transition-transform duration-300 group-hover:scale-105">
+        {/* Top GNB Line */}
+        <div className="flex items-center justify-between pb-1.5 border-b border-[#E5E8EB] text-[10px] font-bold text-[#191F28]">
+          <span className="font-extrabold">daisalibrary</span>
+          <span className="text-[9px] text-[#8B95A1] font-mono">360px</span>
         </div>
 
-        {/* Grid Screen Body */}
-        <div className="grid grid-cols-4 gap-2 h-[76px] relative px-1 py-1 bg-[#F8F9FB] rounded-[8px]">
-          {/* 4 Column Bands */}
-          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
-            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">1</span>
-          </div>
-          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
-            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">2</span>
-          </div>
-          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
-            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">3</span>
-          </div>
-          <div className="h-full bg-[#1219F7]/8 border border-dashed border-[#1219F7]/30 rounded-[4px] flex items-end justify-center pb-1">
-            <span className="text-[7px] font-mono font-bold text-[#1219F7]/60">4</span>
+        {/* Grid & Margins View */}
+        <div className="flex items-stretch justify-between gap-1.5 h-14">
+          {/* Left Margin (24px) */}
+          <div className="w-5 bg-[#E8F3FF] rounded-[4px] flex items-center justify-center">
+            <span className="text-[8px] font-bold text-[#1219F7] font-mono">24</span>
           </div>
 
-          {/* Overlaid UI Component Block snapping to 312px container */}
-          <div className="absolute inset-x-2 top-2 h-6 bg-[#191F28] rounded-[6px] shadow-xs flex items-center justify-between px-2.5 z-10">
-            <span className="text-[9px] font-bold text-white tracking-tight">Content Safe Area</span>
-            <span className="text-[8px] font-mono text-[#595EF9] font-black">{isPartner ? '627px' : '312px'}</span>
+          {/* Center Content Area (312px: 4 columns) */}
+          <div className="flex-1 flex gap-1 p-1 bg-[#F8F9FB] border border-[#E5E8EB] rounded-[6px]">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex-1 bg-[#EEF2FF] rounded-[3px] flex items-end justify-center pb-0.5 text-[7px] font-bold text-[#595EF9]"
+              >
+                col
+              </div>
+            ))}
           </div>
-          <div className="absolute inset-x-2 bottom-2 flex gap-1.5 z-10">
-            <div className="flex-1 h-5 bg-[#1219F7] rounded-[5px] flex items-center justify-center text-[8px] font-bold text-white shadow-xs">
-              Col 1-2
-            </div>
-            <div className="flex-1 h-5 bg-white border border-black/[0.08] rounded-[5px] flex items-center justify-center text-[8px] font-bold text-[#4E5968]">
-              Col 3-4
-            </div>
+
+          {/* Right Margin (24px) */}
+          <div className="w-5 bg-[#E8F3FF] rounded-[4px] flex items-center justify-center">
+            <span className="text-[8px] font-bold text-[#1219F7] font-mono">24</span>
           </div>
+        </div>
+
+        {/* Safe Area text at bottom */}
+        <div className="text-center text-[9px] font-bold text-[#8B95A1]">
+          {isPartner ? 'Content: 312px (Web: 627px)' : 'Content Safe Area: 312px'}
         </div>
       </div>
     </div>
@@ -272,13 +268,13 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
           <Search className="w-5 h-5 stroke-[2.5] text-[#191F28]" />
         </div>
 
-        {/* Center: Hero Deep Black Tile with White Sparkles Icon */}
+        {/* Center: Hero Deep Black Tile with White Moving Truck Icon */}
         <div
           className={`w-14 h-14 bg-[#191F28] ${
             isPartner ? 'rounded-[8px]' : 'rounded-[16px]'
           } flex items-center justify-center text-white shadow-[0_12px_26px_rgba(0,0,0,0.25)] z-10 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1`}
         >
-          <Sparkles className="w-7 h-7 stroke-[2.2] text-white fill-white/20" />
+          <Truck className="w-7 h-7 stroke-[2.2] text-white" />
         </div>
 
         {/* Right: Clean White Card with Signature Blue Icon */}
@@ -310,30 +306,22 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   );
 
   // ============================================================
-  // 8. Input Fields (Yeogi inspired: Cropped card sheet with prominent search bar)
+  // 8. Input Fields (Clean Centered Input Box)
   // ============================================================
   const renderInputsThumbnail = () => (
-    <div className="w-full h-full relative flex items-end justify-end select-none overflow-hidden">
-      {/* Background white sheet container sliding from corner */}
+    <div className="w-full h-full flex items-center justify-center select-none px-6">
       <div
-        className="w-[230px] h-[155px] bg-white rounded-tl-[28px] shadow-[0_10px_28px_rgba(0,0,0,0.08)] border-t border-l border-black/[0.04] p-4 flex flex-col justify-between transition-transform duration-300 group-hover:translate-x-[-4px] group-hover:translate-y-[-4px]"
+        className={`w-full max-w-[210px] h-[50px] bg-white border-2 border-[#1219F7] ${
+          isPartner ? 'rounded-[6px]' : 'rounded-[12px]'
+        } px-3.5 flex items-center justify-between shadow-[0_6px_20px_rgba(18,25,247,0.08)] transition-transform duration-300 group-hover:scale-105`}
       >
-        {/* Prominent Search/Text Input */}
-        <div
-          className={`w-full h-[46px] rounded-[14px] border-2 border-[#1219F7] bg-white px-3 flex items-center gap-2.5 shadow-xs`}
-        >
-          <Search className="w-5 h-5 text-[#1219F7] stroke-[2.5] shrink-0" />
-          <div className="w-[2px] h-4.5 bg-[#1219F7] rounded-full animate-pulse" />
-          <span className="text-[13px] font-bold text-[#191F28] truncate">
-            {isPartner ? '고객 주소 검색' : '출발지 검색'}
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] font-medium text-[#191F28]">
+            {isPartner ? '견적 금액 입력' : '출발지 검색'}
           </span>
+          <div className="w-[2px] h-4.5 bg-[#1219F7] rounded-full animate-pulse" />
         </div>
-
-        {/* Suggestion pill chips */}
-        <div className="flex items-center gap-2 pt-1">
-          <div className="w-16 h-4.5 rounded-full bg-[#E8F3FF]" />
-          <div className="w-24 h-4.5 rounded-full bg-[#F2F4F8]" />
-        </div>
+        <Search className="w-4.5 h-4.5 text-[#1219F7]" />
       </div>
     </div>
   );

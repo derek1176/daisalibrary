@@ -139,13 +139,13 @@ export const App: React.FC = () => {
               </div>
               <div className="space-y-0.5">
                 {[
-                  { id: 'logo', label: 'Logo', isShared: true },
+                  { id: 'logo', label: 'Logo' },
                   { id: 'colors', label: 'Colors' },
                   { id: 'typography', label: 'Typography' },
-                  { id: 'icons', label: 'Icons', isShared: true },
+                  { id: 'icons', label: 'Icons' },
                   { id: 'spacing-radius', label: 'Spacing & Radius' },
                   { id: 'layout', label: 'Layout' },
-                  { id: 'writing', label: 'Writing Guide', isShared: true },
+                  { id: 'writing', label: 'Writing Guide' },
                 ].map((item) => {
                   const isActive = activeTab === item.id;
                   return (
@@ -158,14 +158,7 @@ export const App: React.FC = () => {
                           : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span>{item.label}</span>
-                        {item.isShared && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#EEF2FF] text-[#1219F7]">
-                            Shared
-                          </span>
-                        )}
-                      </div>
+                      <span>{item.label}</span>
                     </button>
                   );
                 })}
