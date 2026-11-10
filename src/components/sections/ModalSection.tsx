@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, Sparkles, ExternalLink, CheckCircle2 } from 'lucide-react';
-import {
-  copySvgToFigma,
-  getDefaultModalSvg,
-  getIconModalSvg,
-  getBottomSheetSvg,
-} from '../../utils/figmaClipboard';
+import { Check, CheckCircle2, X } from 'lucide-react';
 
 export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -13,20 +7,6 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   // Responsive Viewport Preset State (360px, 768px, 1280px)
   const [simulatedWidth, setSimulatedWidth] = useState<number>(360);
   const isSimulatedDesktop = simulatedWidth >= 1200;
-
-  // Copy Feedback
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const [toastText, setToastText] = useState<string | null>(null);
-
-  const triggerCopy = async (key: string, svg: string, label: string) => {
-    const success = await copySvgToFigma(svg);
-    if (success) {
-      setCopiedKey(key);
-      setToastText(`[${label}] 피그마 클립보드에 복사되었습니다! 피그마에서 Cmd+V 로 붙여넣으세요.`);
-      setTimeout(() => setCopiedKey(null), 2000);
-      setTimeout(() => setToastText(null), 3500);
-    }
-  };
 
   // 모달 & 바텀시트 스펙 표 데이터 (내용 보존 & 표 형태 UI)
   const customerSpecs = [
@@ -86,14 +66,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   const specs = isPartner ? partnerSpecs : customerSpecs;
 
   return (
-    <section id="modals" className="space-y-8 relative">
-      {/* Toast Notification */}
-      {toastText && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 bg-[#111827] text-white rounded-[12px] shadow-2xl text-[13px] font-semibold animate-bounce-in border border-white/10">
-          <Sparkles className="w-4 h-4 text-[#595EF9]" />
-          <span>{toastText}</span>
-        </div>
-      )}
+    <section id="modals" className="space-y-8">
 
       {/* 1. Header (심플 영문 타이틀만) */}
       <div className="border-b pb-4 border-[#E5E8EB]">
@@ -102,72 +75,44 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </h2>
       </div>
 
-      {/* 2. 개별 실물 컴포넌트 프리뷰 (기본 모달, 아이콘 + 모달, 바텀시트 프리뷰) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* 1. 기본 모달 Preview */}
-        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB] flex flex-col justify-between">
-          <div className="space-y-3">
-            <div className="border-b pb-3 border-[#F2F4F8] flex flex-wrap items-center justify-between gap-2">
+      {/* 2. 개별 실물 컴포넌트 프리뷰 (1:1 실제 규격 프리뷰) */}
+      <div className="space-y-6">
+        {/* 2-A. 다이얼로그 모달 2종 (312px 고정 규격) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* 1. 기본 모달 Preview */}
+          <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB]">
+            <div className="border-b pb-3 border-[#F2F4F8] flex items-center justify-between">
               <div>
                 <h3 className="text-[16px] font-bold text-[#191F28]">
-                  {isPartner ? '파트너 기본 모달' : '기본 모달'}
+                  {isPartner ? '파트너 기본 모달' : '기본 모달 (Confirm Dialog)'}
                 </h3>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                  {isPartner ? '312px / r:6' : '312px / r:16'}
-                </span>
+                <p className="text-[12px] text-[#8B95A1] mt-0.5">화이트 아웃라인 취소 + 블루 확인 2분할 버튼</p>
               </div>
-              <div className="flex items-center gap-1.5">
-                <a
-                  href="https://www.figma.com/design/G5JiHI51FV6XFImlsyON6u/-%EA%B0%9C%EB%B0%9C--v1.2?node-id=9152-1793&t=SZFMahiZls0zVyjq-4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[12px] font-medium border border-[#D7DBE2] bg-white text-[#6B7684] hover:text-[#191F28] hover:bg-[#F8F9FA] transition-colors"
-                  title="피그마 원본 노드로 이동"
-                >
-                  <span>Figma</span>
-                  <ExternalLink className="w-3 h-3 text-[#8B95A1]" />
-                </a>
-                <button
-                  type="button"
-                  onClick={() => triggerCopy('default-modal', getDefaultModalSvg(), '기본 모달')}
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[12px] font-bold bg-[#1219F7] text-white hover:bg-[#0E14D4] transition-all select-none shadow-xs cursor-pointer active:scale-95"
-                  title="피그마 클립보드로 복사합니다"
-                >
-                  {copiedKey === 'default-modal' ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-white" />
-                      <span>복사 완료!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>피그마로 복사</span>
-                    </>
-                  )}
-                </button>
-              </div>
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#E8F3FF] text-[#1219F7]">
+                {isPartner ? '312px 고정 / r:6' : '312px 고정 / r:16'}
+              </span>
             </div>
 
-            <div className="p-6 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[260px]">
+            <div className="p-8 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[300px]">
               <div
-                className={`w-full max-w-[280px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 ${
+                className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[16px]'
                 }`}
               >
-                <div className="text-center space-y-1">
+                <div className="text-center space-y-1.5 pt-1">
                   <div className={`font-bold text-[#191F28] ${isPartner ? 'text-[18px]' : 'text-[17px]'}`}>
                     {isPartner ? '오더 접수를 취소하시겠습니까?' : '신청을 취소하시겠습니까?'}
                   </div>
-                  <div className={`text-[#6B7684] ${isPartner ? 'text-[13px]' : 'text-[13px]'}`}>
+                  <div className={`text-[#6B7684] ${isPartner ? 'text-[14px]' : 'text-[13px]'}`}>
                     {isPartner ? '작성 중인 견적 정보가 삭제됩니다.' : '작성 중인 정보가 저장되지 않습니다.'}
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 pt-2">
                   <button
                     type="button"
                     className={`flex-1 font-bold bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA] transition-colors ${
-                      isPartner ? 'h-[46px] rounded-[6px] text-[14px]' : 'h-[46px] rounded-[10px] text-[14px]'
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
                     }`}
                   >
                     취소
@@ -175,7 +120,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <button
                     type="button"
                     className={`flex-1 font-bold bg-[#1219F7] text-white hover:bg-[#0E15D4] transition-colors ${
-                      isPartner ? 'h-[46px] rounded-[6px] text-[14px]' : 'h-[46px] rounded-[10px] text-[14px]'
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
                     }`}
                   >
                     확인
@@ -185,58 +130,23 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </div>
           </div>
 
-          <div className="text-[12px] text-[#8B95A1] pt-2 border-t border-[#F2F4F8]">
-            {isPartner ? 'Figma node 9152:1793 파트너 직각형 모달' : 'Figma node 9152:1793 (취소: 화이트 아웃라인 / 확인: 블루)'}
-          </div>
-        </div>
-
-        {/* 2. 아이콘 + 모달 Preview */}
-        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB] flex flex-col justify-between">
-          <div className="space-y-3">
-            <div className="border-b pb-3 border-[#F2F4F8] flex flex-wrap items-center justify-between gap-2">
+          {/* 2. 아이콘 + 모달 Preview */}
+          <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB]">
+            <div className="border-b pb-3 border-[#F2F4F8] flex items-center justify-between">
               <div>
                 <h3 className="text-[16px] font-bold text-[#191F28]">
-                  {isPartner ? '아이콘 + 모달' : '아이콘 + 모달'}
+                  {isPartner ? '아이콘 + 모달 (안내)' : '아이콘 + 모달 (Icon Dialog)'}
                 </h3>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                  {isPartner ? '312px / r:6' : '312px / r:16'}
-                </span>
+                <p className="text-[12px] text-[#8B95A1] mt-0.5">상단 원형 뱃지 아이콘 + 닫기/확인 액션</p>
               </div>
-              <div className="flex items-center gap-1.5">
-                <a
-                  href="https://www.figma.com/design/G5JiHI51FV6XFImlsyON6u/-%EA%B0%9C%EB%B0%9C--v1.2?node-id=9152-8798&t=SZFMahiZls0zVyjq-4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[12px] font-medium border border-[#D7DBE2] bg-white text-[#6B7684] hover:text-[#191F28] hover:bg-[#F8F9FA] transition-colors"
-                  title="피그마 원본 노드로 이동"
-                >
-                  <span>Figma</span>
-                  <ExternalLink className="w-3 h-3 text-[#8B95A1]" />
-                </a>
-                <button
-                  type="button"
-                  onClick={() => triggerCopy('icon-modal', getIconModalSvg(), '아이콘+모달')}
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[12px] font-bold bg-[#1219F7] text-white hover:bg-[#0E14D4] transition-all select-none shadow-xs cursor-pointer active:scale-95"
-                  title="피그마 클립보드로 복사합니다"
-                >
-                  {copiedKey === 'icon-modal' ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-white" />
-                      <span>복사 완료!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>피그마로 복사</span>
-                    </>
-                  )}
-                </button>
-              </div>
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#E8F3FF] text-[#1219F7]">
+                {isPartner ? '312px 고정 / r:6' : '312px 고정 / r:16'}
+              </span>
             </div>
 
-            <div className="p-6 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[260px]">
+            <div className="p-8 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[300px]">
               <div
-                className={`w-full max-w-[280px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 ${
+                className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[16px]'
                 }`}
               >
@@ -245,20 +155,20 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <CheckCircle2 className="w-6 h-6 stroke-[2.5]" />
                 </div>
 
-                <div className="text-center space-y-1">
+                <div className="text-center space-y-1.5">
                   <div className={`font-bold text-[#191F28] ${isPartner ? 'text-[18px]' : 'text-[17px]'}`}>
-                    견적 신청 완료
+                    {isPartner ? '견적 제출 완료' : '견적 신청 완료'}
                   </div>
-                  <div className={`text-[#6B7684] ${isPartner ? 'text-[13px]' : 'text-[13px]'}`}>
+                  <div className={`text-[#6B7684] ${isPartner ? 'text-[14px]' : 'text-[13px]'}`}>
                     파트너사가 확인 후 빠르게 연락드립니다.
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 pt-2">
                   <button
                     type="button"
                     className={`flex-1 font-bold bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA] transition-colors ${
-                      isPartner ? 'h-[46px] rounded-[6px] text-[14px]' : 'h-[46px] rounded-[10px] text-[14px]'
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
                     }`}
                   >
                     닫기
@@ -266,7 +176,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <button
                     type="button"
                     className={`flex-1 font-bold bg-[#1219F7] text-white hover:bg-[#0E15D4] transition-colors ${
-                      isPartner ? 'h-[46px] rounded-[6px] text-[14px]' : 'h-[46px] rounded-[10px] text-[14px]'
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
                     }`}
                   >
                     내역 확인
@@ -275,85 +185,140 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               </div>
             </div>
           </div>
-
-          <div className="text-[12px] text-[#8B95A1] pt-2 border-t border-[#F2F4F8]">
-            Figma node 9152:8798 상태 팝업 모달
-          </div>
         </div>
 
-        {/* 3. Bottom Sheet Preview */}
-        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB] flex flex-col justify-between">
-          <div className="space-y-3">
-            <div className="border-b pb-3 border-[#F2F4F8] flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <h3 className="text-[16px] font-bold text-[#191F28]">
-                  {isPartner ? '파트너 바텀시트' : '고객향 바텀시트'}
-                </h3>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                  상단 r:16px
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <a
-                  href="https://www.figma.com/design/O4BGDDJ3vWNx9QtGPgMzEU/-%EA%B0%9C%EB%B0%9C--v1.0?node-id=9097-6413&t=CC638Bm8BE0auGzb-4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[12px] font-medium border border-[#D7DBE2] bg-white text-[#6B7684] hover:text-[#191F28] hover:bg-[#F8F9FA] transition-colors"
-                  title="피그마 원본 노드로 이동"
-                >
-                  <span>Figma</span>
-                  <ExternalLink className="w-3 h-3 text-[#8B95A1]" />
-                </a>
-                <button
-                  type="button"
-                  onClick={() => triggerCopy('bottom-sheet', getBottomSheetSvg(), '바텀시트')}
-                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[8px] text-[12px] font-bold bg-[#1219F7] text-white hover:bg-[#0E14D4] transition-all select-none shadow-xs cursor-pointer active:scale-95"
-                  title="피그마 클립보드로 복사합니다"
-                >
-                  {copiedKey === 'bottom-sheet' ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-white" />
-                      <span>복사 완료!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>피그마로 복사</span>
-                    </>
-                  )}
-                </button>
-              </div>
+        {/* 2-B. 고객향 바텀시트 프리뷰 (360px 모바일 실물 규격) */}
+        <div className="rounded-[16px] p-6 space-y-4 shadow-xs bg-white border border-[#E5E8EB]">
+          <div className="border-b pb-3 border-[#F2F4F8] flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 className="text-[16px] font-bold text-[#191F28]">
+                {isPartner ? '파트너 바텀시트 (Bottom Sheet)' : '고객향 바텀시트 (Bottom Sheet)'}
+              </h3>
+              <p className="text-[12px] text-[#8B95A1] mt-0.5">
+                모바일 뷰포트(360px) 기준 화면 하단에서 슬라이드 업되는 선택형 시트 규격
+              </p>
             </div>
-
-            <div className="p-6 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[260px]">
-              <div className="w-full max-w-[280px] bg-white rounded-t-[16px] p-4 space-y-3 shadow-lg border border-[#E5E8EB]/60">
-                <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
-                <div className="font-bold text-[#191F28] text-[15px] border-b border-[#F2F4F8] pb-1.5">
-                  {isPartner ? '작업 조건 선택' : '이사 종류 선택'}
-                </div>
-                <div className="space-y-1.5 text-[12px] text-[#333D4B]">
-                  <div className="p-2 rounded-[8px] bg-[#F2F4F8] font-bold text-[#1219F7] flex items-center justify-between">
-                    <span>{isPartner ? '1톤 탑차 (추천)' : '가정이사 (포장)'}</span>
-                    <span className="text-[10px]">선택됨</span>
-                  </div>
-                  <div className="p-2 rounded-[8px] hover:bg-[#F9FAFB] text-[#6B7684]">
-                    {isPartner ? '2.5톤 탑차' : '원룸/소형이사'}
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className={`w-full bg-[#1219F7] text-white font-bold text-[13px] ${
-                    isPartner ? 'h-[44px] rounded-[6px]' : 'h-[44px] rounded-[10px]'
-                  }`}
-                >
-                  선택 완료
-                </button>
-              </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#E8F3FF] text-[#1219F7]">
+                너비 360px 고정
+              </span>
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#F2F4F6] text-[#4E5968]">
+                상단 r:16px
+              </span>
             </div>
           </div>
 
-          <div className="text-[12px] text-[#8B95A1] pt-2 border-t border-[#F2F4F8]">
-            Figma node 9097:6413 슬라이드업 바텀시트
+          <div className="p-6 md:p-8 rounded-[14px] bg-[#FAFBFD] flex flex-col lg:flex-row items-center justify-center gap-8">
+            {/* Real Mobile Device Preview (360px) */}
+            <div className="w-[360px] max-w-full h-[450px] bg-slate-900 rounded-[32px] p-3 shadow-2xl relative overflow-hidden flex flex-col justify-end border-4 border-slate-800 shrink-0">
+              {/* Dummy Mobile Status Bar */}
+              <div className="absolute top-2.5 left-0 right-0 px-6 flex items-center justify-between text-[11px] text-white/70 select-none z-10">
+                <span className="font-semibold">09:41</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] font-bold">5G</span>
+                  <div className="w-4 h-2 rounded-[2px] border border-white/60 p-[1px] flex items-center">
+                    <div className="w-full h-full bg-white/80 rounded-[1px]" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Faded Background Screen */}
+              <div className="absolute inset-0 bg-slate-900 flex flex-col justify-start pt-12 px-5 space-y-3 opacity-30 select-none pointer-events-none">
+                <div className="h-4 bg-white/40 rounded w-1/3" />
+                <div className="h-10 bg-white/20 rounded w-full" />
+                <div className="h-10 bg-white/20 rounded w-full" />
+                <div className="h-24 bg-white/10 rounded w-full" />
+              </div>
+
+              {/* Dimmed Overlay */}
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] pointer-events-none" />
+
+              {/* Bottom Sheet Component (Anchored to Bottom) */}
+              <div className="relative w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
+                {/* Handle Bar (36x4px) */}
+                <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
+
+                {/* Header (56px) */}
+                <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2">
+                  <div className="font-bold text-[#191F28] text-[16px]">
+                    {isPartner ? '작업 조건 선택' : '이사 종류 선택'}
+                  </div>
+                  <button type="button" className="text-[#8B95A1] hover:text-[#191F28] p-1">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Option Rows (56px touch target) */}
+                <div className="space-y-1.5">
+                  <div className="p-3 rounded-[10px] bg-[#F2F4F8] font-bold text-[#1219F7] flex items-center justify-between text-[14px]">
+                    <span>{isPartner ? '1톤 탑차 (추천)' : '가정이사 (포장)'}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[11px] font-medium text-[#1219F7]">선택됨</span>
+                      <Check className="w-4 h-4 text-[#1219F7]" />
+                    </div>
+                  </div>
+                  <div className="p-3 rounded-[10px] hover:bg-[#F9FAFB] text-[#4E5968] flex items-center justify-between text-[14px] transition-colors">
+                    <span>{isPartner ? '2.5톤 탑차' : '원룸/소형이사'}</span>
+                  </div>
+                  <div className="p-3 rounded-[10px] hover:bg-[#F9FAFB] text-[#4E5968] flex items-center justify-between text-[14px] transition-colors">
+                    <span>{isPartner ? '5톤 대형' : '사무실 이전'}</span>
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    className={`w-full bg-[#1219F7] text-white font-bold text-[14px] ${
+                      isPartner ? 'h-[51px] rounded-[6px]' : 'h-[50px] rounded-[10px]'
+                    }`}
+                  >
+                    선택 완료
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Spec breakdown points on the side */}
+            <div className="flex-1 space-y-4 max-w-[480px]">
+              <div className="space-y-1">
+                <span className="text-[12px] font-bold text-[#1219F7] uppercase tracking-wide">Specification Guide</span>
+                <h4 className="text-[17px] font-extrabold text-[#191F28]">바텀시트 핵심 규격 & 조작성</h4>
+                <p className="text-[13px] text-[#6B7684]">
+                  모바일 환경에서 한 손 조작성을 극대화하기 위해 360px 모바일 규격에 최적화된 하단 시트 구조입니다.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[13px]">
+                <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
+                  <div className="font-bold text-[#191F28]">너비 규격 (Width)</div>
+                  <div className="text-[12px] text-[#6B7684]">
+                    모바일 <strong className="text-[#1219F7]">360px (100%)</strong> 고정, 1200px 이상 데스크톱 환경에서는 중앙 고정 모달로 자동 전환.
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
+                  <div className="font-bold text-[#191F28]">코너 곡률 (Radius)</div>
+                  <div className="text-[12px] text-[#6B7684]">
+                    상단 좌/우에만 <strong className="text-[#191F28]">16px (rounded-t-[16px])</strong> 적용, 하단은 화면 바닥에 밀착(0px).
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
+                  <div className="font-bold text-[#191F28]">핸들바 (Handle Bar)</div>
+                  <div className="text-[12px] text-[#6B7684]">
+                    상단 중앙에 <strong className="text-[#191F28]">36 × 4px</strong> 캡슐 형태의 드래그 인지용 핸들바 필수 배치.
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
+                  <div className="font-bold text-[#191F28]">터치 타깃 (Touch Target)</div>
+                  <div className="text-[12px] text-[#6B7684]">
+                    헤더 및 옵션 행 높이 <strong className="text-[#191F28]">56px</strong>, 하단 버튼 <strong className="text-[#1219F7]">50px (r:10)</strong>.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
