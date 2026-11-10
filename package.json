@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "npm run icons:generate && vite",
+    "build": "npm run icons:generate && tsc && vite build",
+    "icons:generate": "tsx scripts/generate-icons.ts",
+    "test:icons": "tsx --test scripts/icons.test.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,6 +20,7 @@
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -25,6 +28,7 @@
     "postcss": "^8.4.35",
     "potrace": "^2.1.8",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.23.15",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
   },

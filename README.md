@@ -18,6 +18,35 @@
 
 ---
 
+## AI용 공개 아이콘 목록과 고정 SVG
+
+Icons 화면과 공개 파일은 `src/data/iconCatalog.tsx`의 같은 원본을 사용합니다. 별도 API 서버 없이 개발 서버 시작·프로덕션 빌드 시 정적 파일을 자동 생성합니다.
+
+| 주소 | 용도 |
+| --- | --- |
+| `/icons/manifest.json` | 이름·한글 라벨·설명·검색어·용도·미리보기·다운로드 주소 |
+| `/icons/search.svg` | 24px 원본 예시 |
+| `/icons/20/search.svg` | 20px 원본 예시 |
+| `/icons/16/search.svg` | 16px 원본 예시 |
+| `/icons/README.md` | AI와 사람을 위한 사용 안내 |
+| `/icons/LICENSE-lucide.txt` | Lucide 원본 라이선스 |
+
+배포 후에는 사이트 origin(예: `https://daisalibrary.vercel.app`)에 위 경로를 붙여 사용합니다. 목록의 `previewUrl`과 `downloadUrl`도 동일한 origin 기준 경로입니다. 브라우저 UI 조작이나 JavaScript 실행 없이 목록과 SVG를 HTTP GET으로 읽을 수 있습니다.
+
+목록의 `keywords`·`label`·`description`·`usages`에서 필요한 아이콘을 찾고 해당 `downloadUrl`로 원본을 받습니다. 같은 SVG의 다른 사용 용도는 `usages`에 모으므로 `entryCount`(용도 수)와 `iconCount`(고유 SVG 수)는 다를 수 있습니다. 24px 기본 원본과 20·16px 변형 모두 제공하며, 파일 이름은 순서 대신 아이콘 이름에서 생성합니다.
+
+```bash
+npm run icons:generate  # 공개 파일만 재생성
+npm run test:icons      # 검색 메타데이터·주소·SVG 규격 검사
+npm run build          # 공개 파일 자동 생성 후 전체 빌드
+```
+
+아이콘 추가·수정은 `src/data/iconCatalog.tsx`에서 합니다. 개발 서버 실행 중 원본을 바꿨으면 `npm run icons:generate`를 다시 실행하거나 개발 서버를 재시작하세요. `public/icons/`는 자동 생성 폴더이므로 직접 편집하거나 수동 자산을 넣지 않습니다. 빌드 시 생성된 파일은 `dist/icons/`에 포함되어 Vercel에 배포됩니다.
+
+SVG는 `currentColor`를 사용합니다. `<img>`의 부모 `color`는 외부 SVG 내부에 전달되지 않으므로 색상을 제어하려면 원본을 inline SVG로 사용하세요. 기존 카드별 다운로드는 같은 고정 SVG 주소를 사용하며 ZIP 다운로드도 같은 원본 렌더러를 사용합니다. 아이콘 목록은 양쪽 모드가 기존부터 공유한 자산이고, 이번 변경은 고객향·파트너향의 별도 디자인 규칙을 변경하지 않습니다.
+
+---
+
 ## 🎨 다이사 피그마 플러그인 (Figma Linter)
 
 `figma-plugin/` 디렉터리에 피그마 디자인시스템 검증기(Linter)가 내장되어 있습니다:
