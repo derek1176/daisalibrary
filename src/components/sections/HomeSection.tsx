@@ -430,13 +430,10 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   return (
     <div className="space-y-8">
       {/* Intro Header */}
-      <div className="space-y-2 animate-fadeIn">
+      <div className="animate-fadeIn">
         <h1 className="text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight text-[#191F28]">
           Overview
         </h1>
-        <p className="text-[15px] md:text-[16px] max-w-2xl leading-relaxed text-[#6B7684]">
-          다이사 디자인시스템의 모든 파운데이션과 컴포넌트를 둘러보세요.
-        </p>
       </div>
 
       {/* Grid of Component Cards (Seed Design Style: 당근 SEED 썸네일 박스 #F2F3F6 + radius 10px) */}

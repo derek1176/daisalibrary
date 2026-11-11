@@ -265,9 +265,13 @@ export const App: React.FC = () => {
       <footer className="border-t border-[#E5E8EB] py-8 px-6 text-[13px] w-full bg-white text-[#6B7684]">
         <div className="max-w-[1040px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="font-extrabold text-[#191F28]">daisalibrary</span>
+            <img
+              src="/logo-dark.png"
+              alt="daisalibrary logo"
+              className="h-[18px] w-auto object-contain"
+            />
             <span>·</span>
-            <span>다이사 & 위매치 공식 디자인시스템</span>
+            <span>다이사 디자인라이브러리</span>
           </div>
           <div className="text-[12px] text-[#8B95A1]">
             {serviceMode === 'partner' ? '파트너향 디자인시스템 v1.0.0' : '고객향 디자인시스템 v1.0.0'}
