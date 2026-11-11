@@ -118,7 +118,7 @@ export const App: React.FC = () => {
                       : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
                   }`}
                 >
-                  <span>Components</span>
+                  <span>Overview</span>
                 </button>
 
                 <button
