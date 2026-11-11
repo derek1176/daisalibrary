@@ -131,8 +131,8 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                   }}
                   className="truncate leading-tight"
                 >
-                  <div>누적 고객 780만 명이 이용한 이사 매칭 플랫폼</div>
-                  <div className="text-[#8B95A1]">1234567890</div>
+                  <div style={{ fontFamily: 'inherit', letterSpacing: 'inherit' }}>누적 고객 780만 명이 이용한 이사 매칭 플랫폼</div>
+                  <div className="text-[#8B95A1]" style={{ fontFamily: 'inherit', letterSpacing: 'inherit' }}>1234567890</div>
                 </div>
               </div>
             </div>
