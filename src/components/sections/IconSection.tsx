@@ -41,7 +41,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
 
   const [isZipping, setIsZipping] = useState(false);
 
-  // 300종 전체 아이콘 .zip 일괄 다운로드
+  // 500종 전체 아이콘 .zip 일괄 다운로드
   const handleDownloadAll = async () => {
     setIsZipping(true);
     try {
@@ -149,7 +149,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8B95A1]" />
           <input
             type="text"
-            placeholder="300종 아이콘 이름 또는 설명 검색 (예: 트럭, 견적, 설정, 검색, 결제 등)"
+            placeholder="500종 아이콘 이름 또는 설명 검색 (예: 트럭, 견적, 설정, 검색, 결제, 체크박스 등)"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-[10px] pl-10 pr-10 py-2 text-[13px] outline-none transition-all bg-[#F9FAFB] text-[#191F28] placeholder-[#8B95A1] focus:bg-white focus:ring-2 focus:ring-[#1219F7]/15"
@@ -184,7 +184,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
             onClick={handleDownloadAll}
             disabled={isZipping}
             className="h-[30px] px-2.5 rounded-[8px] bg-white text-[#1219F7] hover:bg-[#EEF2FF] shadow-2xs text-[12px] font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 select-none"
-            title="공식 300종 전체 아이콘 SVG를 .zip으로 압축 다운로드합니다."
+            title="공식 500종 전체 아이콘 SVG를 .zip으로 압축 다운로드합니다."
           >
             <Download className="w-3.5 h-3.5" />
             <span>{isZipping ? '압축 생성 중...' : '전체 아이콘 다운로드 (.zip)'}</span>
