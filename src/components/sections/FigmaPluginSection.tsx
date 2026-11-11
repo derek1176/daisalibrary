@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import {
   ExternalLink,
-  Download,
-  AlertTriangle,
-  Sparkles,
   Copy,
-  Info,
+  Check,
   ShieldCheck,
-  Check
+  Sparkles,
+  MousePointer,
+  HelpCircle,
+  FileCode,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 
 interface FigmaPluginSectionProps {
@@ -15,9 +17,10 @@ interface FigmaPluginSectionProps {
 }
 
 export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = ({ mode = 'customer' }) => {
-  const [previewMode, setPreviewMode] = useState<'customer' | 'partner'>(mode);
-  const [previewScope, setPreviewScope] = useState<'selection' | 'page'>('selection');
-  const [previewMethod, setPreviewMethod] = useState<'duplicate' | 'inplace'>('duplicate');
+  const [activePluginMode, setActivePluginMode] = useState<'customer' | 'partner'>(mode);
+  const [activeScope, setActiveScope] = useState<'selection' | 'page'>('selection');
+  const [activeSev, setActiveSev] = useState<'all' | 'must' | 'check'>('all');
+  const [activeCat, setActiveCat] = useState<string>('all');
   const [copiedLink, setCopiedLink] = useState(false);
 
   const pluginUrl = 'https://www.figma.com/community/plugin/1701500498028389673';
@@ -29,8 +32,8 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = ({ mode = '
   };
 
   return (
-    <section id="figma-plugin" className="space-y-12">
-      {/* 1. Header (심플 헤더) */}
+    <section id="figma-plugin" className="space-y-14">
+      {/* 1. Page Header */}
       <div className="border-b pb-6 border-[#E5E8EB]">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[12px] font-bold text-[#1219F7] bg-[#EEF2FF] px-2.5 py-1 rounded-[6px]">
@@ -38,14 +41,14 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = ({ mode = '
           </span>
           <span className="text-[12px] text-[#8B95A1] font-medium">v1.0.0</span>
         </div>
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28] mb-3">
+        <h2 className="text-[28px] md:text-[34px] font-extrabold tracking-tight text-[#191F28] mb-3">
           Figma Plugin (다이사 교정기)
         </h2>
-        <p className="text-[15px] text-[#4E5968] leading-relaxed max-w-[820px]">
-          피그마에서 디자인시스템 규칙 준수 여부를 최종 점검하고 비표준 속성을 원클릭으로 교정해 주는 공식 피그마 린터 플러그인입니다.
+        <p className="text-[15px] text-[#4E5968] leading-relaxed max-w-[800px]">
+          피그마에서 디자인시스템 규칙 준수 여부를 최종 점검하고, 필수 굴곡·폰트·컬러를 원클릭으로 안전하게 교정하는 공식 린터 플러그인입니다.
         </p>
 
-        {/* 액션 버튼 그룹 */}
+        {/* 액션 버튼 */}
         <div className="flex flex-wrap items-center gap-3 mt-6">
           <a
             href={pluginUrl}
@@ -63,296 +66,413 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = ({ mode = '
             className="h-[42px] px-4 rounded-[10px] bg-white border border-[#E5E8EB] hover:bg-[#F9FAFB] text-[#191F28] text-[13.5px] font-semibold inline-flex items-center gap-2 transition-all cursor-pointer"
           >
             {copiedLink ? <Check className="w-4 h-4 text-[#1219F7]" /> : <Copy className="w-4 h-4 text-[#6B7684]" />}
-            <span>{copiedLink ? '링크 복사됨' : '플러그인 주소 복사'}</span>
+            <span>{copiedLink ? '링크 복사됨' : '플러그인 링크 복사'}</span>
           </button>
-
-          <a
-            href="/daisa-figma-plugin.zip"
-            download="daisa-figma-plugin.zip"
-            className="h-[42px] px-4 rounded-[10px] bg-white border border-[#E5E8EB] hover:bg-[#F9FAFB] text-[#4E5968] hover:text-[#191F28] text-[13px] font-semibold inline-flex items-center gap-2 transition-all"
-            title="개발자용 manifest.json 및 플러그인 소스코드 패키지를 다운로드합니다."
-          >
-            <Download className="w-4 h-4 text-[#8B95A1]" />
-            <span>오프라인 패키지 (.zip)</span>
-          </a>
         </div>
       </div>
 
-      {/* 2. 회사 사람들에게만 보이는 사내 배포 안내 카드 */}
-      <div className="p-6 rounded-[16px] bg-[#F8FAFF] border border-[#D9E2FF] space-y-4">
+      {/* 2. 회사 사람들에게만 보이는 사내 비공개 플러그인 안내 */}
+      <div className="p-5 rounded-[16px] bg-[#F8FAFF] border border-[#D9E2FF] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
           <div className="w-8 h-8 rounded-[8px] bg-[#EEF2FF] flex items-center justify-center shrink-0 mt-0.5 text-[#1219F7]">
             <ShieldCheck className="w-5 h-5" />
           </div>
-          <div className="space-y-1.5 flex-1">
-            <h3 className="text-[15px] font-bold text-[#191F28]">
-              사내 비공개(Organization) 배포 및 접속 안내
-            </h3>
-            <p className="text-[13px] text-[#4E5968] leading-relaxed">
-              본 플러그인은 회사 전용 비공개(Private to Organization)로 배포되어 있어, <strong>외부 일반 사용자에게는 노출되지 않고 우리 회사 계정 멤버에게만 열립니다.</strong>
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-[12.5px]">
-          <div className="p-3.5 rounded-[12px] bg-white border border-[#E0E7FF] flex items-start gap-2.5">
-            <span className="w-5 h-5 rounded-full bg-[#1219F7]/10 text-[#1219F7] font-bold text-[11px] flex items-center justify-center shrink-0">1</span>
-            <div>
-              <div className="font-bold text-[#191F28] mb-0.5">웹 브라우저에서 링크 열기</div>
-              <div className="text-[#6B7684] leading-relaxed">
-                브라우저에서 <strong>회사 구글/피그마 계정</strong>으로 로그인된 상태로 열어야 404 없이 정상적으로 오픈됩니다. (시크릿 창/개인 계정은 차단됨)
-              </div>
+          <div>
+            <div className="text-[14px] font-bold text-[#191F28]">
+              사내 전용(Private) 배포 안내
             </div>
-          </div>
-
-          <div className="p-3.5 rounded-[12px] bg-white border border-[#E0E7FF] flex items-start gap-2.5">
-            <span className="w-5 h-5 rounded-full bg-[#1219F7]/10 text-[#1219F7] font-bold text-[11px] flex items-center justify-center shrink-0">2</span>
-            <div>
-              <div className="font-bold text-[#191F28] mb-0.5">피그마 데스크톱 앱에서 바로 실행</div>
-              <div className="text-[#6B7684] leading-relaxed">
-                피그마 작업 창 상단 <span className="font-semibold text-[#191F28]">Plugins ➔ All plugins ➔ 사내 조직 탭(Marketdesigners/다이사)</span>에서 검색 없이 바로 클릭 실행 가능합니다.
-              </div>
+            <div className="text-[12.5px] text-[#4E5968] leading-relaxed mt-0.5">
+              외부 사용자에게는 비공개(404) 처리되며, <strong>회사 피그마 계정으로 로그인된 상태</strong>에서만 열립니다. 피그마 데스크톱 앱 내 <span className="font-semibold text-[#191F28]">Plugins ➔ All plugins ➔ 사내 조직 탭</span>에서 1초 만에 바로 실행하실 수도 있습니다.
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. 플러그인 UI 프리뷰 및 핵심 컨트롤 */}
-      <div className="space-y-4">
+      {/* 3. 친절하고 직관적인 Step-by-Step 실전 사용 가이드 (보니 이용 가이드 스타일) */}
+      <div className="space-y-8">
         <div>
-          <h3 className="text-[18px] font-bold text-[#191F28] mb-1">
-            다이사 교정기 인터페이스 미리보기
+          <h3 className="text-[20px] md:text-[22px] font-extrabold text-[#191F28] mb-1">
+            복잡한 규칙 외울 필요 NO! 다이사 교정기 활용법 알려드릴게요 🛠️
           </h3>
-          <p className="text-[13px] text-[#6B7684]">
-            실제 피그마 내에서 구동되는 플러그인 윈도우 UI와 동일한 구성을 미리 확인해 보세요.
+          <p className="text-[13.5px] text-[#6B7684]">
+            10초도 안 걸려요! 피그마에서 화면을 만들고 마지막에 딱 3단계로 검증하면 끝납니다.
           </p>
         </div>
 
-        {/* 인터랙티브 Mockup Window */}
-        <div className="max-w-[540px] mx-auto rounded-[16px] bg-white border border-[#E5E8EB] shadow-[0_12px_36px_rgba(0,0,0,0.08)] overflow-hidden">
-          {/* 가상 피그마 플러그인 헤더 */}
-          <div className="h-[46px] px-4 bg-white border-b border-[#E5E8EB] flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img
-                src="/logo-dark.png"
-                alt="다이사 로고"
-                className="w-5 h-5 object-contain"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
-              />
-              <span className="text-[13px] font-extrabold text-[#191F28]">다이사 교정기</span>
-              <span className="text-[10px] font-semibold text-[#6B7684] bg-[#F2F4F6] px-1.5 py-0.5 rounded-[4px]">
-                {previewMode === 'customer' ? '고객향' : '파트너향'}
+        <div className="space-y-10 max-w-[680px]">
+          {/* Step 1 */}
+          <div className="space-y-3">
+            <div className="flex items-start gap-3.5">
+              <span className="w-7 h-7 rounded-full bg-[#F2F4F6] text-[#191F28] font-extrabold text-[13px] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                1
               </span>
+              <div>
+                <h4 className="text-[16px] font-bold text-[#191F28]">
+                  피그마 페이지 이름에 맞게 교정기가 자동으로 켜져요
+                </h4>
+                <p className="text-[13px] text-[#8B95A1] mt-0.5">
+                  페이지 이름에 [고객향] 또는 [파트너향]이 있으면 끝! 필요할 땐 우측 상단에서 수동 교체도 가능해요
+                </p>
+              </div>
             </div>
 
-            {/* 상단 모드 전환 세그먼트 */}
-            <div className="flex items-center p-0.5 rounded-[7px] bg-[#F2F4F6] text-[11px] font-semibold">
+            {/* Visual Crop 1 */}
+            <div className="ml-10 p-4 rounded-[14px] bg-[#F9FAFB] border border-[#E5E8EB] flex items-center justify-center">
+              <div className="w-full max-w-[420px] bg-white rounded-[10px] p-2.5 border border-[#E5E7EB] shadow-xs flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-[13px] text-[#191F28]">다이사 교정기</span>
+                  <span className="text-[10px] font-semibold text-[#6B7280] bg-[#F3F4F6] px-1.5 py-0.5 rounded">고객향</span>
+                </div>
+
+                {/* Dashed Target Box */}
+                <div className="relative">
+                  <div className="border-2 border-dashed border-[#1219F7] rounded-[8px] p-1 bg-[#EEF2FF]/40 flex items-center gap-1">
+                    <span className="px-2 py-0.5 rounded bg-white text-[#191F28] text-[11px] font-bold shadow-2xs">고객향</span>
+                    <span className="px-2 py-0.5 rounded text-[#6B7280] text-[11px] font-medium">파트너향</span>
+                  </div>
+                  {/* Cursor Icon */}
+                  <div className="absolute -bottom-3 -right-2 text-[#1219F7] drop-shadow-md">
+                    <MousePointer className="w-5 h-5 fill-[#1219F7] stroke-white stroke-1 transform -rotate-12" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 2 */}
+          <div className="space-y-3">
+            <div className="flex items-start gap-3.5">
+              <span className="w-7 h-7 rounded-full bg-[#F2F4F6] text-[#191F28] font-extrabold text-[13px] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                2
+              </span>
+              <div>
+                <h4 className="text-[16px] font-bold text-[#191F28]">
+                  검사할 프레임을 콕 찍거나, 페이지 전체를 한 번에 검사해요
+                </h4>
+                <p className="text-[13px] text-[#8B95A1] mt-0.5">
+                  선택한 프레임만 빠르게 볼 땐 '선택된 레이어', 전체를 훑어볼 땐 '현재 페이지 전체'를 눌러보세요
+                </p>
+              </div>
+            </div>
+
+            {/* Visual Crop 2 */}
+            <div className="ml-10 p-4 rounded-[14px] bg-[#F9FAFB] border border-[#E5E8EB] flex items-center justify-center">
+              <div className="w-full max-w-[420px] bg-white rounded-[10px] p-2.5 border border-[#E5E7EB] shadow-xs flex items-center justify-between">
+                {/* Dashed Target Box */}
+                <div className="relative">
+                  <div className="border-2 border-dashed border-[#1219F7] rounded-[8px] p-1 bg-[#EEF2FF]/40 flex items-center gap-1">
+                    <span className="px-2 py-1 rounded bg-white text-[#191F28] text-[11px] font-bold shadow-2xs">
+                      선택된 레이어 (실시간)
+                    </span>
+                    <span className="px-2 py-1 rounded text-[#6B7280] text-[11px] font-medium">
+                      현재 페이지 전체
+                    </span>
+                  </div>
+                  {/* Cursor Icon */}
+                  <div className="absolute -bottom-3 left-1/3 text-[#1219F7] drop-shadow-md">
+                    <MousePointer className="w-5 h-5 fill-[#1219F7] stroke-white stroke-1 transform -rotate-12" />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 opacity-60">
+                  <div className="w-6 h-6 rounded border border-[#E5E8EB] flex items-center justify-center text-[10px] font-mono">{"{ }"}</div>
+                  <div className="w-6 h-6 rounded border border-[#E5E8EB] flex items-center justify-center text-[11px]">?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div className="space-y-3">
+            <div className="flex items-start gap-3.5">
+              <span className="w-7 h-7 rounded-full bg-[#F2F4F6] text-[#191F28] font-extrabold text-[13px] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                3
+              </span>
+              <div>
+                <h4 className="text-[16px] font-bold text-[#191F28]">
+                  원본을 지킬지, 바로 고칠지 버튼 하나로 선택하면 끝!
+                </h4>
+                <p className="text-[13px] text-[#8B95A1] mt-0.5">
+                  안전하게 비교하려면 '복제본 생성', 지금 프레임에 바로 반영하려면 '이 프레임에서 수정'을 클릭하세요
+                </p>
+              </div>
+            </div>
+
+            {/* Visual Crop 3 */}
+            <div className="ml-10 p-4 rounded-[14px] bg-[#F9FAFB] border border-[#E5E8EB] flex items-center justify-center">
+              <div className="w-full max-w-[420px] bg-white rounded-[10px] p-3 border border-[#E5E8EB] shadow-xs space-y-2.5">
+                <div className="text-[11px] font-bold text-[#4E5968]">총 3개 항목 발견</div>
+                <div className="flex items-center gap-2">
+                  <div className="px-3 py-1.5 rounded-[6px] bg-[#F2F4F6] text-[#4E5968] text-[11px] font-medium border border-[#E5E8EB]">
+                    이 프레임에서 수정 (3)
+                  </div>
+
+                  {/* Dashed Target Box around Recommended Action */}
+                  <div className="relative flex-1">
+                    <div className="border-2 border-dashed border-[#1219F7] rounded-[8px] p-1 bg-[#EEF2FF]/40 flex items-center justify-center">
+                      <span className="px-3 py-1 rounded-[6px] bg-[#1219F7] text-white text-[11px] font-bold flex items-center gap-1 shadow-2xs">
+                        <Sparkles className="w-3 h-3" />
+                        <span>수정된 복제본 생성</span>
+                      </span>
+                    </div>
+                    {/* Cursor Icon */}
+                    <div className="absolute -bottom-3 right-6 text-[#1219F7] drop-shadow-md">
+                      <MousePointer className="w-5 h-5 fill-[#1219F7] stroke-white stroke-1 transform -rotate-12" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Final Summary Card (보라 하트 스타일) */}
+          <div className="ml-10 p-5 rounded-[16px] bg-[#FAF5FF] border border-[#E9D5FF] flex items-start gap-3.5">
+            <span className="text-[20px] select-none">💜</span>
+            <div>
+              <h4 className="text-[15px] font-bold text-[#581C87]">
+                MD 규칙대로 잘 만들어졌는지 체크하는 "최종 검증 도구"예요!
+              </h4>
+              <p className="text-[13px] text-[#7E22CE] leading-relaxed mt-1">
+                다이사 교정기는 복잡한 컴포넌트 구조나 기획 디테일을 대신해 주는 도구가 아니에요. 모서리 굴곡(Radius), 폰트 크기/행간(Typography), 색상(Colors)처럼 <strong>눈으로 일일이 구분하기 어려운 디자인시스템 필수 규칙이 잘 지켜졌는지 기계적으로 확인하는 최종 점검용</strong>으로 편하게 이용해 보세요!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. 실제 플러그인 UI 100% 동일 재현 윈도우 창 */}
+      <div className="space-y-4 pt-6 border-t border-[#E5E8EB]">
+        <div>
+          <h3 className="text-[20px] font-bold text-[#191F28] mb-1">
+            실제 피그마 플러그인 UI 윈도우
+          </h3>
+          <p className="text-[13px] text-[#6B7684]">
+            실제 피그마 창 내부에서 구동되는 다이사 교정기 화면과 1:1로 동일하게 동작합니다. 탭과 버튼을 직접 클릭해 보세요.
+          </p>
+        </div>
+
+        {/* 1:1 Figma Plugin Window Mockup */}
+        <div className="max-w-[420px] mx-auto bg-[#F8F9FA] rounded-[16px] border border-[#D1D5DB] shadow-[0_16px_40px_rgba(0,0,0,0.12)] overflow-hidden font-sans text-[#111827]">
+          {/* 1. 상단 미니멀 헤더 */}
+          <header className="bg-white px-3.5 py-2.5 border-b border-[#E5E7EB] flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-[14px] tracking-tight text-[#111827]">다이사 교정기</span>
+              <span className="text-[10px] font-semibold text-[#6B7280] bg-[#F3F4F6] px-1.5 py-0.5 rounded">
+                {activePluginMode === 'customer' ? '고객향' : '파트너향'}
+              </span>
+            </div>
+            {/* 세그먼트 스위처 */}
+            <div className="flex bg-[#F1F3F5] rounded-[6px] p-[2px] gap-[2px]">
               <button
                 type="button"
-                onClick={() => setPreviewMode('customer')}
-                className={`px-2.5 py-1 rounded-[5px] transition-all cursor-pointer ${
-                  previewMode === 'customer'
-                    ? 'bg-white text-[#191F28] shadow-2xs'
-                    : 'text-[#6B7684] hover:text-[#191F28]'
+                onClick={() => setActivePluginMode('customer')}
+                className={`border-none px-3 py-1 text-[11px] rounded-[4px] cursor-pointer transition-all ${
+                  activePluginMode === 'customer'
+                    ? 'bg-white text-[#111827] font-semibold shadow-2xs'
+                    : 'text-[#6B7280] font-medium'
                 }`}
               >
                 고객향
               </button>
               <button
                 type="button"
-                onClick={() => setPreviewMode('partner')}
-                className={`px-2.5 py-1 rounded-[5px] transition-all cursor-pointer ${
-                  previewMode === 'partner'
-                    ? 'bg-white text-[#191F28] shadow-2xs'
-                    : 'text-[#6B7684] hover:text-[#191F28]'
+                onClick={() => setActivePluginMode('partner')}
+                className={`border-none px-3 py-1 text-[11px] rounded-[4px] cursor-pointer transition-all ${
+                  activePluginMode === 'partner'
+                    ? 'bg-white text-[#111827] font-semibold shadow-2xs'
+                    : 'text-[#6B7280] font-medium'
                 }`}
               >
                 파트너향
               </button>
             </div>
-          </div>
+          </header>
 
-          {/* 서브 컨트롤 바 */}
-          <div className="px-4 py-2 bg-[#F9FAFB] border-b border-[#E5E8EB] flex items-center justify-between text-[11.5px]">
-            <div className="flex items-center gap-1.5 p-0.5 rounded-[6px] bg-[#E5E8EB]">
+          {/* 2. 컨트롤 바 */}
+          <div className="bg-white px-3.5 py-2 border-b border-[#E5E7EB] flex items-center justify-between shrink-0 gap-2">
+            <div className="flex bg-[#F3F4F6] rounded-[5px] p-[2px] gap-[2px]">
               <button
                 type="button"
-                onClick={() => setPreviewScope('selection')}
-                className={`px-2 py-1 rounded-[5px] font-medium transition-all cursor-pointer ${
-                  previewScope === 'selection' ? 'bg-white text-[#191F28] font-bold shadow-2xs' : 'text-[#6B7684]'
+                onClick={() => setActiveScope('selection')}
+                className={`border-none px-2.5 py-1 text-[11px] rounded-[4px] cursor-pointer transition-all ${
+                  activeScope === 'selection'
+                    ? 'bg-white text-[#111827] font-semibold shadow-2xs'
+                    : 'text-[#6B7280] font-medium'
                 }`}
               >
-                선택 레이어
+                선택된 레이어 (실시간)
               </button>
               <button
                 type="button"
-                onClick={() => setPreviewScope('page')}
-                className={`px-2 py-1 rounded-[5px] font-medium transition-all cursor-pointer ${
-                  previewScope === 'page' ? 'bg-white text-[#191F28] font-bold shadow-2xs' : 'text-[#6B7684]'
+                onClick={() => setActiveScope('page')}
+                className={`border-none px-2.5 py-1 text-[11px] rounded-[4px] cursor-pointer transition-all ${
+                  activeScope === 'page'
+                    ? 'bg-white text-[#111827] font-semibold shadow-2xs'
+                    : 'text-[#6B7280] font-medium'
                 }`}
               >
                 현재 페이지 전체
               </button>
             </div>
 
-            <div className="text-[11px] text-[#6B7684]">
-              {previewScope === 'selection' ? '선택된 프레임 1개 검사' : '페이지 전체 프레임 검사'}
-            </div>
-          </div>
-
-          {/* 본문 검사 결과 리스트 예시 */}
-          <div className="p-4 space-y-3 bg-white">
-            <div className="flex items-center justify-between text-[12px] font-bold text-[#191F28]">
-              <span className="flex items-center gap-1.5">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
-                <span>검출된 비표준 규칙 (3건)</span>
-              </span>
-              <span className="text-[11px] text-[#8B95A1] font-normal">
-                {previewMode === 'customer' ? '고객향 기준 (Radius 10px)' : '파트너향 기준 (Radius 6px)'}
-              </span>
-            </div>
-
-            {/* 항목별 샘플 리스트 */}
-            <div className="space-y-2 text-[11.5px]">
-              <div className="p-2.5 rounded-[8px] bg-[#FFFBEB] border border-[#FDE68A] flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-[#92400E]">굴곡 (Border Radius)</div>
-                  <div className="text-[11px] text-[#B45309]">8px ➔ 공식 규격 {previewMode === 'customer' ? '10px' : '6px'}으로 교정 필요</div>
-                </div>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200/60 text-amber-900">Radius</span>
-              </div>
-
-              <div className="p-2.5 rounded-[8px] bg-[#FFFBEB] border border-[#FDE68A] flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-[#92400E]">색상 (Colors)</div>
-                  <div className="text-[11px] text-[#B45309]">미등록 #2563EB ➔ 메인 블루 #1219F7로 교정 필요</div>
-                </div>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200/60 text-amber-900">Color</span>
-              </div>
-
-              <div className="p-2.5 rounded-[8px] bg-[#FFFBEB] border border-[#FDE68A] flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-[#92400E]">타이포그래피 (Typography)</div>
-                  <div className="text-[11px] text-[#B45309]">행간 120% ➔ Pretendard 공식 행간 규격으로 교정 필요</div>
-                </div>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200/60 text-amber-900">Typo</span>
-              </div>
-            </div>
-
-            {/* 교정 방식 선택 (사본 생성 vs 현재 레이어) */}
-            <div className="pt-2 border-t border-[#F2F4F6] space-y-2">
-              <div className="text-[11px] font-bold text-[#4E5968]">교정 방식 선택</div>
-              <div className="grid grid-cols-2 gap-2 text-[11px]">
-                <button
-                  type="button"
-                  onClick={() => setPreviewMethod('duplicate')}
-                  className={`p-2 rounded-[8px] border text-left transition-all cursor-pointer ${
-                    previewMethod === 'duplicate'
-                      ? 'border-[#1219F7] bg-[#F8FAFF]'
-                      : 'border-[#E5E8EB] bg-white'
-                  }`}
-                >
-                  <div className="flex items-center justify-between font-bold text-[#191F28] mb-0.5">
-                    <span>사본 복제 교정</span>
-                    <span className="text-[9px] font-extrabold text-[#1219F7] bg-[#EEF2FF] px-1 rounded">권장</span>
-                  </div>
-                  <div className="text-[10px] text-[#6B7684]">우측에 _교정본 생성하여 안전 비교</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setPreviewMethod('inplace')}
-                  className={`p-2 rounded-[8px] border text-left transition-all cursor-pointer ${
-                    previewMethod === 'inplace'
-                      ? 'border-[#1219F7] bg-[#F8FAFF]'
-                      : 'border-[#E5E8EB] bg-white'
-                  }`}
-                >
-                  <div className="font-bold text-[#191F28] mb-0.5">현재 레이어 직접 수정</div>
-                  <div className="text-[10px] text-[#6B7684]">선택한 원본에 즉시 토큰 덮어쓰기</div>
-                </button>
-              </div>
-
-              {/* 하단 일괄 수정 실행 버튼 */}
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
-                className="w-full h-[36px] rounded-[8px] bg-[#1219F7] hover:bg-[#0E14CA] text-white text-[12px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                title="디자인시스템 명세서(MD) 보기"
+                className="w-7 h-7 border border-[#E5E7EB] bg-white rounded-[4px] flex items-center justify-center text-[#6B7280] hover:bg-[#F3F4F6] text-[12px] font-mono font-bold"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>3개 항목 일괄 자동 교정 (Autofix)</span>
+                {"{ }"}
+              </button>
+              <button
+                type="button"
+                title="다이사 교정기 안내"
+                className="w-7 h-7 border border-[#E5E7EB] bg-white rounded-[4px] flex items-center justify-center text-[#6B7280] hover:bg-[#F3F4F6]"
+              >
+                <HelpCircle className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* 4. 실전 사용법 3단계 가이드 */}
-      <div className="space-y-4">
-        <h3 className="text-[18px] font-bold text-[#191F28]">
-          실전 사용 방법 (3단계)
-        </h3>
+          {/* 3. 필터 패널 (심각도 탭 & 카테고리 칩) */}
+          <div className="bg-white px-3.5 py-2.5 border-b border-[#E5E7EB] space-y-2">
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setActiveSev('all')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-[5px] text-[11px] font-semibold border transition-all ${
+                  activeSev === 'all'
+                    ? 'bg-[#191F28] text-white border-[#191F28]'
+                    : 'bg-white text-[#6B7280] border-[#E5E7EB]'
+                }`}
+              >
+                <span>전체</span>
+                <span className={`text-[10px] px-1 rounded-full ${activeSev === 'all' ? 'bg-white/20' : 'bg-[#F2F4F6]'}`}>3</span>
+              </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Step 1 */}
-          <div className="p-5 rounded-[14px] bg-[#FAFBFD] border border-[#E5E8EB] space-y-2.5">
-            <div className="w-7 h-7 rounded-[8px] bg-[#EEF2FF] text-[#1219F7] font-bold text-[13px] flex items-center justify-center">
-              1
+              <button
+                type="button"
+                onClick={() => setActiveSev('must')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-[5px] text-[11px] font-semibold border transition-all ${
+                  activeSev === 'must'
+                    ? 'bg-[#E11D48] text-white border-[#E11D48]'
+                    : 'bg-white text-[#E11D48] border-[#FFE4E6]'
+                }`}
+              >
+                <span>수정 필요</span>
+                <span className={`text-[10px] px-1 rounded-full ${activeSev === 'must' ? 'bg-white/20' : 'bg-[#FFE4E6]'}`}>2</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveSev('check')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-[5px] text-[11px] font-semibold border transition-all ${
+                  activeSev === 'check'
+                    ? 'bg-[#D97706] text-white border-[#D97706]'
+                    : 'bg-white text-[#D97706] border-[#FEF3C7]'
+                }`}
+              >
+                <span>확인 필요</span>
+                <span className={`text-[10px] px-1 rounded-full ${activeSev === 'check' ? 'bg-white/20' : 'bg-[#FEF3C7]'}`}>1</span>
+              </button>
             </div>
-            <h4 className="text-[14.5px] font-bold text-[#191F28]">
-              자동 모드 감지 & 수동 전환
-            </h4>
-            <p className="text-[13px] text-[#4E5968] leading-relaxed">
-              피그마 해당 페이지 이름에 <strong>[고객향]</strong> 또는 <strong>[파트너향]</strong>이 포함되어 있으면 실행 시 해당 교정기가 자동으로 켜집니다. 필요 시 우측 상단 탭에서 수동 전환할 수 있습니다.
-            </p>
+
+            {/* 카테고리 칩 */}
+            <div className="flex items-center gap-1 text-[10.5px] overflow-x-auto no-scrollbar pt-0.5">
+              {['all:전체', 'typo:서체·폰트', 'color:컬러', 'radius:곡률·보더', 'layout:기타'].map((c) => {
+                const [id, label] = c.split(':');
+                const isSelected = activeCat === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setActiveCat(id)}
+                    className={`px-2 py-0.5 rounded-[4px] whitespace-nowrap transition-all ${
+                      isSelected
+                        ? 'bg-[#F1F3F5] text-[#111827] font-bold'
+                        : 'text-[#6B7280] hover:bg-[#F9FAFB]'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Step 2 */}
-          <div className="p-5 rounded-[14px] bg-[#FAFBFD] border border-[#E5E8EB] space-y-2.5">
-            <div className="w-7 h-7 rounded-[8px] bg-[#EEF2FF] text-[#1219F7] font-bold text-[13px] flex items-center justify-center">
-              2
+          {/* 4. 상단 액션 바 (이 프레임에서 수정 / 수정된 복제본 생성) */}
+          <div className="bg-[#FAFBFD] px-3.5 py-2.5 border-b border-[#E5E7EB] flex items-center justify-between text-[11px]">
+            <span className="font-semibold text-[#4E5968]">총 3개 항목 발견</span>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                className="px-2.5 py-1 rounded-[5px] bg-white border border-[#D1D5DB] text-[#374151] hover:bg-[#F3F4F6] font-medium flex items-center gap-1 cursor-pointer transition-all shadow-2xs"
+              >
+                <Check className="w-3 h-3 text-[#1219F7]" />
+                <span>이 프레임에서 수정 (2)</span>
+              </button>
+
+              <button
+                type="button"
+                className="px-2.5 py-1 rounded-[5px] bg-[#1219F7] hover:bg-[#0E14CA] text-white font-bold flex items-center gap-1 cursor-pointer transition-all shadow-2xs"
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>수정된 복제본 생성</span>
+              </button>
             </div>
-            <h4 className="text-[14.5px] font-bold text-[#191F28]">
-              검사 대상 선택
-            </h4>
-            <p className="text-[13px] text-[#4E5968] leading-relaxed">
-              교정하고자 하는 특정 레이어/프레임을 직접 클릭하거나, 페이지 내 모든 프레임을 한 번에 점검하고 싶다면 <strong>[현재 페이지 전체]</strong> 탭을 눌러 검사합니다.
-            </p>
           </div>
 
-          {/* Step 3 */}
-          <div className="p-5 rounded-[14px] bg-[#FAFBFD] border border-[#E5E8EB] space-y-2.5">
-            <div className="w-7 h-7 rounded-[8px] bg-[#EEF2FF] text-[#1219F7] font-bold text-[13px] flex items-center justify-center">
-              3
+          {/* 5. 이슈 카드 스크롤 영역 */}
+          <div className="p-3 space-y-2 max-h-[300px] overflow-y-auto bg-[#F8F9FA]">
+            {/* Issue Card 1 */}
+            <div className="bg-white p-3 rounded-[8px] border border-[#E5E7EB] shadow-2xs space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600 border border-rose-200">
+                  수정 필요 · 곡률
+                </span>
+                <button type="button" className="text-[10.5px] font-bold text-[#1219F7] hover:underline">수정</button>
+              </div>
+              <div className="text-[12px] font-bold text-[#111827]">
+                Radius 8px ➔ 공식 규격 {activePluginMode === 'customer' ? '10px' : '6px'}
+              </div>
+              <div className="text-[10.5px] text-[#6B7280]">
+                Button / Primary · 컨테이너 모서리 굴곡 불일치
+              </div>
             </div>
-            <h4 className="text-[14.5px] font-bold text-[#191F28]">
-              교정 방식 설정 후 자동 반영
-            </h4>
-            <p className="text-[13px] text-[#4E5968] leading-relaxed">
-              원본을 보존하고 비교하고 싶을 땐 <strong>사본 복제 교정</strong>을, 빠른 적용을 원할 땐 <strong>현재 레이어 직접 수정</strong>을 설정한 후 <strong>자동 교정</strong> 버튼을 누르면 끝납니다.
-            </p>
+
+            {/* Issue Card 2 */}
+            <div className="bg-white p-3 rounded-[8px] border border-[#E5E7EB] shadow-2xs space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-600 border border-rose-200">
+                  수정 필요 · 컬러
+                </span>
+                <button type="button" className="text-[10.5px] font-bold text-[#1219F7] hover:underline">수정</button>
+              </div>
+              <div className="text-[12px] font-bold text-[#111827] flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-[2px] bg-[#2563EB] inline-block border border-black/10"></span>
+                <span>#2563EB ➔ 메인 블루 #1219F7 (main-01)</span>
+              </div>
+              <div className="text-[10.5px] text-[#6B7280]">
+                Button / Text · 비표준 블루 컬러 토큰 검출
+              </div>
+            </div>
+
+            {/* Issue Card 3 */}
+            <div className="bg-white p-3 rounded-[8px] border border-[#E5E7EB] shadow-2xs space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200">
+                  확인 필요 · 타이포
+                </span>
+                <button type="button" className="text-[10.5px] font-bold text-[#1219F7] hover:underline">수정</button>
+              </div>
+              <div className="text-[12px] font-bold text-[#111827]">
+                Pretendard Regular ➔ Medium (Body 16px)
+              </div>
+              <div className="text-[10.5px] text-[#6B7280]">
+                버튼 라벨 텍스트 권장 굵기 적용 확인
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* 5. 용도 및 주의사항 (Callout Box) */}
-      <div className="p-5 rounded-[14px] bg-[#F8FAFA] border border-[#E5E8EB] space-y-2.5">
-        <div className="flex items-center gap-2 text-[14px] font-bold text-[#191F28]">
-          <Info className="w-4 h-4 text-[#6B7684]" />
-          <span>사용 용도 및 주의사항</span>
-        </div>
-        <p className="text-[13px] text-[#4E5968] leading-relaxed">
-          다이사 교정기는 <strong>MD 규격 문서와 디자인시스템 가이드에 맞춰 화면을 만들었을 때, 필수 규칙에 어긋남 없이 잘 지켜졌는지 체크하는 "최종 검증 도구"</strong>입니다.
-        </p>
-        <ul className="text-[12.5px] text-[#6B7684] space-y-1.5 list-disc list-inside">
-          <li>
-            <strong>100% 완벽한 전능 도구가 아닙니다:</strong> 레이아웃의 복잡한 논리나 기획적 디테일까지 잡아내는 목적이 아닙니다.
-          </li>
-          <li>
-            <strong>사람 눈으로 놓치기 쉬운 필수 규칙 검증:</strong> 모서리 굴곡(Radius), 폰트 크기/행간(Typography), 색상 헥스코드(Colors), 여백(Spacing) 등 눈으로 구분하기는 어렵지만 디자인 규칙을 반드시 지켜야 하는 핵심 요소들을 기계적으로 확실하게 잡아내는 용도로 활용해 주세요.
-          </li>
-        </ul>
       </div>
     </section>
   );
