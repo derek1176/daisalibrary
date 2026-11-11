@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Check, Copy } from 'lucide-react';
 import { CUSTOMER_COLORS, CUSTOMER_COLOR_USAGES } from '../../data/customerRules';
 import { PARTNER_COLORS, PARTNER_COLOR_USAGES } from '../../data/partnerRules';
@@ -6,6 +7,31 @@ import { PARTNER_COLORS, PARTNER_COLOR_USAGES } from '../../data/partnerRules';
 export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const tooltipId = useId();
+  const [tooltip, setTooltip] = useState<{ token: string; left: number; top: number; above: boolean } | null>(null);
+
+  useEffect(() => {
+    const hide = () => setTooltip(null);
+    hide();
+    window.addEventListener('scroll', hide, true);
+    window.addEventListener('resize', hide);
+    return () => {
+      window.removeEventListener('scroll', hide, true);
+      window.removeEventListener('resize', hide);
+    };
+  }, [mode]);
+
+  const showUsage = (element: HTMLElement, token: string) => {
+    const rect = element.getBoundingClientRect();
+    const width = Math.min(320, window.innerWidth - 24);
+    const above = rect.top >= 80;
+    setTooltip({
+      token,
+      left: Math.max(12, Math.min(rect.left + rect.width / 4, window.innerWidth - width - 12)),
+      top: above ? rect.top - 8 : rect.bottom + 8,
+      above,
+    });
+  };
 
   const handleCopy = (value: string, token: string) => {
     navigator.clipboard.writeText(value);
@@ -57,9 +83,22 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <div
                     key={item.token}
                     onClick={() => handleCopy(item.value, item.token)}
+                    onMouseEnter={event => showUsage(event.currentTarget, item.token)}
+                    onMouseLeave={() => setTooltip(null)}
+                    onFocus={event => showUsage(event.currentTarget, item.token)}
+                    onBlur={() => setTooltip(null)}
+                    onKeyDown={event => {
+                      if (event.key === 'Escape') setTooltip(null);
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        handleCopy(item.value, item.token);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
                     className="grid grid-cols-12 px-6 py-3 items-center text-[13px] hover:bg-[#F9FAFB] transition-colors cursor-pointer group select-none"
-                    title={item.usage}
                     data-color-token={item.token}
+                    aria-describedby={tooltip?.token === item.token ? tooltipId : undefined}
                     aria-label={`${item.token}: ${item.value}. ${item.usage}`}
                   >
                     {/* 1. Category (첫 줄에만 표시) */}
@@ -96,6 +135,22 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
           ))}
         </div>
       </div>
+      {tooltip && createPortal(
+        <div
+          id={tooltipId}
+          role="tooltip"
+          className="fixed z-[100] pointer-events-none rounded-[8px] bg-[#191F28] px-3 py-2 text-[13px] leading-[20px] text-white shadow-lg"
+          style={{
+            left: tooltip.left,
+            top: tooltip.top,
+            maxWidth: 'min(320px, calc(100vw - 24px))',
+            transform: tooltip.above ? 'translateY(-100%)' : undefined,
+          }}
+        >
+          {usages[tooltip.token]}
+        </div>,
+        document.body,
+      )}
     </div>
   );
 };
