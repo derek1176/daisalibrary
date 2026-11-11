@@ -3,7 +3,9 @@ import {
   ExternalLink,
   Sparkles,
   MousePointer,
-  Info
+  Info,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 
 interface FigmaPluginSectionProps {
@@ -81,9 +83,9 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = () => {
                   alt="피그마 검색창에서 다이사 교정기 실행"
                   className="w-full h-auto block"
                 />
-                {/* 다이사 교정기 행에만 정확히 맞춘 파란색 점선 타겟 박스 */}
-                <div className="absolute top-[31%] left-[2.2%] w-[28.5%] h-[12.5%] border-2 border-dashed border-[#1219F7] rounded-[6px] pointer-events-none bg-[#1219F7]/15" />
-                <div className="absolute top-[35%] left-[29.5%] text-[#1219F7] drop-shadow-md pointer-events-none">
+                {/* 다이사 교정기 행에만 정확히 맞춘 파란색 점선 타겟 박스 (하단 Rename layers 침범 방지) */}
+                <div className="absolute top-[34%] left-[2.2%] w-[27%] h-[10.5%] border-2 border-dashed border-[#1219F7] rounded-[6px] pointer-events-none bg-[#1219F7]/15" />
+                <div className="absolute top-[36.5%] left-[28%] text-[#1219F7] drop-shadow-md pointer-events-none">
                   <MousePointer className="w-5 h-5 fill-[#1219F7] stroke-white stroke-1 transform -rotate-12" />
                 </div>
               </div>
@@ -256,6 +258,70 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = () => {
             <strong>육안 식별이 어려운 필수 규칙 검증:</strong> 모서리 굴곡(Radius), 폰트 크기 및 행간(Typography), 색상 헥스코드(Colors) 등 눈으로 구분하기 어렵지만 디자인시스템 상 반드시 지켜야 하는 필수 요소들을 기계적으로 확인하고 교정하는 용도로 활용합니다.
           </li>
         </ul>
+      </div>
+
+      {/* 5. 검사 결과 예시 (잘된 예시 vs 잘못된 예시) */}
+      <div className="space-y-6 pt-4 border-t border-[#E5E8EB]">
+        <div>
+          <h3 className="text-[22px] font-extrabold text-[#191F28] mb-1.5">
+            검사 결과 예시 (규칙 준수 여부 판별)
+          </h3>
+          <p className="text-[14.5px] text-[#6B7684]">
+            플러그인 검사 시 [수정 필요] 항목이 적거나 없으면 규칙이 잘 지켜진 화면이고, [수정 필요] 항목이 많으면 비표준 규격이 포함되어 수정이 필요한 화면입니다.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[860px]">
+          {/* 잘된 예시 카드 */}
+          <div className="p-5 rounded-[16px] bg-[#F9FAFB] border border-[#E5E8EB] space-y-3.5">
+            <div className="flex items-center justify-between">
+              <span className="px-2.5 py-1 rounded-[6px] bg-[#E8F5E9] text-[#2E7D32] text-[12.5px] font-bold inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4" />
+                잘된 예시 (규칙 준수)
+              </span>
+              <span className="text-[12px] font-bold text-[#2E7D32] bg-white px-2 py-0.5 rounded border border-[#C8E6C9]">
+                수정 필요 0건
+              </span>
+            </div>
+
+            <div className="rounded-[10px] overflow-hidden border border-[#D1D5DB] bg-[#1E1E1E] shadow-xs flex items-center justify-center p-2">
+              <img
+                src="/images/figma-good-example.png"
+                alt="잘된 예시 - 수정 필요 0건"
+                className="w-full max-h-[420px] object-contain block rounded-[4px]"
+              />
+            </div>
+
+            <div className="text-[13px] text-[#4E5968] leading-relaxed">
+              수정 필요 항목이 0건으로 필수 디자인 규격(곡률 10px/6px, Pretendard 서체, 공식 컬러 토큰)이 모두 올바르게 지켜진 상태입니다.
+            </div>
+          </div>
+
+          {/* 잘못된 예시 카드 */}
+          <div className="p-5 rounded-[16px] bg-[#F9FAFB] border border-[#E5E8EB] space-y-3.5">
+            <div className="flex items-center justify-between">
+              <span className="px-2.5 py-1 rounded-[6px] bg-[#FDE8E8] text-[#E02424] text-[12.5px] font-bold inline-flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4" />
+                잘못된 예시 (수정 필요)
+              </span>
+              <span className="text-[12px] font-bold text-[#E02424] bg-white px-2 py-0.5 rounded border border-[#FCD9BD]">
+                수정 필요 79건
+              </span>
+            </div>
+
+            <div className="rounded-[10px] overflow-hidden border border-[#D1D5DB] bg-[#1E1E1E] shadow-xs flex items-center justify-center p-2">
+              <img
+                src="/images/figma-bad-example.jpg"
+                alt="잘못된 예시 - 수정 필요 다수"
+                className="w-full max-h-[420px] object-contain block rounded-[4px]"
+              />
+            </div>
+
+            <div className="text-[13px] text-[#4E5968] leading-relaxed">
+              비표준 곡률, 비표준 서체, 미허용 Fill 컬러 등 수정 필요 항목이 79건 검출된 상태입니다. [수정된 복제본 생성]을 눌러 표준 규격으로 일괄 교정합니다.
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
