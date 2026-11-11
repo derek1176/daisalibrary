@@ -105,9 +105,10 @@
 ### 공식 라이브러리 우선 사용
 
 - 공식 출처: [다이사 디자인 시스템 웹사이트](https://daisalibrary.vercel.app/)의 왼쪽 사이드바 **Icons** 메뉴.
-- AI는 먼저 [공개 아이콘 목록 JSON](https://daisalibrary.vercel.app/icons/manifest.json)을 읽는다. `name`·`label`·`description`·`keywords`·`usages`에서 용도와 유사어로 후보를 찾고, 후보의 SVG 미리보기를 확인한다. 목록의 개수를 고정값으로 가정하지 않는다.
-- 목록의 `previewUrl`·`downloadUrl`·`variants`는 사이트 루트 기준 경로다. `https://daisalibrary.vercel.app`과 결합해 사용한다. 기본은 24px이고 20·16px는 `variants`에서 해당 크기의 주소를 선택한다. 예: [검색 아이콘 24px](https://daisalibrary.vercel.app/icons/search.svg), [검색 아이콘 20px](https://daisalibrary.vercel.app/icons/20/search.svg).
-- JSON과 SVG는 브라우저 UI 조작이나 JavaScript 실행 없이 HTTP GET으로 받을 수 있다. 사용 방법은 [아이콘 사용 안내](https://daisalibrary.vercel.app/icons/README.md)를 참고한다. URL을 추측하지 말고 목록에 있는 주소를 사용하며, 응답이 HTML 오류 페이지가 아닌 실제 JSON·SVG인지 확인한다. 목록에 접근할 수 없으면 Icons 화면에서 확인하거나 원본 파일을 전달받는다.
+- **아이콘이 필요할 때만** [아이콘 검색 API](https://daisalibrary.vercel.app/api/icons/search?q=search&limit=3)를 호출한다. `q`에 필요한 의미·용도의 한글 또는 영문 검색어를 URL 인코딩해 넣는다. 일반 작업에서 전체 manifest를 불러오거나 전체 아이콘 목록을 대화에 넣지 않는다.
+- 응답은 기본 후보 5개이며 `limit=3`처럼 줄일 수 있다(최대 10개). `size`는 기본 24이며 20·16을 지정할 수 있다. 적합한 후보가 없으면 유사어로 좁혀 다시 검색한다. 검색어를 비워 전체 목록을 요청하지 않는다.
+- 검색 결과의 `previewUrl`·`downloadUrl`는 사이트 루트 기준 경로다. `https://daisalibrary.vercel.app`과 결합해 후보의 모양을 확인하고, 선택한 SVG만 가져온다. 별도 전체 목록 다운로드는 필요 없다.
+- 검색 API와 SVG는 HTTP GET으로 받을 수 있다. 응답이 실제 JSON·SVG인지 확인한다. `total: 0`은 검색 결과 없음이며, HTTP 오류·HTML 응답·접근 실패는 아이콘 부재가 아니다. 접근할 수 없으면 Icons 화면에서 확인하거나 원본 파일을 전달받는다.
 - 아이콘이 필요하면 새로 그리거나 외부 아이콘 세트를 선택하기 전에 공식 라이브러리에서 용도에 맞는 아이콘을 먼저 찾는다. 검색 기능이 있으면 한글·영문 명칭과 유사어로 검색하고, 관련 목록도 확인한다.
 - 프로젝트 또는 Figma에 이미 동일한 공식 아이콘이 들어 있으면 해당 원본을 재사용한다. 매번 다시 다운로드하거나 중복 파일을 만들 필요는 없다.
 - 적합한 아이콘이 있으면 사이트에서 제공하는 원본 파일을 다운로드하거나 복사해 사용한다. SVG를 제공하면 우선 사용하고, 캡처·트레이싱·비슷한 모양의 재생성으로 대체하지 않는다. 지원하지 않는 다운로드·복사 기능이나 파일 URL을 추측하지 않는다.

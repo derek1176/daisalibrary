@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
+import JSZip from 'jszip';
 import { CUSTOMER_COLORS, CUSTOMER_TYPOGRAPHY, CUSTOMER_RADII } from '../src/data/customerRules';
 
 const root = new URL('../', import.meta.url);
@@ -35,4 +36,12 @@ test('public customer downloads and legacy URLs contain the same current documen
   assert(resources.includes("../../../DESIGN.md?raw"));
   assert(resources.includes("../../../START-HERE.md?raw"));
   assert(!resources.includes('const CUSTOMER_MD_CONTENT = `'));
+});
+
+test('customer download bundles exactly the two canonical MD files', async () => {
+  const zip = await JSZip.loadAsync(await readFile(new URL('public/daisa-customer-md.zip', root)));
+  assert.deepEqual(Object.keys(zip.files).sort(), ['DESIGN.md', 'START-HERE.md']);
+  for (const name of ['DESIGN.md', 'START-HERE.md']) {
+    assert.equal(await zip.file(name)!.async('string'), await read(name));
+  }
 });

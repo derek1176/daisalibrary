@@ -9,7 +9,7 @@
     "docs:sync": "tsx scripts/sync-design-docs.ts",
     "test:design": "tsx --test scripts/design.test.ts",
     "icons:generate": "tsx scripts/generate-icons.ts",
-    "test:icons": "tsx --test scripts/icons.test.ts",
+    "test:icons": "tsx --test scripts/icons.test.ts scripts/icon-search.test.ts",
     "preview": "vite preview"
   },
   "dependencies": {

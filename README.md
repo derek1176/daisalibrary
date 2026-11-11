@@ -20,20 +20,21 @@
 
 ## AI용 공개 아이콘 목록과 고정 SVG
 
-Icons 화면과 공개 파일은 `src/data/iconCatalog.tsx`의 같은 원본을 사용합니다. 별도 API 서버 없이 개발 서버 시작·프로덕션 빌드 시 정적 파일을 자동 생성합니다.
+Icons 화면·검색 API·SVG는 `src/data/iconCatalog.tsx`의 같은 원본을 사용합니다. SVG와 관리용 목록은 빌드 시 생성하고, Vercel 함수는 검색한 후보만 반환합니다. 별도 운영 서버는 필요 없습니다.
 
 | 주소 | 용도 |
 | --- | --- |
-| `/icons/manifest.json` | 이름·한글 라벨·설명·검색어·용도·미리보기·다운로드 주소 |
+| `/api/icons/search?q=검색&limit=3&size=24` | AI용 검색: 소수 후보의 이름·설명·SVG 주소만 반환 |
+| `/icons/manifest.json` | 기존 전체 목록: 호환·관리용, 일반 AI 작업에서는 읽지 않음 |
 | `/icons/search.svg` | 24px 원본 예시 |
 | `/icons/20/search.svg` | 20px 원본 예시 |
 | `/icons/16/search.svg` | 16px 원본 예시 |
 | `/icons/README.md` | AI와 사람을 위한 사용 안내 |
 | `/icons/LICENSE-lucide.txt` | Lucide 원본 라이선스 |
 
-배포 후에는 사이트 origin(예: `https://daisalibrary.vercel.app`)에 위 경로를 붙여 사용합니다. 목록의 `previewUrl`과 `downloadUrl`도 동일한 origin 기준 경로입니다. 브라우저 UI 조작이나 JavaScript 실행 없이 목록과 SVG를 HTTP GET으로 읽을 수 있습니다.
+배포 후에는 사이트 origin(예: `https://daisalibrary.vercel.app`)에 위 경로를 붙여 사용합니다. 목록의 `previewUrl`과 `downloadUrl`도 동일한 origin 기준 경로입니다. 브라우저 UI 조작이나 JavaScript 실행 없이 검색 결과와 SVG를 HTTP GET으로 읽을 수 있습니다. Vite 개발·미리보기 서버는 정적 UI용이며 검색 함수까지 로컬 실행하려면 Vercel 개발 환경을 사용합니다. 검색 함수 자체는 HTTP 테스트로 검증합니다.
 
-목록의 `keywords`·`label`·`description`·`usages`에서 필요한 아이콘을 찾고 해당 `downloadUrl`로 원본을 받습니다. 같은 SVG의 다른 사용 용도는 `usages`에 모으므로 `entryCount`(용도 수)와 `iconCount`(고유 SVG 수)는 다를 수 있습니다. 24px 기본 원본과 20·16px 변형 모두 제공하며, 파일 이름은 순서 대신 아이콘 이름에서 생성합니다.
+아이콘이 필요할 때만 검색 API의 `q`에 한글·영문 용도를 URL 인코딩해서 전달하고 후보의 `downloadUrl`로 원본을 받습니다. 기본 5개, `limit` 최대 10개이며 `size`는 24·20·16입니다. 검색어 없는 요청은 400으로 거절하며 전체 목록을 반환하지 않습니다. 전체 관리용 목록을 AI 대화에 넣지 않습니다. `total: 0`과 HTTP 오류(검색 불가)를 구분합니다. 같은 SVG의 다른 사용 용도는 `usages`에 모으므로 `entryCount`(용도 수)와 `iconCount`(고유 SVG 수)는 다를 수 있습니다. 24px 기본 원본과 20·16px 변형 모두 제공하며, 파일 이름은 순서 대신 아이콘 이름에서 생성합니다.
 
 ```bash
 npm run icons:generate  # 공개 파일만 재생성
@@ -144,7 +145,7 @@ AI에게 작업을 요청할 때 아래 원문을 전달하고 실제 확인 결
 
 고객향 필수 기준은 DESIGN.md가 원문입니다. Pretendard, Figma 자간 -1% / CSS -0.01em, 6단계 타이포, 단색 13개와 오버레이 1개, 기본 UI 10px / 모달·시트 16px / 원형·Pill 규칙을 따릅니다. 배지 폰트 예외·그라디언트·높이별 카드 곡률 규칙은 사용하지 않습니다. 360px·1200px는 Figma 시안 기준이며 실제 구현은 반응형입니다. AS-IS와 레퍼런스의 시각 스타일도 DESIGN.md 기준으로 다시 적용합니다.
 
-Resources에서 DESIGN.md와 START-HERE.md를 각각 미리보기·복사·다운로드할 수 있습니다. `/DESIGN.md`, `/START-HERE.md`도 직접 접근할 수 있습니다. 화면은 원문 파일을 직접 불러오며 `npm run docs:sync`가 공개 파일과 기존 고객향 경로를 동기화합니다. 개발 서버 실행 중 MD를 바꾸면 공개 파일 갱신을 위해 이 명령을 다시 실행하세요. `npm run build`에는 동기화가 포함됩니다. `npm run test:design`은 웹사이트 고객향 컬러·타이포 데이터와 문서·다운로드 사본의 일치를 확인합니다.
+Resources의 고객향 MD에서 DESIGN.md와 START-HERE.md를 하나의 ZIP(`/daisa-customer-md.zip`)으로 받습니다. ZIP을 풀어 두 파일을 AI에 첨부합니다. 미리보기와 원문 복사는 파일별로 제공합니다. 파트너향 MD는 기존처럼 별도로 다운로드합니다. `/DESIGN.md`, `/START-HERE.md`도 직접 접근할 수 있습니다. 화면은 원문 파일을 직접 불러오며 `npm run docs:sync`가 공개 파일과 기존 고객향 경로를 동기화합니다. 개발 서버 실행 중 MD를 바꾸면 공개 파일 갱신을 위해 이 명령을 다시 실행하세요. `npm run build`에는 동기화가 포함됩니다. `npm run test:design`은 웹사이트 고객향 컬러·타이포 데이터와 문서·다운로드 사본의 일치를 확인합니다.
 
 파트너향은 기존 전용 명세서를 따릅니다. 이 고객향 업데이트를 파트너향 규격에 적용하지 않습니다.
 

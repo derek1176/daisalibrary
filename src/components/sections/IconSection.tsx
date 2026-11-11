@@ -282,8 +282,8 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         )}
 
       <div className="flex flex-wrap items-center gap-3 text-[14px] text-[#1219F7]">
-        <a href="/icons/manifest.json" target="_blank" rel="noreferrer" className="underline">
-          AI용 아이콘 목록 (JSON)
+        <a href="/api/icons/search?q=search&limit=3" target="_blank" rel="noreferrer" className="underline">
+          AI용 아이콘 검색 (JSON)
         </a>
         <a href="/icons/README.md" target="_blank" rel="noreferrer" className="underline">
           고정 SVG 주소 사용 안내 · 검색 후 적합한 원본이 없을 때만 제작

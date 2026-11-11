@@ -322,14 +322,15 @@ const DarangieSvg: React.FC = () => (
 
 export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner' | 'start'>(isPartner ? 'partner' : 'customer');
+  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isPartner ? 'partner' : 'customer');
+  const [previewDoc, setPreviewDoc] = useState<'design' | 'start'>('design');
   const [copied, setCopied] = useState(false);
   const [darangis, setDarangis] = useState<DarangiItem[]>([]);
 
   useEffect(() => { setSelectedDoc(isPartner ? 'partner' : 'customer'); }, [isPartner]);
 
-  const activeContent = selectedDoc === 'partner' ? PARTNER_MD_CONTENT : selectedDoc === 'start' ? START_HERE_CONTENT : CUSTOMER_MD_CONTENT;
-  const activeFileName = selectedDoc === 'partner' ? 'daisa_library_partner.md' : selectedDoc === 'start' ? 'START-HERE.md' : 'DESIGN.md';
+  const activeContent = selectedDoc === 'partner' ? PARTNER_MD_CONTENT : previewDoc === 'start' ? START_HERE_CONTENT : CUSTOMER_MD_CONTENT;
+  const activeFileName = selectedDoc === 'partner' ? 'daisa_library_partner.md' : previewDoc === 'start' ? 'START-HERE.md' : 'DESIGN.md';
 
   const triggerDarangie = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -346,6 +347,15 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
 
   const handleDownload = (e: React.MouseEvent) => {
     triggerDarangie(e);
+    if (selectedDoc === 'customer') {
+      const link = document.createElement('a');
+      link.href = '/daisa-customer-md.zip';
+      link.download = 'daisa-customer-md.zip';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      return;
+    }
     const blob = new Blob([activeContent], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -373,11 +383,11 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
       </div>
 
       {/* 2. 전환되는 Segmented Switcher UI (고급스러운 슬라이딩 토글 형태) */}
-      <div className="relative bg-[#E2E6EE] p-1 rounded-[14px] flex items-center w-full max-w-[420px] select-none">
+      <div className="relative bg-[#E2E6EE] p-1 rounded-[14px] flex items-center w-full max-w-[280px] select-none">
         {/* 부드럽게 좌우로 슬라이딩되는 화이트 썸 */}
         <div
-          className={`absolute top-1 bottom-1 w-[calc(33.333%-4px)] bg-white rounded-[10px] shadow-sm transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            selectedDoc === 'customer' ? 'left-1' : selectedDoc === 'start' ? 'left-[calc(33.333%+1.333px)]' : 'left-[calc(66.666%-1.333px)]'
+          className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-[10px] shadow-sm transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            selectedDoc === 'customer' ? 'left-1' : 'left-[calc(50%+2px)]'
           }`}
         />
 
@@ -385,32 +395,22 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         <button
           type="button"
           onClick={() => setSelectedDoc('customer')}
-          className={`relative z-10 w-1/3 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+          className={`relative z-10 w-1/2 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
             selectedDoc === 'customer' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          <span>DESIGN.md</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setSelectedDoc('start')}
-          className={`relative z-10 w-1/3 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
-            selectedDoc === 'start' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
-          }`}
-        >
-          <span>START-HERE.md</span>
+          <span>고객향 MD</span>
         </button>
 
         {/* 탭 2: 파트너향.md */}
         <button
           type="button"
           onClick={() => setSelectedDoc('partner')}
-          className={`relative z-10 w-1/3 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+          className={`relative z-10 w-1/2 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
             selectedDoc === 'partner' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          <span>파트너향.md</span>
+          <span>파트너향 MD</span>
         </button>
       </div>
 
@@ -419,18 +419,16 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="font-mono text-[16px] font-bold text-[#191F28]">
-              {activeFileName}
+              {selectedDoc === 'customer' ? '고객향 MD' : activeFileName}
             </span>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#1219F7]">
-              Markdown
+              {selectedDoc === 'customer' ? 'ZIP · MD 2개' : 'Markdown'}
             </span>
           </div>
           <p className="text-[13px] text-[#6B7684]">
             {selectedDoc === 'partner'
               ? '파트너 공식 규격: Radius 6px · 기본 본문 18px · 모바일 360 & 웹 627px'
-              : selectedDoc === 'start'
-                ? '고객향 AI 작업 안내: 두 MD 전달 · AS-IS 재해석 · 공식 아이콘 재사용 · 확인 방법'
-                : '고객향 v3.3.0: Pretendard · Figma 자간 -1% · Radius 10/16px · 시안과 반응형 구분'}
+              : '포함: DESIGN.md(디자인 기준) · START-HERE.md(AI 작업 안내)'}
           </p>
         </div>
 
@@ -441,22 +439,43 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
             onClick={handleDownload}
             className="h-[42px] px-4 rounded-[10px] bg-[#1219F7] hover:bg-[#0E15D4] text-white font-bold text-[13px] shadow-xs transition-all active:scale-[0.98] cursor-pointer"
           >
-            .md 다운로드
+            {selectedDoc === 'customer' ? '고객향 MD 받기 (.zip)' : '.md 다운로드'}
           </button>
           <button
             type="button"
             onClick={handleCopy}
             className="h-[42px] px-4 rounded-[10px] bg-[#F2F4F8] hover:bg-[#E5EAF2] text-[#333D4B] font-bold text-[13px] transition-all active:scale-[0.98] cursor-pointer"
           >
-            {copied ? '복사 완료' : '원문 복사'}
+            {copied ? '복사 완료' : selectedDoc === 'customer' ? '미리보기 원문 복사' : '원문 복사'}
           </button>
         </div>
       </div>
 
+      {selectedDoc === 'customer' && (
+        <div className="bg-white rounded-[16px] p-5 shadow-xs border border-[#E5E8EB] space-y-3 text-[13px] text-[#6B7684] leading-relaxed">
+          <h3 className="font-bold text-[#191F28]">간단 사용법</h3>
+          <p>ZIP을 풀고 아래 두 방식 중 하나로 사용하세요. ZIP 자체가 아닌 두 MD 파일을 첨부합니다.</p>
+          <p><strong className="text-[#191F28]">프롬프트 AI → 디자인 AI</strong><br />
+            두 AI에 각각 두 MD를 첨부합니다. 앞 AI에는 “첨부 MD 기준으로 디자인용 프롬프트를 작성해 줘”,
+            다음 AI에는 “첨부 MD 기준을 지키며 이 프롬프트로 디자인해 줘”라고 요청하세요.
+          </p>
+          <p><strong className="text-[#191F28]">디자인 AI에 바로 요청</strong><br />
+            두 MD와 기획·참고 화면을 첨부하고 “첨부 MD 기준을 지키며 이 화면을 디자인해 줘”라고 요청하세요.
+          </p>
+        </div>
+      )}
+
       {/* 4. Raw Markdown Viewer */}
       <div className="bg-white rounded-[16px] overflow-hidden shadow-xs border border-[#E5E8EB]">
         <div className="px-5 py-3 border-b border-[#F2F4F8] flex items-center justify-between text-[12px] font-semibold text-[#8B95A1] bg-[#FAFAFB]">
-          <span>{activeFileName} 미리보기</span>
+          <div className="flex flex-wrap items-center gap-3">
+            {selectedDoc === 'customer' ? (['design', 'start'] as const).map(doc => (
+              <button key={doc} type="button" onClick={() => { setPreviewDoc(doc); setCopied(false); }}
+                className={previewDoc === doc ? 'text-[#1219F7] font-bold' : 'hover:text-[#191F28]'}>
+                {doc === 'design' ? 'DESIGN.md' : 'START-HERE.md'}
+              </button>
+            )) : <span>{activeFileName} 미리보기</span>}
+          </div>
           <button
             type="button"
             onClick={handleCopy}
