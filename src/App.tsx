@@ -12,6 +12,7 @@ import { ArchiveSection } from './components/sections/ArchiveSection';
 import { IconSection } from './components/sections/IconSection';
 import { LogoSection } from './components/sections/LogoSection';
 import { ExampleSection } from './components/sections/ExampleSection';
+import { FigmaPluginSection } from './components/sections/FigmaPluginSection';
 
 import {
   Menu,
@@ -194,9 +195,20 @@ export const App: React.FC = () => {
                 })}
               </div>
             </div>
+            {/* Group 4: TOOLS */}
             <div>
-              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">Examples</div>
+              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">Tools</div>
               <div className="space-y-0.5">
+                <button
+                  onClick={() => handleNavClick('figma-plugin')}
+                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                    activeTab === 'figma-plugin'
+                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
+                  }`}
+                >
+                  <span>Figma Plugin</span>
+                </button>
                 <button
                   onClick={() => handleNavClick('example')}
                   className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
@@ -231,6 +243,7 @@ export const App: React.FC = () => {
           <div className="max-w-[1040px] mx-auto space-y-16">
             {activeTab === 'home' && <HomeSection mode={serviceMode} onSelectTab={(id) => handleNavClick(id)} />}
             {activeTab === 'archive' && <ArchiveSection mode={serviceMode} />}
+            {activeTab === 'figma-plugin' && <FigmaPluginSection mode={serviceMode} />}
             {activeTab === 'example' && <ExampleSection mode={serviceMode} />}
             {activeTab === 'logo' && <LogoSection mode={serviceMode} />}
             {activeTab === 'colors' && <ColorSection mode={serviceMode} />}
