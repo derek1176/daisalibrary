@@ -10,7 +10,7 @@ export const PARTNER_COLORS = {
 
 export const PARTNER_COLOR_USAGES: Record<keyof typeof PARTNER_COLORS, string> = {
   'main-01': '주요 버튼 배경, 승인·확정 강조',
-  'main-02': '보조 액션 텍스트·테두리, 보조 포인트',
+  'main-02': '보조 브랜드 포인트, 그래픽 강조',
   'main-04': '안내 배경, 선택 영역의 옅은 배경',
   'sub-01': '주의 안내, 배차 추천 강조',
   'sub-02': '오류·경고·반려 안내',
@@ -20,7 +20,7 @@ export const PARTNER_COLOR_USAGES: Record<keyof typeof PARTNER_COLORS, string> =
   'text-04': '옅은 보조 텍스트, 플레이스홀더',
   'etc-01': '진한 구분선, 보조 테두리',
   'etc-02': '입력창·카드의 기본 1px 테두리',
-  'etc-03': '연한 구분선, 보조 버튼 배경',
+  'etc-03': '연한 구분선',
   'etc-04': '옅은 보조 영역 배경',
   'etc-05': '기본 페이지 배경',
   'system-01': '순수 검정이 필요한 그래픽 요소',

@@ -125,7 +125,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
-                  ? '기본 51px · Radius 6px · 18/27px Bold · 취소 etc-03 / text-03 · 확인 main-01 / system-02 · Compact는 명시적 요청 시 48px / 16px'
+                  ? '기본 51px · Radius 6px · 18/27px Bold · 취소 system-02 배경 / 1px etc-02 테두리 / text-03 · 확인 main-01 / system-02 · Compact는 명시적 요청 시 48px / 16px'
                   : '시안 내부 280px (136 + 8 + 136) · 높이 56px · Radius 10px · 16/24px Bold · 48px는 기존 예시이며 필수 기준 제외'}
               </p>
             </div>
@@ -142,7 +142,6 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                 {/* Visual Pair from node 9053:6921 */}
                 <div className="flex items-center gap-2.5 w-full">
                   <PartnerSecondaryButton
-                    variant="cancel"
                     className="flex-1"
                     onClick={() => {}}
                   >
@@ -157,23 +156,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   </button>
                 </div>
 
-                {/* Outline Sub Action */}
-                <div className="flex items-center gap-2.5 w-full pt-2">
-                  <PartnerSecondaryButton
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => {}}
-                  >
-                    상세 조회 (51px)
-                  </PartnerSecondaryButton>
-                  <PartnerSecondaryButton
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => {}}
-                  >
-                    조건 변경
-                  </PartnerSecondaryButton>
-                </div>
+
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3">

@@ -11,6 +11,7 @@ import { ModalSection } from './components/sections/ModalSection';
 import { ArchiveSection } from './components/sections/ArchiveSection';
 import { IconSection } from './components/sections/IconSection';
 import { LogoSection } from './components/sections/LogoSection';
+import { ExampleSection } from './components/sections/ExampleSection';
 
 import {
   Menu,
@@ -129,6 +130,16 @@ export const App: React.FC = () => {
                 >
                   <span>Resources</span>
                 </button>
+                <button
+                  onClick={() => handleNavClick('example')}
+                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                    activeTab === 'example'
+                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
+                  }`}
+                >
+                  <span>예시 화면</span>
+                </button>
               </div>
             </div>
 
@@ -215,6 +226,7 @@ export const App: React.FC = () => {
           <div className="max-w-[1040px] mx-auto space-y-16">
             {activeTab === 'home' && <HomeSection mode={serviceMode} onSelectTab={(id) => handleNavClick(id)} />}
             {activeTab === 'archive' && <ArchiveSection mode={serviceMode} />}
+            {activeTab === 'example' && <ExampleSection mode={serviceMode} />}
             {activeTab === 'logo' && <LogoSection mode={serviceMode} />}
             {activeTab === 'colors' && <ColorSection mode={serviceMode} />}
             {activeTab === 'typography' && <TypographySection mode={serviceMode} />}
@@ -240,7 +252,7 @@ export const App: React.FC = () => {
             <span>다이사 & 위매치 공식 디자인시스템</span>
           </div>
           <div className="text-[12px] text-[#8B95A1]">
-            {serviceMode === 'partner' ? '파트너향 디자인시스템 v3.0.0' : '고객향 디자인시스템 v3.4.0'}
+            {serviceMode === 'partner' ? '파트너향 디자인시스템 v3.1.0' : '고객향 디자인시스템 v3.4.0'}
           </div>
         </div>
       </footer>

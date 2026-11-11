@@ -1,134 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CUSTOMER_MD_CONTENT from '../../../DESIGN.md?raw';
 import START_HERE_CONTENT from '../../../START-HERE.md?raw';
 import PARTNER_MD_CONTENT from '../../../partner/DESIGN.md?raw';
 import PARTNER_START_CONTENT from '../../../partner/START-HERE.md?raw';
-
-interface DarangiItem {
-  id: number;
-  x: number;
-  y: number;
-}
-
-// 2D 다이사 마스코트 다랑이 (머리띠 '다이사' + 택배 상자 배달 모습)
-const DarangieSvg: React.FC = () => (
-  <svg
-    width="96"
-    height="104"
-    viewBox="0 0 100 110"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="filter drop-shadow-[0_12px_24px_rgba(18,25,247,0.3)] select-none pointer-events-none"
-  >
-    {/* 풍성한 다람쥐 꼬리 (우측) */}
-    <path
-      d="M68 85 C92 82 108 62 100 38 C94 22 78 18 70 26 C65 31 66 42 73 47 C80 52 82 62 74 76 Z"
-      fill="#F58220"
-      stroke="#191F28"
-      strokeWidth="3"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M78 35 C83 38 86 48 80 58"
-      stroke="#FFE599"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
-
-    {/* 왼쪽 귀 */}
-    <path
-      d="M24 38 C17 24 21 10 31 14 C39 18 39 30 37 38 Z"
-      fill="#FFA033"
-      stroke="#191F28"
-      strokeWidth="3"
-      strokeLinejoin="round"
-    />
-    <path d="M26 28 C24 21 26 16 29 18" stroke="#FF7B7B" strokeWidth="2.5" strokeLinecap="round" />
-
-    {/* 오른쪽 귀 */}
-    <path
-      d="M63 38 C61 30 61 18 69 14 C79 10 83 24 76 38 Z"
-      fill="#FFA033"
-      stroke="#191F28"
-      strokeWidth="3"
-      strokeLinejoin="round"
-    />
-    <path d="M74 28 C76 21 74 16 71 18" stroke="#FF7B7B" strokeWidth="2.5" strokeLinecap="round" />
-
-    {/* 다랑이 몸통 */}
-    <ellipse cx="50" cy="78" rx="26" ry="24" fill="#FFA033" stroke="#191F28" strokeWidth="3" />
-    <ellipse cx="50" cy="80" rx="15" ry="16" fill="#FFFDF0" />
-
-    {/* 다랑이 머리 */}
-    <ellipse cx="50" cy="48" rx="33" ry="28" fill="#FFA033" stroke="#191F28" strokeWidth="3" />
-
-    {/* 흰색 머리띠 ('다이사' 공식 텍스트) */}
-    <path
-      d="M19 40 C30 35 70 35 81 40 L82 48 C70 43 30 43 18 48 Z"
-      fill="#FFFFFF"
-      stroke="#191F28"
-      strokeWidth="2.5"
-      strokeLinejoin="round"
-    />
-    <text
-      x="50"
-      y="45.5"
-      textAnchor="middle"
-      fontSize="6.5"
-      fontWeight="900"
-      fill="#1219F7"
-      fontFamily="Pretendard, sans-serif"
-    >
-      다이사
-    </text>
-
-    {/* 볼살 및 하얀 털 */}
-    <ellipse cx="38" cy="54" rx="9" ry="7" fill="#FFFDF0" />
-    <ellipse cx="62" cy="54" rx="9" ry="7" fill="#FFFDF0" />
-
-    {/* 분홍 볼터치 */}
-    <ellipse cx="27" cy="54" rx="4" ry="2.5" fill="#FF7B7B" opacity="0.65" />
-    <ellipse cx="73" cy="54" rx="4" ry="2.5" fill="#FF7B7B" opacity="0.65" />
-
-    {/* 반짝이는 큰 눈동자 */}
-    <ellipse cx="37" cy="50" rx="3.5" ry="4.5" fill="#191F28" />
-    <circle cx="36" cy="48.5" r="1.3" fill="#FFFFFF" />
-    <ellipse cx="63" cy="50" rx="3.5" ry="4.5" fill="#191F28" />
-    <circle cx="62" cy="48.5" r="1.3" fill="#FFFFFF" />
-
-    {/* 코 & 웃는 입 */}
-    <ellipse cx="50" cy="53" rx="2" ry="1.4" fill="#4A3423" />
-    <path d="M47 55 Q50 58 53 55" stroke="#4A3423" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-
-    {/* 다랑이가 들고 있는 택배/이사 상자 (Box) */}
-    <g transform="translate(29, 66)">
-      <rect x="0" y="0" width="42" height="30" rx="3" fill="#C89354" stroke="#191F28" strokeWidth="2.5" />
-      {/* 상자 테이프 라인 */}
-      <line x1="0" y1="8" x2="42" y2="8" stroke="#A67338" strokeWidth="1.5" />
-      <rect x="17" y="0" width="8" height="30" fill="#E8D2A6" stroke="#191F28" strokeWidth="1.5" />
-      {/* 운송장 송장 라벨 */}
-      <rect x="4" y="12" width="10" height="12" rx="1" fill="#FFFFFF" stroke="#191F28" strokeWidth="1" />
-      <line x1="6" y1="15" x2="12" y2="15" stroke="#888888" strokeWidth="1" />
-      <line x1="6" y1="18" x2="12" y2="18" stroke="#888888" strokeWidth="1" />
-      <line x1="6" y1="21" x2="10" y2="21" stroke="#888888" strokeWidth="1" />
-    </g>
-
-    {/* 상자를 잡고 있는 귀여운 앞발 */}
-    <ellipse cx="30" cy="78" rx="5" ry="4" fill="#FFA033" stroke="#191F28" strokeWidth="2.5" />
-    <ellipse cx="70" cy="78" rx="5" ry="4" fill="#FFA033" stroke="#191F28" strokeWidth="2.5" />
-
-    {/* 하단 발 */}
-    <ellipse cx="38" cy="99" rx="7" ry="4" fill="#FFA033" stroke="#191F28" strokeWidth="2.5" />
-    <ellipse cx="62" cy="99" rx="7" ry="4" fill="#FFA033" stroke="#191F28" strokeWidth="2.5" />
-  </svg>
-);
 
 export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
   const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isPartner ? 'partner' : 'customer');
   const [previewDoc, setPreviewDoc] = useState<'design' | 'start'>('design');
   const [copied, setCopied] = useState(false);
-  const [darangis, setDarangis] = useState<DarangiItem[]>([]);
+  const [deliveryId, setDeliveryId] = useState(0);
+  const deliveryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const mascot = new Image();
+    mascot.src = '/images/darangie-delivery.png';
+    return () => { if (deliveryTimer.current) clearTimeout(deliveryTimer.current); };
+  }, []);
 
   useEffect(() => { setSelectedDoc(isPartner ? 'partner' : 'customer'); }, [isPartner]);
 
@@ -137,21 +25,17 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
     : (previewDoc === 'start' ? START_HERE_CONTENT : CUSTOMER_MD_CONTENT);
   const activeFileName = previewDoc === 'start' ? 'START-HERE.md' : 'DESIGN.md';
 
-  const triggerDarangie = (e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const newDarangi: DarangiItem = {
-      id: Date.now() + Math.random(),
-      x: rect.left + rect.width / 2,
-      y: rect.top - 20,
-    };
-    setDarangis((prev) => [...prev, newDarangi]);
-    setTimeout(() => {
-      setDarangis((prev) => prev.filter((item) => item.id !== newDarangi.id));
-    }, 2100);
+  const triggerDarangie = () => {
+    if (deliveryTimer.current) clearTimeout(deliveryTimer.current);
+    setDeliveryId(value => value + 1);
+    deliveryTimer.current = setTimeout(() => {
+      setDeliveryId(0);
+      deliveryTimer.current = null;
+    }, 2800);
   };
 
-  const handleDownload = (e: React.MouseEvent) => {
-    triggerDarangie(e);
+  const handleDownload = () => {
+    triggerDarangie();
     const link = document.createElement('a');
     link.href = `/daisa-${selectedDoc}-md.zip`;
     link.download = `daisa-${selectedDoc}-md.zip`;
@@ -283,20 +167,18 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         </div>
       </div>
 
-      {/* 5. 이스터에그: 다이사 마스코트 다랑이가 택배 상자 들고 뿅뿅뿅 위로 배달 */}
-      {darangis.map((item) => (
+      {deliveryId > 0 && (
         <div
-          key={item.id}
-          className="fixed pointer-events-none z-50 animate-darangie flex flex-col items-center select-none"
-          style={{ left: `${item.x}px`, top: `${item.y}px` }}
+          key={deliveryId}
+          data-delivery-easter-egg
+          className="fixed right-5 bottom-6 z-[60] pointer-events-none animate-darangie flex flex-col items-center gap-2 select-none"
+          role="status"
+          aria-live="polite"
         >
-          <div className="mb-2 bg-[#191F28] text-white text-[12px] font-extrabold px-3.5 py-1.5 rounded-full whitespace-nowrap shadow-xl flex items-center gap-1.5 border border-white/20">
-            <span>다랑이가 택배 배달 중! 뿅뿅뿅</span>
-            <span>📦💨</span>
-          </div>
-          <DarangieSvg />
+          <img src="/images/darangie-delivery.png" alt="" width="160" height="160" className="w-32 sm:w-40 h-auto object-contain" draggable={false} />
+          <span className="rounded-full bg-[#191F28] px-4 py-2 text-[14px] font-bold text-white shadow-lg">다랑이가 배송중</span>
         </div>
-      ))}
+      )}
     </section>
   );
 };

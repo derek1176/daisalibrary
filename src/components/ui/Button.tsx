@@ -58,26 +58,19 @@ export const PartnerPrimaryButton: React.FC<{
 /**
  * partner-secondary-button
  * Figma KLDA7nLwHvbDCIHS6y0MgT node 9053:6921 & G5JiHI51FV6XFImlsyON6u node 1:130
- * default h51 · radius 6 · 18/27 Bold · 취소(bg-[#EBEEF2] text-[#666666]) / outline / ghost
+ * default h51 · radius 6 · 18/27 Bold · white background / 1px etc-02 border / text-03
  */
 export const PartnerSecondaryButton: React.FC<{
   state?: ButtonState;
-  variant?: 'outline' | 'ghost' | 'solid' | 'cancel';
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
-}> = ({ state = 'normal', variant = 'outline', children, onClick, className = '' }) => (
+}> = ({ state = 'normal', children, onClick, className = '' }) => (
   <button
     type="button"
     disabled={state === 'disable'}
     onClick={onClick}
-    className={`h-[51px] px-5 rounded-[6px] text-[18px] leading-[27px] font-bold inline-flex items-center justify-center transition-colors ${
-      variant === 'cancel' || variant === 'solid'
-        ? 'bg-[#EBEEF2] text-[#666666] hover:bg-[#E5E8EB]'
-        : variant === 'outline'
-        ? 'border border-[#595EF9] text-[#595EF9] bg-transparent hover:bg-[#595EF9]/10'
-        : 'text-[#6B7684] hover:bg-[#F2F4F6] hover:text-[#191F28]'
-    } ${className}`}
+    className={`h-[51px] px-5 rounded-[6px] text-[18px] leading-[27px] font-bold inline-flex items-center justify-center transition-colors bg-white border border-etc-02 text-text-03 ${className}`}
   >
     {children}
   </button>

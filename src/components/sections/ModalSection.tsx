@@ -34,7 +34,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
     {
       type: '파트너 Alert / Confirm 모달', viewport: '전체 뷰포트 공통',
       width: '시안 312px · 구현은 화면 이내', radius: '6px',
-      action: '버튼 51px / r:6 / 18·27px Bold · 취소 etc-03 / text-03',
+      action: '버튼 51px / r:6 / 18·27px Bold · 취소 흰 배경 / 1px etc-02 테두리 / text-03',
       behavior: '제목 20/30 Bold · 본문 18/27 Regular · 딤드 60%',
     },
     {
@@ -74,7 +74,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <h3 className="text-[16px] font-bold text-[#191F28]">
                   {isPartner ? '파트너 기본 모달' : '기본 모달 (Confirm Dialog)'}
                 </h3>
-                <p className="text-[12px] text-[#8B95A1] mt-0.5">{isPartner ? '취소 #EBEEF2 / #666666 · 확인 #1219F7 / #FFFFFF · 높이 51px' : '취소 #EBEEF2 / #666666 · 확인 #1219F7 / #FFFFFF · 높이 56px'}</p>
+                <p className="text-[12px] text-[#8B95A1] mt-0.5">{isPartner ? '취소 흰 배경·1px #D7DBE2 · 확인 #1219F7 · 높이 51px' : '취소 #EBEEF2 / #666666 · 확인 #1219F7 / #FFFFFF · 높이 56px'}</p>
               </div>
               <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#E8F3FF] text-[#1219F7]">
                 {isPartner ? '시안 312px / r:6' : '시안 312px / r:16'}
@@ -100,7 +100,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="flex gap-2 pt-2">
                   <button
                     type="button"
-                    className={`flex-1 font-bold ${isPartner ? 'bg-[#EBEEF2] text-[#666666]' : 'bg-[#EBEEF2] text-[#666666]'} transition-colors ${
+                    className={`flex-1 font-bold ${isPartner ? 'bg-white border border-[#D7DBE2] text-[#666666]' : 'bg-[#EBEEF2] text-[#666666]'} transition-colors ${
                       isPartner ? 'h-[51px] rounded-[6px] text-[18px] leading-[27px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
@@ -157,7 +157,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="flex gap-2 pt-2">
                   <button
                     type="button"
-                    className={`flex-1 font-bold ${isPartner ? 'bg-[#EBEEF2] text-[#666666]' : 'bg-[#EBEEF2] text-[#666666]'} transition-colors ${
+                    className={`flex-1 font-bold ${isPartner ? 'bg-white border border-[#D7DBE2] text-[#666666]' : 'bg-[#EBEEF2] text-[#666666]'} transition-colors ${
                       isPartner ? 'h-[51px] rounded-[6px] text-[18px] leading-[27px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
@@ -479,7 +479,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <div className="pt-1 flex justify-end gap-2">
                     <button
                       type="button"
-                      className={isPartner ? 'h-[51px] px-4 text-[18px] leading-[27px] font-bold bg-[#EBEEF2] text-[#666666] rounded-[6px]' : 'h-[56px] px-4 text-[16px] leading-[24px] font-bold bg-[#EBEEF2] text-[#666666] rounded-[10px]'}
+                      className={isPartner ? 'h-[51px] px-4 text-[18px] leading-[27px] font-bold bg-white border border-[#D7DBE2] text-[#666666] rounded-[6px]' : 'h-[56px] px-4 text-[16px] leading-[24px] font-bold bg-[#EBEEF2] text-[#666666] rounded-[10px]'}
                     >
                       취소
                     </button>
