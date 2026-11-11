@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ExternalLink,
-  Copy,
-  Check,
-  ShieldCheck,
   Sparkles,
   MousePointer,
   Info
@@ -14,62 +11,37 @@ interface FigmaPluginSectionProps {
 }
 
 export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = () => {
-  const [copiedLink, setCopiedLink] = useState(false);
-
   const pluginUrl = 'https://www.figma.com/community/plugin/1701500498028389673';
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(pluginUrl);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2000);
-  };
 
   return (
     <section id="figma-plugin" className="space-y-12">
       {/* 1. Header (심플 헤더) */}
       <div className="border-b pb-6 border-[#E5E8EB]">
-        <h2 className="text-[28px] md:text-[34px] font-extrabold tracking-tight text-[#191F28] mb-3">
+        <h2 className="text-[28px] md:text-[34px] font-extrabold tracking-tight text-[#191F28]">
           Figma Plugin (다이사 교정기)
         </h2>
-        <p className="text-[15.5px] text-[#4E5968] leading-relaxed max-w-[800px]">
-          피그마에서 디자인시스템 규칙 준수 여부를 최종 점검하고, 필수 굴곡·폰트·컬러를 원클릭으로 교정하는 공식 린터 플러그인입니다.
-        </p>
 
-        {/* 액션 버튼 */}
-        <div className="flex flex-wrap items-center gap-3 mt-6">
+        {/* 액션 버튼 (플러그인 열기 단일 버튼) */}
+        <div className="mt-4">
           <a
             href={pluginUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="h-[42px] px-5 rounded-[10px] bg-[#1219F7] hover:bg-[#0E14CA] text-white text-[13.5px] font-bold inline-flex items-center gap-2 transition-all shadow-sm hover:shadow"
           >
-            <span>피그마에서 다이사 교정기 열기</span>
+            <span>플러그인 열기</span>
             <ExternalLink className="w-4 h-4 opacity-80" />
           </a>
-
-          <button
-            type="button"
-            onClick={handleCopyLink}
-            className="h-[42px] px-4 rounded-[10px] bg-white border border-[#E5E8EB] hover:bg-[#F9FAFB] text-[#191F28] text-[13.5px] font-semibold inline-flex items-center gap-2 transition-all cursor-pointer"
-          >
-            {copiedLink ? <Check className="w-4 h-4 text-[#1219F7]" /> : <Copy className="w-4 h-4 text-[#6B7684]" />}
-            <span>{copiedLink ? '링크 복사됨' : '플러그인 링크 복사'}</span>
-          </button>
         </div>
       </div>
 
       {/* 2. 사내 비공개 플러그인 안내 */}
-      <div className="p-5 rounded-[14px] bg-[#F8FAFF] border border-[#D9E2FF] flex items-start gap-3">
-        <div className="w-7 h-7 rounded-[7px] bg-[#EEF2FF] flex items-center justify-center shrink-0 mt-0.5 text-[#1219F7]">
-          <ShieldCheck className="w-4 h-4" />
+      <div className="p-5 rounded-[14px] bg-[#F8FAFF] border border-[#D9E2FF]">
+        <div className="text-[14px] font-bold text-[#191F28]">
+          사내 전용(Private) 배포 접속 안내
         </div>
-        <div>
-          <div className="text-[14px] font-bold text-[#191F28]">
-            사내 전용(Private) 배포 접속 안내
-          </div>
-          <div className="text-[13px] text-[#4E5968] leading-relaxed mt-0.5">
-            본 플러그인은 외부 사용자에게 비공개(404) 처리되어 있으며, <strong>회사 피그마 계정으로 로그인된 브라우저</strong>에서만 열립니다. 피그마 데스크톱 앱 내에서는 <span className="font-semibold text-[#191F28]">Plugins ➔ All plugins ➔ 사내 조직 탭(Marketdesigners / 다이사)</span>에서 바로 실행할 수 있습니다.
-          </div>
+        <div className="text-[13px] text-[#4E5968] leading-relaxed mt-1">
+          본 플러그인은 외부 사용자에게 비공개(404) 처리되어 있으며, <strong>회사 피그마 계정으로 로그인된 브라우저</strong>에서만 열립니다. 피그마 데스크톱 앱 내에서는 <span className="font-semibold text-[#191F28]">Plugins ➔ All plugins ➔ 사내 조직 탭(Marketdesigners / 다이사)</span>에서 바로 실행할 수 있습니다.
         </div>
       </div>
 
