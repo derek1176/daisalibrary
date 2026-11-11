@@ -78,15 +78,6 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         </h2>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 text-[14px] text-[#1219F7]">
-        <a href="/icons/manifest.json" target="_blank" rel="noreferrer" className="underline">
-          AI용 아이콘 목록 (JSON)
-        </a>
-        <a href="/icons/README.md" target="_blank" rel="noreferrer" className="underline">
-          고정 SVG 주소 사용 안내
-        </a>
-      </div>
-
       {/* 1단: 규격 + 이모지 금지 조화로운 단일 슬림 바 */}
       <div className="bg-white rounded-[14px] px-4 py-2.5 shadow-xs border border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-[12px]">
         <div className="flex items-center gap-3 text-[#4E5968]">
@@ -289,6 +280,15 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
             </p>
           </div>
         )}
+
+      <div className="flex flex-wrap items-center gap-3 text-[14px] text-[#1219F7]">
+        <a href="/icons/manifest.json" target="_blank" rel="noreferrer" className="underline">
+          AI용 아이콘 목록 (JSON)
+        </a>
+        <a href="/icons/README.md" target="_blank" rel="noreferrer" className="underline">
+          고정 SVG 주소 사용 안내
+        </a>
+      </div>
     </div>
   );
 };
