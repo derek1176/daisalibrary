@@ -143,7 +143,7 @@ export const ExampleSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
                   className="relative w-[312px] max-w-full bg-white px-4 py-6 flex flex-col gap-6 shadow-lg outline-none"
                   style={{ borderRadius: modalRadius }}>
                   <div className="space-y-2 text-center">
-                    {modal === 'success' && <div className="flex justify-center mb-4"><CheckCircle2 {...bind('modal-icon', false)} size={24} strokeWidth={1.5} style={{ color: colors['main-01'] }} aria-hidden /></div>}
+                    {modal === 'success' && <div className="flex justify-center mb-4"><CheckCircle2 {...bind('modal-icon', false)} size={48} strokeWidth={1.5} style={{ color: colors['main-01'] }} aria-hidden /></div>}
                     <h4 {...bind('modal-title')} id="example-dialog-title" style={{ ...textStyle(20, 30, 700), color: colors['text-01'] }}>
                       {modal === 'cancel' ? '신청을 취소하시겠습니까?' : '견적 신청 완료'}
                     </h4>
@@ -152,15 +152,15 @@ export const ExampleSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    {modal === 'cancel' && <button {...bind('modal-cancel', false)} type="button" onClick={close} className="min-w-0 flex-1 flex items-center justify-center"
+                    {modal === 'cancel' && <button {...bind('modal-cancel', false)} type="button" onClick={() => { setAddress(''); close(); }} className="min-w-0 flex-1 flex items-center justify-center"
                       style={{ ...textStyle(body.size, body.lineHeight, 700), height: actionHeight, borderRadius: radius,
-                        backgroundColor: isPartner ? colors['system-02'] : colors['etc-03'], color: colors['text-03'],
-                        border: isPartner ? `1px solid ${colors['etc-02']}` : undefined }}>
-                      계속 작성
+                        backgroundColor: colors['system-02'], color: colors['text-03'],
+                        border: `1px solid ${colors['etc-02']}` }}>
+                      취소하기
                     </button>}
                     <button {...bind('modal-confirm', false)} type="button" className="min-w-0 flex-1 flex items-center justify-center"
-                      style={{ ...primaryStyle, height: actionHeight }} onClick={() => { if (modal === 'cancel') setAddress(''); close(); }}>
-                      {modal === 'cancel' ? '신청 취소' : '확인'}
+                      style={{ ...primaryStyle, height: actionHeight }} onClick={close}>
+                      {modal === 'cancel' ? '계속하기' : '확인'}
                     </button>
                   </div>
                 </div>

@@ -36,7 +36,7 @@ export const CUSTOMER_COLOR_USAGES: Record<keyof typeof CUSTOMER_COLORS, string>
   "text-04": "옅은 보조 텍스트, 플레이스홀더",
   "etc-01": "진한 구분선, 보조 테두리",
   "etc-02": "입력창·카드의 기본 테두리",
-  "etc-03": "구분선, 보조 버튼 배경",
+  "etc-03": "구분선",
   "etc-04": "옅은 보조 영역 배경",
   "etc-05": "기본 페이지 배경",
   "system-02": "카드·입력창·모달 배경, 주요 버튼 텍스트",

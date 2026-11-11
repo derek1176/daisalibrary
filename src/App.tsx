@@ -257,7 +257,7 @@ export const App: React.FC = () => {
             <span>다이사 & 위매치 공식 디자인시스템</span>
           </div>
           <div className="text-[12px] text-[#8B95A1]">
-            {serviceMode === 'partner' ? '파트너향 디자인시스템 v3.1.0' : '고객향 디자인시스템 v3.4.0'}
+            {serviceMode === 'partner' ? '파트너향 디자인시스템 v1.0.0' : '고객향 디자인시스템 v1.0.0'}
           </div>
         </div>
       </footer>
