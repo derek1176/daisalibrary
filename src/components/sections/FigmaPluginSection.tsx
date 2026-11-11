@@ -47,14 +47,14 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = () => {
         </div>
       </div>
 
-      {/* 3. 단계별 실전 사용 가이드 (5단계) */}
+      {/* 3. 단계별 실전 사용 가이드 (6단계) */}
       <div className="space-y-10">
         <div>
           <h3 className="text-[22px] font-extrabold text-[#191F28] mb-1.5">
             다이사 교정기 사용 방법
           </h3>
           <p className="text-[14.5px] text-[#6B7684]">
-            피그마 작업 완료 후 아래 5단계 순서에 따라 디자인 규격을 최종 점검하세요.
+            피그마 작업 완료 후 아래 6단계 순서에 따라 디자인 규격을 최종 점검하세요.
           </p>
         </div>
 
@@ -206,6 +206,53 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = () => {
               </span>
               <div>
                 <h4 className="text-[18px] font-bold text-[#191F28]">
+                  검출된 [수정 필요]와 [확인 필요] 항목 검토
+                </h4>
+                <p className="text-[14.5px] text-[#4E5968] mt-1 leading-relaxed">
+                  구분을 맹신하기보다 검출된 목록을 직접 확인하며 실제 수정할 대상인지 판단합니다.
+                </p>
+              </div>
+            </div>
+
+            {/* Visual 5 (수정 필요 vs 확인 필요 탭 및 정의) */}
+            <div className="ml-11 p-4 rounded-[14px] bg-[#F9FAFB] border border-[#E5E8EB] flex items-center justify-center">
+              <div className="w-full max-w-[480px] bg-white rounded-[12px] p-4 border border-[#E5E8EB] shadow-xs space-y-3">
+                {/* 탭 예시 */}
+                <div className="flex items-center gap-3 border-b border-[#F2F4F6] pb-2.5 text-[12.5px] font-bold">
+                  <span className="text-[#191F28]">
+                    전체 <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-[#191F28] text-white ml-0.5">85</span>
+                  </span>
+                  <span className="text-[#E02424] flex items-center gap-1">
+                    수정 필요 <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-[#FDE8E8] text-[#E02424]">79</span>
+                  </span>
+                  <span className="text-[#4B5563] flex items-center gap-1">
+                    확인 필요 <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-[#F3F4F6] text-[#4B5563]">6</span>
+                  </span>
+                </div>
+
+                {/* 설명 항목 2개 */}
+                <div className="space-y-2 text-[12.5px] leading-relaxed">
+                  <div className="p-2.5 rounded-[8px] bg-[#FEF2F2] border border-[#FEE2E2]">
+                    <strong className="text-[#991B1B]">수정 필요:</strong>{' '}
+                    <span className="text-[#7F1D1D]">모서리 곡률, 비표준 서체, 미허용 컬러 등 핵심 규칙을 위반한 항목으로 대부분 필수로 수정해야 합니다.</span>
+                  </div>
+                  <div className="p-2.5 rounded-[8px] bg-[#F9FAFB] border border-[#E5E8EB]">
+                    <strong className="text-[#374151]">확인 필요:</strong>{' '}
+                    <span className="text-[#4B5563]">의도된 예외인지 직접 검토가 필요한 항목입니다. 구분을 맹신하지 말고 목록을 확인하세요.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 6 */}
+          <div className="space-y-3.5">
+            <div className="flex items-start gap-3.5">
+              <span className="w-8 h-8 rounded-full bg-[#191F28] text-white font-extrabold text-[14px] flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                6
+              </span>
+              <div>
+                <h4 className="text-[18px] font-bold text-[#191F28]">
                   원본을 보존하고 수정본을 생성할지, 해당 레이어에서 바로 수정할지 선택
                 </h4>
                 <p className="text-[14.5px] text-[#4E5968] mt-1 leading-relaxed">
@@ -214,7 +261,7 @@ export const FigmaPluginSection: React.FC<FigmaPluginSectionProps> = () => {
               </div>
             </div>
 
-            {/* Visual 5 (수정 방식 버튼 크롭 - 비율 확대) */}
+            {/* Visual 6 (수정 방식 버튼 크롭 - 비율 확대) */}
             <div className="ml-11 p-4 rounded-[14px] bg-[#F9FAFB] border border-[#E5E8EB] flex items-center justify-center">
               <div className="w-full max-w-[480px] bg-white rounded-[12px] p-4 border border-[#E5E8EB] shadow-xs space-y-3">
                 <div className="text-[12px] font-bold text-[#4E5968]">총 3개 항목 발견</div>
