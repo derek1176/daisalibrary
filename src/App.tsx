@@ -12,6 +12,7 @@ import { ArchiveSection } from './components/sections/ArchiveSection';
 import { IconSection } from './components/sections/IconSection';
 import { LogoSection } from './components/sections/LogoSection';
 import { ExampleSection } from './components/sections/ExampleSection';
+import { BusinessCardSection } from './components/sections/BusinessCardSection';
 
 import {
   Menu,
@@ -209,6 +210,26 @@ export const App: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            {/* Group: TOOLS / BUSINESS CARD */}
+            <div>
+              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">Tools</div>
+              <div className="space-y-0.5">
+                <button
+                  onClick={() => handleNavClick('business-card')}
+                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                    activeTab === 'business-card'
+                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
+                  }`}
+                >
+                  <span>명함 제작</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#E8F3FF] text-[#003893] font-bold">
+                    NEW
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Sidebar Bottom Status */}
@@ -242,6 +263,7 @@ export const App: React.FC = () => {
             {activeTab === 'buttons' && <ButtonSection mode={serviceMode} />}
             {activeTab === 'inputs' && <InputSection mode={serviceMode} />}
             {activeTab === 'modals' && <ModalSection mode={serviceMode} />}
+            {activeTab === 'business-card' && <BusinessCardSection mode={serviceMode} />}
           </div>
         </main>
       </div>
