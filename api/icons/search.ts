@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { parseIconSearchParams, searchIcons } from '../../src/lib/iconSearch';
+import { parseIconSearchParams, searchIcons } from '../../src/lib/iconSearch.js';
 
 export function createIconSearchHandler(load: () => Promise<Parameters<typeof searchIcons>[0]>) {
   let catalog: Promise<Parameters<typeof searchIcons>[0]> | undefined;
