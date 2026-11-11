@@ -48,6 +48,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
       <div className="relative z-10 flex items-center justify-center h-full">
         {/* Left: Deep Charcoal / Black (#191F28) */}
         <div
+          style={{ backgroundColor: isPartner ? '#191F28' : '#121212' }}
           className={`w-[66px] h-[98px] bg-[#191F28] ${
             isPartner ? 'rounded-[6px]' : 'rounded-[12px]'
           } shadow-[0_10px_22px_rgba(0,0,0,0.22)] p-2.5 flex flex-col justify-between transform -rotate-12 -translate-x-5 transition-transform duration-300 group-hover:-translate-y-2 group-hover:-rotate-14`}
@@ -56,8 +57,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
             <div className="w-1 h-1 rounded-full bg-white" />
           </div>
           <div>
-            <div className="text-white text-[10px] font-mono font-black tracking-tight">#191F28</div>
-            <div className="text-white/60 text-[8px] font-bold">Dark 01</div>
+            <div className="text-white text-[10px] font-mono font-black tracking-tight">{isPartner ? '#191F28' : '#121212'}</div>
+            <div className="text-white/60 text-[8px] font-bold">{isPartner ? 'Dark 01' : 'text-01'}</div>
           </div>
         </div>
 

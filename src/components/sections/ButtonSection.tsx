@@ -51,7 +51,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
         {/* State Toggle Buttons */}
         <div className="flex items-center gap-1.5">
-          <span className="text-[12px] font-medium mr-1 text-[#8B95A1]">상태:</span>
+          <span className="text-[12px] font-medium mr-1 text-[#8B95A1]">{isPartner ? '상태:' : '기존 상태 예시:'}</span>
           {(['normal', 'loading', 'disable'] as ButtonState[]).map((st) => (
             <button
               key={st}
@@ -81,7 +81,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
                   ? `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '627px'} · Corner Radius 6px · 폰트 18px Bold`
-                  : `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '640px'} · Corner Radius 10px · 폰트 16px Bold`}
+                  : `시안 너비 ${deviceView === 'mobile' ? '312px' : '640px'} · 구현은 부모 너비 대응 · 높이 56px · Radius 10px · 16/24px Bold · 자간 -1%`}
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
             </div>
           </div>
 
-          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             {isPartner ? (
               <div style={{ width: deviceView === 'mobile' ? '312px' : '627px' }}>
                 <PartnerPrimaryButton
@@ -126,17 +126,17 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
                   ? 'Figma [개발] v1.1 node 9053:6921 공식: 취소(회색 배경 #F2F4F6, 텍스트 #191F28) + 메인(블루 #1219F7) 51px r:6 2분할 버튼'
-                  : '너비 280px (136px + 8px + 136px 2분할) · 높이 56px 또는 48px · Corner Radius 10px'}
+                  : '시안 내부 280px (136 + 8 + 136) · 높이 56px · Radius 10px · 16/24px Bold · 48px는 기존 예시이며 필수 기준 제외'}
               </p>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-bold px-2 py-1 rounded bg-[#E8F3FF] text-[#1B64DA]">
-                {isPartner ? '높이 51px / r:6' : '높이 56px / 48px'}
+                {isPartner ? '높이 51px / r:6' : '표준 높이 56px'}
               </span>
             </div>
           </div>
 
-          <div className="rounded-[16px] p-8 flex flex-col items-center justify-center gap-4 border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex flex-col items-center justify-center gap-4 border bg-[#F9FAFB] border-[#E5E8EB]">
             {isPartner ? (
               <div className="space-y-4 w-full max-w-[340px]">
                 {/* Visual Pair from node 9053:6921 */}
@@ -226,7 +226,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                         modalSize === 48 ? 'bg-white text-[#191F28] shadow-xs' : 'text-[#6B7684]'
                       }`}
                     >
-                      48px
+                      48px (기존 예시)
                     </button>
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               3. 필터 및 선택 칩 (Filter Chips)
             </h3>
             <p className="text-[13px] mt-0.5 text-[#6B7684]">
-              오토레이아웃 규격: 칩 간 간격 <strong>6px</strong> · 좌우 여백 <strong>20px</strong> · 전사 공통 <strong>완전한 라운드 형태 (rounded-full / Pill)</strong>
+              {isPartner ? '오토레이아웃 참고: 칩 간 간격 6px · 좌우 여백 20px' : '배치와 간격은 구성에 맞게 설계'} · <strong>원형·캡슐형은 완전 둥근 형태 (rounded-full / Pill)</strong>
             </p>
           </div>
 

@@ -1,181 +1,6 @@
-import React, { useState } from 'react';
-
-const CUSTOMER_MD_CONTENT = `# 다이사(da24) 공식 고객향 디자인시스템 명세서 (Daisa Customer Design System)
-
-> **문서 버전**: v2.0.0 (Figma Linter & AI Engine Edition)  
-> **최종 갱신일**: 2026-11-09  
-> **적용 대상**: 다이사(da24) B2C 고객향 웹 & 모바일 서비스 전반  
-> 🚨 **절대 원칙 (Non-Negotiable)**: 절대 파트너향과 고객향의 md 파일 및 명세는 섞여서는 안 되며, 반드시 각자의 md 파일을 기준으로 독립적으로 작업해야 합니다. 사용자가 "두 개를 동시에 바꿔라" 또는 "통일시켜라"라고 명시적으로 지시하지 않는 한, 절대로 두 시스템을 임의로 통일시키지 마십시오.
-
----
-
-## 1. 레벨 1: 절대 불변 규칙 (Hard Rules / 플러그인 100% 차단 대상)
-
-### 1-1. 타이포그래피 (Typography)
-* **단일 서체**: 오직 **\`Pretendard\`** 단일 서체만 사용합니다. (시스템 산세리프, AppleGothic, Roboto 등 혼용 금지)
-* **자간**: 모든 텍스트 레이어에 **\`letter-spacing: -1px\` (\`-0.01em\`)** 고정 적용.
-* **굵기**: **\`Bold (700)\`**과 **\`Regular (400)\`** 2종만 허용.
-* **짝수 6종 크기 원칙**: **\`12, 14, 16, 18, 20, 24px\`** 외 홀수(13, 15, 17px) 및 소수점 폰트 크기 사용 엄격 차단.
-  * **예외 허용 (Micro Badge)**: 실시간 알림 카운트 배지(\`N개\`, \`3\`), 상태 태그 등 특수 초소형 배지에 한하여 **\`10px\` 또는 \`11px\`** 사용 허용.
-* **타이포그래피 스케일 표**:
-
-| 토큰명 | 크기 (Size) | 행간 (Line-Height) | 굵기 | 주요 권장 용도 |
-| :--- | :---: | :---: | :---: | :--- |
-| **Headline** | \`24px\` | \`140% (34px)\` | Bold / Regular | 페이지 메인 헤드라인, 신청 완료 대타이틀 |
-| **Title** | \`20px\` | \`150% (30px)\` | Bold / Regular | 섹션 대제목, 팝업 및 모달 제목 |
-| **Button / Body High**| \`18px\` | \`140% (25px) / 150%\` | Bold / Regular | 메인 액션 버튼(56px), 견적 금액 등 강조 본문 |
-| **Body (★ 기본 본문)**| \`16px\` | \`150% (24px)\` | Bold / Regular | **고객향 기본 본문 텍스트**, 인풋 입력 값, 라벨, 모달 설명문 |
-| **Sub** | \`14px\` | \`140% (20px)\` | Bold / Regular | 서브 라벨, 인풋 하단 에러 메시지, 설명 보조 문구 |
-| **Caption** | \`12px\` | \`130% (16px)\` | Bold / Regular | 각주 약관 동의, 부가 메타데이터, 날짜/시간 표기 |
-| *Micro Badge (예외)*| \`10px / 11px\`| \`120%\` | Bold | 알림 카운트 배지 전용 |
-
----
-
-### 1-2. 컬러 토큰 (Color Tokens & Role Mapping)
-허용된 13대 Hex 토큰 외의 임의 색상 사용은 피그마 플러그인 린터에서 에러로 검출합니다.
-
-| 토큰명 | Hex 코드 | 역할 및 적용 위치 (Role Mapping) |
-| :--- | :---: | :--- |
-| **main-01** | \`#1219F7\` | 메인 브랜드 키컬러, Primary CTA 버튼 배경, 포커스 인풋 보더 |
-| **main-02** | \`#595EF9\` | 보조 블루 포인트, 서브 버튼 텍스트/보더 |
-| **main-03** | \`#1219F7 ~ #595EF9\` | 대형 프로모션 배너 및 브랜드 그라디언트 |
-| **main-04** | \`#F4F5FF\` | 키컬러 배경 틴트, 파란색 안내 뱃지 배경 |
-| **sub-02** | \`#F34766\` | 에러 1px 스트로크, 하단 오류 피드백 텍스트 |
-| **text-01** | \`#121212\` | 페이지 메인 대제목, 주요 강조 헤드라인 |
-| **text-02** | \`#333333\` | 본문 기본 텍스트, 인풋 입력 값, 라벨 텍스트 |
-| **text-03** | \`#666666\` | 보조 설명문, 입력창 힌트 문구, 주소 검색 팁 |
-| **text-04** | \`#888888\` | 인풋 플레이스홀더, 비활성 텍스트, 각주 약관 |
-| **etc-01** | \`#FFFFFF\` | 카드 컨테이너 배경, 인풋 필드 배경, 모달 팝업 배경 |
-| **etc-02** | \`#D7DBE2\` | 기본 1px 테두리 (인풋 외곽선, 기본 카드 스트로크) |
-| **etc-03** | \`#EBEEF2\` | 영역 구분선(Divider 1px), 모달 취소 버튼 배경 |
-| **etc-04** | \`#F7F8FA\` | 비활성 인풋 배경, 비활성 버튼 배경 |
-| **etc-05** | \`#FAFAFA\` | 서비스 기본 페이지 배경 |
-| **dimmed** | \`rgba(0,0,0,0.6)\` | 모달 및 바텀시트 뒷배경 오버레이 (60%) |
-
----
-
-### 1-3. 캔버스 및 레이아웃 안전 영역 (Layout Safe Area)
-* **모바일 (Mobile)**:
-  * 기준 프레임 캔버스 너비: **\`360px\`**
-  * 좌우 마진 여백: **양측 각 \`24px\`** 고정
-  * 본문 콘텐츠 안전 영역 (Safe Area): **\`312px\`** (360 - 24 * 2 = 312px)
-  * 모든 메인 버튼, 폼 인풋, 기본 카드는 반드시 312px 이내로 배치합니다.
-* **웹/PC (Desktop)**:
-  * 기준 캔버스 너비: **\`1200px\`**
-  * 콘텐츠 단일 열 집중: **\`640px\` 중앙 단일 열 정렬** (헤더, 본문 폼, 하단 버튼 모두 640px 일치)
-  * 좌우 안전 여백: 각 \`280px\`
-
----
-
-### 1-4. UX 라이팅 및 이모지 금지 룰 (UX Writing & Emoji)
-* **이모지 전면 금지**: 텍스트 레이어에 \`📦, 🔥, ✨, 🚚\` 등 비표준 이모지 사용 절대 금지 (공식 선형 아이콘으로 대체).
-* **문체 원칙**:
-  * 타이틀: \`~해요체\` (마침표 없음) ➔ *ex. 출발지를 검색해 주세요*
-  * 설명: \`~해요체\` (마침표 있음) ➔ *ex. 업체에게 모든걸 맡기세요.*
-  * 유의사항/힌트: \`~합니다체\` (마침표 있음) ➔ *ex. 이벤트 신청은 1건당 1회 가능합니다.*
-  * 버튼 텍스트: \`~하기체\` 또는 명사형 ➔ *ex. 설정하러 가기, 신청 정보 확인 완료*
-* **외 표기법**:
-  * 금액: \`48만 원\`, \`총 200만 원\`, \`340,000원\` (단위 간 띄어쓰기 준수)
-  * 날짜: \`2024.07.06\` (연도 4자리 온점 표기)
-  * 슬래시: 앞뒤 띄어쓰기 없음 (\`알림톡/mms\`)
-  * 괄호: 국문 앞 붙여쓰기 (\`원룸/오피스텔(9평 이하)\`), 영문/숫자 앞 띄어쓰기 (\`oneroom (9평 이하)\`)
-  * 콜론: 붙여쓰기 (\`1:1\`), 앰퍼샌드: 띄어쓰기 (\`조건 & 혜택\`)
-
----
-
-## 2. 레벨 2: 필수 공통 컴포넌트 4대 규격 (Core 4 Components)
-
-### 2-1. 버튼 (Button)
-* **본문 표준 버튼 (Public Button - 공식 표준)**:
-  * 크기: 모바일 너비 \`312px\` (PC \`640px\`), 높이 \`56px\`
-  * Corner Radius: **\`10px\`**
-  * 텍스트: \`16px Bold White\`, 중앙 정렬
-  * 상태: Normal \`#1219F7\` / Loading (인디케이터) / Disabled \`#F7F8FA\` (텍스트 \`#888888\`)
-  * ⚠️ **Floating CTA (360x56, r:0px)**는 구버전 레거시 규격으로 사용 금지.
-* **모달 다이얼로그 버튼 (Modal Buttons)**:
-  * 전체 너비 \`280px\`, 높이 \`56px\` (또는 \`48px\`), Corner Radius **\`10px\`**
-  * [좌측 취소]: 너비 \`136px\`, 배경 \`#EBEEF2\`, 텍스트 \`#666666 16px Bold\`
-  * [우측 확인]: 너비 \`136px\`, 배경 \`#1219F7\`, 텍스트 \`#FFFFFF 16px Bold\` (버튼 간 간격 8px)
-
-### 2-2. 입력창 (Form Input)
-* **규격**: 너비 \`312px\`, 높이 \`56px\`, Corner Radius **\`10px\`**, 좌우 패딩 \`16px\`
-* **보더 스트로크**: 무조건 **\`1px solid\`** 고정 (두꺼운 2px 스트로크 금지)
-  * 기본 상태: 보더 \`#D7DBE2\`, 배경 \`#FFFFFF\`, 텍스트 \`#333333 (16px Regular)\`
-  * 포커스 상태: 보더 \`#1219F7\`
-  * 에러 상태: 보더 **\`#F34766\`**, 텍스트 \`#F34766\`
-  * 🚨 **에러 인풋 내 느낌표(\`!\`) 아이콘 절대 사용 금지** (1px 에러 보더와 하단 14px 안내 문구로만 피드백).
-* **라벨**: 입력창 상단 \`14px Bold (#121212)\`
-
-### 2-3. 오버레이 (Modal & Bottom Sheet)
-* **Alert / Confirm 모달**: 너비 \`312px\` 중앙 정렬, Corner Radius **\`16px\`**, 배경 딤드 60%
-* **바텀시트**: 모바일 전폭 \`360px\`, 상단 모서리만 **\`16px\`** (\`rounded-t-[16px]\`), 상단 중앙 핸들바 (\`36x4px, r:full, #D7DBE2\`)
-* **1200px 반응형 절대 분기**:
-  * \`360px ~ 1199px\`: 하단에서 슬라이드 업되는 **가변 바텀시트** (뷰포트 너비 대응)
-  * \`1200px 이상\`: 화면 정중앙에 고정되는 **중앙 고정 모달** (\`w-[440px]\`, r:16px, 핸들바 숨김)
-
-### 2-4. 카드 컨테이너 (Card Box)
-* **배경 & 보더**: 순수 흰색 \`#FFFFFF\` 배경 + **\`1px solid #D7DBE2\` (또는 \`#E5E8EB\`)**
-* **높이별 Corner Radius 3단계 (신규 확정 규격)**:
-  * **소형 인라인 카드 (높이 ~ 79px)**: **\`8px\`** (\`rounded-[8px]\`) ➔ *단일 옵션 행, 1줄짜리 소형 정보 박스*
-  * **표준 카드 (높이 80px ~ 240px)**: **\`10px\`** (\`rounded-[10px]\`) ➔ *견적 요약 카드, 기본 폼 블록 (전사 표준)*
-  * **대형 컨테이너 카드 (높이 241px 이상)**: **\`12px\`** (\`rounded-[12px]\`) ➔ *화면 전체를 감싸는 대형 섹션 그룹*
-
----
-
-## 3. 레벨 3: 디자이너 자유 영역 (Flexibility)
-
-위의 4대 핵심 컴포넌트(버튼, 인풋, 오버레이, 카드)와 레벨 1의 토큰(서체, 짝수 크기, 컬러, 캔버스 안전영역)만 준수한다면:
-1. 화면 내 카드들의 세로 배치 순서 및 그룹핑
-2. 이사 날짜 선택 달력 레이아웃이나 세부 체크박스 목록 조합
-3. 서비스 프로모션 안내 배너의 시각 구도
-등은 **디자이너가 서비스 기획 의도에 맞춰 100% 자유롭게 디자인**할 수 있습니다.
-
----
-
-## 4. AI 디자인 생성 및 자가 검증 프롬프트 (AI Self-Verification Protocol)
-
-> **💡 사용법**: Figma Make(피그마 AI), Claude, ChatGPT, Cursor 등에게 다이사 고객향 화면/컴포넌트 디자인이나 UI 코드를 요청할 때, 프롬프트 최상단에 아래 블록을 그대로 복사하여 붙여넣으세요. AI가 디자인을 생성하면서 자체 체크리스트를 실행해 스스로 교정한 후 완벽한 결과물을 출력합니다.
-
-\`\`\`text
-[다이사 고객향 디자인시스템 AI 생성 및 자가 검증 프로토콜]
-당신은 다이사(da24) B2C 고객향 서비스 UI/UX를 전문으로 제작하는 디자이너 및 프론트엔드 엔지니어입니다.
-화면 디자인, 컴포넌트, 또는 UI 코드를 출력하기 직전, 반드시 아래 5대 규칙을 자체 전수조사하고 스스로 교정한 뒤 최종 결과물을 제시해야 합니다.
-
-0. 🚨 [최우선 절대 원칙] 루트 캔버스 규격 (Canvas Width & Safe Area):
-   - 모바일 최상위 프레임 너비: 무조건 '360px' 고정 (Width = 360).
-   - 좌우 오토레이아웃 여백 (Margin): 무조건 '양측 각 24px' 고정 (Padding-X = 24).
-   - 본문 콘텐츠 안전 영역 (Safe Area): 무조건 '312px' (360 - 24*2 = 312px, 모든 버튼/인풋/카드는 312px에 맞출 것).
-   - ⚠️ [절대 금지]: 피그마 AI의 기본값인 iPhone 규격(402px, 393px, 390px, 430px) 생성을 엄격히 금지합니다. 좌우 여백을 16px, 20px로 만드는 것을 절대 금지합니다.
-   - PC 웹 규격: 캔버스 1200px, 중앙 단일 열 640px, 좌우 마진 각 280px.
-
-1. 모서리 곡률 (Corner Radius) 원칙:
-   - 버튼, 기본 카드 UI, 각 컴포넌트들은 대부분 '10px'을 기본 표준으로 고정하여 사용합니다.
-   - 단, 모든 요소에 무조건 10px을 강제하는 것은 아니며 상황과 맥락에 따라 12px 또는 16px(모달, 바텀시트, 대형 섹션 카드 등)까지 유연하게 활용할 수 있습니다.
-   - 캡슐형 칩/태그는 Pill(완전 둥근 모서리) 형태를 허용합니다.
-
-2. 컬러 토큰 (Color Tokens) 엄격 준수:
-   - 임의의 HEX 컬러(#3B82F6, #1E40AF 등) 절대 사용 금지.
-   - 오직 다이사 13대 지정 토큰(#1219F7, #595EF9, #121212, #333333, #666666, #888888, #D7DBE2, #EBEEF2, #F7F8FA, #FFFFFF 등)만 사용하십시오.
-   - 색상이 애매할 경우 가장 가까운 다이사 공식 토큰으로 자동 치환하십시오.
-
-3. 타이포그래피 (Typography) 스케일:
-   - 서체는 오직 'Pretendard' 단일 서체만 사용합니다.
-   - 폰트 크기는 짝수 6종 규격(12, 14, 16, 18, 20, 24px)만 허용합니다. (13, 15, 17px 등 중간 홀수값은 반드시 14, 16, 18px 등 상위 표준 크기로 올림 적용할 것).
-   - 기본 본문 크기는 16px입니다.
-
-4. 자간 및 UX 라이팅 (Letter Spacing & UX Writing):
-   - 모든 텍스트 레이어에 'letter-spacing: -1%' (-0.01em) 필수 적용.
-   - 텍스트 내 네이티브 이모지(📦, 🚚, ✨ 등) 사용 절대 금지 (선형 아이콘으로 대체).
-
-[출력 전 자가 검증 체크리스트 (Self-Check)]
-- [ ] 모바일 루트 프레임이 402px이 아닌 정확히 360px인가? (좌우 패딩 24px, 콘텐츠 너비 312px 준수)
-- [ ] 미허용된 임의 색상이 있는가? ➔ 가장 가까운 다이사 13대 컬러 토큰으로 치환 완료.
-- [ ] 버튼과 기본 카드가 10px을 기준으로 잘 정돈되었는가? (필요시 12px, 16px 조화롭게 활용)
-- [ ] 폰트 크기가 짝수 표준 규격(12~24px)에 맞게 정렬되었는가? (13/15/17px 올림 처리 완료)
-- [ ] 자간 -1%가 누락 없이 적용되었는가?
-위 체크리스트를 통과한 최종 디자인 산출물만 반환합니다.
-\`\`\`
-`;
+import React, { useEffect, useState } from 'react';
+import CUSTOMER_MD_CONTENT from '../../../DESIGN.md?raw';
+import START_HERE_CONTENT from '../../../START-HERE.md?raw';
 
 const PARTNER_MD_CONTENT = `# 다이사(da24) 공식 파트너향 디자인시스템 명세서 (Daisa Partner Design System)
 
@@ -497,12 +322,14 @@ const DarangieSvg: React.FC = () => (
 
 export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner'>(isPartner ? 'partner' : 'customer');
+  const [selectedDoc, setSelectedDoc] = useState<'customer' | 'partner' | 'start'>(isPartner ? 'partner' : 'customer');
   const [copied, setCopied] = useState(false);
   const [darangis, setDarangis] = useState<DarangiItem[]>([]);
 
-  const activeContent = selectedDoc === 'partner' ? PARTNER_MD_CONTENT : CUSTOMER_MD_CONTENT;
-  const activeFileName = selectedDoc === 'partner' ? 'daisa_library_partner.md' : 'daisa_library_customer.md';
+  useEffect(() => { setSelectedDoc(isPartner ? 'partner' : 'customer'); }, [isPartner]);
+
+  const activeContent = selectedDoc === 'partner' ? PARTNER_MD_CONTENT : selectedDoc === 'start' ? START_HERE_CONTENT : CUSTOMER_MD_CONTENT;
+  const activeFileName = selectedDoc === 'partner' ? 'daisa_library_partner.md' : selectedDoc === 'start' ? 'START-HERE.md' : 'DESIGN.md';
 
   const triggerDarangie = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -546,11 +373,11 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
       </div>
 
       {/* 2. 전환되는 Segmented Switcher UI (고급스러운 슬라이딩 토글 형태) */}
-      <div className="relative bg-[#E2E6EE] p-1 rounded-[14px] flex items-center w-full max-w-[280px] select-none">
+      <div className="relative bg-[#E2E6EE] p-1 rounded-[14px] flex items-center w-full max-w-[420px] select-none">
         {/* 부드럽게 좌우로 슬라이딩되는 화이트 썸 */}
         <div
-          className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-[10px] shadow-sm transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            selectedDoc === 'customer' ? 'left-1' : 'left-[calc(50%+2px)]'
+          className={`absolute top-1 bottom-1 w-[calc(33.333%-4px)] bg-white rounded-[10px] shadow-sm transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            selectedDoc === 'customer' ? 'left-1' : selectedDoc === 'start' ? 'left-[calc(33.333%+1.333px)]' : 'left-[calc(66.666%-1.333px)]'
           }`}
         />
 
@@ -558,18 +385,28 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         <button
           type="button"
           onClick={() => setSelectedDoc('customer')}
-          className={`relative z-10 w-1/2 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+          className={`relative z-10 w-1/3 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
             selectedDoc === 'customer' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
-          <span>고객향.md</span>
+          <span>DESIGN.md</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setSelectedDoc('start')}
+          className={`relative z-10 w-1/3 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+            selectedDoc === 'start' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
+          }`}
+        >
+          <span>START-HERE.md</span>
         </button>
 
         {/* 탭 2: 파트너향.md */}
         <button
           type="button"
           onClick={() => setSelectedDoc('partner')}
-          className={`relative z-10 w-1/2 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+          className={`relative z-10 w-1/3 py-2 text-center text-[13px] font-bold transition-colors duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
             selectedDoc === 'partner' ? 'text-[#1219F7]' : 'text-[#6B7684] hover:text-[#191F28]'
           }`}
         >
@@ -591,7 +428,9 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
           <p className="text-[13px] text-[#6B7684]">
             {selectedDoc === 'partner'
               ? '파트너 공식 규격: Radius 6px · 기본 본문 18px · 모바일 360 & 웹 627px'
-              : '고객향 프로덕션 규격: Pretendard · Radius 10px · 모바일 360 & 웹 640px'}
+              : selectedDoc === 'start'
+                ? '고객향 AI 작업 안내: 두 MD 전달 · AS-IS 재해석 · 공식 아이콘 재사용 · 확인 방법'
+                : '고객향 v3.3.0: Pretendard · Figma 자간 -1% · Radius 10/16px · 시안과 반응형 구분'}
           </p>
         </div>
 

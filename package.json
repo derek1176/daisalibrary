@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run icons:generate && vite",
-    "build": "npm run icons:generate && tsc && vite build",
+    "dev": "npm run docs:sync && npm run icons:generate && vite",
+    "build": "npm run docs:sync && npm run icons:generate && tsc && vite build",
+    "docs:sync": "tsx scripts/sync-design-docs.ts",
+    "test:design": "tsx --test scripts/design.test.ts",
     "icons:generate": "tsx scripts/generate-icons.ts",
     "test:icons": "tsx --test scripts/icons.test.ts",
     "preview": "vite preview"

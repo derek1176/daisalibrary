@@ -51,8 +51,9 @@ SVG는 `currentColor`를 사용합니다. `<img>`의 부모 `color`는 외부 SV
 
 `figma-plugin/` 디렉터리에 피그마 디자인시스템 검증기(Linter)가 내장되어 있습니다:
 - **지원 모드**: 고객향(Customer) v2.0 & 파트너향(Partner) v1.0 원클릭 전환
-- **검증 대상**: 13대 컬러 토큰 준수 여부, Pretendard 짝수 폰트 크기(12~24px), 파트너 본문 18px 규격, 카드 높이별 Corner Radius (고객: 8/10/12px, 파트너: 6px 고정), 1px 보더 두께, 312px 모바일 안전영역, 비표준 이모지 감지
+- **검증 대상**: 13대 컬러 토큰 준수 여부, Pretendard 짝수 폰트 크기(12~24px), 파트너 본문 18px 규격, 기존 카드 높이별 Corner Radius (고객: 8/10/12px, 파트너: 6px 고정), 1px 보더 두께, 312px 모바일 안전영역, 비표준 이모지 감지
 - **편의 기능**: 위반 레이어 캔버스 즉시 포커스 이동, 원클릭 자동 수정(Auto-Fix), 마크다운 리포트 복사
+- **주의**: 이 플러그인의 기존 고객향 검사·자동수정 규칙은 최신 DESIGN.md와 다릅니다. 플러그인 갱신 전에는 최신 고객향 기준의 통과 근거로 사용하지 않습니다. 이번 웹사이트 내용 갱신에는 플러그인 로직 변경이 포함되지 않습니다.
 - **등록 방법**: 피그마 데스크톱 ➔ Plugins ➔ Development ➔ **Import plugin from manifest...** ➔ `figma-plugin/manifest.json` 선택
 
 ---
@@ -132,23 +133,20 @@ git push -u origin main
 
 이 프로젝트는 후임자나 비개발자도 **AI 에이전트(Cursor, Antigravity, Claude Code, ChatGPT 등)**를 통해 손쉽게 신규 컴포넌트를 추가하고 시스템을 확장할 수 있도록 설계되었습니다.
 
-AI에게 수정을 요청할 때 아래 가이드 문서를 프롬프트 컨텍스트로 제공하면 일관성을 100% 유지할 수 있습니다:
-* **고객향 명세서**: [`DAISA_DESIGN_SYSTEM.md`](./DAISA_DESIGN_SYSTEM.md)
+AI에게 작업을 요청할 때 아래 원문을 전달하고 실제 확인 결과를 점검합니다. 문서 전달만으로 준수를 보장하지 않습니다:
+* **고객향 시각 기준**: [`DESIGN.md`](./DESIGN.md)
+* **고객향 AI 작업 시작 안내**: [`START-HERE.md`](./START-HERE.md)
+* **기존 고객향 명세서 경로**: [`DAISA_DESIGN_SYSTEM.md`](./DAISA_DESIGN_SYSTEM.md) — DESIGN.md와 자동 동기화되는 호환 파일
 * **파트너향 명세서**: [`DAISA_PARTNER_DESIGN_SYSTEM.md`](./DAISA_PARTNER_DESIGN_SYSTEM.md)
 * **AI 협업 프롬프트 템플릿**: [`AI_DEVELOPMENT_GUIDE.md`](./AI_DEVELOPMENT_GUIDE.md)
 
-### 🚨 AI에게 반드시 주지시켜야 할 4대 절대 규칙
-1. **서체는 Pretendard 단일 사용**: 폰트 크기는 **짝수 6종(12, 14, 16, 18, 20, 24px)**만 허용하며, 특수 뱃지만 10/11px 예외 허용.
-2. **고객향 vs 파트너향 곡률 절대 분리**:
-   * **고객향**: 기본 `10px` (`rounded-[10px]`), 모달 `16px`
-   * **파트너향**: 전사 통일 `6px` (`rounded-[6px]`), 고객향 10px/16px 절대 금지
-   * **공통**: 필터/선택 칩은 완전 라운드(`rounded-full` / Pill)
-3. **반응형 1200px 규칙**:
-   * 360px ~ 1199px은 모바일 반응형 바텀시트
-   * 1200px 이상은 중앙 고정 440px 모달
-4. **단일 열 정렬**:
-   * 고객향 PC: `1200px` 캔버스 내 `640px` 중앙 집중
-   * 파트너향 PC: `1200px` 캔버스 내 `627px` 주문 카드 정렬
+### 고객향 기준과 문서 관리
+
+고객향 필수 기준은 DESIGN.md가 원문입니다. Pretendard, Figma 자간 -1% / CSS -0.01em, 6단계 타이포, 단색 13개와 오버레이 1개, 기본 UI 10px / 모달·시트 16px / 원형·Pill 규칙을 따릅니다. 배지 폰트 예외·그라디언트·높이별 카드 곡률 규칙은 사용하지 않습니다. 360px·1200px는 Figma 시안 기준이며 실제 구현은 반응형입니다. AS-IS와 레퍼런스의 시각 스타일도 DESIGN.md 기준으로 다시 적용합니다.
+
+Resources에서 DESIGN.md와 START-HERE.md를 각각 미리보기·복사·다운로드할 수 있습니다. `/DESIGN.md`, `/START-HERE.md`도 직접 접근할 수 있습니다. 화면은 원문 파일을 직접 불러오며 `npm run docs:sync`가 공개 파일과 기존 고객향 경로를 동기화합니다. 개발 서버 실행 중 MD를 바꾸면 공개 파일 갱신을 위해 이 명령을 다시 실행하세요. `npm run build`에는 동기화가 포함됩니다. `npm run test:design`은 웹사이트 고객향 컬러·타이포 데이터와 문서·다운로드 사본의 일치를 확인합니다.
+
+파트너향은 기존 전용 명세서를 따릅니다. 이 고객향 업데이트를 파트너향 규격에 적용하지 않습니다.
 
 ---
 

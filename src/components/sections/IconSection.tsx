@@ -175,7 +175,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
 
         <div className="flex items-center gap-3">
           <span className={`text-[12px] hidden sm:inline ${isDark ? 'text-[#65656E]' : 'text-[#8B95A1]'}`}>
-            카드 클릭 시 <strong>.{activeSize}px.svg</strong> 파일 자동 다운로드
+            공식 원본 우선 · 카드 클릭 시 <strong>.{activeSize}px.svg</strong> 다운로드
           </span>
 
           {/* 작게 전체 아이콘 다운로드할 수 있는 버튼 */}
@@ -286,7 +286,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
           AI용 아이콘 목록 (JSON)
         </a>
         <a href="/icons/README.md" target="_blank" rel="noreferrer" className="underline">
-          고정 SVG 주소 사용 안내
+          고정 SVG 주소 사용 안내 · 검색 후 적합한 원본이 없을 때만 제작
         </a>
       </div>
     </div>

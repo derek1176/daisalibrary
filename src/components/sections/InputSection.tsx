@@ -60,7 +60,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         <div className="text-[12px] font-bold text-[#1219F7]">
           {isPartner
             ? '★ 파트너 코어: Radius 6px · 기본 18px 텍스트 (Stroke 1px)'
-            : '★ 고객향 코어: Radius 10px · 기본 16px 텍스트 (Stroke 1px)'}
+            : '고객향 필수 외형: Radius 10px · 16/24px Regular · 1px 보더 · 자간 -1%'}
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
                   ? '높이 56px · Corner Radius 6px · 1px stroke · 라벨 16px Bold · 입력값 18px Regular'
-                  : '높이 56px · Corner Radius 10px · 1px stroke · 라벨 14px Bold · 입력값 16px Regular'}
+                  : '높이 56px · 좌우 패딩 16px · Radius 10px · 라벨 14/20px Bold · 입력값 16/24px Regular · 시안 너비/실제 반응형 구분'}
               </p>
             </div>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1B64DA]">
@@ -84,7 +84,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
@@ -122,7 +122,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 2. 에러 상태 입력창 (Error Input)
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
-                공식 에러 컬러 <strong>#F34766</strong> 적용 · 1px solid stroke 유지 및 하단 14px 에러 메시지
+                {isPartner ? '공식 에러 컬러' : '기존 오류 표시 예시 (상태·동작은 MD 필수 규칙 범위 제외):'} <strong>#F34766</strong> · 1px 보더 · 하단 14/20px 안내
               </p>
             </div>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-red-50 text-[#F34766] border border-red-200">
@@ -130,7 +130,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
@@ -179,7 +179,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
@@ -224,7 +224,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${

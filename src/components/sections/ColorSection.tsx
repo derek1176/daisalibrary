@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
+import { CUSTOMER_COLORS } from '../../data/customerRules';
 
 interface ColorRow {
   category: string;
@@ -19,48 +20,15 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   };
 
   // 고객향 컬러 테이블 데이터 (Category / Token / Value)
-  const customerColors: { category: string; items: { token: string; value: string; isTransparent?: boolean }[] }[] = [
-    {
-      category: 'Common',
-      items: [
-        { token: 'white', value: '#FFFFFF' },
-        { token: 'black', value: '#000000' },
-        { token: 'transparent', value: 'transparent', isTransparent: true },
-      ],
-    },
-    {
-      category: 'Brand',
-      items: [
-        { token: 'main-01', value: '#1219F7' },
-        { token: 'main-02', value: '#595EF9' },
-        { token: 'main-04', value: '#F4F5FF' },
-      ],
-    },
-    {
-      category: 'Text',
-      items: [
-        { token: 'text-01', value: '#121212' },
-        { token: 'text-02', value: '#333333' },
-        { token: 'text-03', value: '#666666' },
-        { token: 'text-04', value: '#888888' },
-      ],
-    },
-    {
-      category: 'Border & BG',
-      items: [
-        { token: 'etc-02', value: '#D7DBE2' },
-        { token: 'etc-03', value: '#EBEEF2' },
-        { token: 'etc-04', value: '#F7F8FA' },
-      ],
-    },
-    {
-      category: 'Feedback',
-      items: [
-        { token: 'error', value: '#F34766' },
-        { token: 'dimmed', value: 'rgba(0, 0, 0, 0.60)' },
-      ],
-    },
-  ];
+  const customerColors = [
+    { category: 'Brand', tokens: ['main-01', 'main-02', 'main-04'] as const },
+    { category: 'Text', tokens: ['text-01', 'text-02', 'text-03', 'text-04'] as const },
+    { category: 'Border & BG', tokens: ['etc-01', 'etc-02', 'etc-03', 'etc-04', 'etc-05'] as const },
+    { category: 'Feedback', tokens: ['sub-02', 'dimmed'] as const },
+  ].map(group => ({
+    category: group.category,
+    items: group.tokens.map(token => ({ token, value: CUSTOMER_COLORS[token], isTransparent: false })),
+  }));
 
   // 파트너향 컬러 테이블 데이터 (Category / Token / Value)
   const partnerColors: { category: string; items: { token: string; value: string; isTransparent?: boolean }[] }[] = [
@@ -121,7 +89,7 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
       {/* Page Header (심플 영문 타이틀만) */}
       <div className="border-b pb-4 border-[#E5E8EB]">
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
-          Colors
+          {isPartner ? 'Colors' : 'Colors · 단색 13개 + 오버레이 1개 · 그라디언트 금지'}
         </h2>
       </div>
 

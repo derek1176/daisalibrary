@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Customer specification previews only; the documentation UI and partner mode are unchanged. */
+[data-customer-preview="true"],
+[data-customer-preview="true"] * {
+  letter-spacing: -0.01em;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

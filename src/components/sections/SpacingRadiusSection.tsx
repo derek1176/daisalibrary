@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
+import { CUSTOMER_RADII } from '../../data/customerRules';
 
 export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -36,50 +37,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
       : []),
   ];
 
-  const customerRadiusList = [
-    {
-      val: '6px',
-      name: 'XS',
-      desc: 'Tooltip 말풍선, 미니 배지',
-      tailwind: 'rounded-[6px]',
-      highlight: false,
-    },
-    {
-      val: '8px',
-      name: 'SM',
-      desc: '소형 서브 카드(312x94), 컴팩트 칩 블록',
-      tailwind: 'rounded-[8px]',
-      highlight: false,
-    },
-    {
-      val: '10px',
-      name: 'MD',
-      desc: 'Public 버튼, Form Input, 카드 기본 표준, 모달 액션 버튼 (다이사 전사 표준)',
-      tailwind: 'rounded-[10px]',
-      highlight: true,
-    },
-    {
-      val: '12px',
-      name: 'LG',
-      desc: '프로모션 배너 카드, 견적 비교 서브 카드',
-      tailwind: 'rounded-[12px]',
-      highlight: false,
-    },
-    {
-      val: '16px',
-      name: 'XL',
-      desc: 'Alert/Confirm 모달 다이얼로그 (312px), 바텀시트 상단 모서리',
-      tailwind: 'rounded-[16px]',
-      highlight: false,
-    },
-    {
-      val: 'Full',
-      name: 'Pill',
-      desc: '카테고리 칩 필터, 선택 칩 (전사 원형 적용)',
-      tailwind: 'rounded-full',
-      highlight: false,
-    },
-  ];
+  const customerRadiusList = CUSTOMER_RADII;
 
   const partnerRadiusList = [
     {
@@ -134,7 +92,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-[18px] font-bold text-[#191F28]">Spacing</h3>
-          <span className="text-[12px] font-mono text-[#8B95A1]">Base unit: 8px (2px micro)</span>
+          <span className="text-[12px] font-mono text-[#8B95A1]">{isPartner ? 'Base unit: 8px (2px micro)' : '간격 참고값 · MD에 없는 간격을 필수 규칙으로 강제하지 않음'}</span>
         </div>
 
         <div className="bg-white rounded-[16px] shadow-xs overflow-hidden border border-[#E5E8EB]">
@@ -221,7 +179,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
         <div className="flex items-center justify-between">
           <h3 className="text-[18px] font-bold text-[#191F28]">Corner Radius</h3>
           <span className="text-[12px] font-medium text-[#1219F7]">
-            {isPartner ? '핵심 표준: 6px (10px·16px 금지)' : '핵심 표준: 10px (카드·버튼·인풋)'}
+            {isPartner ? '핵심 표준: 6px (10px·16px 금지)' : '10px 기본 UI · 16px 모달/시트 · 원형/Pill · AI 임의 변경 금지'}
           </span>
         </div>
 
@@ -292,7 +250,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
                       {/* Preview Box */}
                       <td className="py-3.5 px-6">
                         <div
-                          style={{ borderRadius: item.val === 'Full' ? '9999px' : item.val }}
+                          style={{ borderRadius: item.tailwind === 'rounded-t-[16px]' ? '16px 16px 0 0' : item.val === 'Full' ? '9999px' : item.val }}
                           className={`w-14 h-8 flex items-center justify-center font-bold text-[11px] ${
                             isBanned
                               ? 'border-2 border-dashed border-red-300 text-red-500 bg-red-50'

@@ -13,7 +13,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       content: '312px (360 - 48)',
       notes: isPartner
         ? '현장 기사님 오더 접수 및 견적 관리 콘텐츠 안전 영역'
-        : '모든 버튼·인풋·카드 등 본문 핵심 UI는 312px 이내 배치',
+        : 'Figma 360px 시안 기준. 구현은 가변 너비·좌우 24px, 버튼·입력창·카드는 부모 너비 대응',
     },
     {
       env: '웹 데스크톱 (Web)',
@@ -22,7 +22,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       content: `${contentWidth} (단일 중앙 열)`,
       notes: isPartner
         ? '1200px 캔버스 중앙에 627px 단일 오더 컨테이너 배치 (r:6)'
-        : '헤더(640px) · 본문 신청 폼(640px) · 액션 버튼(640px) 단일 열 일치',
+        : 'Figma 1200px 시안 기준. 구현은 최대 640px 중앙 정렬, 280px 여백·루트 너비 고정 금지',
     },
   ];
 
@@ -40,7 +40,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         {/* Mobile Canvas View */}
         <div className="bg-white rounded-[16px] p-6 shadow-xs border border-[#E5E8EB] flex flex-col items-center select-none">
           <div className="text-[13px] font-semibold text-[#8B95A1] mb-4">
-            Frame: 360px · Content: 312px (Mobile)
+            {isPartner ? 'Frame: 360px · Content: 312px (Mobile)' : 'Figma 시안: 360px · 본문 312px · 실제 구현은 반응형'}
           </div>
 
           <div className="w-full max-w-[360px] bg-[#FAFBFD] rounded-[14px] p-4 flex flex-col gap-3">
@@ -88,7 +88,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         {/* PC Canvas View (Max-width: 1200px) */}
         <div className="bg-white rounded-[16px] p-6 shadow-xs border border-[#E5E8EB] flex flex-col items-center select-none overflow-x-auto">
           <div className="text-[13px] font-semibold text-[#8B95A1] mb-4">
-            Max-width: 1200px · Content: {contentWidth} (Desktop)
+            {isPartner ? `Max-width: 1200px · Content: ${contentWidth} (Desktop)` : 'Figma 시안: 1200px · 본문 640px · 실제 최대 본문 너비 640px'}
           </div>
 
           <div className="w-full min-w-[680px] max-w-[1040px] bg-[#FAFBFD] rounded-[14px] p-5 flex flex-col gap-3">

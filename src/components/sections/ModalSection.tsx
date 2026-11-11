@@ -11,28 +11,22 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
   // 모달 & 바텀시트 스펙 표 데이터 (내용 보존 & 표 형태 UI)
   const customerSpecs = [
     {
-      type: '기본 모달 (Default Modal)',
-      viewport: '1200px 이상 (PC) / 공통 Alert',
-      width: '312px / 360px',
-      radius: '16px (전사 표준)',
-      action: '취소(화이트 + 아웃라인) + 확인(#1219F7) 50~56px r:10',
-      behavior: '화면 정중앙 고정 얼럿/컨펌 다이얼로그 (딤드 60%)',
+      type: 'Alert / Confirm 모달', viewport: '전체 뷰포트 공통',
+      width: '시안 312px · 구현은 화면 이내', radius: '16px',
+      action: '취소 etc-03 / text-03 · 확인 main-01 / etc-01 · 버튼 56px / r:10',
+      behavior: '제목 20/30 Bold · 본문 16/24 Regular · 오버레이 60%',
     },
     {
-      type: '아이콘 + 모달 (Icon Modal)',
-      viewport: '전체 뷰포트 공통',
-      width: '312px 고정',
-      radius: '16px (전사 표준)',
-      action: '상단 48x48 원형 아이콘 + 2분할 버튼',
-      behavior: '신청 완료, 처리 성공, 경고 등 상태 강조 팝업',
+      type: '아이콘 + 모달', viewport: '전체 뷰포트 공통',
+      width: '시안 312px · 구현은 화면 이내', radius: '16px',
+      action: '공식 아이콘 24px (20·16px 허용) · 원형 컨테이너는 Full',
+      behavior: '기본 모달과 동일한 폰트·색상·모서리 기준',
     },
     {
-      type: '반응형 바텀시트 (Bottom Sheet)',
-      viewport: '360px ~ 1199px (모바일·태블릿)',
-      width: '100% (최대 640px)',
-      radius: '상단 16px (rounded-t-[16px])',
-      action: '옵션 행 46~56px / 바텀 액션 50px',
-      behavior: '화면 하단 슬라이드업, 상단 36x4px 핸들바 중앙 배치',
+      type: '바텀시트 ↔ 중앙 모달', viewport: '1200px 미만 / 이상',
+      width: '뷰포트 전폭 / 중앙 440px', radius: '시트 상단 16px·하단 0px / 모달 16px',
+      action: '기본 버튼 56px / r:10 · 16/24px Bold',
+      behavior: '시트 핸들바 36×4px / Full / etc-02 · 중앙 모달 핸들바 숨김 · 동작은 별도 제품 요구사항',
     },
   ];
 
@@ -86,7 +80,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <h3 className="text-[16px] font-bold text-[#191F28]">
                   {isPartner ? '파트너 기본 모달' : '기본 모달 (Confirm Dialog)'}
                 </h3>
-                <p className="text-[12px] text-[#8B95A1] mt-0.5">화이트 아웃라인 취소 + 블루 확인 2분할 버튼</p>
+                <p className="text-[12px] text-[#8B95A1] mt-0.5">{isPartner ? '화이트 아웃라인 취소 + 블루 확인 2분할 버튼' : '취소 #EBEEF2 / #666666 · 확인 #1219F7 / #FFFFFF · 높이 56px'}</p>
               </div>
               <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#E8F3FF] text-[#1219F7]">
                 {isPartner ? '312px 고정 / r:6' : '312px 고정 / r:16'}
@@ -95,15 +89,16 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
             <div className="p-8 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[300px]">
               <div
+                data-customer-preview={!isPartner || undefined}
                 className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[16px]'
                 }`}
               >
                 <div className="text-center space-y-1.5 pt-1">
-                  <div className={`font-bold text-[#191F28] ${isPartner ? 'text-[18px]' : 'text-[17px]'}`}>
+                  <div className={`font-bold ${isPartner ? 'text-[#191F28]' : 'text-[#121212]'} ${isPartner ? 'text-[18px]' : 'text-[20px] leading-[30px] text-[#121212]'}`}>
                     {isPartner ? '오더 접수를 취소하시겠습니까?' : '신청을 취소하시겠습니까?'}
                   </div>
-                  <div className={`text-[#6B7684] ${isPartner ? 'text-[14px]' : 'text-[13px]'}`}>
+                  <div className={`${isPartner ? 'text-[#6B7684]' : 'text-[#333333]'} ${isPartner ? 'text-[14px]' : 'text-[16px] leading-[24px] text-[#333333]'}`}>
                     {isPartner ? '작성 중인 견적 정보가 삭제됩니다.' : '작성 중인 정보가 저장되지 않습니다.'}
                   </div>
                 </div>
@@ -111,8 +106,8 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="flex gap-2 pt-2">
                   <button
                     type="button"
-                    className={`flex-1 font-bold bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA] transition-colors ${
-                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
+                    className={`flex-1 font-bold ${isPartner ? 'bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA]' : 'bg-[#EBEEF2] text-[#666666]'} transition-colors ${
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
                     취소
@@ -120,7 +115,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <button
                     type="button"
                     className={`flex-1 font-bold bg-[#1219F7] text-white hover:bg-[#0E15D4] transition-colors ${
-                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
                     확인
@@ -146,6 +141,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
             <div className="p-8 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[300px]">
               <div
+                data-customer-preview={!isPartner || undefined}
                 className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[16px]'
                 }`}
@@ -156,10 +152,10 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 </div>
 
                 <div className="text-center space-y-1.5">
-                  <div className={`font-bold text-[#191F28] ${isPartner ? 'text-[18px]' : 'text-[17px]'}`}>
+                  <div className={`font-bold ${isPartner ? 'text-[#191F28]' : 'text-[#121212]'} ${isPartner ? 'text-[18px]' : 'text-[20px] leading-[30px] text-[#121212]'}`}>
                     {isPartner ? '견적 제출 완료' : '견적 신청 완료'}
                   </div>
-                  <div className={`text-[#6B7684] ${isPartner ? 'text-[14px]' : 'text-[13px]'}`}>
+                  <div className={`${isPartner ? 'text-[#6B7684]' : 'text-[#333333]'} ${isPartner ? 'text-[14px]' : 'text-[16px] leading-[24px] text-[#333333]'}`}>
                     파트너사가 확인 후 빠르게 연락드립니다.
                   </div>
                 </div>
@@ -167,8 +163,8 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="flex gap-2 pt-2">
                   <button
                     type="button"
-                    className={`flex-1 font-bold bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA] transition-colors ${
-                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
+                    className={`flex-1 font-bold ${isPartner ? 'bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA]' : 'bg-[#EBEEF2] text-[#666666]'} transition-colors ${
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
                     닫기
@@ -176,7 +172,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <button
                     type="button"
                     className={`flex-1 font-bold bg-[#1219F7] text-white hover:bg-[#0E15D4] transition-colors ${
-                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[50px] rounded-[10px] text-[14px]'
+                      isPartner ? 'h-[50px] rounded-[6px] text-[15px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
                     내역 확인
@@ -200,7 +196,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#E8F3FF] text-[#1219F7]">
-                너비 360px 고정
+                {isPartner ? '너비 360px 고정' : '시안 360px · 구현 전폭 반응형'}
               </span>
               <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#F2F4F6] text-[#4E5968]">
                 상단 r:16px
@@ -234,13 +230,13 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px] pointer-events-none" />
 
               {/* Bottom Sheet Component (Anchored to Bottom) */}
-              <div className="relative w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
+              <div data-customer-preview={!isPartner || undefined} className="relative w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
                 {/* Handle Bar (36x4px) */}
                 <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
 
                 {/* Header (56px) */}
                 <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2">
-                  <div className="font-bold text-[#191F28] text-[16px]">
+                  <div className={isPartner ? 'font-bold text-[#191F28] text-[16px]' : 'font-bold text-[#121212] text-[20px] leading-[30px]'}>
                     {isPartner ? '작업 조건 선택' : '이사 종류 선택'}
                   </div>
                   <button type="button" className="text-[#8B95A1] hover:text-[#191F28] p-1">
@@ -250,17 +246,17 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
                 {/* Option Rows (56px touch target) */}
                 <div className="space-y-1.5">
-                  <div className="p-3 rounded-[10px] bg-[#F2F4F8] font-bold text-[#1219F7] flex items-center justify-between text-[14px]">
+                  <div className={isPartner ? 'p-3 rounded-[10px] bg-[#F2F4F8] font-bold text-[#1219F7] flex items-center justify-between text-[14px]' : 'p-3 rounded-[10px] bg-[#F4F5FF] font-bold text-[#1219F7] flex items-center justify-between text-[16px] leading-[24px]'}>
                     <span>{isPartner ? '1톤 탑차 (추천)' : '가정이사 (포장)'}</span>
                     <div className="flex items-center gap-1.5">
                       <span className="text-[11px] font-medium text-[#1219F7]">선택됨</span>
                       <Check className="w-4 h-4 text-[#1219F7]" />
                     </div>
                   </div>
-                  <div className="p-3 rounded-[10px] hover:bg-[#F9FAFB] text-[#4E5968] flex items-center justify-between text-[14px] transition-colors">
+                  <div className={isPartner ? 'p-3 rounded-[10px] hover:bg-[#F9FAFB] text-[#4E5968] flex items-center justify-between text-[14px] transition-colors' : 'p-3 rounded-[10px] text-[#333333] flex items-center justify-between text-[16px] leading-[24px]'}>
                     <span>{isPartner ? '2.5톤 탑차' : '원룸/소형이사'}</span>
                   </div>
-                  <div className="p-3 rounded-[10px] hover:bg-[#F9FAFB] text-[#4E5968] flex items-center justify-between text-[14px] transition-colors">
+                  <div className={isPartner ? 'p-3 rounded-[10px] hover:bg-[#F9FAFB] text-[#4E5968] flex items-center justify-between text-[14px] transition-colors' : 'p-3 rounded-[10px] text-[#333333] flex items-center justify-between text-[16px] leading-[24px]'}>
                     <span>{isPartner ? '5톤 대형' : '사무실 이전'}</span>
                   </div>
                 </div>
@@ -270,7 +266,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <button
                     type="button"
                     className={`w-full bg-[#1219F7] text-white font-bold text-[14px] ${
-                      isPartner ? 'h-[51px] rounded-[6px]' : 'h-[50px] rounded-[10px]'
+                      isPartner ? 'h-[51px] rounded-[6px]' : 'h-[56px] rounded-[10px] text-[16px] leading-[24px]'
                     }`}
                   >
                     선택 완료
@@ -285,7 +281,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <span className="text-[12px] font-bold text-[#1219F7] uppercase tracking-wide">Specification Guide</span>
                 <h4 className="text-[17px] font-extrabold text-[#191F28]">바텀시트 핵심 규격 & 조작성</h4>
                 <p className="text-[13px] text-[#6B7684]">
-                  모바일 환경에서 한 손 조작성을 극대화하기 위해 360px 모바일 규격에 최적화된 하단 시트 구조입니다.
+                  {isPartner ? '모바일 환경에서 한 손 조작성을 극대화하기 위해 360px 모바일 규격에 최적화된 하단 시트 구조입니다.' : '360px는 Figma 기준 시안입니다. 실제 시트 너비는 뷰포트를 따르며, 1200px 이상에서는 440px 중앙 모달로 배치합니다.'}
                 </p>
               </div>
 
@@ -293,7 +289,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
                   <div className="font-bold text-[#191F28]">너비 규격 (Width)</div>
                   <div className="text-[12px] text-[#6B7684]">
-                    모바일 <strong className="text-[#1219F7]">360px (100%)</strong> 고정, 1200px 이상 데스크톱 환경에서는 중앙 고정 모달로 자동 전환.
+                    {isPartner ? '모바일 시안 360px, 데스크톱에서는 중앙 모달로 전환' : 'Figma 시안 360px · 구현 뷰포트 전폭 · 1200px 이상 중앙 모달 440px'}
                   </div>
                 </div>
 
@@ -314,7 +310,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
                   <div className="font-bold text-[#191F28]">터치 타깃 (Touch Target)</div>
                   <div className="text-[12px] text-[#6B7684]">
-                    헤더 및 옵션 행 높이 <strong className="text-[#191F28]">56px</strong>, 하단 버튼 <strong className="text-[#1219F7]">50px (r:10)</strong>.
+                    헤더 및 옵션 행 높이 <strong className="text-[#191F28]">56px</strong>, 하단 버튼 <strong className="text-[#1219F7]">{isPartner ? '50px (r:10)' : '56px (r:10)'}</strong>.
                   </div>
                 </div>
               </div>
@@ -375,7 +371,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               </span>
             </div>
             <p className="text-[13px] text-[#6B7684] mt-1">
-              우측 버튼을 눌러 뷰포트별 전환(모바일 바텀시트 ↔ 데스크톱 360px 중앙 모달) 동작을 확인하세요.
+              {isPartner ? '우측 버튼을 눌러 뷰포트별 전환(모바일 바텀시트 ↔ 데스크톱 360px 중앙 모달) 동작을 확인하세요.' : '모바일 전폭 바텀시트 ↔ 1200px 이상 440px 중앙 모달 배치를 확인하세요. 상태·동작은 MD 필수 기준에 포함하지 않습니다.'}
             </p>
           </div>
 
@@ -427,7 +423,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             <span className="text-[12px] text-[#6B7684]">적용 모드:</span>
             <span className="px-2.5 py-0.5 rounded-[6px] text-[12px] font-bold bg-[#E8F3FF] text-[#1219F7]">
               {isSimulatedDesktop
-                ? '데스크톱 중앙 고정 모달 (360px)'
+                ? (isPartner ? '데스크톱 중앙 고정 모달 (360px)' : '데스크톱 중앙 고정 모달 (440px)')
                 : '모바일 가변 바텀시트 (360px ~ 1199px)'}
             </span>
           </div>
@@ -439,7 +435,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             <span className="font-mono">뷰포트 캔버스: {simulatedWidth}px</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span className="text-white font-bold">
-              {isSimulatedDesktop ? 'PC 데스크톱 중앙 모달 (360px)' : '모바일 반응형 바텀시트'}
+              {isSimulatedDesktop ? (isPartner ? 'PC 데스크톱 중앙 모달 (360px)' : 'PC 데스크톱 중앙 모달 (440px)') : '모바일 반응형 바텀시트'}
             </span>
           </div>
 
@@ -463,12 +459,12 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             {isSimulatedDesktop ? (
               // Desktop Center Modal (>= 1200px): Fixed 360px, All-round 16px
               <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs transition-all duration-300">
-                <div className="w-[360px] max-w-[92%] bg-white rounded-[16px] p-5 space-y-4 shadow-2xl">
+                <div data-customer-preview={!isPartner || undefined} className={`${isPartner ? 'w-[360px]' : 'w-[440px]'} max-w-[92%] bg-white rounded-[16px] p-5 space-y-4 shadow-2xl`}>
                   <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2.5">
                     <div className="flex items-center gap-2">
                       <span className="text-[16px] font-bold text-[#191F28]">출발지 주소 검색</span>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                        360px 고정 (r:16)
+                        {isPartner ? '360px 고정 (r:16)' : '440px (r:16)'}
                       </span>
                     </div>
                     <button type="button" className="text-[#8B95A1] hover:text-[#191F28] font-bold text-[14px]">
@@ -476,12 +472,12 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                     </button>
                   </div>
 
-                  <div className="h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]">
+                  <div className={isPartner ? 'h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]' : 'h-[56px] rounded-[10px] border border-[#D7DBE2] bg-white px-4 flex items-center justify-between text-[16px] leading-[24px] text-[#333333]'}>
                     <span className="font-medium">테헤란로 7길 12</span>
                     <span className="text-[#1219F7] font-bold text-[12px]">검색</span>
                   </div>
 
-                  <div className="space-y-1 text-[11px] text-[#6B7684] bg-[#FAFBFD] p-3 rounded-[8px]">
+                  <div className={isPartner ? 'space-y-1 text-[11px] text-[#6B7684] bg-[#FAFBFD] p-3 rounded-[8px]' : 'space-y-1 text-[14px] leading-[20px] text-[#666666] bg-[#FAFAFA] p-3 rounded-[10px]'}>
                     <div className="font-bold text-[#191F28]">주소검색 Tip</div>
                     <div>• 도로명 + 건물번호 (예: 테헤란로7길 12)</div>
                   </div>
@@ -489,13 +485,13 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   <div className="pt-1 flex justify-end gap-2">
                     <button
                       type="button"
-                      className="px-4 py-2 text-[12px] font-bold bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA] rounded-[8px]"
+                      className={isPartner ? 'px-4 py-2 text-[12px] font-bold bg-white border border-[#D7DBE2] text-[#4E5968] hover:bg-[#F8F9FA] rounded-[8px]' : 'h-[56px] px-4 text-[16px] leading-[24px] font-bold bg-[#EBEEF2] text-[#666666] rounded-[10px]'}
                     >
                       취소
                     </button>
                     <button
                       type="button"
-                      className="px-4 py-2 text-[12px] font-bold bg-[#1219F7] text-white rounded-[8px]"
+                      className={isPartner ? 'px-4 py-2 text-[12px] font-bold bg-[#1219F7] text-white rounded-[8px]' : 'h-[56px] px-4 text-[16px] leading-[24px] font-bold bg-[#1219F7] text-white rounded-[10px]'}
                     >
                       선택 완료
                     </button>
@@ -505,7 +501,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             ) : (
               // Mobile Bottom Sheet (< 1200px): Bottom-anchored, Top rounded 16px, Handle visible
               <div className="absolute inset-0 flex flex-col justify-end bg-black/60 backdrop-blur-xs transition-all duration-300">
-                <div className="w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
+                <div data-customer-preview={!isPartner || undefined} className="w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl">
                   <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
 
                   <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2">
@@ -520,14 +516,14 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                     </span>
                   </div>
 
-                  <div className="h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]">
+                  <div className={isPartner ? 'h-[46px] rounded-[10px] bg-[#F2F4F8] px-3.5 flex items-center justify-between text-[13px] text-[#191F28]' : 'h-[56px] rounded-[10px] border border-[#D7DBE2] bg-white px-4 flex items-center justify-between text-[16px] leading-[24px] text-[#333333]'}>
                     <span className="font-medium text-[#888888]">도로명, 건물명 검색</span>
                     <span className="text-[#1219F7] font-bold text-[12px]">검색</span>
                   </div>
 
                   <button
                     type="button"
-                    className="w-full h-[48px] bg-[#1219F7] text-white text-[14px] font-bold rounded-[10px]"
+                    className={isPartner ? 'w-full h-[48px] bg-[#1219F7] text-white text-[14px] font-bold rounded-[10px]' : 'w-full h-[56px] bg-[#1219F7] text-white text-[16px] leading-[24px] font-bold rounded-[10px]'}
                   >
                     주소 선택하기 (56px r:10)
                   </button>
