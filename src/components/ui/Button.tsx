@@ -33,20 +33,21 @@ export const PublicButton: React.FC<{
 
 /**
  * partner-primary-button
- * Figma loNec9fjF6nIEgkwxH7aSN node 18:38: mobile 312×62 / pc 627×62 · radius 6 · 18px Bold White
+ * Figma loNec9fjF6nIEgkwxH7aSN node 18:38: mobile 312 / pc 627 · default h56 / explicit Large h62 · radius 6 · 18/27 Bold White
  */
 export const PartnerPrimaryButton: React.FC<{
   state?: ButtonState;
+  size?: 'default' | 'large';
   fluid?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
-}> = ({ state = 'normal', fluid, children, onClick, className = '' }) => (
+}> = ({ state = 'normal', size = 'default', fluid, children, onClick, className = '' }) => (
   <button
     type="button"
     disabled={state === 'disable' || state === 'loading'}
     onClick={onClick}
-    className={`${fluid ? 'w-full' : 'w-[312px]'} h-[62px] px-4 rounded-[6px] text-white text-[18px] leading-[26px] font-bold inline-flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-01 ${stateBg(
+    className={`${fluid ? 'w-full' : 'w-[312px]'} ${size === 'large' ? 'h-[62px]' : 'h-[56px]'} px-4 rounded-[6px] text-white text-[18px] leading-[27px] font-bold inline-flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main-01 ${stateBg(
       state,
     )} ${className}`}
   >
@@ -57,7 +58,7 @@ export const PartnerPrimaryButton: React.FC<{
 /**
  * partner-secondary-button
  * Figma KLDA7nLwHvbDCIHS6y0MgT node 9053:6921 & G5JiHI51FV6XFImlsyON6u node 1:130
- * h48/h51 · radius 6 · 취소(bg-[#F2F4F6] text-[#191F28]) / outline / ghost
+ * default h51 · radius 6 · 18/27 Bold · 취소(bg-[#EBEEF2] text-[#666666]) / outline / ghost
  */
 export const PartnerSecondaryButton: React.FC<{
   state?: ButtonState;
@@ -70,9 +71,9 @@ export const PartnerSecondaryButton: React.FC<{
     type="button"
     disabled={state === 'disable'}
     onClick={onClick}
-    className={`h-[51px] px-5 rounded-[6px] text-[16px] font-bold inline-flex items-center justify-center transition-colors ${
+    className={`h-[51px] px-5 rounded-[6px] text-[18px] leading-[27px] font-bold inline-flex items-center justify-center transition-colors ${
       variant === 'cancel' || variant === 'solid'
-        ? 'bg-[#F2F4F6] text-[#191F28] hover:bg-[#E5E8EB]'
+        ? 'bg-[#EBEEF2] text-[#666666] hover:bg-[#E5E8EB]'
         : variant === 'outline'
         ? 'border border-[#595EF9] text-[#595EF9] bg-transparent hover:bg-[#595EF9]/10'
         : 'text-[#6B7684] hover:bg-[#F2F4F6] hover:text-[#191F28]'

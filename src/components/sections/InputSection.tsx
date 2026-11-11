@@ -59,7 +59,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
 
         <div className="text-[12px] font-bold text-[#1219F7]">
           {isPartner
-            ? '★ 파트너 코어: Radius 6px · 기본 18px 텍스트 (Stroke 1px)'
+            ? '파트너 필수 외형: Radius 6px · 본문·입력·라벨 18/27px · 1px 보더 · 자간 -1%'
             : '고객향 필수 외형: Radius 10px · 16/24px Regular · 1px 보더 · 자간 -1%'}
         </div>
       </div>
@@ -75,7 +75,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
-                  ? '높이 56px · Corner Radius 6px · 1px stroke · 라벨 16px Bold · 입력값 18px Regular'
+                  ? '높이 56px · Corner Radius 6px · 1px stroke · 라벨 18/27px Bold · 입력값 18/27px Regular'
                   : '높이 56px · 좌우 패딩 16px · Radius 10px · 라벨 14/20px Bold · 입력값 16/24px Regular · 시안 너비/실제 반응형 구분'}
               </p>
             </div>
@@ -84,11 +84,11 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
-                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                  isPartner ? 'text-[18px] leading-[27px]' : 'text-[14px] leading-[20px]'
                 }`}
               >
                 {isPartner ? '현장 작업 주소' : '출발지 주소'}
@@ -104,8 +104,8 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   value={textVal}
                   onChange={(e) => setTextVal(e.target.value)}
                   placeholder="주소를 입력해 주세요"
-                  className={`w-full bg-transparent outline-none font-medium text-[#191F28] placeholder-[#888888] ${
-                    isPartner ? 'text-[18px]' : 'text-[16px]'
+                  className={`w-full bg-transparent outline-none font-normal text-[#191F28] placeholder-[#888888] ${
+                    isPartner ? 'text-[18px] leading-[27px]' : 'text-[16px] leading-[24px]'
                   }`}
                 />
                 <Search className="w-5 h-5 text-[#888888] shrink-0 ml-2" />
@@ -130,11 +130,11 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
-                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                  isPartner ? 'text-[18px] leading-[27px]' : 'text-[14px] leading-[20px]'
                 }`}
               >
                 {isPartner ? '사업자등록번호 입력' : '인증번호 입력'}
@@ -149,8 +149,8 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                   type="text"
                   value={errorTextVal}
                   onChange={(e) => setErrorTextVal(e.target.value)}
-                  className={`w-full bg-transparent outline-none font-medium text-[#F34766] ${
-                    isPartner ? 'text-[18px]' : 'text-[16px]'
+                  className={`w-full bg-transparent outline-none font-normal text-[#F34766] ${
+                    isPartner ? 'text-[18px] leading-[27px]' : 'text-[16px] leading-[24px]'
                   }`}
                 />
               </div>
@@ -179,11 +179,11 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
-                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                  isPartner ? 'text-[18px] leading-[27px]' : 'text-[14px] leading-[20px]'
                 }`}
               >
                 {isPartner ? '작업 차량 종류' : '이사 서비스 선택'}
@@ -195,7 +195,7 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               >
                 <span
                   className={`font-medium text-[#191F28] ${
-                    isPartner ? 'text-[18px]' : 'text-[16px]'
+                    isPartner ? 'text-[18px] leading-[27px]' : 'text-[16px] leading-[24px]'
                   }`}
                 >
                   {selectVal}
@@ -224,11 +224,11 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </span>
           </div>
 
-          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             <div style={{ width: currentWidth }} className="space-y-2 transition-all duration-300">
               <label
                 className={`block font-bold text-[#191F28] ${
-                  isPartner ? 'text-[16px]' : 'text-[14px]'
+                  isPartner ? 'text-[18px] leading-[27px]' : 'text-[14px] leading-[20px]'
                 }`}
               >
                 특이사항 및 전달 메모
@@ -238,9 +238,9 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 onChange={(e) => setMemoVal(e.target.value)}
                 rows={3}
                 style={{ height: isPartner ? '112px' : '104px' }}
-                className={`w-full p-4 border border-[#D7DBE2] bg-white outline-none font-medium resize-none text-[#191F28] placeholder-[#888888] focus:border-[#1219F7] transition-colors ${
+                className={`w-full p-4 border border-[#D7DBE2] bg-white outline-none font-normal resize-none text-[#191F28] placeholder-[#888888] focus:border-[#1219F7] transition-colors ${
                   isPartner
-                    ? 'rounded-[6px] text-[18px]'
+                    ? 'rounded-[6px] text-[18px] leading-[27px]'
                     : 'rounded-[10px] text-[16px]'
                 }`}
               />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { CUSTOMER_RADII } from '../../data/customerRules';
+import { PARTNER_RADII } from '../../data/partnerRules';
 
 export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -33,49 +34,13 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
       note: isPartner ? '파트너 입력창 표준 높이 (56px)' : '전사 표준 터치 타겟 높이 (56px)',
     },
     ...(isPartner
-      ? [{ token: 'sp-62', px: 62, mult: 'x31', isCore: true, note: '파트너 메인 CTA 버튼 높이 (62px)' }]
+      ? [{ token: 'sp-62', px: 62, mult: 'x31', isCore: false, note: '파트너 CTA Large 변형 (명시적으로 요청할 때만)' }]
       : []),
   ];
 
   const customerRadiusList = CUSTOMER_RADII;
 
-  const partnerRadiusList = [
-    {
-      val: '4px',
-      name: 'SM',
-      desc: '서브 액션 버튼, 태그 칩, 마이크로 복사 버튼',
-      tailwind: 'rounded-[4px]',
-      highlight: false,
-    },
-    {
-      val: '6px',
-      name: 'Core Standard',
-      desc: '메인 버튼(312x62), 입력창(56px), 오더 카드(627px), 모달 다이얼로그 (파트너 전사 표준)',
-      tailwind: 'rounded-[6px]',
-      highlight: true,
-    },
-    {
-      val: 'Full',
-      name: 'Pill',
-      desc: '필터 및 선택 칩 (파트너향도 라운드 따지지 않고 완전 둥근 형태 적용)',
-      tailwind: 'rounded-full',
-      highlight: false,
-    },
-    {
-      val: '10px',
-      name: '고객향 규격 (금지)',
-      desc: '파트너 직각 아이덴티티 위배로 사용 엄격 금지 (6px 준수)',
-      tailwind: 'rounded-[10px]',
-      isBanned: true,
-    },
-    {
-      val: '16px',
-      name: '고객향 모달 규격 (금지)',
-      desc: '파트너 모달은 6px 직각 규격 준수 (16px 과도한 곡률 금지)',
-      tailwind: 'rounded-[16px]',
-      isBanned: true,
-    },
-  ];
+  const partnerRadiusList = PARTNER_RADII;
 
   const radiusList = isPartner ? partnerRadiusList : customerRadiusList;
 
@@ -92,7 +57,7 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-[18px] font-bold text-[#191F28]">Spacing</h3>
-          <span className="text-[12px] font-mono text-[#8B95A1]">{isPartner ? 'Base unit: 8px (2px micro)' : '간격 참고값 · MD에 없는 간격을 필수 규칙으로 강제하지 않음'}</span>
+          <span className="text-[12px] font-mono text-[#8B95A1]">간격 참고값 · MD에 없는 간격을 필수 규칙으로 강제하지 않음</span>
         </div>
 
         <div className="bg-white rounded-[16px] shadow-xs overflow-hidden border border-[#E5E8EB]">
@@ -179,13 +144,13 @@ export const SpacingRadiusSection: React.FC<{ mode?: 'customer' | 'partner' }> =
         <div className="flex items-center justify-between">
           <h3 className="text-[18px] font-bold text-[#191F28]">Corner Radius</h3>
           <span className="text-[12px] font-medium text-[#1219F7]">
-            {isPartner ? '핵심 표준: 6px (10px·16px 금지)' : '10px 기본 UI · 16px 모달/시트 · 원형/Pill · AI 임의 변경 금지'}
+            {isPartner ? '6px 기본 UI·모달 · 시트 상단만 16px · 원형/Pill' : '10px 기본 UI · 16px 모달/시트 · 원형/Pill · AI 임의 변경 금지'}
           </span>
         </div>
 
         {isPartner && (
           <div className="p-4 bg-white rounded-[16px] shadow-xs border border-[#E5E8EB] text-[13px] text-[#4E5968] leading-relaxed">
-            <strong className="text-[#191F28]">파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong className="text-[#1219F7]">Radius 6px</strong>를 기본으로 사용합니다. 단, 필터 및 선택 칩은 완전한 라운드(Full/Pill) 형태를 적용하며, 고객향의 10px, 16px 둥근 곡률은 사용이 엄격히 금지됩니다.
+            <strong className="text-[#191F28]">파트너 직각 아이덴티티 원칙:</strong> 파트너 화면은 현장 업무 효율성과 높은 정보 밀도를 위해 날렵하고 정돈된 <strong className="text-[#1219F7]">Radius 6px</strong>를 버튼·입력창·카드·모달에 사용합니다. 바텀시트 상단만 16px, 원형·캡슐형 요소는 Full/Pill을 사용합니다. AI가 임의로 4px·10px 등을 추가하지 않습니다.
           </div>
         )}
 

@@ -80,7 +80,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
-                  ? `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '627px'} · Corner Radius 6px · 폰트 18px Bold`
+                  ? `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '627px'} · Corner Radius 6px · 18/27px Bold · 자간 -1% · Large는 요청 시 62px`
                   : `시안 너비 ${deviceView === 'mobile' ? '312px' : '640px'} · 구현은 부모 너비 대응 · 높이 56px · Radius 10px · 16/24px Bold · 자간 -1%`}
               </p>
             </div>
@@ -91,7 +91,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
             </div>
           </div>
 
-          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             {isPartner ? (
               <div style={{ width: deviceView === 'mobile' ? '312px' : '627px' }}>
                 <PartnerPrimaryButton
@@ -125,7 +125,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               </h3>
               <p className="text-[13px] mt-0.5 text-[#6B7684]">
                 {isPartner
-                  ? 'Figma [개발] v1.1 node 9053:6921 공식: 취소(회색 배경 #F2F4F6, 텍스트 #191F28) + 메인(블루 #1219F7) 51px r:6 2분할 버튼'
+                  ? '기본 51px · Radius 6px · 18/27px Bold · 취소 etc-03 / text-03 · 확인 main-01 / system-02 · Compact는 명시적 요청 시 48px / 16px'
                   : '시안 내부 280px (136 + 8 + 136) · 높이 56px · Radius 10px · 16/24px Bold · 48px는 기존 예시이며 필수 기준 제외'}
               </p>
             </div>
@@ -136,7 +136,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
             </div>
           </div>
 
-          <div data-customer-preview={!isPartner || undefined} className="rounded-[16px] p-8 flex flex-col items-center justify-center gap-4 border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex flex-col items-center justify-center gap-4 border bg-[#F9FAFB] border-[#E5E8EB]">
             {isPartner ? (
               <div className="space-y-4 w-full max-w-[340px]">
                 {/* Visual Pair from node 9053:6921 */}
@@ -151,7 +151,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   <button
                     type="button"
                     onClick={() => {}}
-                    className="flex-1 h-[51px] px-5 rounded-[6px] text-[16px] font-bold inline-flex items-center justify-center bg-[#1219F7] hover:bg-[#0E15D4] text-white transition-colors"
+                    className="flex-1 h-[51px] px-5 rounded-[6px] text-[18px] leading-[27px] font-bold inline-flex items-center justify-center bg-[#1219F7] hover:bg-[#0E15D4] text-white transition-colors"
                   >
                     답변 생성
                   </button>
@@ -246,7 +246,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
             </p>
           </div>
 
-          <div className="rounded-[16px] p-6 flex flex-wrap gap-2.5 border bg-[#F9FAFB] border-[#E5E8EB]">
+          <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-6 flex flex-wrap gap-2.5 border bg-[#F9FAFB] border-[#E5E8EB]">
             {chips.map((chip) => {
               const active = activeChip === chip;
               return (
@@ -254,7 +254,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   key={chip}
                   type="button"
                   onClick={() => setActiveChip(chip)}
-                  className={`h-[36px] px-[20px] rounded-full text-[14px] font-semibold transition-all border ${
+                  className={`h-[36px] px-[20px] rounded-full text-[14px] font-bold transition-all border ${
                     active
                       ? 'bg-[#1219F7] text-white border-[#1219F7] shadow-xs'
                       : 'bg-white text-[#4E5968] border-[#D7DBE2] hover:border-[#1219F7] hover:text-[#191F28]'

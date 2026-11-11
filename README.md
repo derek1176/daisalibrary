@@ -54,7 +54,7 @@ SVG는 `currentColor`를 사용합니다. `<img>`의 부모 `color`는 외부 SV
 - **지원 모드**: 고객향(Customer) v2.0 & 파트너향(Partner) v1.0 원클릭 전환
 - **검증 대상**: 13대 컬러 토큰 준수 여부, Pretendard 짝수 폰트 크기(12~24px), 파트너 본문 18px 규격, 기존 카드 높이별 Corner Radius (고객: 8/10/12px, 파트너: 6px 고정), 1px 보더 두께, 312px 모바일 안전영역, 비표준 이모지 감지
 - **편의 기능**: 위반 레이어 캔버스 즉시 포커스 이동, 원클릭 자동 수정(Auto-Fix), 마크다운 리포트 복사
-- **주의**: 이 플러그인의 기존 고객향 검사·자동수정 규칙은 최신 DESIGN.md와 다릅니다. 플러그인 갱신 전에는 최신 고객향 기준의 통과 근거로 사용하지 않습니다. 이번 웹사이트 내용 갱신에는 플러그인 로직 변경이 포함되지 않습니다.
+- **주의**: 이 플러그인의 기존 검사·자동수정 규칙은 최신 고객향·파트너향 DESIGN.md와 다릅니다. 플러그인 갱신 전에는 최신 기준의 통과 근거로 사용하지 않습니다. 이번 웹사이트 내용 갱신에는 플러그인 로직 변경이 포함되지 않습니다.
 - **등록 방법**: 피그마 데스크톱 ➔ Plugins ➔ Development ➔ **Import plugin from manifest...** ➔ `figma-plugin/manifest.json` 선택
 
 ---
@@ -138,16 +138,18 @@ AI에게 작업을 요청할 때 아래 원문을 전달하고 실제 확인 결
 * **고객향 시각 기준**: [`DESIGN.md`](./DESIGN.md)
 * **고객향 AI 작업 시작 안내**: [`START-HERE.md`](./START-HERE.md)
 * **기존 고객향 명세서 경로**: [`DAISA_DESIGN_SYSTEM.md`](./DAISA_DESIGN_SYSTEM.md) — DESIGN.md와 자동 동기화되는 호환 파일
-* **파트너향 명세서**: [`DAISA_PARTNER_DESIGN_SYSTEM.md`](./DAISA_PARTNER_DESIGN_SYSTEM.md)
+* **파트너향 시각 기준**: [`partner/DESIGN.md`](./partner/DESIGN.md)
+* **파트너향 AI 작업 안내**: [`partner/START-HERE.md`](./partner/START-HERE.md)
+* **파트너향 기존 경로**: [`DAISA_PARTNER_DESIGN_SYSTEM.md`](./DAISA_PARTNER_DESIGN_SYSTEM.md) — 자동 동기화되는 호환 파일
 * **AI 협업 프롬프트 템플릿**: [`AI_DEVELOPMENT_GUIDE.md`](./AI_DEVELOPMENT_GUIDE.md)
 
 ### 고객향 기준과 문서 관리
 
-고객향 필수 기준은 DESIGN.md가 원문입니다. Pretendard, Figma 자간 -1% / CSS -0.01em, 6단계 타이포, 단색 13개와 오버레이 1개, 기본 UI 10px / 모달·시트 16px / 원형·Pill 규칙을 따릅니다. 배지 폰트 예외·그라디언트·높이별 카드 곡률 규칙은 사용하지 않습니다. 360px·1200px는 Figma 시안 기준이며 실제 구현은 반응형입니다. AS-IS와 레퍼런스의 시각 스타일도 DESIGN.md 기준으로 다시 적용합니다.
+고객향 필수 기준은 DESIGN.md가 원문입니다. Pretendard, Figma 자간 -1% / CSS -0.01em, 6단계 타이포, 단색 15개와 오버레이 1개, 기본 UI 10px / 모달·시트 16px / 원형·Pill 규칙을 따릅니다. 배지 폰트 예외·그라디언트·높이별 카드 곡률 규칙은 사용하지 않습니다. 360px·1200px는 Figma 시안 기준이며 실제 구현은 반응형입니다. AS-IS와 레퍼런스의 시각 스타일도 DESIGN.md 기준으로 다시 적용합니다.
 
-Resources의 고객향 MD에서 DESIGN.md와 START-HERE.md를 하나의 ZIP(`/daisa-customer-md.zip`)으로 받습니다. ZIP을 풀어 두 파일을 AI에 첨부합니다. 미리보기와 원문 복사는 파일별로 제공합니다. 파트너향 MD는 기존처럼 별도로 다운로드합니다. `/DESIGN.md`, `/START-HERE.md`도 직접 접근할 수 있습니다. 화면은 원문 파일을 직접 불러오며 `npm run docs:sync`가 공개 파일과 기존 고객향 경로를 동기화합니다. 개발 서버 실행 중 MD를 바꾸면 공개 파일 갱신을 위해 이 명령을 다시 실행하세요. `npm run build`에는 동기화가 포함됩니다. `npm run test:design`은 웹사이트 고객향 컬러·타이포 데이터와 문서·다운로드 사본의 일치를 확인합니다.
+Resources의 고객향 MD에서 DESIGN.md와 START-HERE.md를 하나의 ZIP(`/daisa-customer-md.zip`)으로 받습니다. ZIP을 풀어 두 파일을 AI에 첨부합니다. 미리보기와 원문 복사는 파일별로 제공합니다. 파트너향도 `/daisa-partner-md.zip`으로 동일한 두 파일 구조를 제공하며 내용은 별도로 관리합니다. 파트너 원문은 `/partner/DESIGN.md`, `/partner/START-HERE.md`입니다. `/DESIGN.md`, `/START-HERE.md`도 직접 접근할 수 있습니다. 화면은 원문 파일을 직접 불러오며 `npm run docs:sync`가 공개 파일과 기존 고객향 경로를 동기화합니다. 개발 서버 실행 중 MD를 바꾸면 공개 파일 갱신을 위해 이 명령을 다시 실행하세요. `npm run build`에는 동기화가 포함됩니다. `npm run test:design`은 웹사이트 고객향 컬러·타이포 데이터와 문서·다운로드 사본의 일치를 확인합니다.
 
-파트너향은 기존 전용 명세서를 따릅니다. 이 고객향 업데이트를 파트너향 규격에 적용하지 않습니다.
+파트너향 원문은 `partner/DESIGN.md`와 `partner/START-HERE.md`입니다. Noto Sans KR, 본문 18px·최소 14px, 자간 -1%, 기본 컴포넌트·모달 6px와 바텀시트 상단 16px를 구분합니다. 고객향과 파일 구조만 맞추고 값은 독립적으로 관리합니다. `etc-01`은 양쪽 모두 #C4C9D1, 흰색은 system-02이며 고객향에도 sub-01 #F7D915를 포함합니다. Colors의 행을 호버하면 해당 시스템의 사용처를 확인할 수 있습니다.
 
 ---
 

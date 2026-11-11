@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
-import { CUSTOMER_COLORS } from '../../data/customerRules';
-
-interface ColorRow {
-  category: string;
-  token: string;
-  value: string;
-  isTransparent?: boolean;
-}
+import { CUSTOMER_COLORS, CUSTOMER_COLOR_USAGES } from '../../data/customerRules';
+import { PARTNER_COLORS, PARTNER_COLOR_USAGES } from '../../data/partnerRules';
 
 export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -19,77 +13,28 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
     setTimeout(() => setCopiedToken(null), 1500);
   };
 
-  // 고객향 컬러 테이블 데이터 (Category / Token / Value)
-  const customerColors = [
-    { category: 'Brand', tokens: ['main-01', 'main-02', 'main-04'] as const },
-    { category: 'Text', tokens: ['text-01', 'text-02', 'text-03', 'text-04'] as const },
-    { category: 'Border & BG', tokens: ['etc-01', 'etc-02', 'etc-03', 'etc-04', 'etc-05'] as const },
-    { category: 'Feedback', tokens: ['sub-02', 'dimmed'] as const },
+  const colors = isPartner ? PARTNER_COLORS : CUSTOMER_COLORS;
+  const usages: Record<string, string> = isPartner ? PARTNER_COLOR_USAGES : CUSTOMER_COLOR_USAGES;
+  const entries = Object.entries(colors);
+  const colorGroups = [
+    { category: 'Brand', prefix: 'main-' },
+    { category: 'Sub', prefix: 'sub-' },
+    { category: 'Text', prefix: 'text-' },
+    { category: 'Border & BG', prefix: 'etc-' },
+    { category: 'System', prefix: 'system-' },
+    { category: 'Overlay', prefix: 'dimmed' },
   ].map(group => ({
     category: group.category,
-    items: group.tokens.map(token => ({ token, value: CUSTOMER_COLORS[token], isTransparent: false })),
+    items: entries.filter(([token]) => token.startsWith(group.prefix))
+      .map(([token, value]) => ({ token, value, usage: usages[token] })),
   }));
-
-  // 파트너향 컬러 테이블 데이터 (Category / Token / Value)
-  const partnerColors: { category: string; items: { token: string; value: string; isTransparent?: boolean }[] }[] = [
-    {
-      category: 'Common',
-      items: [
-        { token: 'white', value: '#FFFFFF' },
-        { token: 'black', value: '#000000' },
-        { token: 'transparent', value: 'transparent', isTransparent: true },
-      ],
-    },
-    {
-      category: 'Brand',
-      items: [
-        { token: 'main-01', value: '#1219F7' },
-        { token: 'main-02', value: '#595EF9' },
-        { token: 'main-04', value: '#F4F5FF' },
-      ],
-    },
-    {
-      category: 'Partner Sub',
-      items: [
-        { token: 'sub-01', value: '#F7D915' },
-        { token: 'sub-02', value: '#F34766' },
-      ],
-    },
-    {
-      category: 'Text',
-      items: [
-        { token: 'text-01', value: '#121212' },
-        { token: 'text-02', value: '#333333' },
-        { token: 'text-03', value: '#666666' },
-        { token: 'text-04', value: '#888888' },
-      ],
-    },
-    {
-      category: 'Border & BG',
-      items: [
-        { token: 'etc-01', value: '#C4C9D1' },
-        { token: 'etc-02', value: '#D7DBE2' },
-        { token: 'etc-03', value: '#EBEEF2' },
-        { token: 'etc-04', value: '#F7F8FA' },
-        { token: 'etc-05', value: '#FAFAFA' },
-      ],
-    },
-    {
-      category: 'Feedback',
-      items: [
-        { token: 'dimmed', value: 'rgba(0, 0, 0, 0.60)' },
-      ],
-    },
-  ];
-
-  const colorGroups = isPartner ? partnerColors : customerColors;
 
   return (
     <div className="space-y-6">
       {/* Page Header (심플 영문 타이틀만) */}
       <div className="border-b pb-4 border-[#E5E8EB]">
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
-          {isPartner ? 'Colors' : 'Colors · 단색 13개 + 오버레이 1개 · 그라디언트 금지'}
+          Colors
         </h2>
       </div>
 
@@ -113,7 +58,9 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                     key={item.token}
                     onClick={() => handleCopy(item.value, item.token)}
                     className="grid grid-cols-12 px-6 py-3 items-center text-[13px] hover:bg-[#F9FAFB] transition-colors cursor-pointer group select-none"
-                    title="클릭하여 값 복사"
+                    title={item.usage}
+                    data-color-token={item.token}
+                    aria-label={`${item.token}: ${item.value}. ${item.usage}`}
                   >
                     {/* 1. Category (첫 줄에만 표시) */}
                     <div className="col-span-3 text-[#191F28] font-medium">
@@ -126,9 +73,6 @@ export const ColorSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                         className="w-4 h-4 rounded-[3px] border border-black/10 shrink-0 shadow-2xs relative"
                         style={{
                           backgroundColor: item.value,
-                          backgroundImage: item.isTransparent
-                            ? 'repeating-conic-gradient(#E5E8EB 0% 25%, #FFFFFF 0% 50%) 50% / 8px 8px'
-                            : undefined,
                         }}
                       />
                       <span className="font-sans font-medium text-[#191F28] group-hover:text-[#1219F7] transition-colors">

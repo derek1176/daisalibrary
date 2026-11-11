@@ -16,12 +16,13 @@
 
 ## 파트너향 작업
 
-기존 [DAISA_PARTNER_DESIGN_SYSTEM.md](./DAISA_PARTNER_DESIGN_SYSTEM.md)를 적용한다. 고객향 DESIGN.md와 START-HERE.md를 파트너향에 적용하지 않는다. 기존 파트너향 규칙의 변경은 별도 요청 범위에서 진행한다.
+[partner/START-HERE.md](./partner/START-HERE.md)와 [partner/DESIGN.md](./partner/DESIGN.md)를 적용한다. 고객향과 동일한 두 파일 구조지만 서체·폰트 크기·곡률·컴포넌트 값은 별개다. 고객향 문서를 파트너향에 적용하지 않는다.
 
 ## 사이트 내용 갱신
 
 - 고객향 문서 원문: 루트 DESIGN.md와 START-HERE.md
 - 고객향 표 데이터: src/data/customerRules.ts
+- 파트너향 표 데이터: src/data/partnerRules.ts
 - 리소스 미리보기·복사·다운로드: src/components/sections/ArchiveSection.tsx에서 원문 직접 불러오기
 - 공개 MD 및 기존 경로: scripts/sync-design-docs.ts로 동기화
 - 아이콘 원본: src/data/iconCatalog.tsx
@@ -35,4 +36,4 @@ npm run test:icons
 npm run build
 ```
 
-실제 확인한 항목과 확인할 수 없었던 항목을 구분한다. AI 자체 확인만으로 완벽한 준수를 주장하지 않는다. 포함된 Figma Linter는 기존 고객향 판정 로직이므로 최신 DESIGN.md와 일치하도록 별도 갱신하기 전에는 고객향 검증의 기준으로 사용하지 않는다.
+실제 확인한 항목과 확인할 수 없었던 항목을 구분한다. AI 자체 확인만으로 완벽한 준수를 주장하지 않는다. 포함된 Figma Linter는 기존 판정 로직이므로 최신 DESIGN.md와 일치하도록 별도 갱신하기 전에는 최신 고객향·파트너향 검증의 기준으로 사용하지 않는다.

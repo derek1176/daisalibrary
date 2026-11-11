@@ -6,6 +6,10 @@ interface WritingSectionProps {
 }
 
 export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer' }) => {
+  const isPartner = mode === 'partner';
+  const titleExample = isPartner ? '오더 상세' : '출발지를 검색해 주세요';
+  const descriptionExample = isPartner ? '작업 조건을 확인합니다.' : '업체에게 모든걸 맡기세요!';
+  const periodExample = isPartner ? '제출 후에도 고객과 조율할 수 있습니다.' : '선택 후에도 업체와 조율이 가능해요.';
   const isDark = false; // 파트너향도 고객향과 동일한 깨끗한 라이트모드로 통일
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
@@ -42,7 +46,7 @@ export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer
                 <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
                   isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
                 }`}>
-                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>[해요체]</span>를 기본으로 사용합니다.
+                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>{isPartner ? '[명사형·정중한 안내]' : '[해요체]'}</span>를 기본으로 사용합니다.
                 </td>
                 <td className="p-4 md:p-5 space-y-2.5">
                   <div className="flex items-center justify-between gap-3 group">
@@ -53,19 +57,19 @@ export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer
                         Do
                       </span>
                       <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-                        출발지를 검색해 주세요
+                        {titleExample}
                       </span>
                     </div>
                     <button
                       type="button"
-                      onClick={() => copy('출발지를 검색해 주세요')}
+                      onClick={() => copy(titleExample)}
                       className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
-                        copiedText === '출발지를 검색해 주세요'
+                        copiedText === titleExample
                           ? 'bg-emerald-500 text-white'
                           : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
                       }`}
                     >
-                      {copiedText === '출발지를 검색해 주세요' ? '복사됨' : '복사'}
+                      {copiedText === titleExample ? '복사됨' : '복사'}
                     </button>
                   </div>
                   <div className="flex items-center gap-3">
@@ -147,7 +151,7 @@ export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer
                 <td className={`w-[32%] md:w-[28%] p-4 md:p-5 align-top text-[14px] font-semibold ${
                   isDark ? 'text-[#D1D1D6] bg-[#17161E]' : 'text-[#333D4B] bg-[#F9FAFB]'
                 }`}>
-                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>[해요체]</span>를 기본으로 사용합니다.
+                  <span className={`font-bold ${isDark ? 'text-[#4B89FF]' : 'text-[#1B64DA]'}`}>{isPartner ? '[합니다체]' : '[해요체]'}</span>를 기본으로 사용합니다.
                 </td>
                 <td className="p-4 md:p-5 space-y-2.5">
                   <div className="flex items-center justify-between gap-3 group">
@@ -158,19 +162,19 @@ export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer
                         Do
                       </span>
                       <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-                        업체에게 모든걸 맡기세요!
+                        {descriptionExample}
                       </span>
                     </div>
                     <button
                       type="button"
-                      onClick={() => copy('업체에게 모든걸 맡기세요!')}
+                      onClick={() => copy(descriptionExample)}
                       className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
-                        copiedText === '업체에게 모든걸 맡기세요!'
+                        copiedText === descriptionExample
                           ? 'bg-emerald-500 text-white'
                           : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
                       }`}
                     >
-                      {copiedText === '업체에게 모든걸 맡기세요!' ? '복사됨' : '복사'}
+                      {copiedText === descriptionExample ? '복사됨' : '복사'}
                     </button>
                   </div>
                   <div className="flex items-center gap-3">
@@ -202,19 +206,19 @@ export const WritingSection: React.FC<WritingSectionProps> = ({ mode = 'customer
                         Do
                       </span>
                       <span className={`text-[14px] font-medium ${isDark ? 'text-white' : 'text-[#191F28]'}`}>
-                        선택 후에도 업체와 조율이 가능해요.
+                        {periodExample}
                       </span>
                     </div>
                     <button
                       type="button"
-                      onClick={() => copy('선택 후에도 업체와 조율이 가능해요.')}
+                      onClick={() => copy(periodExample)}
                       className={`text-[11px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
-                        copiedText === '선택 후에도 업체와 조율이 가능해요.'
+                        copiedText === periodExample
                           ? 'bg-emerald-500 text-white'
                           : isDark ? 'bg-[#292931] text-[#9E9EA4] hover:text-white' : 'bg-[#F2F4F6] text-[#4E5968]'
                       }`}
                     >
-                      {copiedText === '선택 후에도 업체와 조율이 가능해요.' ? '복사됨' : '복사'}
+                      {copiedText === periodExample ? '복사됨' : '복사'}
                     </button>
                   </div>
                   <div className="flex items-center gap-3">

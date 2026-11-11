@@ -1,5 +1,6 @@
 import React from 'react';
 import { CUSTOMER_TYPOGRAPHY } from '../../data/customerRules';
+import { PARTNER_TYPOGRAPHY } from '../../data/partnerRules';
 
 interface TypeRow {
   name: string;
@@ -26,89 +27,11 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
   }));
 
   // 파트너향 타이포그래피 스펙 (18px 기본 - Noto Sans KR)
-  const partnerSpecs: TypeRow[] = [
-    {
-      name: 'Display 1',
-      weightLabel: 'Bold (700)',
-      weightNum: 700,
-      size: 32,
-      lineHeight: '45px (1.40)',
-      lineHeightNum: 45,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Headline 1',
-      weightLabel: 'Bold (700)',
-      weightNum: 700,
-      size: 28,
-      lineHeight: '39px (1.40)',
-      lineHeightNum: 39,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Title 1',
-      weightLabel: 'Bold (700)',
-      weightNum: 700,
-      size: 24,
-      lineHeight: '34px (1.42)',
-      lineHeightNum: 34,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Title 2',
-      weightLabel: 'Bold (700)',
-      weightNum: 700,
-      size: 20,
-      lineHeight: '30px (1.50)',
-      lineHeightNum: 30,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Body 1 (Standard)',
-      weightLabel: 'Bold (700)',
-      weightNum: 700,
-      size: 18,
-      lineHeight: '27px (1.50)',
-      lineHeightNum: 27,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Body 2',
-      weightLabel: 'Regular (400)',
-      weightNum: 400,
-      size: 18,
-      lineHeight: '27px (1.50)',
-      lineHeightNum: 27,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Body 3',
-      weightLabel: 'Regular (400)',
-      weightNum: 400,
-      size: 16,
-      lineHeight: '24px (1.50)',
-      lineHeightNum: 24,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Caption 1',
-      weightLabel: 'Bold (700)',
-      weightNum: 700,
-      size: 14,
-      lineHeight: '21px (1.50)',
-      lineHeightNum: 21,
-      letterSpacing: '0px',
-    },
-    {
-      name: 'Caption 2',
-      weightLabel: 'Regular (400)',
-      weightNum: 400,
-      size: 14,
-      lineHeight: '21px (1.50)',
-      lineHeightNum: 21,
-      letterSpacing: '0px',
-    },
-  ];
+  const partnerSpecs: TypeRow[] = PARTNER_TYPOGRAPHY.map(item => ({
+    name: item.name, weightLabel: item.weight === 700 ? 'Bold (700)' : 'Regular (400)',
+    weightNum: item.weight, size: item.size, lineHeight: `${item.lineHeight}px`,
+    lineHeightNum: item.lineHeight, letterSpacing: '-1%',
+  }));
 
   const specs = isPartner ? partnerSpecs : customerSpecs;
 
@@ -138,7 +61,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
             </div>
             <p className="text-[13px] text-[#6B7684] mt-0.5">
               {isPartner
-                ? '현장 기사님 및 파트너 화면의 직관적인 가독성을 위한 고신뢰 표준 서체 (기본 본문 18px)'
+                ? '본문·입력 18/27 · 라벨·주요 버튼 18/27 Bold · 최소 14px · Figma 자간 -1% / CSS -0.01em'
                 : '본문 16/24 · 버튼 16/24 Bold · 라벨 14/20 Bold · 배지 예외 없음 · Figma 자간 -1% / CSS -0.01em'}
             </p>
           </div>
@@ -201,7 +124,7 @@ export const TypographySection: React.FC<{ mode?: 'customer' | 'partner' }> = ({
                     fontSize: `${item.size}px`,
                     fontWeight: item.weightNum,
                     lineHeight: `${item.lineHeightNum}px`,
-                    letterSpacing: isPartner ? item.letterSpacing : '-0.01em',
+                    letterSpacing: '-0.01em',
                     fontFamily: isPartner
                       ? "'Noto Sans KR', sans-serif"
                       : "'Pretendard Variable', 'Pretendard', sans-serif",

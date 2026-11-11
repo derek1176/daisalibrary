@@ -2,46 +2,61 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import JSZip from 'jszip';
-import { CUSTOMER_COLORS, CUSTOMER_TYPOGRAPHY, CUSTOMER_RADII } from '../src/data/customerRules';
+import { CUSTOMER_COLORS, CUSTOMER_COLOR_USAGES, CUSTOMER_TYPOGRAPHY, CUSTOMER_RADII } from '../src/data/customerRules';
+import { PARTNER_COLORS, PARTNER_COLOR_USAGES, PARTNER_TYPOGRAPHY, PARTNER_RADII } from '../src/data/partnerRules';
 
 const root = new URL('../', import.meta.url);
 const read = (name: string) => readFile(new URL(name, root), 'utf8');
+const systems = [
+  { mode: 'customer', prefix: '', alias: 'DAISA_DESIGN_SYSTEM.md', colors: CUSTOMER_COLORS, usages: CUSTOMER_COLOR_USAGES, typography: CUSTOMER_TYPOGRAPHY, solids: 15 },
+  { mode: 'partner', prefix: 'partner/', alias: 'DAISA_PARTNER_DESIGN_SYSTEM.md', colors: PARTNER_COLORS, usages: PARTNER_COLOR_USAGES, typography: PARTNER_TYPOGRAPHY, solids: 16 },
+] as const;
 
-test('customer website colors exactly match the canonical DESIGN.md table', async () => {
-  const doc = await read('DESIGN.md');
-  const tokens = Object.fromEntries([...doc.matchAll(/^\| ([a-z]+-\d+|dimmed) \| `([^`]+)`/gm)]
-    .map(match => [match[1], match[2]]));
-  assert.deepEqual(tokens, CUSTOMER_COLORS);
-  assert.equal(Object.values(tokens).filter(value => value.startsWith('#')).length, 13);
-  assert(!Object.values(tokens).includes('#E5E8EB'));
-});
+for (const system of systems) {
+  test(`${system.mode}: website palette and hover descriptions match the MD`, async () => {
+    const doc = await read(system.prefix + 'DESIGN.md');
+    const rows = [...doc.matchAll(/^\| ([a-z]+-\d+|dimmed) \| `([^`]+)` \| ([^|]+) \|/gm)];
+    assert.deepEqual(Object.fromEntries(rows.map(match => [match[1], match[2]])), system.colors);
+    assert.deepEqual(Object.fromEntries(rows.map(match => [match[1], match[3].trim()])), system.usages);
+    assert.equal(Object.values(system.colors).filter(value => value.startsWith('#')).length, system.solids);
+    assert.equal(system.colors['etc-01'], '#C4C9D1');
+    assert.equal(system.colors['system-02'], '#FFFFFF');
+    assert.equal(system.colors['sub-01'], '#F7D915');
+  });
 
-test('all six website typography defaults match the canonical MD', async () => {
-  const doc = await read('DESIGN.md');
-  for (const row of CUSTOMER_TYPOGRAPHY) {
-    assert(doc.includes(`| ${row.name} | ${row.size}px | ${row.lineHeight}px | ${row.weight} |`));
-  }
+  test(`${system.mode}: typography defaults match explicit px line heights and -1% spacing`, async () => {
+    const doc = await read(system.prefix + 'DESIGN.md');
+    for (const row of system.typography) {
+      assert(doc.includes(`| ${row.name} | ${row.size}px | ${row.lineHeight}px | ${row.weight} |`));
+    }
+    assert(doc.includes('**-1%**') && doc.includes('letter-spacing: -0.01em'));
+  });
+
+  test(`${system.mode}: direct downloads, compatibility aliases and the ZIP use current canonical documents`, async () => {
+    for (const name of ['DESIGN.md', 'START-HERE.md']) {
+      assert.equal(await read('public/' + system.prefix + name), await read(system.prefix + name));
+    }
+    const design = await read(system.prefix + 'DESIGN.md');
+    for (const target of [system.alias, 'public/' + system.alias]) assert.equal(await read(target), design);
+    const zip = await JSZip.loadAsync(await readFile(new URL(`public/daisa-${system.mode}-md.zip`, root)));
+    assert.deepEqual(Object.keys(zip.files).sort(), ['DESIGN.md', 'START-HERE.md']);
+    for (const name of ['DESIGN.md', 'START-HERE.md']) {
+      assert.equal(await zip.file(name)!.async('string'), await read(system.prefix + name));
+    }
+  });
+}
+
+test('same document structure, independently scoped values and no embedded stale MD', async () => {
+  const customer = await read('DESIGN.md'), partner = await read('partner/DESIGN.md');
+  assert.deepEqual(customer.match(/^## .+/gm), partner.match(/^## .+/gm));
   assert.equal(CUSTOMER_TYPOGRAPHY.length, 6);
-  assert(doc.includes('**-1%**') && doc.includes('letter-spacing: -0.01em'));
+  assert.equal(PARTNER_TYPOGRAPHY.length, 7);
   assert.deepEqual([...new Set(CUSTOMER_RADII.map(row => row.val))], ['10px', '16px', 'Full']);
-});
-
-test('public customer downloads and legacy URLs contain the same current documents', async () => {
-  const design = await read('DESIGN.md');
-  for (const target of ['public/DESIGN.md', 'DAISA_DESIGN_SYSTEM.md', 'public/DAISA_DESIGN_SYSTEM.md']) {
-    assert.equal(await read(target), design, target);
-  }
-  assert.equal(await read('public/START-HERE.md'), await read('START-HERE.md'));
+  assert.deepEqual([...new Set(PARTNER_RADII.map(row => row.val))], ['6px', '16px', 'Full']);
+  assert(partner.includes('**Noto Sans KR**') && partner.includes('**일반 버튼·입력창·카드·모달은 6px'));
   const resources = await read('src/components/sections/ArchiveSection.tsx');
-  assert(resources.includes("../../../DESIGN.md?raw"));
-  assert(resources.includes("../../../START-HERE.md?raw"));
-  assert(!resources.includes('const CUSTOMER_MD_CONTENT = `'));
-});
-
-test('customer download bundles exactly the two canonical MD files', async () => {
-  const zip = await JSZip.loadAsync(await readFile(new URL('public/daisa-customer-md.zip', root)));
-  assert.deepEqual(Object.keys(zip.files).sort(), ['DESIGN.md', 'START-HERE.md']);
-  for (const name of ['DESIGN.md', 'START-HERE.md']) {
-    assert.equal(await zip.file(name)!.async('string'), await read(name));
+  for (const path of ['../../../DESIGN.md?raw', '../../../START-HERE.md?raw', '../../../partner/DESIGN.md?raw', '../../../partner/START-HERE.md?raw']) {
+    assert(resources.includes(path));
   }
+  assert(!resources.includes('const CUSTOMER_MD_CONTENT = `') && !resources.includes('const PARTNER_MD_CONTENT = `'));
 });

@@ -1,9 +1,10 @@
 // Customer-only content. Partner rules and the documentation site's own UI are independent.
 export const CUSTOMER_COLORS = {
   'main-01': '#1219F7', 'main-02': '#595EF9', 'main-04': '#F4F5FF',
-  'sub-02': '#F34766',
+  'sub-01': '#F7D915', 'sub-02': '#F34766',
   'text-01': '#121212', 'text-02': '#333333', 'text-03': '#666666', 'text-04': '#888888',
-  'etc-01': '#FFFFFF', 'etc-02': '#D7DBE2', 'etc-03': '#EBEEF2', 'etc-04': '#F7F8FA', 'etc-05': '#FAFAFA',
+  'etc-01': '#C4C9D1', 'etc-02': '#D7DBE2', 'etc-03': '#EBEEF2', 'etc-04': '#F7F8FA', 'etc-05': '#FAFAFA',
+  'system-02': '#FFFFFF',
   dimmed: 'rgba(0, 0, 0, 0.6)',
 } as const;
 
@@ -22,3 +23,22 @@ export const CUSTOMER_RADII = [
   { val: '16px', name: '바텀시트 상단', desc: '위쪽 좌우 16px · 아래쪽 0px', tailwind: 'rounded-t-[16px]', highlight: false },
   { val: 'Full', name: '원형 / Pill', desc: '원형·캡슐형 요소·핸들바', tailwind: 'rounded-full', highlight: false },
 ];
+
+export const CUSTOMER_COLOR_USAGES: Record<keyof typeof CUSTOMER_COLORS, string> = {
+  "main-01": "주요 브랜드 색상, 주요 버튼 배경",
+  "main-02": "보조 브랜드 포인트, 보조 액션 텍스트·테두리",
+  "main-04": "브랜드 색상의 옅은 안내 배경",
+  "sub-01": "주의 안내, 추천·혜택 강조 배경",
+  "sub-02": "오류·주의 피드백 색상",
+  "text-01": "주요 제목, 강조 텍스트",
+  "text-02": "기본 본문, 입력 값, 일반 라벨",
+  "text-03": "보조 설명",
+  "text-04": "옅은 보조 텍스트, 플레이스홀더",
+  "etc-01": "진한 구분선, 보조 테두리",
+  "etc-02": "입력창·카드의 기본 테두리",
+  "etc-03": "구분선, 보조 버튼 배경",
+  "etc-04": "옅은 보조 영역 배경",
+  "etc-05": "기본 페이지 배경",
+  "system-02": "카드·입력창·모달 배경, 주요 버튼 텍스트",
+  "dimmed": "모달·바텀시트의 배경 오버레이"
+};

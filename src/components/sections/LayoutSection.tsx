@@ -12,7 +12,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       margin: '24px (양측 각 24px)',
       content: '312px (360 - 48)',
       notes: isPartner
-        ? '현장 기사님 오더 접수 및 견적 관리 콘텐츠 안전 영역'
+        ? 'Figma 360px 시안 기준. 구현은 부모 너비·좌우 24px 대응, 루트 360px 고정 금지'
         : 'Figma 360px 시안 기준. 구현은 가변 너비·좌우 24px, 버튼·입력창·카드는 부모 너비 대응',
     },
     {
@@ -21,7 +21,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
       margin: `각 ${sideMargin}`,
       content: `${contentWidth} (단일 중앙 열)`,
       notes: isPartner
-        ? '1200px 캔버스 중앙에 627px 단일 오더 컨테이너 배치 (r:6)'
+        ? 'Figma 시안 1200px / 본문 627px. 구현은 최대 627px 중앙 정렬, 286.5px 여백 고정 금지'
         : 'Figma 1200px 시안 기준. 구현은 최대 640px 중앙 정렬, 280px 여백·루트 너비 고정 금지',
     },
   ];
@@ -40,7 +40,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         {/* Mobile Canvas View */}
         <div className="bg-white rounded-[16px] p-6 shadow-xs border border-[#E5E8EB] flex flex-col items-center select-none">
           <div className="text-[13px] font-semibold text-[#8B95A1] mb-4">
-            {isPartner ? 'Frame: 360px · Content: 312px (Mobile)' : 'Figma 시안: 360px · 본문 312px · 실제 구현은 반응형'}
+            {isPartner ? 'Figma 시안: 360px · 본문 312px · 실제 구현은 반응형' : 'Figma 시안: 360px · 본문 312px · 실제 구현은 반응형'}
           </div>
 
           <div className="w-full max-w-[360px] bg-[#FAFBFD] rounded-[14px] p-4 flex flex-col gap-3">
@@ -88,7 +88,7 @@ export const LayoutSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         {/* PC Canvas View (Max-width: 1200px) */}
         <div className="bg-white rounded-[16px] p-6 shadow-xs border border-[#E5E8EB] flex flex-col items-center select-none overflow-x-auto">
           <div className="text-[13px] font-semibold text-[#8B95A1] mb-4">
-            {isPartner ? `Max-width: 1200px · Content: ${contentWidth} (Desktop)` : 'Figma 시안: 1200px · 본문 640px · 실제 최대 본문 너비 640px'}
+            {isPartner ? 'Figma 시안: 1200px · 본문 627px · 실제 최대 본문 너비 627px' : 'Figma 시안: 1200px · 본문 640px · 실제 최대 본문 너비 640px'}
           </div>
 
           <div className="w-full min-w-[680px] max-w-[1040px] bg-[#FAFBFD] rounded-[14px] p-5 flex flex-col gap-3">

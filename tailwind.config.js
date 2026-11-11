@@ -8,6 +8,8 @@ export default {
         'main-01': '#1219F7',
         'main-02': '#595EF9',
         'main-04': '#F4F5FF',
+        'system-01': '#000000',
+        'system-02': '#FFFFFF',
         'sub-01': '#F7D915',
         'sub-02': '#F34766',
         error: '#F34766',

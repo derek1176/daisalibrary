@@ -8,6 +8,44 @@
   letter-spacing: -0.01em;
 }
 
+[data-partner-preview="true"],
+[data-partner-preview="true"] * {
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Small annotations inside partner examples still obey the minimum caption size. */
+[data-partner-preview="true"] [class~="text-[10px]"],
+[data-partner-preview="true"] [class~="text-[11px]"],
+[data-partner-preview="true"] [class~="text-[12px]"],
+[data-partner-preview="true"] [class~="text-[13px]"] {
+  font-size: 14px;
+  line-height: 21px;
+}
+[data-partner-preview="true"] .font-medium {
+  font-weight: 400;
+}
+[data-partner-preview="true"] .font-semibold,
+[data-partner-preview="true"] .font-extrabold,
+[data-partner-preview="true"] .font-black {
+  font-weight: 700;
+}
+[data-partner-preview="true"] [class~="text-[15px]"] { font-size: 18px; line-height: 27px; }
+[data-partner-preview="true"] [class~="text-[17px]"] { font-size: 20px; line-height: 30px; }
+[data-partner-preview="true"] [class~="text-[14px]"] { line-height: 21px; }
+[data-partner-preview="true"] [class~="text-[16px]"] { line-height: 24px; }
+[data-partner-preview="true"] [class~="text-[18px]"] { line-height: 27px; }
+[data-partner-preview="true"] [class~="text-[20px]"] { line-height: 30px; }
+
+/* Bring legacy sample colors onto partner tokens without changing the site's chrome. */
+[data-partner-preview="true"] [class~="text-[#191F28]"] { color: #121212; }
+[data-partner-preview="true"] [class~="text-[#4E5968]"] { color: #333333; }
+[data-partner-preview="true"] [class~="text-[#6B7684]"] { color: #666666; }
+[data-partner-preview="true"] [class~="text-[#8B95A1]"] { color: #888888; }
+[data-partner-preview="true"] [class~="bg-[#F2F4F8]"] { background-color: #F7F8FA; }
+[data-partner-preview="true"] [class~="bg-[#FAFBFD]"] { background-color: #FAFAFA; }
+[data-partner-preview="true"] [class~="bg-[#E8F3FF]"] { background-color: #F4F5FF; }
+
 @layer base {
   html {
     scroll-behavior: smooth;
