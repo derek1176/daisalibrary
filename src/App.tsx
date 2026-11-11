@@ -130,16 +130,6 @@ export const App: React.FC = () => {
                 >
                   <span>Resources</span>
                 </button>
-                <button
-                  onClick={() => handleNavClick('example')}
-                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
-                    activeTab === 'example'
-                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
-                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
-                  }`}
-                >
-                  <span>예시 화면</span>
-                </button>
               </div>
             </div>
 
@@ -202,6 +192,21 @@ export const App: React.FC = () => {
                     </button>
                   );
                 })}
+              </div>
+            </div>
+            <div>
+              <div className="px-3 py-1.5 text-[11px] font-bold tracking-wider text-[#8B95A1] uppercase">Examples</div>
+              <div className="space-y-0.5">
+                <button
+                  onClick={() => handleNavClick('example')}
+                  className={`w-full h-[40px] px-3.5 rounded-[10px] text-[14px] flex items-center justify-between transition-all select-none text-left ${
+                    activeTab === 'example'
+                      ? 'bg-[#F2F3F6] text-[#191F28] font-bold'
+                      : 'text-[#4E5968] font-medium hover:bg-[#F8F9FA] hover:text-[#191F28]'
+                  }`}
+                >
+                  <span>Example Screen</span>
+                </button>
               </div>
             </div>
           </div>
