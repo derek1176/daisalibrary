@@ -131,7 +131,7 @@
 @keyframes fade-slide-up {
   0% {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(26px);
   }
   100% {
     opacity: 1;
@@ -140,7 +140,7 @@
 }
 
 .animate-fadeSlideUp {
-  animation: fade-slide-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fade-slide-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-fadeIn {
