@@ -434,7 +434,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
           <div
             key={item.id}
             onClick={() => onSelectTab(item.id)}
-            style={{ animationDelay: `${idx * 65}ms` }}
+            style={{ animationDelay: `${idx * 55}ms` }}
             className="group cursor-pointer select-none animate-fadeSlideUp"
           >
             {/* 1. 상단 썸네일 박스 (호버 시 부드러운 리프트 효과 및 배경색 반응) */}
