@@ -262,20 +262,15 @@ export const App: React.FC = () => {
       {/* ============================================================ */}
       {/* Footer */}
       {/* ============================================================ */}
-      <footer className="border-t border-[#E5E8EB] py-8 px-6 text-[13px] w-full bg-white text-[#6B7684]">
-        <div className="max-w-[1040px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <img
-              src="/logo-dark.png"
-              alt="daisalibrary logo"
-              className="h-[18px] w-auto object-contain"
-            />
-            <span>·</span>
-            <span>다이사 디자인라이브러리</span>
-          </div>
-          <div className="text-[12px] text-[#8B95A1]">
-            {serviceMode === 'partner' ? '파트너향 디자인시스템 v1.0.0' : '고객향 디자인시스템 v1.0.0'}
-          </div>
+      <footer className="border-t border-[#E5E8EB] py-7 px-6 lg:px-8 text-[13px] w-full bg-white text-[#6B7684]">
+        <div className="flex items-center gap-3 -ml-1">
+          <img
+            src="/logo-dark.png"
+            alt="daisalibrary logo"
+            className="h-[18px] w-auto object-contain"
+          />
+          <span>·</span>
+          <span>다이사 디자인라이브러리</span>
         </div>
       </footer>
     </div>

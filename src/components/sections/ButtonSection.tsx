@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PublicButton, PartnerPrimaryButton, PartnerSecondaryButton, ModalButtons, Chip, ButtonState } from '../ui/Button';
-import { Smartphone, Monitor } from 'lucide-react';
+import { Smartphone, Monitor, MousePointer2 } from 'lucide-react';
+import { useFloatingInspector, InspectFloatingWindow } from '../ui/InspectFloatingWindow';
 
 export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
@@ -9,6 +10,7 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
   const [modalType, setModalType] = useState<'double' | 'single'>('double');
   const [modalSize, setModalSize] = useState<48 | 56>(56);
+  const { inspectData, mousePos, bindInspect } = useFloatingInspector();
 
   const chips = ['가정이사 (포장)', '원룸/소형이사', '사무실 이전', '보관이사', '에어컨 분해청소'];
 
@@ -19,6 +21,12 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
         <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
           Buttons
         </h2>
+      </div>
+
+      {/* Inspector Live Hint Banner */}
+      <div className="flex items-center gap-2 text-[12.5px] font-semibold text-[#1219F7] bg-[#EEF2FF] px-3.5 py-1.5 rounded-full w-fit">
+        <MousePointer2 className="w-3.5 h-3.5" />
+        <span>컴포넌트에 마우스를 올리면 실시간 규격 창(Inspector)이 뜹니다</span>
       </div>
 
       {/* State & Device Control Bar */}
@@ -93,7 +101,24 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
 
           <div data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined} className="rounded-[16px] p-8 flex items-center justify-center border bg-[#F9FAFB] border-[#E5E8EB]">
             {isPartner ? (
-              <div style={{ width: deviceView === 'mobile' ? '312px' : '627px' }}>
+              <div
+                style={{ width: deviceView === 'mobile' ? '312px' : '627px' }}
+                className="transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 rounded-[6px]"
+                {...bindInspect({
+                  title: '파트너 메인 버튼 (56px)',
+                  category: 'Button',
+                  mode: 'partner',
+                  size: `높이 56px · 너비 ${deviceView === 'mobile' ? '312px' : '627px'}`,
+                  radius: '6px',
+                  typography: 'Noto Sans KR 18px / 27px (Bold 700)',
+                  padding: '0 20px',
+                  colors: [
+                    { label: 'Background', value: '#1219F7', token: 'main-01' },
+                    { label: 'Text', value: '#FFFFFF', token: 'system-02' }
+                  ],
+                  description: '파트너 주요 견적 제출/완료 CTA 버튼 규격'
+                })}
+              >
                 <PartnerPrimaryButton
                   state={btnState}
                   fluid
@@ -103,7 +128,24 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                 </PartnerPrimaryButton>
               </div>
             ) : (
-              <div style={{ width: deviceView === 'mobile' ? '312px' : '640px' }}>
+              <div
+                style={{ width: deviceView === 'mobile' ? '312px' : '640px' }}
+                className="transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 rounded-[10px]"
+                {...bindInspect({
+                  title: '고객향 표준 버튼 (56px)',
+                  category: 'Button',
+                  mode: 'customer',
+                  size: `높이 56px · 시안 너비 ${deviceView === 'mobile' ? '312px' : '640px'}`,
+                  radius: '10px',
+                  typography: 'Pretendard 16px / 24px (Bold 700)',
+                  padding: '0 20px',
+                  colors: [
+                    { label: 'Background', value: '#1219F7', token: 'main-01' },
+                    { label: 'Text', value: '#FFFFFF', token: 'system-02' }
+                  ],
+                  description: '본문 표준 CTA 버튼. 모바일 312px / PC 640px 기준'
+                })}
+              >
                 <PublicButton
                   state={btnState}
                   fluid
@@ -141,26 +183,80 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
               <div className="space-y-4 w-full max-w-[340px]">
                 {/* Visual Pair from node 9053:6921 */}
                 <div className="flex items-center gap-2.5 w-full">
-                  <PartnerSecondaryButton
-                    className="flex-1"
-                    onClick={() => {}}
+                  <div
+                    className="flex-1 transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 rounded-[6px]"
+                    {...bindInspect({
+                      title: '파트너 서브 액션 (취소 51px)',
+                      category: 'Button',
+                      mode: 'partner',
+                      size: '높이 51px · 너비 가변',
+                      radius: '6px',
+                      typography: 'Noto Sans KR 18px / 27px (Bold 700)',
+                      padding: '0 16px',
+                      border: '1px solid #D7DBE2 (etc-02)',
+                      colors: [
+                        { label: 'Background', value: '#FFFFFF', token: 'system-02' },
+                        { label: 'Border', value: '#D7DBE2', token: 'etc-02' },
+                        { label: 'Text', value: '#666666', token: 'text-03' }
+                      ],
+                      description: '보조 작업 또는 모달 취소용 서브 버튼'
+                    })}
                   >
-                    취소
-                  </PartnerSecondaryButton>
-                  <button
-                    type="button"
-                    onClick={() => {}}
-                    className="flex-1 h-[51px] px-5 rounded-[6px] text-[18px] leading-[27px] font-bold inline-flex items-center justify-center bg-[#1219F7] hover:bg-[#0E15D4] text-white transition-colors"
+                    <PartnerSecondaryButton
+                      className="w-full"
+                      onClick={() => {}}
+                    >
+                      취소
+                    </PartnerSecondaryButton>
+                  </div>
+                  <div
+                    className="flex-1 transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 rounded-[6px]"
+                    {...bindInspect({
+                      title: '파트너 확인/실행 버튼 (51px)',
+                      category: 'Button',
+                      mode: 'partner',
+                      size: '높이 51px · 너비 가변',
+                      radius: '6px',
+                      typography: 'Noto Sans KR 18px / 27px (Bold 700)',
+                      padding: '0 20px',
+                      colors: [
+                        { label: 'Background', value: '#1219F7', token: 'main-01' },
+                        { label: 'Text', value: '#FFFFFF', token: 'system-02' }
+                      ],
+                      description: '모달 확인 또는 컴팩트 액션용 51px 메인 버튼'
+                    })}
                   >
-                    답변 생성
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => {}}
+                      className="w-full h-[51px] px-5 rounded-[6px] text-[18px] leading-[27px] font-bold inline-flex items-center justify-center bg-[#1219F7] hover:bg-[#0E15D4] text-white transition-colors"
+                    >
+                      답변 생성
+                    </button>
+                  </div>
                 </div>
-
-
               </div>
             ) : (
               <div className="flex flex-col items-center gap-3">
-                <div className="w-[280px]">
+                <div
+                  className="w-[280px] transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 rounded-[10px]"
+                  {...bindInspect({
+                    title: `고객향 모달 버튼 세트 (${modalSize}px)`,
+                    category: 'Button',
+                    mode: 'customer',
+                    size: `내부 280px (136 + 8 + 136) · 높이 ${modalSize}px`,
+                    radius: '10px',
+                    typography: modalSize === 56 ? 'Pretendard 16px / 24px (Bold)' : 'Pretendard 15px / 22px (Bold)',
+                    padding: '버튼 간 8px 간격',
+                    colors: [
+                      { label: 'Confirm BG', value: '#1219F7', token: 'main-01' },
+                      { label: 'Cancel BG', value: '#FFFFFF', token: 'system-02' },
+                      { label: 'Cancel Border', value: '#D7DBE2', token: 'etc-02' },
+                      { label: 'Cancel Text', value: '#666666', token: 'text-03' }
+                    ],
+                    description: '모달 하단 취소 / 확인 액션 버튼 규격'
+                  })}
+                >
                   <ModalButtons
                     type={modalType}
                     size={modalSize}
@@ -237,11 +333,30 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
                   key={chip}
                   type="button"
                   onClick={() => setActiveChip(chip)}
-                  className={`h-[36px] px-[20px] rounded-full text-[14px] font-bold transition-all border ${
+                  className={`h-[36px] px-[20px] rounded-full text-[14px] font-bold transition-all border hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 ${
                     active
                       ? 'bg-[#1219F7] text-white border-[#1219F7] shadow-xs'
                       : 'bg-white text-[#4E5968] border-[#D7DBE2] hover:border-[#1219F7] hover:text-[#191F28]'
                   }`}
+                  {...bindInspect({
+                    title: `선택 칩 (${chip})`,
+                    category: 'Button',
+                    mode: mode,
+                    size: '높이 36px · 좌우 패딩 20px',
+                    radius: '9999px (Pill / Full Rounded)',
+                    typography: 'Pretendard 14px / 20px (Bold 700)',
+                    padding: '0 20px',
+                    border: active ? '1px solid #1219F7' : '1px solid #D7DBE2 (etc-02)',
+                    colors: active ? [
+                      { label: 'Active BG', value: '#1219F7', token: 'main-01' },
+                      { label: 'Active Text', value: '#FFFFFF', token: 'system-02' }
+                    ] : [
+                      { label: 'Default BG', value: '#FFFFFF', token: 'system-02' },
+                      { label: 'Border', value: '#D7DBE2', token: 'etc-02' },
+                      { label: 'Text', value: '#4E5968', token: 'text-02' }
+                    ],
+                    description: '다중/단일 선택용 필터 캡슐 칩 규격'
+                  })}
                 >
                   {chip}
                 </button>
@@ -250,6 +365,9 @@ export const ButtonSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mod
           </div>
         </div>
       </div>
+
+      {/* Floating Inspect Window */}
+      <InspectFloatingWindow data={inspectData} position={mousePos} />
     </section>
   );
 };
