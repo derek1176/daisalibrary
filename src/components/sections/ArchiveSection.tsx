@@ -14,7 +14,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
 
   useEffect(() => {
     const mascot = new Image();
-    mascot.src = '/images/darangie-delivery.png';
+    mascot.src = '/images/darangie-delivery.gif';
     return () => { if (deliveryTimer.current) clearTimeout(deliveryTimer.current); };
   }, []);
 
@@ -31,7 +31,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
     deliveryTimer.current = setTimeout(() => {
       setDeliveryId(0);
       deliveryTimer.current = null;
-    }, 2800);
+    }, 3200);
   };
 
   const handleDownload = () => {
@@ -171,11 +171,11 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         <div
           key={deliveryId}
           data-delivery-easter-egg
-          className="fixed right-5 bottom-6 z-[60] pointer-events-none animate-darangie flex flex-col items-center gap-2 select-none"
+          className="fixed right-4 top-3 z-[60] pointer-events-none animate-darangie flex flex-col items-center gap-2 select-none"
           role="status"
           aria-live="polite"
         >
-          <img src="/images/darangie-delivery.png" alt="" width="160" height="160" className="w-32 sm:w-40 h-auto object-contain" draggable={false} />
+          <img src="/images/darangie-delivery.gif" alt="" width="160" height="160" className="w-28 sm:w-36 h-auto object-contain" draggable={false} />
           <span className="rounded-full bg-[#191F28] px-4 py-2 text-[14px] font-bold text-white shadow-lg">다랑이가 배송중</span>
         </div>
       )}

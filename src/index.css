@@ -119,13 +119,11 @@
 
 /* Darangie 뿅뿅뿅 위로 택배배달 이스터에그 애니메이션 */
 @keyframes darangie-hop-delivery {
-  0% { opacity: 0; transform: translateY(24px) scale(0.85); }
-  14% { opacity: 1; transform: translateY(-8px) scale(1.04); }
-  26% { opacity: 1; transform: translateY(0) scale(1); }
-  45% { transform: translateY(-5px); }
-  65% { transform: translateY(0); }
-  84% { opacity: 1; transform: translateY(-3px); }
-  100% { opacity: 0; transform: translateY(-20px) scale(0.96); }
+  0% { opacity: 0; transform: translateY(calc(100dvh - 230px)) scale(1); }
+  8% { opacity: 1; transform: translateY(calc(100dvh - 230px)) scale(1); }
+  80% { opacity: 1; transform: translateY(0) scale(1); }
+  90% { opacity: 1; transform: translateY(0) scale(0.85); }
+  100% { opacity: 0; transform: translateY(-24px) scale(0.2); }
 }
 
 @keyframes fade-slide-up {
@@ -157,7 +155,7 @@
   animation: scale-up 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .animate-darangie {
-  animation: darangie-hop-delivery 2.8s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+  animation: darangie-hop-delivery 3.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* Custom living scrollbar */
