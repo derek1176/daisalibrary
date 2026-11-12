@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Check, CheckCircle2, X, MousePointer2 } from 'lucide-react';
-import { useFloatingInspector, InspectFloatingWindow } from '../ui/InspectFloatingWindow';
+import { Check, CheckCircle2, X } from 'lucide-react';
 
 export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
-  const { inspectData, mousePos, bindInspect } = useFloatingInspector();
 
   // Responsive Viewport Preset State (360px, 768px, 1280px)
   const [simulatedWidth, setSimulatedWidth] = useState<number>(360);
@@ -65,11 +63,6 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </h2>
       </div>
 
-      {/* Inspector Live Hint Banner */}
-      <div className="flex items-center gap-2 text-[12.5px] font-semibold text-[#1219F7] bg-[#EEF2FF] px-3.5 py-1.5 rounded-full w-fit">
-        <MousePointer2 className="w-3.5 h-3.5" />
-        <span>모달 및 바텀시트에 마우스를 올리면 실시간 규격 창(Inspector)이 뜹니다</span>
-      </div>
 
       {/* 2. 개별 실물 컴포넌트 프리뷰 (1:1 실제 규격 프리뷰) */}
       <div className="space-y-6">
@@ -92,26 +85,9 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             <div className="p-8 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[300px]">
               <div
                 data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined}
-                className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 ${
+                className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 transition-all ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[16px]'
                 }`}
-                {...bindInspect({
-                  title: isPartner ? '파트너 기본 확인 모달 (312px)' : '고객향 기본 확인 모달 (312px)',
-                  category: 'Dialog',
-                  mode: mode,
-                  size: '너비 312px 고정 (양옆 여백 유지)',
-                  radius: isPartner ? '6px' : '16px',
-                  typography: isPartner ? '제목 20px / 본문 18px (Noto Sans KR)' : '제목 20px / 본문 16px (Pretendard)',
-                  padding: '20px (p-5)',
-                  border: '1px solid #E5E8EB',
-                  colors: [
-                    { label: 'Background', value: '#FFFFFF', token: 'system-02' },
-                    { label: 'Confirm Action', value: '#1219F7', token: 'main-01' },
-                    { label: 'Cancel Border', value: '#D7DBE2', token: 'etc-02' },
-                    { label: 'Cancel Text', value: '#666666', token: 'text-03' }
-                  ],
-                  description: isPartner ? '파트너 오더 취소/확인용 312px 다이얼로그 (버튼 51px, r:6)' : '고객 신청 취소/경고용 312px 표준 다이얼로그 (버튼 56px, r:10, 모달 r:16)'
-                })}
               >
                 <div className="text-center space-y-1.5 pt-1">
                   <div className={`font-bold ${isPartner ? 'text-[#121212]' : 'text-[#121212]'} ${isPartner ? 'text-[20px] leading-[30px]' : 'text-[20px] leading-[30px] text-[#121212]'}`}>
@@ -161,25 +137,9 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             <div className="p-8 rounded-[14px] bg-[#FAFBFD] flex items-center justify-center min-h-[300px]">
               <div
                 data-customer-preview={!isPartner || undefined} data-partner-preview={isPartner || undefined}
-                className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 ${
+                className={`w-[312px] p-5 space-y-4 shadow-lg bg-white border border-[#E5E8EB]/60 transition-all ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[16px]'
                 }`}
-                {...bindInspect({
-                  title: isPartner ? '파트너 상태 안내 모달 (312px)' : '고객향 상태 아이콘 모달 (312px)',
-                  category: 'Dialog',
-                  mode: mode,
-                  size: '너비 312px 고정 · 상단 48px 아이콘',
-                  radius: isPartner ? '6px' : '16px',
-                  typography: isPartner ? '제목 20px / 안내 18px' : '제목 20px / 안내 16px',
-                  padding: '20px (p-5)',
-                  border: '1px solid #E5E8EB',
-                  colors: [
-                    { label: 'Icon BG', value: '#E8F3FF', token: 'main-01 (10% tint)' },
-                    { label: 'Icon / Primary', value: '#1219F7', token: 'main-01' },
-                    { label: 'Background', value: '#FFFFFF', token: 'system-02' }
-                  ],
-                  description: '접수/제출 완료 등 성공·경고 피드백을 전달하는 상단 아이콘 결합 모달 규격'
-                })}
               >
                 {/* Status Badge Icon */}
                 <div className="w-12 h-12 rounded-full bg-[#E8F3FF] text-[#1219F7] flex items-center justify-center mx-auto">
@@ -268,23 +228,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               <div
                 data-customer-preview={!isPartner || undefined}
                 data-partner-preview={isPartner || undefined}
-                className="relative w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl transition-all hover:ring-2 hover:ring-[#1219F7]/40"
-                {...bindInspect({
-                  title: isPartner ? '파트너 바텀시트 (360px 모바일)' : '고객향 바텀시트 (360px 모바일)',
-                  category: 'Sheet',
-                  mode: mode,
-                  size: '모바일 360px 기준 화면 하단 고정',
-                  radius: '상단 16px (rounded-t-[16px]) · 하단 직각',
-                  typography: isPartner ? '헤더 20px / 옵션 18px' : '헤더 20px / 옵션 16px',
-                  padding: '20px (p-5)',
-                  colors: [
-                    { label: 'Handle Bar', value: '#D7DBE2', token: 'etc-02' },
-                    { label: 'Selected BG', value: '#F4F5FF', token: 'main-01 (tint)' },
-                    { label: 'Selected Text', value: '#1219F7', token: 'main-01' },
-                    { label: 'Background', value: '#FFFFFF', token: 'system-02' }
-                  ],
-                  description: '모바일 하단에서 슬라이드 업되는 선택형 바텀시트 규격. 상단 핸들바(36x4px) 포함'
-                })}
+                className="relative w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl transition-all"
               >
                 {/* Handle Bar (36x4px) */}
                 <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
@@ -517,22 +461,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div
                   data-customer-preview={!isPartner || undefined}
                   data-partner-preview={isPartner || undefined}
-                  className={`w-[440px] max-w-[92%] bg-white ${isPartner ? 'rounded-[6px]' : 'rounded-[16px]'} p-5 space-y-4 shadow-2xl transition-all hover:ring-2 hover:ring-[#1219F7]/40`}
-                  {...bindInspect({
-                    title: isPartner ? '파트너 데스크톱 중앙 모달 (440px)' : '고객향 데스크톱 중앙 모달 (440px)',
-                    category: 'Dialog',
-                    mode: mode,
-                    size: 'PC 1200px 이상 기준 너비 440px 중앙 배치',
-                    radius: isPartner ? '6px' : '16px',
-                    typography: isPartner ? '제목 20px / 본문 18px' : '제목 20px / 본문 16px',
-                    padding: '20px (p-5)',
-                    colors: [
-                      { label: 'Action BG', value: '#1219F7', token: 'main-01' },
-                      { label: 'Action Text', value: '#FFFFFF', token: 'system-02' },
-                      { label: 'Background', value: '#FFFFFF', token: 'system-02' }
-                    ],
-                    description: '반응형 환경에서 1200px 이상일 때 바텀시트가 아닌 중앙 다이얼로그 모달(440px)로 렌더링됩니다.'
-                  })}
+                  className={`w-[440px] max-w-[92%] bg-white ${isPartner ? 'rounded-[6px]' : 'rounded-[16px]'} p-5 space-y-4 shadow-2xl transition-all`}
                 >
                   <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2.5">
                     <div className="flex items-center gap-2">
@@ -578,22 +507,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div
                   data-customer-preview={!isPartner || undefined}
                   data-partner-preview={isPartner || undefined}
-                  className="w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl transition-all hover:ring-2 hover:ring-[#1219F7]/40"
-                  {...bindInspect({
-                    title: isPartner ? '파트너 반응형 바텀시트 (가변)' : '고객향 반응형 바텀시트 (가변)',
-                    category: 'Sheet',
-                    mode: mode,
-                    size: `너비 100% (${simulatedWidth}px 뷰포트 맞춤) · 화면 하단 고정`,
-                    radius: '상단 16px (rounded-t-[16px]) · 하단 직각',
-                    typography: isPartner ? '헤더 15px / 버튼 18px' : '헤더 15px / 버튼 16px',
-                    padding: '20px (p-5)',
-                    colors: [
-                      { label: 'Handle Bar', value: '#D7DBE2', token: 'etc-02' },
-                      { label: 'CTA Button', value: '#1219F7', token: 'main-01' },
-                      { label: 'Background', value: '#FFFFFF', token: 'system-02' }
-                    ],
-                    description: '모바일 및 태블릿(360px ~ 1199px)에서 하단 전폭으로 밀착되어 편안한 한 손 조작을 제공합니다.'
-                  })}
+                  className="w-full bg-white rounded-t-[16px] p-5 space-y-3 shadow-2xl transition-all"
                 >
                   <div className="w-9 h-1 bg-[#D7DBE2] rounded-full mx-auto" />
 
@@ -627,8 +541,6 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </div>
       </div>
 
-      {/* Floating Inspect Window */}
-      <InspectFloatingWindow data={inspectData} position={mousePos} />
     </section>
   );
 };

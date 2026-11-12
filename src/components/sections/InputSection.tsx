@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Smartphone, Monitor, Search, ChevronDown, CheckCircle2, MousePointer2 } from 'lucide-react';
-import { useFloatingInspector, InspectFloatingWindow } from '../ui/InspectFloatingWindow';
+import { Smartphone, Monitor, Search, ChevronDown, CheckCircle2 } from 'lucide-react';
 
 export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
   const [deviceView, setDeviceView] = useState<'mobile' | 'pc'>('mobile');
-  const { inspectData, mousePos, bindInspect } = useFloatingInspector();
 
   // Input states
   const [textVal, setTextVal] = useState(isPartner ? '서울시 강남구 테헤란로 123 (역삼동)' : '서울시 강남구 테헤란로 123');
@@ -32,11 +30,6 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
         </h2>
       </div>
 
-      {/* Inspector Live Hint Banner */}
-      <div className="flex items-center gap-2 text-[12.5px] font-semibold text-[#1219F7] bg-[#EEF2FF] px-3.5 py-1.5 rounded-full w-fit">
-        <MousePointer2 className="w-3.5 h-3.5" />
-        <span>인풋 필드에 마우스를 올리면 실시간 규격 창(Inspector)이 뜹니다</span>
-      </div>
 
       {/* Device Control Bar */}
       <div className="rounded-[18px] p-4 flex flex-wrap items-center justify-between gap-4 bg-white border border-[#E5E8EB] shadow-xs">
@@ -103,26 +96,9 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               </label>
               {/* 1px stroke 고정: border border-[#D7DBE2] (두꺼운 border-2 제거) */}
               <div
-                className={`h-[56px] px-4 border border-[#D7DBE2] bg-white flex items-center justify-between transition-all focus-within:border-[#1219F7] hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 ${
+                className={`h-[56px] px-4 border border-[#D7DBE2] bg-white flex items-center justify-between transition-all focus-within:border-[#1219F7] ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
                 }`}
-                {...bindInspect({
-                  title: isPartner ? '파트너 기본 텍스트 인풋 (56px)' : '고객향 기본 텍스트 인풋 (56px)',
-                  category: 'Input',
-                  mode: mode,
-                  size: `높이 56px · 너비 ${currentWidth}`,
-                  radius: isPartner ? '6px' : '10px',
-                  typography: isPartner ? 'Noto Sans KR 18px / 27px' : 'Pretendard 16px / 24px',
-                  padding: '좌우 패딩 16px',
-                  border: '1px solid #D7DBE2 (etc-02)',
-                  colors: [
-                    { label: 'Background', value: '#FFFFFF', token: 'system-02' },
-                    { label: 'Border', value: '#D7DBE2', token: 'etc-02' },
-                    { label: 'Focus Border', value: '#1219F7', token: 'main-01' },
-                    { label: 'Text', value: '#191F28', token: isPartner ? 'text-01' : 'text-01' }
-                  ],
-                  description: '표준 단일 라인 텍스트 입력창. 모바일 312px / PC 640px(파트너 627px)'
-                })}
               >
                 <input
                   type="text"
@@ -166,24 +142,9 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               </label>
               {/* 1px stroke 고정: border border-[#F34766] */}
               <div
-                className={`h-[56px] px-4 border border-[#F34766] bg-white flex items-center justify-between transition-all hover:ring-2 hover:ring-[#F34766]/40 hover:ring-offset-2 ${
+                className={`h-[56px] px-4 border border-[#F34766] bg-white flex items-center justify-between transition-all ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
                 }`}
-                {...bindInspect({
-                  title: '에러 상태 텍스트 인풋 (56px)',
-                  category: 'Input',
-                  mode: mode,
-                  size: `높이 56px · 너비 ${currentWidth}`,
-                  radius: isPartner ? '6px' : '10px',
-                  typography: isPartner ? 'Noto Sans KR 18px / 27px' : 'Pretendard 16px / 24px',
-                  padding: '좌우 패딩 16px',
-                  border: '1px solid #F34766 (error / sub-02)',
-                  colors: [
-                    { label: 'Border', value: '#F34766', token: 'sub-02 / error' },
-                    { label: 'Error Text', value: '#F34766', token: 'sub-02 / error' }
-                  ],
-                  description: '유효성 검사 실패 시 적용되는 1px 에러 보더 및 가이드 문구'
-                })}
               >
                 <input
                   type="text"
@@ -229,25 +190,9 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 {isPartner ? '작업 차량 종류' : '이사 서비스 선택'}
               </label>
               <div
-                className={`h-[56px] px-4 border border-[#D7DBE2] bg-white flex items-center justify-between cursor-pointer hover:border-[#1219F7] transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 ${
+                className={`h-[56px] px-4 border border-[#D7DBE2] bg-white flex items-center justify-between cursor-pointer hover:border-[#1219F7] transition-all ${
                   isPartner ? 'rounded-[6px]' : 'rounded-[10px]'
                 }`}
-                {...bindInspect({
-                  title: '선택 드롭다운 인풋 (56px)',
-                  category: 'Input',
-                  mode: mode,
-                  size: `높이 56px · 너비 ${currentWidth}`,
-                  radius: isPartner ? '6px' : '10px',
-                  typography: isPartner ? 'Noto Sans KR 18px / 27px' : 'Pretendard 16px / 24px',
-                  padding: '좌우 패딩 16px',
-                  border: '1px solid #D7DBE2 (etc-02)',
-                  colors: [
-                    { label: 'Background', value: '#FFFFFF', token: 'system-02' },
-                    { label: 'Border', value: '#D7DBE2', token: 'etc-02' },
-                    { label: 'Chevron Icon', value: '#888888', token: 'text-04' }
-                  ],
-                  description: '바텀시트 또는 모달 선택창을 트리거하는 드롭다운 인풋 필드'
-                })}
               >
                 <span
                   className={`font-medium text-[#191F28] ${
@@ -294,35 +239,17 @@ export const InputSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 onChange={(e) => setMemoVal(e.target.value)}
                 rows={3}
                 style={{ height: isPartner ? '112px' : '104px' }}
-                className={`w-full p-4 border border-[#D7DBE2] bg-white outline-none font-normal resize-none text-[#191F28] placeholder-[#888888] focus:border-[#1219F7] transition-all hover:ring-2 hover:ring-[#1219F7]/40 hover:ring-offset-2 ${
+                className={`w-full p-4 border border-[#D7DBE2] bg-white outline-none font-normal resize-none text-[#191F28] placeholder-[#888888] focus:border-[#1219F7] transition-all ${
                   isPartner
                     ? 'rounded-[6px] text-[18px] leading-[27px]'
                     : 'rounded-[10px] text-[16px]'
                 }`}
-                {...bindInspect({
-                  title: isPartner ? '파트너 전달 메모창 (112px)' : '고객 전달 메모창 (104px)',
-                  category: 'Input',
-                  mode: mode,
-                  size: isPartner ? `높이 112px · 너비 ${currentWidth}` : `높이 104px · 너비 ${currentWidth}`,
-                  radius: isPartner ? '6px' : '10px',
-                  typography: isPartner ? 'Noto Sans KR 18px / 27px' : 'Pretendard 16px / 24px',
-                  padding: '16px 16px',
-                  border: '1px solid #D7DBE2 (etc-02)',
-                  colors: [
-                    { label: 'Background', value: '#FFFFFF', token: 'system-02' },
-                    { label: 'Border', value: '#D7DBE2', token: 'etc-02' },
-                    { label: 'Focus Border', value: '#1219F7', token: 'main-01' }
-                  ],
-                  description: '장문 입력용 멀티라인 텍스트에어리어 규격'
-                })}
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Floating Inspect Window */}
-      <InspectFloatingWindow data={inspectData} position={mousePos} />
     </section>
   );
 };
