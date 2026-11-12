@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Sparkles,
   Search,
@@ -22,14 +22,6 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
   const isPartner = mode === 'partner';
   const componentRadiusClass = isPartner ? 'rounded-[6px]' : 'rounded-[10px]';
   const cornerRadiusClass = isPartner ? 'rounded-tl-[6px]' : 'rounded-tl-[10px]';
-  const [loadingShimmer, setLoadingShimmer] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoadingShimmer(false);
-    }, 120);
-    return () => clearTimeout(timer);
-  }, [mode]);
 
   // ============================================================
   // 1. Color Tokens Thumbnail (Design lines + Black / Blue / White palette swatches)
@@ -429,47 +421,36 @@ export const HomeSection: React.FC<HomeSectionProps> = ({ onSelectTab, mode = 'c
 
   return (
     <div className="space-y-8">
-      {/* Intro Header */}
-      <div className="animate-fadeIn">
+      {/* Intro Header (부드러운 슬라이드업 페이드인) */}
+      <div className="animate-fadeSlideUp">
         <h1 className="text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight text-[#191F28]">
           Overview
         </h1>
       </div>
 
-      {/* Grid of Component Cards (Seed Design Style: 당근 SEED 썸네일 박스 #F2F3F6 + radius 10px) */}
-      {loadingShimmer ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <div key={i} className="space-y-3 animate-pulse">
-              <div className="h-[190px] rounded-[10px] bg-[#F2F3F6]" />
-              <div className="h-5 rounded w-1/2 bg-[#E5E8EB]" />
+      {/* Grid of Component Cards (순차적 스르륵 페이드인 슬라이드업 효과) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+        {componentItems.map((item, idx) => (
+          <div
+            key={item.id}
+            onClick={() => onSelectTab(item.id)}
+            style={{ animationDelay: `${idx * 45}ms` }}
+            className="group cursor-pointer select-none animate-fadeSlideUp"
+          >
+            {/* 1. 상단 썸네일 박스 (호버 시 부드러운 리프트 효과 및 배경색 반응) */}
+            <div className="w-full h-[190px] bg-[#F2F3F6] rounded-[10px] flex items-center justify-center p-4 transition-all duration-300 group-hover:bg-[#EAECEF] group-hover:-translate-y-1 group-hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)] overflow-hidden">
+              {item.renderThumbnail()}
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
-          {componentItems.map((item, idx) => (
-            <div
-              key={item.id}
-              onClick={() => onSelectTab(item.id)}
-              style={{ animationDelay: `${idx * 30}ms` }}
-              className="group cursor-pointer select-none animate-fillUp"
-            >
-              {/* 1. 상단 썸네일 박스 (당근 SEED 스타일: 배경 #F2F3F6, radius 10px, 그림자 없음, 호버 시 살짝 어두워짐) */}
-              <div className="w-full h-[190px] bg-[#F2F3F6] rounded-[10px] flex items-center justify-center p-4 transition-all duration-200 group-hover:bg-[#EAECEF] overflow-hidden">
-                {item.renderThumbnail()}
-              </div>
 
-              {/* 2. 썸네일 아래 큰 타이틀 하나만 (당근 스타일) */}
-              <div className="mt-3 px-0.5">
-                <h3 className="text-[17px] font-bold tracking-tight text-[#191F28] group-hover:text-[#1219F7] transition-colors">
-                  {item.name}
-                </h3>
-              </div>
+            {/* 2. 썸네일 아래 큰 타이틀 */}
+            <div className="mt-3 px-0.5">
+              <h3 className="text-[17px] font-bold tracking-tight text-[#191F28] group-hover:text-[#1219F7] transition-colors duration-200">
+                {item.name}
+              </h3>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
