@@ -153,7 +153,7 @@
   animation: scale-up 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .animate-darangie {
-  animation: darangie-run-delivery 1.8s cubic-bezier(0.3, 0, 0.7, 1) forwards;
+  animation: darangie-run-delivery 4s cubic-bezier(0.55, 0, 1, 0.45) forwards;
 }
 
 /* Custom living scrollbar */

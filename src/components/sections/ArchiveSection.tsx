@@ -31,7 +31,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
     deliveryTimer.current = setTimeout(() => {
       setDeliveryId(0);
       deliveryTimer.current = null;
-    }, 2000);
+    }, 4200);
   };
 
   const handleDownload = () => {
