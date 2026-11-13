@@ -31,7 +31,7 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
     deliveryTimer.current = setTimeout(() => {
       setDeliveryId(0);
       deliveryTimer.current = null;
-    }, 3200);
+    }, 2000);
   };
 
   const handleDownload = () => {
@@ -171,12 +171,14 @@ export const ArchiveSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mo
         <div
           key={deliveryId}
           data-delivery-easter-egg
-          className="fixed right-4 top-3 z-[60] pointer-events-none animate-darangie flex flex-col items-center gap-2 select-none"
+          className="fixed inset-0 z-[60] overflow-hidden pointer-events-none select-none"
           role="status"
           aria-live="polite"
         >
-          <img src="/images/darangie-delivery.gif" alt="" width="160" height="160" className="w-28 sm:w-36 h-auto object-contain" draggable={false} />
+          <div className="absolute left-0 bottom-6 animate-darangie flex flex-col items-center gap-2">
+            <img src="/images/darangie-delivery.gif" alt="" width="160" height="160" className="w-28 sm:w-36 h-auto object-contain" draggable={false} />
           <span className="rounded-full bg-[#191F28] px-4 py-2 text-[14px] font-bold text-white shadow-lg">다랑이가 배송중</span>
+          </div>
         </div>
       )}
     </section>
