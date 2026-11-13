@@ -4,7 +4,7 @@ import { Check, CheckCircle2, X } from 'lucide-react';
 export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode = 'customer' }) => {
   const isPartner = mode === 'partner';
 
-  // Responsive Viewport Preset State (360px, 768px, 1280px)
+  // Responsive Viewport Preset State (360px, 768px, 1200px)
   const [simulatedWidth, setSimulatedWidth] = useState<number>(360);
   const isSimulatedDesktop = simulatedWidth >= 1200;
 
@@ -24,7 +24,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
     },
     {
       type: '바텀시트 ↔ 중앙 모달', viewport: '1200px 미만 / 이상',
-      width: '뷰포트 전폭 / 중앙 440px', radius: '시트 상단 16px·하단 0px / 모달 16px',
+      width: '뷰포트 전폭 / 중앙 360px', radius: '시트 상단 16px·하단 0px / 모달 16px',
       action: '기본 버튼 56px / r:10 · 16/24px Bold',
       behavior: '시트 핸들바 36×4px / Full / etc-02 · 중앙 모달 핸들바 숨김 · 동작은 별도 제품 요구사항',
     },
@@ -45,7 +45,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
     },
     {
       type: '파트너 바텀시트 ↔ 중앙 모달', viewport: '1200px 미만 / 이상',
-      width: '뷰포트 전폭 / 중앙 440px', radius: '시트 상단 16px·하단 0px / 모달 6px',
+      width: '뷰포트 전폭 / 중앙 360px', radius: '시트 상단 16px·하단 0px / 모달 6px',
       action: '기본 본문 18/27 · 보조 버튼 51px / r:6',
       behavior: '핸들바 36×4px / Full / etc-02 · 중앙 모달에서는 숨김',
     },
@@ -280,7 +280,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <span className="text-[12px] font-bold text-[#1219F7] uppercase tracking-wide">Specification Guide</span>
                 <h4 className="text-[17px] font-extrabold text-[#191F28]">바텀시트 핵심 규격 & 조작성</h4>
                 <p className="text-[13px] text-[#6B7684]">
-                  {isPartner ? '모바일 환경에서 한 손 조작성을 극대화하기 위해 360px 모바일 규격에 최적화된 하단 시트 구조입니다.' : '360px는 Figma 기준 시안입니다. 실제 시트 너비는 뷰포트를 따르며, 1200px 이상에서는 440px 중앙 모달로 배치합니다.'}
+                  {isPartner ? '모바일 환경에서 한 손 조작성을 극대화하기 위해 360px 모바일 규격에 최적화된 하단 시트 구조입니다.' : '360px는 Figma 기준 시안입니다. 실제 시트 너비는 뷰포트를 따르며, 1200px 이상에서는 360px 중앙 모달로 배치합니다.'}
                 </p>
               </div>
 
@@ -288,7 +288,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div className="p-3.5 rounded-[12px] bg-white border border-[#E5E8EB] space-y-1">
                   <div className="font-bold text-[#191F28]">너비 규격 (Width)</div>
                   <div className="text-[12px] text-[#6B7684]">
-                    {isPartner ? 'Figma 시안 360px · 구현 전폭 · 데스크톱 중앙 440px / r:6' : 'Figma 시안 360px · 구현 뷰포트 전폭 · 1200px 이상 중앙 모달 440px'}
+                    {isPartner ? 'Figma 시안 360px · 구현 전폭 · 데스크톱 중앙 360px / r:6' : 'Figma 시안 360px · 구현 뷰포트 전폭 · 1200px 이상 중앙 모달 360px'}
                   </div>
                 </div>
 
@@ -370,7 +370,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
               </span>
             </div>
             <p className="text-[13px] text-[#6B7684] mt-1">
-              {isPartner ? '모바일 전폭 바텀시트(상단 16px) ↔ 1200px 이상 440px 중앙 모달(6px) 배치를 확인하세요.' : '모바일 전폭 바텀시트 ↔ 1200px 이상 440px 중앙 모달 배치를 확인하세요. 상태·동작은 MD 필수 기준에 포함하지 않습니다.'}
+              {isPartner ? '모바일 전폭 바텀시트(상단 16px) ↔ 1200px 이상 360px 중앙 모달(6px) 배치를 확인하세요.' : '모바일 전폭 바텀시트 ↔ 1200px 이상 360px 중앙 모달 배치를 확인하세요. 상태·동작은 MD 필수 기준에 포함하지 않습니다.'}
             </p>
           </div>
 
@@ -400,14 +400,14 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             </button>
             <button
               type="button"
-              onClick={() => setSimulatedWidth(1280)}
+              onClick={() => setSimulatedWidth(1200)}
               className={`px-3 py-1.5 rounded-[8px] text-[12px] font-bold transition-all ${
-                simulatedWidth === 1280
+                simulatedWidth === 1200
                   ? 'bg-white text-[#1219F7] shadow-2xs'
                   : 'text-[#6B7684] hover:text-[#191F28]'
               }`}
             >
-              데스크톱 (1280px)
+              데스크톱 (1200px)
             </button>
           </div>
         </div>
@@ -422,7 +422,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             <span className="text-[12px] text-[#6B7684]">적용 모드:</span>
             <span className="px-2.5 py-0.5 rounded-[6px] text-[12px] font-bold bg-[#E8F3FF] text-[#1219F7]">
               {isSimulatedDesktop
-                ? (isPartner ? '데스크톱 중앙 고정 모달 (440px / r:6)' : '데스크톱 중앙 고정 모달 (440px)')
+                ? (isPartner ? '데스크톱 중앙 고정 모달 (360px / r:6)' : '데스크톱 중앙 고정 모달 (360px)')
                 : '모바일 가변 바텀시트 (360px ~ 1199px)'}
             </span>
           </div>
@@ -434,7 +434,7 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
             <span className="font-mono">뷰포트 캔버스: {simulatedWidth}px</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span className="text-white font-bold">
-              {isSimulatedDesktop ? (isPartner ? 'PC 데스크톱 중앙 모달 (440px / r:6)' : 'PC 데스크톱 중앙 모달 (440px)') : '모바일 반응형 바텀시트'}
+              {isSimulatedDesktop ? (isPartner ? 'PC 데스크톱 중앙 모달 (360px / r:6)' : 'PC 데스크톱 중앙 모달 (360px)') : '모바일 반응형 바텀시트'}
             </span>
           </div>
 
@@ -461,13 +461,13 @@ export const ModalSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode
                 <div
                   data-customer-preview={!isPartner || undefined}
                   data-partner-preview={isPartner || undefined}
-                  className={`w-[440px] max-w-[92%] bg-white ${isPartner ? 'rounded-[6px]' : 'rounded-[16px]'} p-5 space-y-4 shadow-2xl transition-all`}
+                  className={`w-[360px] max-w-[92%] bg-white ${isPartner ? 'rounded-[6px]' : 'rounded-[16px]'} p-5 space-y-4 shadow-2xl transition-all`}
                 >
                   <div className="flex items-center justify-between border-b border-[#F2F4F8] pb-2.5">
                     <div className="flex items-center gap-2">
                       <span className="text-[16px] font-bold text-[#191F28]">출발지 주소 검색</span>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#E8F3FF] text-[#1219F7]">
-                        {isPartner ? '440px (r:6)' : '440px (r:16)'}
+                        {isPartner ? '360px (r:6)' : '360px (r:16)'}
                       </span>
                     </div>
                     <button type="button" className="text-[#8B95A1] hover:text-[#191F28] font-bold text-[14px]">
