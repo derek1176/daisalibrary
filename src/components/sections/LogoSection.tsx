@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Copy, Check, Smartphone, Globe, Layers, Eye } from 'lucide-react';
+import { Download, Copy, Check, Eye } from 'lucide-react';
 import { DIGITAL_LOGO_GROUPS, DigitalAssetItem } from '../../data/digitalLogoAssets';
 
 interface LogoSectionProps {
@@ -30,7 +30,7 @@ interface LogoGroup {
 
 export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'all' | 'core' | 'digital'>('all');
+  const [activeTab, setActiveTab] = useState<'core' | 'digital'>('core');
   const [profileShape, setProfileShape] = useState<'circle' | 'square'>('square');
 
   const PATHS = {
@@ -88,9 +88,9 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       id: 'combination',
       figmaName: 'Icon + Text',
       title: '조합형 로고 (Icon + Text)',
-      subtitle: 'Primary Signature · 70px 이상',
+      subtitle: 'Primary Signature',
       description: '상단 헥사곤 큐브 심볼과 하단 볼드 워드마크가 결합된 공식 시그니처 로고입니다.',
-      recommendedUse: '앱 스플래시 화면, 서비스 메인 헤더, 온·오프라인 대표 마케팅 에셋 (높이 70px 이상)',
+      recommendedUse: '앱 스플래시 화면, 서비스 메인 헤더, 온·오프라인 대표 마케팅 에셋',
       variants: [
         {
           id: 'combo-blue',
@@ -120,9 +120,9 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       id: 'wordmark',
       figmaName: 'Text',
       title: '워드마크 (Text)',
-      subtitle: 'Wordmark · 20px ~ 70px',
+      subtitle: 'Wordmark',
       description: '다이사 고유의 스피드감 있는 이탤릭 앵글과 볼드한 웨이트의 한글 타이포그래피 로고입니다.',
-      recommendedUse: '상단 네비게이션 바(GNB), 공식 인쇄 서식, 견적 계약서 서명란 (높이 20px~70px)',
+      recommendedUse: '상단 네비게이션 바(GNB), 공식 인쇄 서식, 견적 계약서 서명란',
       variants: [
         {
           id: 'wordmark-blue',
@@ -152,9 +152,9 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       id: 'symbol',
       figmaName: 'Icon',
       title: '심볼 단독형 (Icon)',
-      subtitle: 'Hexagon & 3D Cube · 20px 미만',
+      subtitle: 'Hexagon & 3D Cube',
       description: '육각형 프레임과 입체적인 3D 이사 큐브 박스를 형상화한 핵심 심볼 그래픽입니다.',
-      recommendedUse: '초소형 UI 영역, 리스트 인디케이터, 워터마크 (높이 20px 미만)',
+      recommendedUse: '초소형 UI 영역, 리스트 인디케이터, 워터마크',
       variants: [
         {
           id: 'symbol-blue',
@@ -185,29 +185,13 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* 1. Header & Tab Navigation */}
-      <div className="border-b pb-4 border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
-            Logo
-          </h2>
-          <p className="text-[13px] text-[#6B7684] mt-0.5">
-            다이사 공식 로고 타입 및 디지털 채널별 확장 에셋 (SVG / PNG 다운로드 지원)
-          </p>
-        </div>
+      <div className="border-b pb-4 border-[#E5E8EB] flex items-center justify-between gap-4">
+        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+          Logo
+        </h2>
 
         {/* Tab Controls */}
-        <div className="flex items-center gap-1.5 p-1 bg-[#F2F4F8] rounded-[10px] self-start sm:self-auto shrink-0">
-          <button
-            type="button"
-            onClick={() => setActiveTab('all')}
-            className={`px-3.5 py-1.5 rounded-[7px] text-[13px] font-bold transition-all cursor-pointer ${
-              activeTab === 'all'
-                ? 'bg-white text-[#191F28] shadow-xs'
-                : 'text-[#6B7684] hover:text-[#191F28]'
-            }`}
-          >
-            전체 보기
-          </button>
+        <div className="flex items-center gap-1.5 p-1 bg-[#F2F4F8] rounded-[10px] shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab('core')}
@@ -228,45 +212,13 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
                 : 'text-[#6B7684] hover:text-[#191F28]'
             }`}
           >
-            디지털·앱 에셋
+            디지털 에셋
           </button>
         </div>
       </div>
 
-      {/* 2. [로고 타입 별 적용 규칙] 가이드 카드 (Figma 원문 가이드) */}
-      {(activeTab === 'all' || activeTab === 'core') && (
-        <div className="rounded-[14px] bg-[#FAFBFD] border border-[#E5E8EB] p-5 space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#1219F7]" />
-            <h3 className="text-[15px] font-bold text-[#191F28]">
-              로고 타입 별 적용 규칙
-            </h3>
-          </div>
-          <p className="text-[13px] text-[#4E5968] leading-relaxed">
-            고객에게 보여지는 화면 또는 출력물에서 <strong>로고의 세로 크기</strong>를 기준으로 적용합니다.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-            <div className="bg-white rounded-[10px] p-3 border border-[#E5E8EB] space-y-1">
-              <div className="text-[12px] font-bold text-[#1219F7]">아이콘 + 텍스트 (Icon + Text)</div>
-              <div className="text-[13px] font-semibold text-[#191F28]">높이 70px (18mm) 이상 공간</div>
-              <p className="text-[11.5px] text-[#8B95A1]">메인 브랜드 식별이 필요한 주요 헤더 및 인쇄물</p>
-            </div>
-            <div className="bg-white rounded-[10px] p-3 border border-[#E5E8EB] space-y-1">
-              <div className="text-[12px] font-bold text-[#1219F7]">텍스트만 (Text)</div>
-              <div className="text-[13px] font-semibold text-[#191F28]">높이 20px (4mm) ~ 70px 미만</div>
-              <p className="text-[11.5px] text-[#8B95A1]">GNB 상단 바, 견적 계약서, 서명란 등</p>
-            </div>
-            <div className="bg-white rounded-[10px] p-3 border border-[#E5E8EB] space-y-1">
-              <div className="text-[12px] font-bold text-[#1219F7]">아이콘만 (Icon)</div>
-              <div className="text-[13px] font-semibold text-[#191F28]">높이 20px (4mm) 미만 공간</div>
-              <p className="text-[11.5px] text-[#8B95A1]">초소형 인디케이터, 리스트 아이콘 영역</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 3. 기본 로고 섹션 (Icon+Text, Text, Icon) */}
-      {(activeTab === 'all' || activeTab === 'core') && (
+      {/* 2. 기본 로고 섹션 (Icon+Text, Text, Icon) */}
+      {activeTab === 'core' && (
         <div className="space-y-10">
           {coreLogoGroups.map((group) => (
             <section key={group.id} className="space-y-3.5">
@@ -389,23 +341,9 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
         </div>
       )}
 
-      {/* 4. 디지털·앱 에셋 쇼케이스 (logo_앱아이콘, logo_파비콘, logo_외부프로필사진) */}
-      {(activeTab === 'all' || activeTab === 'digital') && (
-        <div className="space-y-12 pt-4">
-          {activeTab === 'all' && (
-            <div className="border-t border-[#E5E8EB] pt-8">
-              <div className="flex items-center gap-2 text-[#1219F7] font-bold text-[13px] mb-1">
-                <Layers className="w-4 h-4" />
-                <span>디지털 채널 확장 에셋</span>
-              </div>
-              <h3 className="text-[22px] font-extrabold text-[#191F28]">
-                앱 아이콘 · 파비콘 · 외부 프로필 에셋
-              </h3>
-              <p className="text-[13.5px] text-[#6B7684] mt-0.5">
-                모바일 앱 런처, 웹 브라우저 탭, 카카오톡 채널 등 디지털 플랫폼 규격에 최적화된 에셋입니다.
-              </p>
-            </div>
-          )}
+      {/* 3. 디지털 에셋 쇼케이스 (logo_앱아이콘, logo_파비콘, logo_외부프로필사진) */}
+      {activeTab === 'digital' && (
+        <div className="space-y-12">
 
           {DIGITAL_LOGO_GROUPS.map((group) => {
             const isProfileGroup = group.id === 'external-profile';
@@ -589,8 +527,8 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
         </div>
       )}
 
-      {/* 5. 배경색별 적용 원칙 & Do & Don't 가이드 (전체보기 및 기본로고 탭에 포함) */}
-      {(activeTab === 'all' || activeTab === 'core') && (
+      {/* 4. 배경색별 적용 원칙 & Do & Don't 가이드 (기본로고 탭에 포함) */}
+      {activeTab === 'core' && (
         <>
           {/* 배경색별 적용 원칙 */}
           <section className="space-y-4 pt-8 border-t border-[#E5E8EB]">
