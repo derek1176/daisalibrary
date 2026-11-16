@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Download, Copy, Check } from 'lucide-react';
+import { Download, Copy, Check, Smartphone, Globe, Layers, Eye } from 'lucide-react';
+import { DIGITAL_LOGO_GROUPS, DigitalAssetItem } from '../../data/digitalLogoAssets';
 
 interface LogoSectionProps {
   mode?: 'customer' | 'partner';
@@ -19,6 +20,7 @@ interface LogoVariant {
 
 interface LogoGroup {
   id: string;
+  figmaName: string;
   title: string;
   subtitle: string;
   description: string;
@@ -28,6 +30,8 @@ interface LogoGroup {
 
 export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'all' | 'core' | 'digital'>('all');
+  const [profileShape, setProfileShape] = useState<'circle' | 'square'>('square');
 
   const PATHS = {
     symbol: "M 173.362 1.090 C 168.841 2.400, 10.502 94.033, 6.924 97.409 C 0.049 103.899, 0.533 96.489, 0.187 200.500 C -0.034 266.807, 0.201 296.016, 0.985 299.647 C 1.745 303.165, 3.156 305.883, 5.442 308.237 C 7.451 310.306, 40.292 329.869, 87.643 357.205 C 131.015 382.243, 167.915 403.451, 169.645 404.335 C 174.374 406.752, 180.277 407.392, 184.647 405.962 C 188.027 404.856, 325.664 326.075, 344.749 314.323 C 350.140 311.003, 352.704 308.659, 354.749 305.179 L 357.500 300.500 357.811 206.500 C 358.029 140.330, 357.793 110.976, 357.012 107.353 C 356.262 103.873, 354.846 101.119, 352.640 98.847 C 349.027 95.127, 189.435 2.559, 183.895 0.970 C 179.913 -0.172, 177.627 -0.146, 173.362 1.090 M 166.220 66.250 C 152.673 73.570, 139.045 81.478, 139.022 82.030 C 139.010 82.322, 166.930 98.696, 201.068 118.418 C 241.084 141.537, 263.733 155.188, 264.818 156.842 C 266.300 159.103, 266.535 163.666, 266.797 195.204 C 266.961 214.892, 266.778 231, 266.391 231 C 266.005 231, 264.154 229.830, 262.279 228.399 C 260.403 226.968, 258.727 225.956, 258.555 226.149 C 258.382 226.342, 257.097 228.750, 255.700 231.500 C 254.303 234.250, 252.514 237.360, 251.725 238.412 C 250.331 240.270, 250.190 240.247, 246.712 237.594 L 243.134 234.865 241.648 237.183 C 240.830 238.457, 239.136 241.637, 237.882 244.250 C 236.627 246.862, 235.211 249, 234.734 249 C 234.257 249, 232.353 247.846, 230.503 246.435 L 227.140 243.869 223.083 251.185 L 219.026 258.500 219.013 222.654 C 219.002 190.948, 218.807 186.481, 217.326 183.975 C 216.330 182.289, 211.572 178.724, 205.576 175.171 C 178.614 159.196, 92.374 109.710, 91.462 109.690 C 90.335 109.665, 65.150 124.138, 60.884 127.262 C 59.446 128.316, 57.196 131.050, 55.884 133.339 L 53.500 137.500 53.500 203 L 53.500 268.500 55.800 273.170 C 57.066 275.738, 59.541 278.926, 61.300 280.254 C 63.060 281.582, 88.573 296.560, 117.996 313.538 C 168.049 342.421, 171.853 344.434, 177.103 344.814 C 181.184 345.109, 183.913 344.689, 187.107 343.275 C 191.354 341.394, 284.594 287.886, 294.280 281.771 C 297.184 279.938, 300.129 276.936, 301.780 274.126 L 304.500 269.500 304.500 204 C 304.500 131.726, 304.764 134.890, 298.184 128.359 C 295.573 125.768, 193.580 66.211, 186.682 63.250 C 180.866 60.753, 174.726 61.653, 166.220 66.250",
@@ -78,13 +82,15 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
     setTimeout(() => setCopiedId(null), 1500);
   };
 
-  const logoGroups: LogoGroup[] = [
+  // Figma 보드 순서: 1. Icon + Text, 2. Text, 3. Icon
+  const coreLogoGroups: LogoGroup[] = [
     {
       id: 'combination',
-      title: '조합형 로고 (Combination)',
-      subtitle: 'Primary Signature',
+      figmaName: 'Icon + Text',
+      title: '조합형 로고 (Icon + Text)',
+      subtitle: 'Primary Signature · 70px 이상',
       description: '상단 헥사곤 큐브 심볼과 하단 볼드 워드마크가 결합된 공식 시그니처 로고입니다.',
-      recommendedUse: '앱 스플래시 화면, 서비스 메인 헤더, 온·오프라인 대표 마케팅 에셋',
+      recommendedUse: '앱 스플래시 화면, 서비스 메인 헤더, 온·오프라인 대표 마케팅 에셋 (높이 70px 이상)',
       variants: [
         {
           id: 'combo-blue',
@@ -111,42 +117,12 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
       ],
     },
     {
-      id: 'symbol',
-      title: '심볼 단독형 (Symbol Mark)',
-      subtitle: 'Hexagon & 3D Cube',
-      description: '육각형 프레임과 입체적인 3D 이사 큐브 박스를 형상화한 핵심 심볼 그래픽입니다.',
-      recommendedUse: '모바일 앱 아이콘, 웹 파비콘(Favicon), SNS 프로필 아바타, 좁은 UI 영역',
-      variants: [
-        {
-          id: 'symbol-blue',
-          name: '시그니처 블루',
-          svgFilename: 'daisa-symbol-blue.svg',
-          pngFilename: 'daisa-symbol-blue.png',
-          bgType: 'white',
-          bgColor: 'bg-white',
-          borderColor: 'border-[#E5E8EB]',
-          logoColorName: '#1219F7',
-          svgContent: SVG_MAP.symbolBlue,
-        },
-        {
-          id: 'symbol-white',
-          name: '화이트 (반전용)',
-          svgFilename: 'daisa-symbol-white.svg',
-          pngFilename: 'daisa-symbol-white.png',
-          bgType: 'blue',
-          bgColor: 'bg-[#1219F7]',
-          borderColor: 'border-[#1219F7]',
-          logoColorName: '#FFFFFF',
-          svgContent: SVG_MAP.symbolWhite,
-        },
-      ],
-    },
-    {
       id: 'wordmark',
-      title: '워드마크 단독형 (Wordmark)',
-      subtitle: 'Korean Dynamic Wordmark',
+      figmaName: 'Text',
+      title: '워드마크 (Text)',
+      subtitle: 'Wordmark · 20px ~ 70px',
       description: '다이사 고유의 스피드감 있는 이탤릭 앵글과 볼드한 웨이트의 한글 타이포그래피 로고입니다.',
-      recommendedUse: '상단 네비게이션 바(GNB), 공식 인쇄 서식, 견적 계약서 서명란',
+      recommendedUse: '상단 네비게이션 바(GNB), 공식 인쇄 서식, 견적 계약서 서명란 (높이 20px~70px)',
       variants: [
         {
           id: 'wordmark-blue',
@@ -172,224 +148,573 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ mode = 'customer' }) =
         },
       ],
     },
+    {
+      id: 'symbol',
+      figmaName: 'Icon',
+      title: '심볼 단독형 (Icon)',
+      subtitle: 'Hexagon & 3D Cube · 20px 미만',
+      description: '육각형 프레임과 입체적인 3D 이사 큐브 박스를 형상화한 핵심 심볼 그래픽입니다.',
+      recommendedUse: '초소형 UI 영역, 리스트 인디케이터, 워터마크 (높이 20px 미만)',
+      variants: [
+        {
+          id: 'symbol-blue',
+          name: '시그니처 블루',
+          svgFilename: 'daisa-symbol-blue.svg',
+          pngFilename: 'daisa-symbol-blue.png',
+          bgType: 'white',
+          bgColor: 'bg-white',
+          borderColor: 'border-[#E5E8EB]',
+          logoColorName: '#1219F7',
+          svgContent: SVG_MAP.symbolBlue,
+        },
+        {
+          id: 'symbol-white',
+          name: '화이트 (반전용)',
+          svgFilename: 'daisa-symbol-white.svg',
+          pngFilename: 'daisa-symbol-white.png',
+          bgType: 'blue',
+          bgColor: 'bg-[#1219F7]',
+          borderColor: 'border-[#1219F7]',
+          logoColorName: '#FFFFFF',
+          svgContent: SVG_MAP.symbolWhite,
+        },
+      ],
+    },
   ];
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* 1. Header (심플 영문 타이틀만 - 타 페이지와 일치) */}
-      <div className="border-b pb-4 border-[#E5E8EB]">
-        <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
-          Logo
-        </h2>
+      {/* 1. Header & Tab Navigation */}
+      <div className="border-b pb-4 border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-[28px] md:text-[32px] font-extrabold tracking-tight text-[#191F28]">
+            Logo
+          </h2>
+          <p className="text-[13px] text-[#6B7684] mt-0.5">
+            다이사 공식 로고 타입 및 디지털 채널별 확장 에셋 (SVG / PNG 다운로드 지원)
+          </p>
+        </div>
+
+        {/* Tab Controls */}
+        <div className="flex items-center gap-1.5 p-1 bg-[#F2F4F8] rounded-[10px] self-start sm:self-auto shrink-0">
+          <button
+            type="button"
+            onClick={() => setActiveTab('all')}
+            className={`px-3.5 py-1.5 rounded-[7px] text-[13px] font-bold transition-all cursor-pointer ${
+              activeTab === 'all'
+                ? 'bg-white text-[#191F28] shadow-xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
+            }`}
+          >
+            전체 보기
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('core')}
+            className={`px-3.5 py-1.5 rounded-[7px] text-[13px] font-bold transition-all cursor-pointer ${
+              activeTab === 'core'
+                ? 'bg-white text-[#191F28] shadow-xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
+            }`}
+          >
+            기본 로고
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('digital')}
+            className={`px-3.5 py-1.5 rounded-[7px] text-[13px] font-bold transition-all cursor-pointer ${
+              activeTab === 'digital'
+                ? 'bg-white text-[#191F28] shadow-xs'
+                : 'text-[#6B7684] hover:text-[#191F28]'
+            }`}
+          >
+            디지털·앱 에셋
+          </button>
+        </div>
       </div>
 
-      {/* 2. 3대 핵심 로고 인터랙티브 쇼케이스 (시그니처 블루 & 화이트 반전용 2개씩) */}
-      <div className="space-y-10">
-        {logoGroups.map((group) => (
-          <section key={group.id} className="space-y-3.5">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h2 className="text-[18px] font-bold text-[#191F28]">
-                  {group.title}
-                </h2>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F2F4F8] text-[#6B7684]">
-                  {group.subtitle}
-                </span>
+      {/* 2. [로고 타입 별 적용 규칙] 가이드 카드 (Figma 원문 가이드) */}
+      {(activeTab === 'all' || activeTab === 'core') && (
+        <div className="rounded-[14px] bg-[#FAFBFD] border border-[#E5E8EB] p-5 space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#1219F7]" />
+            <h3 className="text-[15px] font-bold text-[#191F28]">
+              로고 타입 별 적용 규칙
+            </h3>
+          </div>
+          <p className="text-[13px] text-[#4E5968] leading-relaxed">
+            고객에게 보여지는 화면 또는 출력물에서 <strong>로고의 세로 크기</strong>를 기준으로 적용합니다.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+            <div className="bg-white rounded-[10px] p-3 border border-[#E5E8EB] space-y-1">
+              <div className="text-[12px] font-bold text-[#1219F7]">아이콘 + 텍스트 (Icon + Text)</div>
+              <div className="text-[13px] font-semibold text-[#191F28]">높이 70px (18mm) 이상 공간</div>
+              <p className="text-[11.5px] text-[#8B95A1]">메인 브랜드 식별이 필요한 주요 헤더 및 인쇄물</p>
+            </div>
+            <div className="bg-white rounded-[10px] p-3 border border-[#E5E8EB] space-y-1">
+              <div className="text-[12px] font-bold text-[#1219F7]">텍스트만 (Text)</div>
+              <div className="text-[13px] font-semibold text-[#191F28]">높이 20px (4mm) ~ 70px 미만</div>
+              <p className="text-[11.5px] text-[#8B95A1]">GNB 상단 바, 견적 계약서, 서명란 등</p>
+            </div>
+            <div className="bg-white rounded-[10px] p-3 border border-[#E5E8EB] space-y-1">
+              <div className="text-[12px] font-bold text-[#1219F7]">아이콘만 (Icon)</div>
+              <div className="text-[13px] font-semibold text-[#191F28]">높이 20px (4mm) 미만 공간</div>
+              <p className="text-[11.5px] text-[#8B95A1]">초소형 인디케이터, 리스트 아이콘 영역</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3. 기본 로고 섹션 (Icon+Text, Text, Icon) */}
+      {(activeTab === 'all' || activeTab === 'core') && (
+        <div className="space-y-10">
+          {coreLogoGroups.map((group) => (
+            <section key={group.id} className="space-y-3.5">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#EEF2FF] text-[#1219F7]">
+                    {group.figmaName}
+                  </span>
+                  <h3 className="text-[18px] font-bold text-[#191F28]">
+                    {group.title}
+                  </h3>
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F2F4F8] text-[#6B7684]">
+                    {group.subtitle}
+                  </span>
+                </div>
+                <p className="text-[13px] text-[#8B95A1]">
+                  {group.description} · <span className="text-[#4E5968] font-medium">권장: {group.recommendedUse}</span>
+                </p>
               </div>
-              <p className="text-[13px] text-[#8B95A1]">
-                {group.description} · <span className="text-[#4E5968] font-medium">권장: {group.recommendedUse}</span>
+
+              {/* 2 Color Variants Cards (Blue & White) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
+                {group.variants.map((variant) => (
+                  <div
+                    key={variant.id}
+                    className="group relative rounded-[12px] border border-[#E5E8EB] overflow-hidden bg-white shadow-2xs transition-all duration-200 hover:shadow-sm hover:border-[#1219F7]/40 flex flex-col justify-between"
+                  >
+                    {/* Visual Canvas Area with Logo */}
+                    <div
+                      className={"h-[160px] " + variant.bgColor + " relative flex items-center justify-center p-6 overflow-hidden transition-all duration-200"}
+                    >
+                      {/* SVG Render (Crystal clear vector) */}
+                      <div
+                        className="w-full h-full max-w-[130px] max-h-[80px] flex items-center justify-center select-none transition-transform duration-200 group-hover:scale-105"
+                        dangerouslySetInnerHTML={{ __html: variant.svgContent }}
+                      />
+
+                      {/* Hover Floating Action Bar: SVG, PNG, 복사 */}
+                      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4">
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadSvg(variant.svgContent, variant.svgFilename)}
+                          className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                          title="SVG 다운로드"
+                        >
+                          <Download className="w-3.5 h-3.5 text-[#1219F7]" />
+                          <span>SVG</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadPng(variant.pngFilename)}
+                          className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                          title="PNG 다운로드"
+                        >
+                          <Download className="w-3.5 h-3.5 text-[#1219F7]" />
+                          <span>PNG</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(variant.svgContent, variant.id)}
+                          className="h-8 px-2.5 rounded-[8px] bg-white/95 text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-white transition-transform active:scale-95 cursor-pointer"
+                          title="SVG 코드 복사"
+                        >
+                          {copiedId === variant.id ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-600" />
+                              <span className="text-emerald-600">복사됨</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5 text-[#6B7684]" />
+                              <span>복사</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Bottom Metadata & Direct Action Pill */}
+                    <div className="p-3.5 bg-white border-t border-[#F2F4F8] flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[13px] font-bold text-[#191F28]">
+                            {variant.name}
+                          </span>
+                          <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-[#F2F4F8] text-[#6B7684]">
+                            {variant.logoColorName}
+                          </span>
+                        </div>
+                        <span className="text-[11px] font-mono text-[#8B95A1] block">
+                          {variant.svgFilename}
+                        </span>
+                      </div>
+
+                      {/* Quick Download Buttons */}
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadSvg(variant.svgContent, variant.svgFilename)}
+                          className="px-2 py-1 rounded-[6px] text-[11px] font-semibold text-[#1219F7] bg-[#EEF2FF] hover:bg-[#E0E7FF] transition-colors cursor-pointer"
+                        >
+                          SVG
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDownloadPng(variant.pngFilename)}
+                          className="px-2 py-1 rounded-[6px] text-[11px] font-semibold text-[#4E5968] bg-[#F2F4F8] hover:bg-[#E5E8EB] transition-colors cursor-pointer"
+                        >
+                          PNG
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
+
+      {/* 4. 디지털·앱 에셋 쇼케이스 (logo_앱아이콘, logo_파비콘, logo_외부프로필사진) */}
+      {(activeTab === 'all' || activeTab === 'digital') && (
+        <div className="space-y-12 pt-4">
+          {activeTab === 'all' && (
+            <div className="border-t border-[#E5E8EB] pt-8">
+              <div className="flex items-center gap-2 text-[#1219F7] font-bold text-[13px] mb-1">
+                <Layers className="w-4 h-4" />
+                <span>디지털 채널 확장 에셋</span>
+              </div>
+              <h3 className="text-[22px] font-extrabold text-[#191F28]">
+                앱 아이콘 · 파비콘 · 외부 프로필 에셋
+              </h3>
+              <p className="text-[13.5px] text-[#6B7684] mt-0.5">
+                모바일 앱 런처, 웹 브라우저 탭, 카카오톡 채널 등 디지털 플랫폼 규격에 최적화된 에셋입니다.
+              </p>
+            </div>
+          )}
+
+          {DIGITAL_LOGO_GROUPS.map((group) => {
+            const isProfileGroup = group.id === 'external-profile';
+            const isFaviconGroup = group.id === 'favicon';
+            const isAppIconGroup = group.id === 'app-icon';
+
+            return (
+              <section key={group.id} className="space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-[#EEF2FF] text-[#1219F7]">
+                        {group.figmaKey}
+                      </span>
+                      <h3 className="text-[18px] font-bold text-[#191F28]">
+                        {group.title}
+                      </h3>
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F2F4F8] text-[#6B7684]">
+                        {group.subtitle}
+                      </span>
+                    </div>
+                    <p className="text-[13px] text-[#8B95A1]">
+                      {group.description}
+                    </p>
+                  </div>
+
+                  {/* 외부 프로필 전용: 원형 아바타 / 정방형 원본 토글 */}
+                  {isProfileGroup && (
+                    <div className="flex items-center gap-1 p-1 bg-[#F2F4F8] rounded-[8px] self-start sm:self-auto shrink-0 text-[11.5px] font-bold">
+                      <span className="text-[#8B95A1] px-1.5 flex items-center gap-1">
+                        <Eye className="w-3 h-3" />
+                        보기:
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setProfileShape('square')}
+                        className={`px-2.5 py-1 rounded-[6px] transition-all cursor-pointer ${
+                          profileShape === 'square'
+                            ? 'bg-white text-[#191F28] shadow-2xs'
+                            : 'text-[#6B7684] hover:text-[#191F28]'
+                        }`}
+                      >
+                        정방형 원본
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setProfileShape('circle')}
+                        className={`px-2.5 py-1 rounded-[6px] transition-all cursor-pointer ${
+                          profileShape === 'circle'
+                            ? 'bg-white text-[#1219F7] shadow-2xs'
+                            : 'text-[#6B7684] hover:text-[#191F28]'
+                        }`}
+                      >
+                        원형 아바타 (카톡/SNS)
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Cards Grid */}
+                <div
+                  className={`grid gap-4 ${
+                    isAppIconGroup
+                      ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl'
+                      : isFaviconGroup
+                      ? 'grid-cols-1 sm:grid-cols-3 max-w-4xl'
+                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 max-w-5xl'
+                  }`}
+                >
+                  {group.items.map((item: DigitalAssetItem) => {
+                    const isCircular = isProfileGroup && profileShape === 'circle';
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="group relative rounded-[14px] border border-[#E5E8EB] overflow-hidden bg-white shadow-2xs transition-all duration-200 hover:shadow-sm hover:border-[#1219F7]/40 flex flex-col justify-between"
+                      >
+                        {/* Visual Preview Canvas */}
+                        <div className="h-[200px] bg-[#FAFBFD] relative flex items-center justify-center p-6 overflow-hidden">
+                          {/* Inner Display Element */}
+                          <div
+                            className={`transition-all duration-200 group-hover:scale-105 flex items-center justify-center overflow-hidden ${
+                              isAppIconGroup
+                                ? 'w-[120px] h-[120px] rounded-[24px] shadow-md border border-[#E5E8EB]/70 bg-white'
+                                : isFaviconGroup
+                                ? 'w-[88px] h-[88px] rounded-[16px] p-2 bg-white border border-[#E5E8EB] shadow-xs flex items-center justify-center'
+                                : isCircular
+                                ? 'w-[124px] h-[124px] rounded-full border border-[#D7DBE2] shadow-sm bg-white overflow-hidden'
+                                : 'w-[124px] h-[124px] rounded-[12px] border border-[#E5E8EB] shadow-2xs bg-white overflow-hidden'
+                            }`}
+                          >
+                            <img
+                              src={'/logos/' + item.pngFilename}
+                              alt={item.name}
+                              className="w-full h-full object-contain select-none"
+                            />
+                          </div>
+
+                          {/* Hover Floating Action Bar */}
+                          <div className="absolute inset-0 bg-black/45 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-1.5 p-3">
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadSvg(item.svgContent, item.svgFilename)}
+                              className="h-8 px-2.5 rounded-[8px] bg-white text-[#191F28] font-bold text-[11.5px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                              title="SVG 다운로드"
+                            >
+                              <Download className="w-3.5 h-3.5 text-[#1219F7]" />
+                              <span>SVG</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleDownloadPng(item.pngFilename)}
+                              className="h-8 px-2.5 rounded-[8px] bg-white text-[#191F28] font-bold text-[11.5px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
+                              title="PNG 다운로드"
+                            >
+                              <Download className="w-3.5 h-3.5 text-[#1219F7]" />
+                              <span>PNG</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(item.svgContent, item.id)}
+                              className="h-8 px-2 rounded-[8px] bg-white/95 text-[#191F28] font-bold text-[11.5px] flex items-center gap-1 shadow-sm hover:bg-white transition-transform active:scale-95 cursor-pointer"
+                              title="SVG 코드 복사"
+                            >
+                              {copiedId === item.id ? (
+                                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                              ) : (
+                                <Copy className="w-3.5 h-3.5 text-[#6B7684]" />
+                              )}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Card Info & Quick Download Pills */}
+                        <div className="p-3.5 bg-white border-t border-[#F2F4F8] space-y-2">
+                          <div>
+                            <div className="flex items-center justify-between gap-1.5">
+                              <span className="text-[13.5px] font-bold text-[#191F28] truncate">
+                                {item.name}
+                              </span>
+                              <span className="text-[10.5px] font-mono px-1.5 py-0.5 rounded bg-[#F2F4F8] text-[#6B7684] shrink-0">
+                                {item.sizeDesc}
+                              </span>
+                            </div>
+                            <p className="text-[11.5px] text-[#6B7684] mt-1 line-clamp-2 leading-relaxed">
+                              {item.description}
+                            </p>
+                          </div>
+
+                          <div className="pt-1 border-t border-[#F2F4F8] flex items-center justify-between">
+                            <span className="text-[11px] font-mono text-[#8B95A1] truncate max-w-[130px]">
+                              {item.svgFilename}
+                            </span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={() => handleDownloadSvg(item.svgContent, item.svgFilename)}
+                                className="px-2 py-0.5 rounded-[5px] text-[11px] font-semibold text-[#1219F7] bg-[#EEF2FF] hover:bg-[#E0E7FF] transition-colors cursor-pointer"
+                              >
+                                SVG
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleDownloadPng(item.pngFilename)}
+                                className="px-2 py-0.5 rounded-[5px] text-[11px] font-semibold text-[#4E5968] bg-[#F2F4F8] hover:bg-[#E5E8EB] transition-colors cursor-pointer"
+                              >
+                                PNG
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 5. 배경색별 적용 원칙 & Do & Don't 가이드 (전체보기 및 기본로고 탭에 포함) */}
+      {(activeTab === 'all' || activeTab === 'core') && (
+        <>
+          {/* 배경색별 적용 원칙 */}
+          <section className="space-y-4 pt-8 border-t border-[#E5E8EB]">
+            <div className="space-y-1">
+              <h3 className="text-[18px] font-bold text-[#191F28]">
+                배경색별 적용 원칙 (Color Principles)
+              </h3>
+              <p className="text-[13px] text-[#6B7684]">
+                다이사 로고는 최적의 시인성을 확보하기 위해 배경 밝기에 따라 2가지 공식 컬러만을 사용합니다.
               </p>
             </div>
 
-            {/* 2 Color Variants Cards (Blue & White) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
-              {group.variants.map((variant) => (
-                <div
-                  key={variant.id}
-                  className="group relative rounded-[12px] border border-[#E5E8EB] overflow-hidden bg-white shadow-2xs transition-all duration-200 hover:shadow-sm hover:border-[#1219F7]/40 flex flex-col justify-between"
-                >
-                  {/* Visual Canvas Area with Logo */}
-                  <div
-                    className={"h-[160px] " + variant.bgColor + " relative flex items-center justify-center p-6 overflow-hidden transition-all duration-200"}
-                  >
-                    {/* SVG Render (Crystal clear vector) */}
-                    <div
-                      className="w-full h-full max-w-[130px] max-h-[80px] flex items-center justify-center select-none transition-transform duration-200 group-hover:scale-105"
-                      dangerouslySetInnerHTML={{ __html: variant.svgContent }}
-                    />
-
-                    {/* Hover Floating Action Bar: SVG, PNG, 복사 */}
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4">
-                      <button
-                        type="button"
-                        onClick={() => handleDownloadSvg(variant.svgContent, variant.svgFilename)}
-                        className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
-                        title="SVG 다운로드"
-                      >
-                        <Download className="w-3.5 h-3.5 text-[#1219F7]" />
-                        <span>SVG</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleDownloadPng(variant.pngFilename)}
-                        className="h-8 px-3 rounded-[8px] bg-white text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-[#F8F9FA] transition-transform active:scale-95 cursor-pointer"
-                        title="PNG 다운로드"
-                      >
-                        <Download className="w-3.5 h-3.5 text-[#1219F7]" />
-                        <span>PNG</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleCopy(variant.svgContent, variant.id)}
-                        className="h-8 px-2.5 rounded-[8px] bg-white/95 text-[#191F28] font-bold text-[12px] flex items-center gap-1 shadow-sm hover:bg-white transition-transform active:scale-95 cursor-pointer"
-                        title="SVG 코드 복사"
-                      >
-                        {copiedId === variant.id ? (
-                          <>
-                            <Check className="w-3.5 h-3.5 text-emerald-600" />
-                            <span className="text-emerald-600 text-[11px]">복사됨</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3.5 h-3.5 text-[#6B7684]" />
-                            <span className="text-[11px]">복사</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Card Bottom Meta Info */}
-                  <div className="px-3.5 py-2.5 bg-white border-t border-[#F2F4F8] flex items-center justify-between text-[11px]">
-                    <span className="font-medium text-[#191F28]">{variant.name}</span>
-                    <span className="font-mono font-bold text-[#8B95A1]">{variant.logoColorName}</span>
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl">
+              {/* White background: use blue logo */}
+              <div className="rounded-[12px] border border-[#E5E8EB] p-4 bg-white space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] font-bold text-[#191F28]">밝은 배경 / 흰색 (#FFFFFF)</span>
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#EEF2FF] text-[#1219F7] font-bold">
+                    #1219F7 블루 로고
+                  </span>
                 </div>
-              ))}
+                <div className="h-[90px] rounded-[8px] bg-white border border-[#E5E8EB] flex items-center justify-center p-4 overflow-hidden">
+                  <div
+                    className="w-full h-full max-w-[110px] max-h-[52px] flex items-center justify-center select-none"
+                    dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }}
+                  />
+                </div>
+                <p className="text-[12px] text-[#4E5968] leading-relaxed">
+                  흰색 또는 밝은 회색(#F2F4F8) 배경에서는 브랜드 시그니처 <strong>블루(#1219F7) 로고</strong>를 적용합니다.
+                </p>
+              </div>
+
+              {/* Blue background: use white logo */}
+              <div className="rounded-[12px] border border-[#E5E8EB] p-4 bg-white space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] font-bold text-[#191F28]">어두운 배경 / 시그니처 블루 (#1219F7)</span>
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F2F4F8] text-[#191F28] font-bold">
+                    #FFFFFF 화이트 로고
+                  </span>
+                </div>
+                <div className="h-[90px] rounded-[8px] bg-[#1219F7] flex items-center justify-center p-4 overflow-hidden shadow-inner">
+                  <div
+                    className="w-full h-full max-w-[110px] max-h-[52px] flex items-center justify-center select-none"
+                    dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }}
+                  />
+                </div>
+                <p className="text-[12px] text-[#4E5968] leading-relaxed">
+                  파란색(#1219F7) 배경에서는 시인성 확보를 위해 <strong>화이트(#FFFFFF) 로고</strong>를 적용합니다.
+                </p>
+              </div>
             </div>
           </section>
-        ))}
-      </div>
 
-      {/* 3. 배경색별 로고 색상 적용 원칙 (밝은 배경: 파란색 로고 / 파란 배경: 흰색 로고) */}
-      <section className="space-y-4 pt-6 border-t border-[#E5E8EB]">
-        <div className="space-y-1">
-          <h2 className="text-[18px] font-bold text-[#191F28]">
-            배경색별 적용 원칙
-          </h2>
-          <p className="text-[13px] text-[#6B7684]">
-            다이사 로고는 블랙을 사용하지 않으며, <strong>흰 배경에는 파란색 로고</strong>, <strong>파란 배경에는 흰색 로고</strong> 2가지만 공식으로 사용합니다.
-          </p>
-        </div>
+          {/* Do & Don't */}
+          <section className="space-y-4 pt-6 border-t border-[#E5E8EB]">
+            <div className="space-y-1">
+              <h3 className="text-[18px] font-bold text-[#191F28]">
+                Do & Don't
+              </h3>
+              <p className="text-[13px] text-[#6B7684]">
+                브랜드 가치를 훼손할 수 있는 형태 왜곡이나 규정에 어긋난 색상 오용을 금지합니다.
+              </p>
+            </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 max-w-3xl">
-          {/* Rule 1: 밝은 배경 -> 파란색 메인컬러 로고 */}
-          <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-4 space-y-3">
-            <div className="flex items-center justify-between text-[12px]">
-              <span className="font-bold text-[#191F28]">밝은 배경 (White / Light)</span>
-              <span className="text-[11px] font-bold text-[#1219F7]">블루 로고</span>
-            </div>
-            <div className="h-[90px] bg-[#FAFAFA] border border-[#E5E8EB] rounded-[8px] flex items-center justify-center p-3 overflow-hidden">
-              <div
-                className="w-full h-full max-w-[110px] max-h-[52px] flex items-center justify-center select-none"
-                dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }}
-              />
-            </div>
-            <p className="text-[12px] text-[#4E5968] leading-relaxed">
-              흰색(#FFFFFF) 및 밝은 회색 배경에서는 <strong>시그니처 블루(#1219F7) 로고</strong>를 기본 표준으로 사용합니다.
-            </p>
-          </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              {/* Card 1: DO */}
+              <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-3 space-y-2">
+                <div className="flex items-center gap-1.5 text-emerald-600 font-bold text-[12px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                  <span>DO: 블루/화이트 표준 적용</span>
+                </div>
+                <div className="h-[72px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
+                  <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }} />
+                </div>
+                <p className="text-[11px] text-[#6B7684] leading-normal">
+                  흰 배경에는 블루 로고, 파란 배경에는 화이트 로고를 사용합니다.
+                </p>
+              </div>
 
-          {/* Rule 2: 파란색 배경 -> 화이트 로고 (동일한 얇은 stroke, 차분한 UI) */}
-          <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-4 space-y-3">
-            <div className="flex items-center justify-between text-[12px]">
-              <span className="font-bold text-[#191F28]">파란색 배경 (Brand Blue)</span>
-              <span className="text-[11px] font-bold text-[#1219F7]">화이트 로고</span>
-            </div>
-            <div className="h-[90px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-3 overflow-hidden shadow-inner">
-              <div
-                className="w-full h-full max-w-[110px] max-h-[52px] flex items-center justify-center select-none"
-                dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }}
-              />
-            </div>
-            <p className="text-[12px] text-[#4E5968] leading-relaxed">
-              파란색(#1219F7) 배경에서는 시인성 확보를 위해 <strong>화이트(#FFFFFF) 로고</strong>를 적용합니다.
-            </p>
-          </div>
-        </div>
-      </section>
+              {/* Card 2: DONT (Black logo) */}
+              <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
+                <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <span>DON'T: 블랙 로고 사용 금지</span>
+                </div>
+                <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
+                  <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center [&>svg_path]:fill-[#191F28]" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
+                </div>
+                <p className="text-[11px] text-red-600 font-medium leading-normal">
+                  블랙 로고는 사용하지 않으며, 블루와 화이트 2가지만 공식 적용합니다.
+                </p>
+              </div>
 
-      {/* 4. Do & Don't (오용 사례 방지) */}
-      <section className="space-y-4 pt-6 border-t border-[#E5E8EB]">
-        <div className="space-y-1">
-          <h2 className="text-[18px] font-bold text-[#191F28]">
-            Do & Don't
-          </h2>
-          <p className="text-[13px] text-[#6B7684]">
-            브랜드 가치를 훼손할 수 있는 형태 왜곡이나 규정에 어긋난 색상 오용을 금지합니다.
-          </p>
-        </div>
+              {/* Card 3: DONT (Distortion) */}
+              <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
+                <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <span>DON'T: 비율 왜곡 금지</span>
+                </div>
+                <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
+                  <div className="w-[80px] h-[36px] flex items-center justify-center scale-x-135 scale-y-70" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
+                </div>
+                <p className="text-[11px] text-red-600 font-medium leading-normal">
+                  가로세로 비율(종횡비)을 임의로 늘리거나 줄여서는 안 됩니다.
+                </p>
+              </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          {/* Card 1: DO */}
-          <div className="bg-white rounded-[12px] border border-[#E5E8EB] p-3 space-y-2">
-            <div className="flex items-center gap-1.5 text-emerald-600 font-bold text-[12px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>DO: 블루/화이트 표준 적용</span>
+              {/* Card 4: DONT (Arbitrary Color & Shadow) */}
+              <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
+                <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                  <span>DON'T: 임의 색상 및 그림자</span>
+                </div>
+                <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
+                  <div className="w-[80px] h-[40px] flex items-center justify-center [filter:drop-shadow(0_2px_4px_rgba(239,68,68,0.7))] [&>svg_path]:fill-red-500" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
+                </div>
+                <p className="text-[11px] text-red-600 font-medium leading-normal">
+                  지정되지 않은 색상 변경이나 외곽선, 그림자 효과를 적용하지 않습니다.
+                </p>
+              </div>
             </div>
-            <div className="h-[72px] bg-[#1219F7] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
-              <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboWhite }} />
-            </div>
-            <p className="text-[11px] text-[#6B7684] leading-normal">
-              흰 배경에는 블루 로고, 파란 배경에는 화이트 로고를 사용합니다.
-            </p>
-          </div>
-
-          {/* Card 2: DONT (Black logo) */}
-          <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
-            <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-              <span>DON'T: 블랙 로고 사용 금지</span>
-            </div>
-            <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
-              <div className="w-full h-full max-w-[85px] max-h-[44px] flex items-center justify-center [&>svg_path]:fill-[#191F28]" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
-            </div>
-            <p className="text-[11px] text-red-600 font-medium leading-normal">
-              블랙 로고는 사용하지 않으며, 블루와 화이트 2가지만 공식 적용합니다.
-            </p>
-          </div>
-
-          {/* Card 3: DONT (Distortion) */}
-          <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
-            <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-              <span>DON'T: 비율 왜곡 금지</span>
-            </div>
-            <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
-              <div className="w-[80px] h-[36px] flex items-center justify-center scale-x-135 scale-y-70" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
-            </div>
-            <p className="text-[11px] text-red-600 font-medium leading-normal">
-              가로세로 비율(종횡비)을 임의로 늘리거나 줄여서는 안 됩니다.
-            </p>
-          </div>
-
-          {/* Card 4: DONT (Arbitrary Color & Shadow) */}
-          <div className="bg-white rounded-[12px] border border-red-200 p-3 space-y-2">
-            <div className="flex items-center gap-1.5 text-red-600 font-bold text-[12px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-              <span>DON'T: 임의 색상 및 그림자</span>
-            </div>
-            <div className="h-[72px] bg-[#F2F4F8] rounded-[8px] flex items-center justify-center p-2.5 overflow-hidden">
-              <div className="w-[80px] h-[40px] flex items-center justify-center [filter:drop-shadow(0_2px_4px_rgba(239,68,68,0.7))] [&>svg_path]:fill-red-500" dangerouslySetInnerHTML={{ __html: SVG_MAP.comboBlue }} />
-            </div>
-            <p className="text-[11px] text-red-600 font-medium leading-normal">
-              지정되지 않은 색상 변경이나 외곽선, 그림자 효과를 적용하지 않습니다.
-            </p>
-          </div>
-        </div>
-      </section>
+          </section>
+        </>
+      )}
     </div>
   );
 };
