@@ -14,7 +14,7 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
   const [copiedPrompt, setCopiedPrompt] = useState(false);
 
   const ICON_PROMPT =
-    "Design a 24x24 SVG icon with a 1.5px stroke weight, round stroke-linecap, and round stroke-linejoin. Outline style only (fill=none), stroke=currentColor, minimalistic modern Korean product style.";
+    "Design a 24x24 SVG icon with a 1.5px stroke weight, round stroke-linecap, and round stroke-linejoin. Outline style only (fill=none), stroke=currentColor, minimalistic modern Korean product style. Target: [사다리차/원룸이사 등 만들고 싶은 대상]";
 
   const handleCopyPrompt = () => {
     navigator.clipboard.writeText(ICON_PROMPT);
