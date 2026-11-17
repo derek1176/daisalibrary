@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import JSZip from "jszip";
-import { Ban, Check, Download, Search } from "lucide-react";
+import { Ban, Check, Copy, Download, Search, Sparkles } from "lucide-react";
 import { systemIcons, type CategoryType } from "../../data/iconCatalog";
 import { getIconUrl, renderIconSvg } from "../../lib/iconAssets";
 
@@ -11,6 +11,16 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [downloadedName, setDownloadedName] = useState<string | null>(null);
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
+
+  const ICON_PROMPT =
+    "Design a 24x24 SVG icon with a 1.5px stroke weight, round stroke-linecap, and round stroke-linejoin. Outline style only (fill=none), stroke=currentColor, minimalistic modern Korean product style.";
+
+  const handleCopyPrompt = () => {
+    navigator.clipboard.writeText(ICON_PROMPT);
+    setCopiedPrompt(true);
+    setTimeout(() => setCopiedPrompt(false), 1500);
+  };
 
   const sizePixel = parseInt(activeSize, 10);
 
@@ -78,9 +88,10 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
         </h2>
       </div>
 
-      {/* 1단: 규격 + 이모지 금지 조화로운 단일 슬림 바 */}
-      <div className="bg-white rounded-[14px] px-4 py-2.5 shadow-xs border border-[#E5E8EB] flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-[12px]">
-        <div className="flex items-center gap-3 text-[#4E5968]">
+      {/* 1단: 규격 + AI 프롬프트 복사란 + 이모지 금지 조화로운 단일 슬림 바 */}
+      <div className="bg-white rounded-[14px] px-4 py-2 shadow-xs border border-[#E5E8EB] flex flex-col md:flex-row md:items-center justify-between gap-2.5 text-[12px]">
+        {/* 규격 · 두께 · 마감 */}
+        <div className="flex items-center gap-3 text-[#4E5968] shrink-0">
           <div className="flex items-center gap-1.5">
             <span className="font-bold text-[#191F28]">규격:</span>
             <span>24px (20·16px)</span>
@@ -97,9 +108,42 @@ export const IconSection: React.FC<{ mode?: 'customer' | 'partner' }> = ({ mode 
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[#F34766] font-semibold bg-[#FFF5F6] px-2.5 py-1 rounded-[8px]">
+        {/* 한줄짜리 AI 제작 프롬프트 복사란 */}
+        <div className="flex items-center gap-2 bg-[#F8F9FA] border border-[#E5E8EB] rounded-[8px] pl-2.5 pr-1.5 py-1 text-[11.5px] min-w-0 max-w-full md:max-w-[460px] lg:max-w-[560px] flex-1">
+          <span className="font-bold text-[#1219F7] shrink-0 flex items-center gap-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#1219F7]" />
+            AI 프롬프트:
+          </span>
+          <span
+            className="font-mono text-[#4E5968] truncate text-[11px] select-all cursor-text flex-1"
+            title={ICON_PROMPT}
+          >
+            {ICON_PROMPT}
+          </span>
+          <button
+            type="button"
+            onClick={handleCopyPrompt}
+            className="shrink-0 flex items-center gap-1 px-2 py-0.5 rounded-[5px] bg-white border border-[#D7DBE2] text-[#191F28] hover:bg-[#F2F4F6] hover:border-[#1219F7] text-[11px] font-semibold cursor-pointer active:scale-95 transition-all shadow-2xs"
+            title="아이콘 제작 프롬프트 복사"
+          >
+            {copiedPrompt ? (
+              <>
+                <Check className="w-3 h-3 text-emerald-600" />
+                <span className="text-emerald-600 font-bold">복사됨</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3 h-3 text-[#6B7684]" />
+                <span>복사</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* 이모지 금지 태그 */}
+        <div className="flex items-center gap-1.5 text-[#F34766] font-semibold bg-[#FFF5F6] px-2.5 py-1 rounded-[8px] shrink-0 self-start md:self-auto text-[11.5px]">
           <Ban className="w-3.5 h-3.5 shrink-0" />
-          <span>이모지 사용 엄격 금지 (공식 SVG 전용)</span>
+          <span>이모지 사용 엄격 금지</span>
         </div>
       </div>
 
