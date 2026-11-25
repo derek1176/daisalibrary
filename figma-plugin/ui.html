@@ -1,0 +1,2563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>다이사 교정기</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      background-color: #F8F9FA;
+      color: #111827;
+      font-size: 13px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    /* 1. 상단 미니멀 헤더 */
+    .app-header {
+      background: #FFFFFF;
+      padding: 10px 14px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .brand-logo {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      display: block;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-version {
+      font-size: 10px;
+      font-weight: 600;
+      color: #6B7280;
+      background: #F3F4F6;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* daisalibrary 스타일 세그먼트 모드 전환 */
+    .mode-segmented {
+      display: flex;
+      background: #F1F3F5;
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .mode-item {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .mode-item.active {
+      background: #FFFFFF;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 2. 컨트롤 바 (선택 레이어 vs 전체 페이지) */
+    .control-bar {
+      background: #FFFFFF;
+      padding: 8px 14px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 8px;
+    }
+
+    .scope-toggle {
+      display: flex;
+      background: #F3F4F6;
+      border-radius: 5px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .scope-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .scope-btn.active {
+      background: #FFFFFF;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-icon-refresh {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6B7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-icon-refresh:hover {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #D1D5DB;
+    }
+
+    .control-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 5. 디자인시스템 MD 명세서 뷰어 모달 */
+    .docs-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(17, 24, 39, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .docs-modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .docs-modal-header {
+      padding: 8px 12px;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      flex-shrink: 0;
+      gap: 8px;
+    }
+
+    .docs-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .docs-segmented {
+      display: inline-flex;
+      background: #F3F4F6;
+      border-radius: 5px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .docs-tab-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .docs-tab-btn.active {
+      background: #FFFFFF;
+      color: #111827;
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .docs-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy-md {
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-copy-md:hover {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .btn-close-docs {
+      width: 26px;
+      height: 26px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 4px;
+      color: #6B7280;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-close-docs:hover {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #D1D5DB;
+    }
+
+    .docs-content-area {
+      flex: 1 1 0px;
+      overflow-y: auto;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #1F2937;
+      background: #FFFFFF;
+    }
+
+    .docs-content-area h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .docs-content-area h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .docs-content-area h3 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1F2937;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .docs-content-area p {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .docs-content-area ul {
+      margin-top: 4px;
+      margin-bottom: 8px;
+      padding-left: 18px;
+    }
+
+    .docs-content-area li {
+      margin-bottom: 3px;
+    }
+
+    .docs-content-area code {
+      background: #F1F5F9;
+      color: #0F172A;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .docs-content-area blockquote {
+      margin: 8px 0;
+      padding: 6px 10px;
+      background: #F8FAFC;
+      border-left: 3px solid #3B82F6;
+      color: #475569;
+      font-size: 11px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .docs-content-area table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px;
+      font-size: 10.5px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .docs-content-area th, .docs-content-area td {
+      border: 1px solid #E5E7EB;
+      padding: 5px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .docs-content-area th {
+      background: #F9FAFB;
+      font-weight: 600;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .docs-content-area hr {
+      border: none;
+      border-top: 1px solid #E5E7EB;
+      margin: 14px 0;
+    }
+
+    /* 6. 일괄 수정 선택 모달 (Light Mode) */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(17, 24, 39, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .fix-modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .fix-modal-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .fix-modal-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .btn-close-modal {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      color: #9CA3AF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-close-modal:hover {
+      background: #F3F4F6;
+      color: #111827;
+    }
+
+    .fix-modal-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fix-modal-desc {
+      font-size: 11px;
+      color: #6B7280;
+      margin-bottom: 2px;
+    }
+
+    .fix-option-card {
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: left;
+      font-family: inherit;
+    }
+
+    .fix-option-card:hover {
+      border-color: #1219F7;
+      background: #F8FAFF;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(18, 25, 247, 0.08);
+    }
+
+    .fix-option-card.recommended {
+      border-color: #C7D2FE;
+      background: #F8FAFF;
+    }
+
+    .fix-option-card.recommended:hover {
+      border-color: #1219F7;
+      background: #EEF2FF;
+    }
+
+    .fix-option-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .fix-option-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1219F7;
+    }
+
+    .fix-option-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .fix-option-desc {
+      font-size: 10.5px;
+      color: #6B7280;
+      line-height: 1.4;
+    }
+
+    .fix-modal-footer {
+      padding: 10px 16px 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-modal-cancel {
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-modal-cancel:hover {
+      background: #E5E7EB;
+      color: #111827;
+    }
+
+    /* 7. 도움말 안내 모달 (Light Mode) */
+    .help-modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 320px;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .help-modal-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F3F4F6;
+      flex-shrink: 0;
+    }
+
+    .help-modal-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .help-modal-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #374151;
+    }
+
+    .help-intro-box {
+      background: #F8FAFF;
+      border: 1px solid #E0E7FF;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #1E293B;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .help-intro-box b {
+      color: #1219F7;
+    }
+
+    .help-section {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .help-section-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .help-section-desc {
+      font-size: 11px;
+      color: #6B7280;
+      line-height: 1.45;
+    }
+
+    .help-feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    .help-feature-pill {
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #4B5563;
+      text-align: center;
+    }
+
+    .help-notice-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .help-notice-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400E;
+    }
+
+    .help-notice-desc {
+      font-size: 10.5px;
+      color: #B45309;
+      line-height: 1.4;
+    }
+
+    .help-modal-footer {
+      padding: 10px 16px 14px;
+      display: flex;
+      justify-content: flex-end;
+      border-top: 1px solid #F3F4F6;
+      flex-shrink: 0;
+    }
+
+    .btn-help-confirm {
+      padding: 6px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: #1219F7;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-help-confirm:hover {
+      background: #0B11D4;
+    }
+
+    /* 3. 2단 필터 내비게이션 (심각도 필터 & 카테고리 필터) */
+    .filter-panel {
+      background: #FFFFFF;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    /* 3-1. 심각도 탭 (전체 / 수정 필요 / 확인 필요) */
+    .severity-tabs {
+      display: flex;
+      padding: 0 14px;
+      border-bottom: 1px solid #F3F4F6;
+      gap: 16px;
+    }
+
+    .sev-tab {
+      padding: 8px 0;
+      border: none;
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6B7280;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .sev-tab:hover {
+      color: #111827;
+    }
+
+    .sev-tab.active {
+      color: #111827;
+      font-weight: 700;
+      border-bottom-color: #111827;
+    }
+
+    .sev-tab.active.must-fix {
+      color: #DC2626;
+      border-bottom-color: #DC2626;
+    }
+
+    .sev-tab.active.check-needed {
+      color: #4B5563;
+      border-bottom-color: #4B5563;
+    }
+
+    .sev-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 10px;
+      background: #F3F4F6;
+      color: #6B7280;
+    }
+
+    .sev-tab.active .sev-pill {
+      background: #111827;
+      color: #FFFFFF;
+    }
+
+    .sev-tab.active.must-fix .sev-pill {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    .sev-tab.active.check-needed .sev-pill {
+      background: #E5E7EB;
+      color: #374151;
+    }
+
+    /* 3-2. 카테고리 칩 바 */
+    .category-chips {
+      display: flex;
+      padding: 6px 14px;
+      gap: 6px;
+      background: #FAFAFA;
+      overflow-x: auto;
+    }
+
+    .cat-chip {
+      padding: 3px 8px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .cat-chip:hover {
+      border-color: #D1D5DB;
+      color: #111827;
+    }
+
+    .cat-chip.active {
+      background: #111827;
+      color: #FFFFFF;
+      border-color: #111827;
+    }
+
+    /* 상단 액션 바 (복제본 생성 / 직접 수정) */
+    .summary-bar {
+      padding: 7px 14px;
+      background: #F8F9FA;
+      border-bottom: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 8px;
+    }
+
+    .summary-text {
+      font-size: 11px;
+      color: #6B7280;
+      white-space: nowrap;
+    }
+
+    .summary-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn-subtle {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-subtle:hover {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .btn-subtle.clone-action {
+      color: #1219F7;
+      border-color: #C7D2FE;
+      background: #EEF2FF;
+      font-weight: 600;
+    }
+
+    .btn-subtle.clone-action:hover {
+      background: #E0E7FF;
+    }
+
+    /* 4. 이슈 리스트 스크롤 영역 (스크롤 완벽 지원) */
+    .issue-scroll-area {
+      flex: 1 1 0px;
+      height: 0;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 12px 14px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-sizing: border-box;
+    }
+
+    /* 5. 피드백 그룹 아코디언 카드 (찌그러짐 방지 flex-shrink: 0, min-height 48px) */
+    .group-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      flex-shrink: 0;
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      box-sizing: border-box;
+      transition: border-color 0.15s ease;
+    }
+
+    .group-card:hover {
+      border-color: #D1D5DB;
+    }
+
+    /* 그룹 헤더 */
+    .group-header {
+      min-height: 48px;
+      height: auto;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: #FFFFFF;
+      border-radius: 8px;
+      transition: background 0.15s ease;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+
+    .group-header:hover {
+      background: #F9FAFB;
+    }
+
+    .group-info-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .badge-severity {
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-severity.must-fix {
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FEE2E2;
+    }
+
+    .badge-severity.check-needed {
+      background: #F3F4F6;
+      color: #4B5563;
+      border: 1px solid #E5E7EB;
+    }
+
+    .group-title {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #111827;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .group-count-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6B7280;
+      background: #F3F4F6;
+      padding: 2px 7px;
+      border-radius: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .group-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    .btn-group-fix {
+      height: 26px;
+      padding: 0 8px;
+      background: #EEF2FF;
+      color: #1219F7;
+      border: 1px solid #C7D2FE;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-group-fix:hover {
+      background: #E0E7FF;
+    }
+
+    .btn-chevron {
+      width: 26px;
+      height: 26px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6B7280;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.15s ease;
+    }
+
+    .btn-chevron.expanded {
+      transform: rotate(180deg);
+    }
+
+    /* 그룹 하위 레이어 드롭다운 목록 */
+    .group-items-list {
+      background: #FAFAFA;
+      border-top: 1px solid #F3F4F6;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .layer-item-row {
+      padding: 9px 12px;
+      border-bottom: 1px solid #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .layer-item-row:last-child {
+      border-bottom: none;
+    }
+
+    .layer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .layer-name-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: #374151;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .layer-desc {
+      font-size: 11px;
+      color: #6B7280;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .layer-btns {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .btn-mini-locate {
+      height: 24px;
+      padding: 0 7px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 500;
+      color: #4B5563;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-mini-locate:hover {
+      background: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+
+    .btn-mini-fix {
+      height: 24px;
+      padding: 0 8px;
+      background: #1219F7;
+      border: none;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #FFFFFF;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-mini-fix:hover {
+      background: #0D14D1;
+    }
+
+    /* 빈 화면 */
+    .empty-state-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+      color: #6B7280;
+    }
+
+    .empty-icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      color: #6B7280;
+    }
+
+    .empty-icon-circle.success {
+      background: #EEF2FF;
+      color: #1219F7;
+    }
+
+    .empty-state-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .empty-state-desc {
+      font-size: 11px;
+      color: #6B7280;
+      line-height: 1.5;
+    }
+
+    /* 공통 SVG 아이콘 */
+    .svg-icon {
+      width: 13px;
+      height: 13px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* =============================================================
+       파트너향 전용 다크 모드 (Dark Mode Theme for Partner)
+       고객향(라이트 모드)과 시각적으로 명확하게 구분
+       ============================================================= */
+    body[data-theme="dark"] {
+      background: #101216;
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .app-header {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .brand-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .brand-version {
+      background: #20242D;
+      color: #60A5FA;
+      border: 1px solid #2D3340;
+    }
+
+    body[data-theme="dark"] .mode-segmented {
+      background: #20242D;
+    }
+
+    body[data-theme="dark"] .mode-item {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .mode-item.active {
+      background: #2D3340;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-theme="dark"] .control-bar {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .scope-toggle {
+      background: #20242D;
+    }
+
+    body[data-theme="dark"] .scope-btn {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .scope-btn.active {
+      background: #2D3340;
+      color: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-theme="dark"] .btn-icon-refresh {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-icon-refresh:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+      border-color: #3E4657;
+    }
+
+    body[data-theme="dark"] .filter-panel {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .severity-tabs {
+      border-bottom: 1px solid #222630;
+    }
+
+    body[data-theme="dark"] .sev-tab {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .sev-tab:hover {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .sev-tab.active {
+      color: #F3F4F6;
+      border-bottom-color: #3B82F6;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.must-fix {
+      color: #F87171;
+      border-bottom-color: #EF4444;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.check-needed {
+      color: #9CA3AF;
+      border-bottom-color: #6B7280;
+    }
+
+    body[data-theme="dark"] .sev-pill {
+      background: #252A36;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .sev-tab.active .sev-pill {
+      background: #3B82F6;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.must-fix .sev-pill {
+      background: #DC2626;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .sev-tab.active.check-needed .sev-pill {
+      background: #374151;
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .category-chips {
+      background: #13151A;
+    }
+
+    body[data-theme="dark"] .cat-chip {
+      background: #1F232C;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .cat-chip:hover {
+      border-color: #3E4657;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .cat-chip.active {
+      background: #3B82F6;
+      color: #FFFFFF;
+      border-color: #3B82F6;
+    }
+
+    body[data-theme="dark"] .summary-bar {
+      background: #17191F;
+      border-bottom: 1px solid #262933;
+    }
+
+    body[data-theme="dark"] .summary-text {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-subtle {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .btn-subtle:hover {
+      background: #2B313E;
+      border-color: #3E4657;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .btn-subtle.clone-action {
+      background: #1E293B;
+      border-color: #3B82F6;
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .btn-subtle.clone-action:hover {
+      background: #253858;
+    }
+
+    body[data-theme="dark"] .issue-scroll-area {
+      background: #101216;
+    }
+
+    body[data-theme="dark"] .group-card {
+      background: #17191F;
+      border-color: #262933;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body[data-theme="dark"] .group-card:hover {
+      border-color: #3E4657;
+    }
+
+    body[data-theme="dark"] .group-header {
+      background: #17191F;
+    }
+
+    body[data-theme="dark"] .group-header:hover {
+      background: #1D212A;
+    }
+
+    body[data-theme="dark"] .badge-severity.must-fix {
+      background: #3B181E;
+      color: #F87171;
+      border: 1px solid #5C2229;
+    }
+
+    body[data-theme="dark"] .badge-severity.check-needed {
+      background: #252A36;
+      color: #9CA3AF;
+      border: 1px solid #2D3340;
+    }
+
+    body[data-theme="dark"] .group-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .group-count-tag {
+      background: #20242D;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-chevron {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-chevron:hover {
+      color: #F3F4F6;
+      background: #252A36;
+    }
+
+    body[data-theme="dark"] .btn-group-fix {
+      background: #1E293B;
+      border-color: #3B82F6;
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .btn-group-fix:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .group-items-list {
+      background: #13151A;
+      border-top-color: #262933;
+    }
+
+    body[data-theme="dark"] .layer-item-row {
+      border-bottom-color: #1E222B;
+    }
+
+    body[data-theme="dark"] .layer-item-row:hover {
+      background: #181C23;
+    }
+
+    body[data-theme="dark"] .layer-name-tag {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .layer-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-mini-locate {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-mini-locate:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+      border-color: #3E4657;
+    }
+
+    body[data-theme="dark"] .btn-mini-fix {
+      background: #1E293B;
+      border-color: #3B82F6;
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .btn-mini-fix:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .empty-state-box {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .empty-icon-circle {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .empty-icon-circle.success {
+      background: #132D21;
+      border-color: #1B4D36;
+      color: #34D399;
+    }
+
+    body[data-theme="dark"] .empty-state-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .empty-state-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .docs-modal-box {
+      background: #17191F;
+    }
+
+    body[data-theme="dark"] .docs-modal-header {
+      background: #17191F;
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-segmented {
+      background: #20242D;
+    }
+
+    body[data-theme="dark"] .docs-tab-btn {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .docs-tab-btn.active {
+      background: #2D3340;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .btn-copy-md {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .btn-copy-md:hover {
+      background: #2B313E;
+      color: #FFFFFF;
+    }
+
+    body[data-theme="dark"] .btn-close-docs {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-close-docs:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .docs-content-area {
+      background: #101216;
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .docs-content-area h1 {
+      color: #F3F4F6;
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-content-area h2 {
+      color: #F3F4F6;
+      border-bottom-color: #20242D;
+    }
+
+    body[data-theme="dark"] .docs-content-area h3 {
+      color: #E5E7EB;
+    }
+
+    body[data-theme="dark"] .docs-content-area code {
+      background: #20242D;
+      color: #93C5FD;
+      border: 1px solid #2D3340;
+    }
+
+    body[data-theme="dark"] .docs-content-area blockquote {
+      background: #1A2130;
+      border-left-color: #3B82F6;
+      color: #93C5FD;
+    }
+
+    body[data-theme="dark"] .docs-content-area table {
+      background: #17191F;
+      border-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-content-area th,
+    body[data-theme="dark"] .docs-content-area td {
+      border-color: #262933;
+    }
+
+    body[data-theme="dark"] .docs-content-area th {
+      background: #20242D;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .docs-content-area hr {
+      border-top-color: #262933;
+    }
+
+    body[data-theme="dark"] .fix-modal-box {
+      background: #17191F;
+      border: 1px solid #262933;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    body[data-theme="dark"] .fix-modal-header {
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .fix-modal-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .btn-close-modal {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-close-modal:hover {
+      background: #252A36;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .fix-modal-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .fix-option-card {
+      background: #1C2028;
+      border-color: #2D3340;
+    }
+
+    body[data-theme="dark"] .fix-option-card:hover {
+      border-color: #3B82F6;
+      background: #202736;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.15);
+    }
+
+    body[data-theme="dark"] .fix-option-card.recommended {
+      background: #1A2130;
+      border-color: #2B426B;
+    }
+
+    body[data-theme="dark"] .fix-option-card.recommended:hover {
+      background: #202B40;
+      border-color: #3B82F6;
+    }
+
+    body[data-theme="dark"] .fix-option-count {
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .fix-option-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .fix-option-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-modal-cancel {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .btn-modal-cancel:hover {
+      background: #2D3340;
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .help-modal-box {
+      background: #17191F;
+      border: 1px solid #262933;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    body[data-theme="dark"] .help-modal-header {
+      border-bottom-color: #262933;
+    }
+
+    body[data-theme="dark"] .help-modal-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .help-modal-body {
+      color: #D1D5DB;
+    }
+
+    body[data-theme="dark"] .help-intro-box {
+      background: #1A2130;
+      border-color: #2B426B;
+      color: #E2E8F0;
+    }
+
+    body[data-theme="dark"] .help-intro-box b {
+      color: #60A5FA;
+    }
+
+    body[data-theme="dark"] .help-section-title {
+      color: #F3F4F6;
+    }
+
+    body[data-theme="dark"] .help-section-desc {
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .help-feature-pill {
+      background: #20242D;
+      border-color: #2D3340;
+      color: #9CA3AF;
+    }
+
+    body[data-theme="dark"] .help-notice-box {
+      background: #2A2114;
+      border-color: #4D3B1C;
+    }
+
+    body[data-theme="dark"] .help-notice-title {
+      color: #FBBF24;
+    }
+
+    body[data-theme="dark"] .help-notice-desc {
+      color: #FCD34D;
+    }
+
+    body[data-theme="dark"] .help-modal-footer {
+      border-top-color: #262933;
+    }
+
+    body[data-theme="dark"] .btn-help-confirm {
+      background: #3B82F6;
+    }
+
+    body[data-theme="dark"] .btn-help-confirm:hover {
+      background: #2563EB;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 미니멀 상단 헤더 -->
+  <header class="app-header">
+    <div class="brand-wrap">
+      <span class="brand-title">다이사 교정기</span>
+      <span class="brand-version" id="versionTag">고객향</span>
+    </div>
+    <!-- daisalibrary 스타일 세그먼트 스위처 -->
+    <div class="mode-segmented">
+      <button class="mode-item active" id="tabCustomer">고객향</button>
+      <button class="mode-item" id="tabPartner">파트너향</button>
+    </div>
+  </header>
+
+  <!-- 2. 컨트롤 바 (실시간 검사: 선택 레이어 vs 전체 페이지) -->
+  <div class="control-bar">
+    <div class="scope-toggle">
+      <button class="scope-btn active" id="btnScopeSelection">선택된 레이어 (실시간)</button>
+      <button class="scope-btn" id="btnScopePage">현재 페이지 전체</button>
+    </div>
+    <div class="control-actions-right">
+      <button class="btn-icon-refresh" id="btnOpenDocs" title="디자인시스템 명세서(MD) 보기">
+        <span style="font-family: monospace; font-weight: 700; font-size: 13px; line-height: 1;">{ }</span>
+      </button>
+      <button class="btn-icon-refresh" id="btnOpenHelp" title="다이사 교정기 안내">
+        <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. 필터 내비게이션 -->
+  <div class="filter-panel" id="filterPanel" style="display: none;">
+    <!-- 3-1. 심각도 모아보기 (전체 / 수정 필요 / 확인 필요) -->
+    <div class="severity-tabs">
+      <button class="sev-tab active" data-sev="all">
+        <span>전체</span>
+        <span class="sev-pill" id="pillAll">0</span>
+      </button>
+      <button class="sev-tab must-fix" data-sev="must-fix">
+        <span>수정 필요</span>
+        <span class="sev-pill" id="pillMustFix">0</span>
+      </button>
+      <button class="sev-tab check-needed" data-sev="check-needed">
+        <span>확인 필요</span>
+        <span class="sev-pill" id="pillCheckNeeded">0</span>
+      </button>
+    </div>
+
+    <!-- 3-2. 카테고리 칩 -->
+    <div class="category-chips">
+      <button class="cat-chip active" data-cat="all">전체</button>
+      <button class="cat-chip" data-cat="typography">서체·폰트</button>
+      <button class="cat-chip" data-cat="color">컬러</button>
+      <button class="cat-chip" data-cat="radius">곡률·보더</button>
+      <button class="cat-chip" data-cat="layout">기타</button>
+    </div>
+  </div>
+
+  <!-- 상단 액션 바 (이 프레임에서 수정 / 수정된 복제본 생성) -->
+  <div class="summary-bar" id="summaryBar" style="display: none;">
+    <div class="summary-text" id="summarySummaryText">총 0개 항목 발견</div>
+    <div class="summary-actions">
+      <!-- 1) 현재 프레임에서 직접 수정 (왼쪽) -->
+      <button class="btn-subtle" id="btnFixAll" style="display: none;" title="현재 프레임 내에서 '수정 필요' 항목을 바로 수정합니다.">
+        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>이 프레임에서 수정 (<span id="cntFixableTotal">0</span>)</span>
+      </button>
+
+      <!-- 2) 원본 보존 & 새 레이어로 수정된 복제본 생성 (오른쪽) -->
+      <button class="btn-subtle clone-action" id="btnCloneAndFix" style="display: none;" title="원본을 그대로 두고, 옆에 '수정 필요' 항목이 자동 보정된 복제본 프레임을 새로 만듭니다.">
+        <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>수정된 복제본 생성</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. 피드백 그룹 아코디언 리스트 -->
+  <main class="issue-scroll-area" id="issueScrollArea">
+    <div class="empty-state-box">
+      <div class="empty-icon-circle">
+        <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+      </div>
+      <div class="empty-state-title">검사할 대상을 선택하세요</div>
+      <div class="empty-state-desc">
+        피그마 캔버스에서 검증할 프레임을 클릭하면<br>
+        버튼을 누르지 않아도 실시간으로 바로 검사합니다.
+      </div>
+    </div>
+  </main>
+
+  <!-- 5. 디자인시스템 MD 명세서 뷰어 모달 -->
+  <div class="docs-modal-backdrop" id="docsModal" style="display: none;">
+    <div class="docs-modal-box">
+      <div class="docs-modal-header">
+        <div class="docs-header-left">
+          <div class="docs-segmented">
+            <button class="docs-tab-btn active" id="docsTabCustomer">고객향 MD</button>
+            <button class="docs-tab-btn" id="docsTabPartner">파트너향 MD</button>
+          </div>
+        </div>
+        <div class="docs-header-actions">
+          <button class="btn-copy-md" id="btnCopyDocsRaw" title="마크다운 전문 복사">
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span id="txtCopyLabel">MD 복사</span>
+          </button>
+          <button class="btn-close-docs" id="btnCloseDocs" title="닫기">
+            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+      <div class="docs-content-area" id="docsContent"></div>
+    </div>
+  </div>
+
+  <!-- 6. 일괄 수정 범위 선택 모달 -->
+  <div class="modal-backdrop" id="fixModal" style="display: none;">
+    <div class="fix-modal-box">
+      <div class="fix-modal-header">
+        <div class="fix-modal-title" id="fixModalTitle">이 프레임에서 수정</div>
+        <button class="btn-close-modal" id="btnCloseFixModal" title="닫기">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="fix-modal-body">
+        <div class="fix-modal-desc">원하시는 자동 수정 범위를 선택해주세요.</div>
+
+        <button class="fix-option-card recommended" id="btnOptMustOnly" type="button">
+          <div class="fix-option-top">
+            <span class="badge-severity must-fix">수정 필요만</span>
+            <span class="fix-option-count" id="txtFixMustCount">0개</span>
+          </div>
+          <div class="fix-option-title">'수정 필요' 항목만 수정</div>
+          <div class="fix-option-desc">
+            규격 위반이 명확한 항목만 안전하게 자동 교정합니다. (권장)
+          </div>
+        </button>
+
+        <button class="fix-option-card" id="btnOptAllItems" type="button">
+          <div class="fix-option-top">
+            <span class="badge-severity check-needed">전체 수정</span>
+            <span class="fix-option-count" id="txtFixAllCount">0개</span>
+          </div>
+          <div class="fix-option-title">모든 항목 일괄 수정</div>
+          <div class="fix-option-desc">
+            '확인 필요' 항목까지 포함하여 자동 수정 가능한 모든 항목을 한 번에 교정합니다.
+          </div>
+        </button>
+      </div>
+
+      <div class="fix-modal-footer">
+        <button class="btn-modal-cancel" id="btnCancelFixModal" type="button">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 도움말 안내 모달 -->
+  <div class="modal-backdrop" id="helpModal" style="display: none;">
+    <div class="help-modal-box">
+      <div class="help-modal-header">
+        <div class="help-modal-title">다이사 교정기 안내</div>
+        <button class="btn-close-modal" id="btnCloseHelpModal" title="닫기">
+          <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="help-modal-body">
+        <div class="help-intro-box">
+          다이사 디자인시스템과 일치하는지 검증하고, 일관된 디자인을 위해 <b>반드시 정해진 규칙만 사용해야 하는 요소</b>들을 찾아내고 교정하는 도구입니다.
+        </div>
+
+        <div class="help-section">
+          <div class="help-section-title">주요 교정 필수 요소</div>
+          <div class="help-feature-grid">
+            <div class="help-feature-pill">서체 (공식 서체)</div>
+            <div class="help-feature-pill">폰트 크기 스케일</div>
+            <div class="help-feature-pill">공식 컬러 토큰</div>
+            <div class="help-feature-pill">모서리 곡률 (Radius)</div>
+          </div>
+          <div class="help-section-desc">
+            복잡한 컴포넌트 형태 대신 <b>폰트, 폰트사이즈, 색상, 곡률</b> 등 기본적이고 필수적인 핵심 요소들만 빠르고 정확하게 교정합니다.
+          </div>
+        </div>
+
+        <div class="help-section">
+          <div class="help-section-title">스마트 근접값 자동 보정</div>
+          <div class="help-section-desc">
+            폰트 사이즈와 색상의 경우, 정해진 규격을 사용하지 않았을 때 일괄 수정 시 <b>자동으로 가장 근접한 공식 폰트사이즈와 유사한 공식 컬러 토큰</b>으로 변경됩니다.
+          </div>
+        </div>
+
+        <div class="help-notice-box">
+          <div class="help-notice-title">수정 반영 후 최종 확인 필수</div>
+          <div class="help-notice-desc">
+            이 도구는 육안으로 한눈에 보기 어려운 규격 위반을 빠르게 잡아내는 보조 도구입니다. 일괄 수정 반영 후 레이아웃 의도에 맞게 추가 수정이 필요할 수 있으니 <b>반드시 화면을 직접 확인</b>해 주세요.
+          </div>
+        </div>
+      </div>
+
+      <div class="help-modal-footer">
+        <button class="btn-help-confirm" id="btnConfirmHelpModal" type="button">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'customer';
+    let currentScope = 'selection'; // 'selection' | 'page'
+    let currentIssues = [];
+    let currentSeverity = 'all';
+    let currentCategory = 'all';
+    let expandedGroupKeys = new Set();
+
+    const tabCustomer = document.getElementById('tabCustomer');
+    const tabPartner = document.getElementById('tabPartner');
+    const versionTag = document.getElementById('versionTag');
+    const btnScopeSelection = document.getElementById('btnScopeSelection');
+    const btnScopePage = document.getElementById('btnScopePage');
+    const btnOpenHelp = document.getElementById('btnOpenHelp');
+    const helpModal = document.getElementById('helpModal');
+    const btnCloseHelpModal = document.getElementById('btnCloseHelpModal');
+    const btnConfirmHelpModal = document.getElementById('btnConfirmHelpModal');
+    const filterPanel = document.getElementById('filterPanel');
+    const summaryBar = document.getElementById('summaryBar');
+    const summarySummaryText = document.getElementById('summarySummaryText');
+    const pillAll = document.getElementById('pillAll');
+    const pillMustFix = document.getElementById('pillMustFix');
+    const pillCheckNeeded = document.getElementById('pillCheckNeeded');
+    const btnCloneAndFix = document.getElementById('btnCloneAndFix');
+    const btnFixAll = document.getElementById('btnFixAll');
+    const cntFixableTotal = document.getElementById('cntFixableTotal');
+    const issueScrollArea = document.getElementById('issueScrollArea');
+
+    const btnOpenDocs = document.getElementById("btnOpenDocs");
+    const docsModal = document.getElementById("docsModal");
+    const docsTabCustomer = document.getElementById("docsTabCustomer");
+    const docsTabPartner = document.getElementById("docsTabPartner");
+    const btnCopyDocsRaw = document.getElementById("btnCopyDocsRaw");
+    const txtCopyLabel = document.getElementById("txtCopyLabel");
+    const btnCloseDocs = document.getElementById("btnCloseDocs");
+    const docsContent = document.getElementById("docsContent");
+    let currentDocsTab = "customer";
+
+    const CUSTOMER_MD = "# 다이사(da24) 공식 고객향 디자인시스템 명세서 (Daisa Customer Design System)\n\n> **문서 버전**: v2.0.0 (Figma Linter & AI Engine Edition)  \n> **최종 갱신일**: 2026-11-09  \n> **적용 대상**: 다이사(da24) B2C 고객향 웹 & 모바일 서비스 전반  \n> 🚨 **절대 원칙 (Non-Negotiable)**: 절대 파트너향과 고객향의 md 파일 및 명세는 섞여서는 안 되며, 반드시 각자의 md 파일을 기준으로 독립적으로 작업해야 합니다. 사용자가 \"두 개를 동시에 바꿔라\" 또는 \"통일시켜라\"라고 명시적으로 지시하지 않는 한, 절대로 두 시스템을 임의로 통일시키지 마십시오.\n\n---\n\n## 1. 레벨 1: 절대 불변 규칙 (Hard Rules / 플러그인 100% 차단 대상)\n\n### 1-1. 타이포그래피 (Typography)\n* **단일 서체**: 오직 **`Pretendard`** 단일 서체만 사용합니다. (시스템 산세리프, AppleGothic, Roboto 등 혼용 금지)\n* **자간**: 모든 텍스트 레이어에 **`letter-spacing: -1px` (`-0.01em`)** 고정 적용.\n* **굵기**: **`Bold (700)`**과 **`Regular (400)`** 2종만 허용.\n* **짝수 6종 크기 원칙**: **`12, 14, 16, 18, 20, 24px`** 외 홀수(13, 15, 17px) 및 소수점 폰트 크기 사용 엄격 차단.\n  * **예외 허용 (Micro Badge)**: 실시간 알림 카운트 배지(`N개`, `3`), 상태 태그 등 특수 초소형 배지에 한하여 **`10px` 또는 `11px`** 사용 허용.\n* **타이포그래피 스케일 표**:\n\n| 토큰명 | 크기 (Size) | 행간 (Line-Height) | 굵기 | 주요 권장 용도 |\n| :--- | :---: | :---: | :---: | :--- |\n| **Headline** | `24px` | `140% (34px)` | Bold / Regular | 페이지 메인 헤드라인, 신청 완료 대타이틀 |\n| **Title** | `20px` | `150% (30px)` | Bold / Regular | 섹션 대제목, 팝업 및 모달 제목 |\n| **Button / Body High**| `18px` | `140% (25px) / 150%` | Bold / Regular | 메인 액션 버튼(56px), 견적 금액 등 강조 본문 |\n| **Body (★ 기본 본문)**| `16px` | `150% (24px)` | Bold / Regular | **고객향 기본 본문 텍스트**, 인풋 입력 값, 라벨, 모달 설명문 |\n| **Sub** | `14px` | `140% (20px)` | Bold / Regular | 서브 라벨, 인풋 하단 에러 메시지, 설명 보조 문구 |\n| **Caption** | `12px` | `130% (16px)` | Bold / Regular | 각주 약관 동의, 부가 메타데이터, 날짜/시간 표기 |\n| *Micro Badge (예외)*| `10px / 11px`| `120%` | Bold | 알림 카운트 배지 전용 |\n\n---\n\n### 1-2. 컬러 토큰 (Color Tokens & Role Mapping)\n허용된 13대 Hex 토큰 외의 임의 색상 사용은 피그마 플러그인 린터에서 에러로 검출합니다.\n\n| 토큰명 | Hex 코드 | 역할 및 적용 위치 (Role Mapping) |\n| :--- | :---: | :--- |\n| **main-01** | `#1219F7` | 메인 브랜드 키컬러, Primary CTA 버튼 배경, 포커스 인풋 보더 |\n| **main-02** | `#595EF9` | 보조 블루 포인트, 서브 버튼 텍스트/보더 |\n| **main-03** | `#1219F7 ~ #595EF9` | 대형 프로모션 배너 및 브랜드 그라디언트 |\n| **main-04** | `#F4F5FF` | 키컬러 배경 틴트, 파란색 안내 뱃지 배경 |\n| **sub-02** | `#F34766` | 에러 1px 스트로크, 하단 오류 피드백 텍스트 |\n| **text-01** | `#121212` | 페이지 메인 대제목, 주요 강조 헤드라인 |\n| **text-02** | `#333333` | 본문 기본 텍스트, 인풋 입력 값, 라벨 텍스트 |\n| **text-03** | `#666666` | 보조 설명문, 입력창 힌트 문구, 주소 검색 팁 |\n| **text-04** | `#888888` | 인풋 플레이스홀더, 비활성 텍스트, 각주 약관 |\n| **etc-01** | `#FFFFFF` | 카드 컨테이너 배경, 인풋 필드 배경, 모달 팝업 배경 |\n| **etc-02** | `#D7DBE2` | 기본 1px 테두리 (인풋 외곽선, 기본 카드 스트로크) |\n| **etc-03** | `#EBEEF2` | 영역 구분선(Divider 1px), 모달 취소 버튼 배경 |\n| **etc-04** | `#F7F8FA` | 비활성 인풋 배경, 비활성 버튼 배경 |\n| **etc-05** | `#FAFAFA` | 서비스 기본 페이지 배경 |\n| **dimmed** | `rgba(0,0,0,0.6)` | 모달 및 바텀시트 뒷배경 오버레이 (60%) |\n\n---\n\n### 1-3. 캔버스 및 레이아웃 안전 영역 (Layout Safe Area)\n* **모바일 (Mobile)**:\n  * 기준 프레임 캔버스 너비: **`360px`**\n  * 좌우 마진 여백: **양측 각 `24px`** 고정\n  * 본문 콘텐츠 안전 영역 (Safe Area): **`312px`** (360 - 24 * 2 = 312px)\n  * 모든 메인 버튼, 폼 인풋, 기본 카드는 반드시 312px 이내로 배치합니다.\n* **웹/PC (Desktop)**:\n  * 기준 캔버스 너비: **`1200px`**\n  * 콘텐츠 단일 열 집중: **`640px` 중앙 단일 열 정렬** (헤더, 본문 폼, 하단 버튼 모두 640px 일치)\n  * 좌우 안전 여백: 각 `280px`\n\n---\n\n### 1-4. UX 라이팅 및 이모지 금지 룰 (UX Writing & Emoji)\n* **이모지 전면 금지**: 텍스트 레이어에 `📦, 🔥, ✨, 🚚` 등 비표준 이모지 사용 절대 금지 (공식 선형 아이콘으로 대체).\n* **문체 원칙**:\n  * 타이틀: `~해요체` (마침표 없음) ➔ *ex. 출발지를 검색해 주세요*\n  * 설명: `~해요체` (마침표 있음) ➔ *ex. 업체에게 모든걸 맡기세요.*\n  * 유의사항/힌트: `~합니다체` (마침표 있음) ➔ *ex. 이벤트 신청은 1건당 1회 가능합니다.*\n  * 버튼 텍스트: `~하기체` 또는 명사형 ➔ *ex. 설정하러 가기, 신청 정보 확인 완료*\n* **외 표기법**:\n  * 금액: `48만 원`, `총 200만 원`, `340,000원` (단위 간 띄어쓰기 준수)\n  * 날짜: `2024.07.06` (연도 4자리 온점 표기)\n  * 슬래시: 앞뒤 띄어쓰기 없음 (`알림톡/mms`)\n  * 괄호: 국문 앞 붙여쓰기 (`원룸/오피스텔(9평 이하)`), 영문/숫자 앞 띄어쓰기 (`oneroom (9평 이하)`)\n  * 콜론: 붙여쓰기 (`1:1`), 앰퍼샌드: 띄어쓰기 (`조건 & 혜택`)\n\n---\n\n## 2. 레벨 2: 필수 공통 컴포넌트 4대 규격 (Core 4 Components)\n\n### 2-1. 버튼 (Button)\n* **본문 표준 버튼 (Public Button - 공식 표준)**:\n  * 크기: 모바일 너비 `312px` (PC `640px`), 높이 `56px`\n  * Corner Radius: **`10px`**\n  * 텍스트: `16px Bold White`, 중앙 정렬\n  * 상태: Normal `#1219F7` / Loading (인디케이터) / Disabled `#F7F8FA` (텍스트 `#888888`)\n  * ⚠️ **Floating CTA (360x56, r:0px)**는 구버전 레거시 규격으로 사용 금지.\n* **모달 다이얼로그 버튼 (Modal Buttons)**:\n  * 전체 너비 `280px`, 높이 `56px` (또는 `48px`), Corner Radius **`10px`**\n  * [좌측 취소]: 너비 `136px`, 배경 `#EBEEF2`, 텍스트 `#666666 16px Bold`\n  * [우측 확인]: 너비 `136px`, 배경 `#1219F7`, 텍스트 `#FFFFFF 16px Bold` (버튼 간 간격 8px)\n\n### 2-2. 입력창 (Form Input)\n* **규격**: 너비 `312px`, 높이 `56px`, Corner Radius **`10px`**, 좌우 패딩 `16px`\n* **보더 스트로크**: 무조건 **`1px solid`** 고정 (두꺼운 2px 스트로크 금지)\n  * 기본 상태: 보더 `#D7DBE2`, 배경 `#FFFFFF`, 텍스트 `#333333 (16px Regular)`\n  * 포커스 상태: 보더 `#1219F7`\n  * 에러 상태: 보더 **`#F34766`**, 텍스트 `#F34766`\n  * 🚨 **에러 인풋 내 느낌표(`!`) 아이콘 절대 사용 금지** (1px 에러 보더와 하단 14px 안내 문구로만 피드백).\n* **라벨**: 입력창 상단 `14px Bold (#121212)`\n\n### 2-3. 오버레이 (Modal & Bottom Sheet)\n* **Alert / Confirm 모달**: 너비 `312px` 중앙 정렬, Corner Radius **`16px`**, 배경 딤드 60%\n* **바텀시트**: 모바일 전폭 `360px`, 상단 모서리만 **`16px`** (`rounded-t-[16px]`), 상단 중앙 핸들바 (`36x4px, r:full, #D7DBE2`)\n* **1200px 반응형 절대 분기**:\n  * `360px ~ 1199px`: 하단에서 슬라이드 업되는 **가변 바텀시트** (뷰포트 너비 대응)\n  * `1200px 이상`: 화면 정중앙에 고정되는 **중앙 고정 모달** (`w-[440px]`, r:16px, 핸들바 숨김)\n\n### 2-4. 카드 컨테이너 (Card Box)\n* **배경 & 보더**: 순수 흰색 `#FFFFFF` 배경 + **`1px solid #D7DBE2` (또는 `#E5E8EB`)**\n* **높이별 Corner Radius 3단계 (신규 확정 규격)**:\n  * **소형 인라인 카드 (높이 ~ 79px)**: **`8px`** (`rounded-[8px]`) ➔ *단일 옵션 행, 1줄짜리 소형 정보 박스*\n  * **표준 카드 (높이 80px ~ 240px)**: **`10px`** (`rounded-[10px]`) ➔ *견적 요약 카드, 기본 폼 블록 (전사 표준)*\n  * **대형 컨테이너 카드 (높이 241px 이상)**: **`12px`** (`rounded-[12px]`) ➔ *화면 전체를 감싸는 대형 섹션 그룹*\n\n---\n\n## 3. 레벨 3: 디자이너 자유 영역 (Flexibility)\n\n위의 4대 핵심 컴포넌트(버튼, 인풋, 오버레이, 카드)와 레벨 1의 토큰(서체, 짝수 크기, 컬러, 캔버스 안전영역)만 준수한다면:\n1. 화면 내 카드들의 세로 배치 순서 및 그룹핑\n2. 이사 날짜 선택 달력 레이아웃이나 세부 체크박스 목록 조합\n3. 서비스 프로모션 안내 배너의 시각 구도\n등은 **디자이너가 서비스 기획 의도에 맞춰 100% 자유롭게 디자인**할 수 있습니다.\n";
+    const PARTNER_MD = "# 다이사(da24) 공식 파트너향 디자인시스템 명세서 (Daisa Partner Design System)\n\n> **문서 버전**: v2.0.0 (Figma Linter & AI Engine Edition)  \n> **최종 갱신일**: 2026-11-09  \n> **적용 대상**: 다이사(da24) 및 위매치(wematch) 파트너(이사업체, 청소업체, 기사님, 시공업체) 모바일 웹 & PC 파트너 관리 콘솔  \n> 🚨 **절대 원칙 (Non-Negotiable)**: 절대 파트너향과 고객향의 md 파일 및 명세는 섞여서는 안 되며, 반드시 각자의 md 파일을 기준으로 독립적으로 작업해야 합니다. 사용자가 \"두 개를 동시에 바꿔라\" 또는 \"통일시켜라\"라고 명시적으로 지시하지 않는 한, 절대로 두 시스템을 임의로 통일시키지 마십시오.  \n> **기준 피그마**: `[파트너] 스타일가이드` (`loNec9fjF6nIEgkwxH7aSN`), `[개발] v1.2` (`G5JiHI51FV6XFImlsyON6u`)\n\n---\n\n## 1. 레벨 1: 절대 불변 규칙 (Hard Rules / 플러그인 100% 차단 대상)\n\n고객향 디자인시스템이 부드러운 라운드(10px)와 컴팩트한 본문(16px) 중심의 B2C 서비스라면, **파트너향 디자인시스템은 현장 기사님과 업체의 신속하고 정확한 조작성을 보장하는 고신뢰 파트너 규격**을 적용합니다.\n\n### 1-1. 모서리 곡률 (Corner Radius) 절대 기준: 6px 고정\n* **표준 기본값**: 모든 카드 컨테이너, 폼 인풋, 메인 CTA 버튼의 Corner Radius는 **`6px`** 고정입니다.\n* **서브 컴포넌트 허용값**: 좁은 테이블 인라인 액션 버튼, 작은 태그 칩은 **`4px`** 적용 가능.\n* **특수 제외 대상**:\n  * 캡슐형 칩/배지: **Pill (`rounded-full`)** 형태 예외 허용.\n  * 모달 및 바텀시트: 화면 환경에 맞추어 유연하게 적용할 수 있도록 **곡률 검증 완전 면제**.\n* 🚨 **엄격한 금지 규격 (Anti-Pattern)**:\n  * 고객향에서 쓰이는 둥근 라운드(**`10px`, `16px`**) 사용 절대 금지 (플러그인 '수정 필요'로 차단 및 6px로 자동 교정).\n  * 20px 이상의 과도한 곡률(Pill 제외) 및 0px 완전 직각 컨테이너 사용 금지.\n  * 파트너 화면은 **`Radius 6px`**을 기본 아이덴티티로 통일하여 단단하고 신뢰감 있는 인터페이스를 유지합니다.\n\n---\n\n### 1-2. 타이포그래피 (Typography) 가독성 절대 기준: 기본 18px (Body 1)\n현장 이동 중이거나 야외 채광 환경에서 모바일 및 태블릿을 주로 다루는 기사님의 특성을 반영하여, **기본 본문 텍스트를 18px로 대폭 상향**합니다.\n\n* **서체**: **`Pretendard`** 또는 **`Noto Sans KR`** 단일 서체만 사용합니다.\n* **자간**: 모든 텍스트 레이어에 **`letter-spacing: -1px` (`-0.01em`)** 고정 적용.\n* **굵기**: **`Bold (700)`**과 **`Regular (400)`** 2종만 허용.\n* **7단계 폰트 스케일 원칙**: **`14, 16, 18, 20, 24, 28, 32px`** 외 홀수 및 소수점 폰트 크기 사용 엄격 차단.\n* 🚨 **극소 폰트 절대 금지 (Anti-Pattern)**:\n  * 기사님 현장 시인성을 위해 고객향의 **12px 이하 극소 폰트는 사용이 전면 금지**됩니다. (최소 14px 필수)\n* **파트너 타이포그래피 스케일 표**:\n\n| 토큰명 | 크기 (Size) | 행간 (Line-Height) | 굵기 | 주요 권장 용도 |\n| :--- | :---: | :---: | :---: | :--- |\n| **Display** | `32px` | `140% (45px)` | Bold / Regular | 환영 메시지, 핵심 성과 지표 대형 수치 |\n| **Headline** | `28px` | `140% (39px)` | Bold / Regular | 대분류 페이지 메인 헤더, 완료 대타이틀 |\n| **Title** | `24px` | `140% (34px)` | Bold / Regular | 섹션 대제목, 팝업 제목 |\n| **Sub-Title** | `20px` | `150% (30px)` | Bold / Regular | 그룹 소제목, 모달 타이틀 |\n| **Body 1 (★ 파트너 기본 본문)** | `18px` | `150% (27px)` | Bold / Regular | **파트너 기본 본문 텍스트**, 주문 정보, 고객 견적 세부 내역, 폼 라벨, 폼 입력 텍스트 |\n| **Body 2** | `16px` | `150% (24px)` | Bold / Regular | 보조 설명문, 테이블 서브 본문 데이터 |\n| **Caption** | `14px` | `150% (21px)` | Bold / Regular | 각주 약관 동의, 날짜/시간 메타데이터 (※ 12px 극소 텍스트 사용 금지) |\n\n---\n\n### 1-3. 컬러 토큰 (Color Tokens & Role Mapping)\n피그마 `[파트너] 스타일가이드` 노드 `1:305` 공식 등록 16대 Hex 토큰 외의 임의 색상 및 레거시 폐기 색상은 플러그인에서 엄격히 차단합니다.\n\n| 토큰명 | Hex 코드 | 역할 및 적용 위치 (Role Mapping) |\n| :--- | :---: | :--- |\n| **main-01** | `#1219F7` | 메인 키컬러 (메인 CTA 버튼 배경, 주요 활성 상태, 승인 완료) |\n| **main-02** | `#595EF9` | 서브 블루 포인트 (보조 인터랙션, 그래픽 강조 포인트, 아웃라인 보더) |\n| **main-03** | `#1219F7 ~ #595EF9` | 브랜드 그라데이션 |\n| **main-04** | `#F4F5FF` | 틴트 배경 (배지, 선택된 리스트 카드 배경) |\n| **sub-01** | `#F7D915` | 서브 옐로우 (주의 알림, 배차 추천 하이라이트) |\n| **sub-02** | `#F34766` | 서브 레드 / 에러 (취소, 경고 피드백, 반려) |\n| **system-01** | `#000000` | 순수 블랙 |\n| **system-02** | `#FFFFFF` | 순수 화이트 |\n| **text-01** | `#121212` | 타이틀, 견적 금액, 주문 번호 등 주요 정보 |\n| **text-02** | `#333333` | 본문 기본 텍스트, 폼 입력 텍스트, 고객명, 주소 라벨 |\n| **text-03** | `#666666` | 보조 설명, 견적 일시, 부가 정보 안내문 |\n| **text-04** | `#888888` | 캡션, 인풋 플레이스홀더, 비활성 텍스트 |\n| **etc-01** | `#C4C9D1` | 진한 구분선, 서브 보더 |\n| **etc-02** | `#D7DBE2` | 기본 1px 보더 (인풋창, 기본 카드 외곽 테두리 1px) |\n| **etc-03** | `#EBEEF2` | 연한 구분선 Divider, 비활성 버튼 테두리 |\n| **etc-04** | `#F7F8FA` | 비활성 배경, 카드 배경, 인풋 Disabled BG |\n| **etc-05** | `#FAFAFA` | 가장 연한 영역 배경 |\n| **dimmed** | `rgba(0,0,0,0.6)` | 모달 및 바텀시트 뒷배경 오버레이 (60%) |\n| 🚫 **notused-01** | `#999999` | **레거시 폐기 색상 (사용 엄격 금지 ➔ text-03 또는 etc-01로 교체)** |\n| 🚫 **notused-02** | `#BCC0C6` | **레거시 폐기 색상 (사용 엄격 금지 ➔ etc-01 또는 etc-02로 교체)** |\n\n---\n\n### 1-4. 캔버스 및 레이아웃 안전 영역 (Layout Safe Area)\n* **모바일 현장 뷰 (Mobile)**:\n  * 기준 캔버스 너비: **`360px`**\n  * 좌우 마진 여백: **양측 각 `24px`** 고정\n  * 본문 콘텐츠 안전 영역 (Safe Area): **`312px`** (360 - 24 * 2 = 312px)\n  * 상단 네비게이션: 헤더 높이 **`56px`**\n* **웹/PC 관리자 콘솔 (Desktop)**:\n  * 기준 캔버스 너비: **`1200px`**\n  * 글로벌 네비게이션(GNB): 높이 **`80px`** (전폭 1200px)\n  * **콘텐츠 카드 단일 안전 너비: `627px`** (Order Container 규격)\n    * 1200px 캔버스 중앙에 `627px` 단일 열 카드를 배치하고 모서리 라운드 **`6px`** 적용.\n    * 내부 컨테이너 여백: 기본 패딩 **`24px`**.\n\n---\n\n### 1-5. UX 라이팅 및 이모지 금지 룰 (UX Writing & Emoji)\n* **이모지 전면 금지**: 텍스트 레이어에 `📦, 🔥, ✨, 🚚` 등 비표준 네이티브 이모지 사용 절대 금지 (공식 선형 SVG 아이콘으로 대체).\n* **문체 원칙**: 신속하고 명확한 업무 소통을 위해 간결한 명사형 또는 정중한 안내체 유지.\n\n---\n\n## 2. 레벨 2: 필수 공통 컴포넌트 4대 규격 (Core 4 Components)\n\n### 2-1. 버튼 (Button)\n* **Primary Bottom CTA (하단 고정 및 페이지 메인 버튼)**:\n  * 크기: 모바일 너비 **`312px`** (PC **`627px`**), 높이 **`56px`** 또는 **`62px`**\n  * Corner Radius: **`6px`**\n  * 타이포그래피: **`18px Bold White`** (`#FFFFFF`, 배경 `#1219F7`)\n* **Secondary / Inline 액션 버튼 (통화하기, 채팅하기, 수정하기 등)**:\n  * 크기: 높이 **`51px`** 또는 **`48px`**\n  * Corner Radius: **`6px`** (초소형 마이크로 버튼은 **`4px`**)\n  * 타이포그래피: **`16px Bold`** 또는 **`18px Bold`**\n  * 스타일: 취소(배경 `#F2F4F6`, 텍스트 `#191F28`) 또는 아웃라인(보더 1px `#595EF9`, 텍스트 `#595EF9`)\n\n### 2-2. 입력창 (Form Input)\n* **표준 인풋 (Text, Number, Select)**:\n  * 너비: **`312px`** (모바일 전폭 안전영역)\n  * 높이: **`56px`** (패딩 좌우 16px)\n  * Corner Radius: **`6px`**\n  * 텍스트 크기: **`18px`** (입력값 text-01 `#121212`, 플레이스홀더 text-04 `#888888`)\n  * 보더 스타일: 기본 etc-02 `#D7DBE2` (1px solid), 포커스 시 main-01 `#1219F7` (2px solid), 에러 시 sub-02 `#F34766`\n  * 비활성 상태: 배경 etc-04 `#F7F8FA`, 보더 etc-03 `#EBEEF2`\n\n### 2-3. 오버레이 및 다이얼로그 (Modals & Popups)\n* **Alert / Confirm 모달**:\n  * 너비: **`312px`** (모바일 전폭 안전영역 중앙 정렬)\n  * Corner Radius: **`6px`** (플러그인에서는 모달 판별 시 곡률 검증 면제)\n  * 배경 딤드: `rgba(0, 0, 0, 0.6)` 60%\n  * 타이틀: **`20px Bold`** (`lh 150%`)\n  * 본문: **`18px Regular`** (`lh 150%`)\n  * 하단 버튼: 높이 **`48px`** 또는 **`51px`**, Corner Radius **`6px`**\n* **바텀시트 (Bottom Sheet)**:\n  * 너비: 모바일 전폭 **`360px`**\n  * 상단 모서리 라운드: **`16px`** (기사님이 한 손으로 밀어 올릴 수 있는 슬라이드 제스처 영역)\n  * 리스트 아이템: 높이 **`56px`**, 텍스트 **`18px`**\n\n### 2-4. 필터 칩 및 태그 (Filter Chips)\n* **형태**: 라운드 수치(6px)에 구애받지 않고 전사 공통 **완전한 라운드 형태 (Pill / rounded-full)** 적용.\n* **규격**: 높이 **`36px`**, 텍스트 **`14px Semibold`**.\n\n---\n\n## 3. 고객향 vs 파트너향 핵심 비교 요약표\n\n| 항목 | 고객향 (Customer) | 파트너향 (Partner) |\n| :--- | :--- | :--- |\n| **기본 본문 텍스트** | `16px` (Body) | **`18px` (Body 1)** (현장 가독성 강화) |\n| **최소 캡션 크기** | `12px` | **`14px`** (`12px` 금지) |\n| **기본 모서리 곡률** | `10px` (카드), `16px` (모달) | **`6px`** (카드, 인풋, 버튼 등 전사 통일) |\n| **메인 CTA 버튼** | 높이 `56px`, Radius `10px`, `16px Bold` | 높이 **`56px/62px`**, Radius **`6px`**, **`18px Bold`** |\n| **폼 인풋 규격** | 너비 `312px`, 높이 `56px`, Radius `10px` | 너비 `312px`, 높이 `56px`, Radius **`6px`** |\n| **웹(Web) 콘텐츠 열 너비**| `1200px` 캔버스 내 `640px` 열 | `1200px` 캔버스 내 **`627px`** 주문 카드 열 |\n| **모바일(Mobile) 콘텐츠** | `360px` 캔버스 내 `312px` 열 | `360px` 캔버스 내 **`312px`** 열 |\n| **UI 테마 성격** | 모던 라이트 스타일 | **모던 라이트 스타일 (파트너 전용 18px / 6px)** |\n";
+
+    // 명세서 뷰어 ({ }) 모달 제어
+    btnOpenDocs.addEventListener("click", () => {
+      currentDocsTab = currentMode;
+      renderDocsTab();
+      docsModal.style.display = "flex";
+    });
+
+    btnCloseDocs.addEventListener("click", () => {
+      docsModal.style.display = "none";
+    });
+
+    docsModal.addEventListener("click", (e) => {
+      if (e.target === docsModal) {
+        docsModal.style.display = "none";
+      }
+    });
+
+    docsTabCustomer.addEventListener("click", () => {
+      currentDocsTab = "customer";
+      renderDocsTab();
+    });
+
+    docsTabPartner.addEventListener("click", () => {
+      currentDocsTab = "partner";
+      renderDocsTab();
+    });
+
+    function renderDocsTab() {
+      if (currentDocsTab === "customer") {
+        docsTabCustomer.className = "docs-tab-btn active";
+        docsTabPartner.className = "docs-tab-btn";
+        docsContent.innerHTML = renderMarkdown(CUSTOMER_MD);
+      } else {
+        docsTabCustomer.className = "docs-tab-btn";
+        docsTabPartner.className = "docs-tab-btn active";
+        docsContent.innerHTML = renderMarkdown(PARTNER_MD);
+      }
+      docsContent.scrollTop = 0;
+    }
+
+    btnCopyDocsRaw.addEventListener("click", () => {
+      const rawText = currentDocsTab === "customer" ? CUSTOMER_MD : PARTNER_MD;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(rawText).then(() => {
+          showCopySuccess();
+        }).catch(() => fallbackCopy(rawText));
+      } else {
+        fallbackCopy(rawText);
+      }
+    });
+
+    function fallbackCopy(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showCopySuccess();
+      } catch (err) {
+        alert("클립보드 복사에 실패했습니다.");
+      }
+      document.body.removeChild(ta);
+    }
+
+    function showCopySuccess() {
+      const orig = txtCopyLabel.textContent;
+      txtCopyLabel.textContent = "복사 완료!";
+      setTimeout(() => {
+        txtCopyLabel.textContent = orig;
+      }, 1500);
+    }
+
+    function renderMarkdown(md) {
+      const lines = md.split("\n");
+      const out = [];
+      let inTable = false;
+      let inList = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+
+        if (line.trim().startsWith("|") && line.trim().endsWith("|")) {
+          if (inList) { out.push("</ul>"); inList = false; }
+          if (!inTable) {
+            inTable = true;
+            out.push("<table>");
+          }
+          if (line.includes("---")) continue;
+          const cells = line.split("|").slice(1, -1).map(c => c.trim());
+          const isHeader = (i > 0 && lines[i+1] && lines[i+1].includes("---"));
+          const tag = isHeader ? "th" : "td";
+          out.push("<tr>" + cells.map(c => "<" + tag + ">" + formatInline(c) + "</" + tag + ">").join("") + "</tr>");
+          continue;
+        } else if (inTable) {
+          out.push("</table>");
+          inTable = false;
+        }
+
+        if (line.trim().startsWith("* ") || line.trim().startsWith("- ")) {
+          if (!inList) {
+            inList = true;
+            out.push("<ul>");
+          }
+          const isSub = line.startsWith("  ") || line.startsWith("\t");
+          const content = line.trim().replace(/^[\*\-]\s+/, "");
+          out.push("<li style=\"" + (isSub ? "margin-left: 14px; list-style-type: circle;" : "") + "\">" + formatInline(content) + "</li>");
+          continue;
+        } else if (inList) {
+          out.push("</ul>");
+          inList = false;
+        }
+
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        if (trimmed.startsWith("# ")) {
+          out.push("<h1>" + formatInline(trimmed.slice(2)) + "</h1>");
+        } else if (trimmed.startsWith("## ")) {
+          out.push("<h2>" + formatInline(trimmed.slice(3)) + "</h2>");
+        } else if (trimmed.startsWith("### ")) {
+          out.push("<h3>" + formatInline(trimmed.slice(4)) + "</h3>");
+        } else if (trimmed.startsWith("> ")) {
+          out.push("<blockquote>" + formatInline(trimmed.slice(2)) + "</blockquote>");
+        } else if (trimmed === "---") {
+          out.push("<hr>");
+        } else {
+          out.push("<p>" + formatInline(trimmed) + "</p>");
+        }
+      }
+
+      if (inTable) out.push("</table>");
+      if (inList) out.push("</ul>");
+
+      return out.join("");
+    }
+
+    function formatInline(str) {
+      if (!str) return "";
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        .replace(new RegExp("`([^`]+)`", "g"), "<code>$1</code>");
+    }
+
+
+    // 모드 설정 및 다크모드/라이트모드 테마 동기화
+    function setMode(mode, notifyBackend = true) {
+      currentMode = mode;
+      if (mode === 'partner') {
+        tabCustomer.className = 'mode-item';
+        tabPartner.className = 'mode-item active';
+        versionTag.textContent = '파트너향';
+        document.body.setAttribute('data-theme', 'dark');
+      } else {
+        tabCustomer.className = 'mode-item active';
+        tabPartner.className = 'mode-item';
+        versionTag.textContent = '고객향';
+        document.body.setAttribute('data-theme', 'light');
+      }
+
+      if (notifyBackend) {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'set-mode',
+            mode: currentMode
+          }
+        }, '*');
+      }
+    }
+
+    // 모드 탭 클릭 전환
+    tabCustomer.addEventListener('click', () => {
+      if (currentMode === 'customer') return;
+      setMode('customer', true);
+      requestLint();
+    });
+
+    tabPartner.addEventListener('click', () => {
+      if (currentMode === 'partner') return;
+      setMode('partner', true);
+      requestLint();
+    });
+
+    // 스코프 전환 (선택 레이어 vs 전체 페이지)
+    btnScopeSelection.addEventListener('click', () => {
+      if (currentScope === 'selection') return;
+      currentScope = 'selection';
+      btnScopeSelection.className = 'scope-btn active';
+      btnScopePage.className = 'scope-btn';
+      requestLint();
+    });
+
+    btnScopePage.addEventListener('click', () => {
+      if (currentScope === 'page') return;
+      currentScope = 'page';
+      btnScopeSelection.className = 'scope-btn';
+      btnScopePage.className = 'scope-btn active';
+      requestLint();
+    });
+
+    btnOpenHelp.addEventListener('click', () => {
+      helpModal.style.display = 'flex';
+    });
+
+    function closeHelpModal() {
+      helpModal.style.display = 'none';
+    }
+
+    btnCloseHelpModal.addEventListener('click', closeHelpModal);
+    btnConfirmHelpModal.addEventListener('click', closeHelpModal);
+    helpModal.addEventListener('click', (e) => {
+      if (e.target === helpModal) closeHelpModal();
+    });
+
+    function requestLint() {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'run-lint',
+          mode: currentMode,
+          scope: currentScope,
+          ignoreHidden: true
+        }
+      }, '*');
+    }
+
+    // 심각도 탭 전환
+    document.querySelectorAll('.sev-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.sev-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentSeverity = tab.dataset.sev;
+        renderGroups();
+      });
+    });
+
+    // 카테고리 칩 전환
+    document.querySelectorAll('.cat-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentCategory = chip.dataset.cat;
+        renderGroups();
+      });
+    });
+
+    // 피그마 통신 수신
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      // 페이지 이름 감지 또는 이전 저장 모드 수신 시 동기화
+      if (msg.type === 'init-mode' || msg.type === 'page-mode-change') {
+        if (msg.mode && msg.mode !== currentMode) {
+          setMode(msg.mode, false);
+          requestLint();
+        } else if (msg.mode) {
+          setMode(msg.mode, false);
+        }
+        return;
+      }
+
+      if (msg.type === 'lint-empty-selection') {
+        filterPanel.style.display = 'none';
+        summaryBar.style.display = 'none';
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            </div>
+            <div class="empty-state-title">검사할 대상을 선택하세요</div>
+            <div class="empty-state-desc">
+              피그마 캔버스에서 검증할 프레임을 클릭하면<br>
+              버튼을 누르지 않아도 실시간으로 바로 검사합니다.
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      if (msg.type === 'lint-error') {
+        filterPanel.style.display = 'none';
+        summaryBar.style.display = 'none';
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="empty-state-title">알림</div>
+            <div class="empty-state-desc">${escapeHtml(msg.message)}</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (msg.type === 'lint-results') {
+        const prevScroll = issueScrollArea.scrollTop;
+        currentIssues = msg.issues || [];
+        updateCounts();
+        renderGroups();
+        issueScrollArea.scrollTop = prevScroll;
+      }
+    };
+
+    function updateCounts() {
+      filterPanel.style.display = 'flex';
+      summaryBar.style.display = 'flex';
+
+      const mustFixCount = currentIssues.filter(i => i.severity === 'must-fix').length;
+      const checkNeededCount = currentIssues.filter(i => i.severity === 'check-needed').length;
+
+      pillAll.textContent = currentIssues.length;
+      pillMustFix.textContent = mustFixCount;
+      pillCheckNeeded.textContent = checkNeededCount;
+
+      // 자동 수정 가능한 항목이 1개라도 있으면 버튼 노출
+      const allFixableCount = currentIssues.filter(i => i.autoFixable).length;
+      if (allFixableCount > 0) {
+        btnFixAll.style.display = 'inline-flex';
+        cntFixableTotal.textContent = allFixableCount;
+        btnCloneAndFix.style.display = 'inline-flex';
+      } else {
+        btnFixAll.style.display = 'none';
+        btnCloneAndFix.style.display = 'none';
+      }
+
+      summarySummaryText.textContent = `총 ${currentIssues.length}개 레이어 (${mustFixCount > 0 ? `수정 필요 ${mustFixCount}개` : ''}${mustFixCount > 0 && checkNeededCount > 0 ? ' · ' : ''}${checkNeededCount > 0 ? `확인 필요 ${checkNeededCount}개` : ''})`;
+    }
+
+    function buildGroups(issues) {
+      const groupMap = new Map();
+
+      issues.forEach(issue => {
+        const key = issue.groupKey || issue.message;
+        if (!groupMap.has(key)) {
+          groupMap.set(key, {
+            key,
+            title: issue.groupTitle || issue.message,
+            severity: issue.severity,
+            category: issue.category,
+            details: issue.details,
+            autoFixable: issue.autoFixable,
+            fixAction: issue.fixAction,
+            items: []
+          });
+        }
+        groupMap.get(key).items.push(issue);
+      });
+
+      return Array.from(groupMap.values());
+    }
+
+    function renderGroups() {
+      if (currentIssues.length === 0) {
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle success">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="empty-state-title">디자인시스템 규칙을 완벽히 준수하고 있습니다</div>
+            <div class="empty-state-desc">
+              선택한 영역에서 <b>[${currentMode === 'customer' ? '고객향' : '파트너향'}]</b> 규격 위반 사항이 전혀 없습니다.
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const filteredIssues = currentIssues.filter(i => {
+        if (currentSeverity !== 'all' && i.severity !== currentSeverity) return false;
+        if (currentCategory !== 'all' && i.category !== currentCategory) return false;
+        return true;
+      });
+
+      if (filteredIssues.length === 0) {
+        issueScrollArea.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-icon-circle">
+              <svg class="svg-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="empty-state-title">해당 조건에 해당하는 항목 없음</div>
+            <div class="empty-state-desc">선택된 필터 조건에 해당하는 위반 사항이 없습니다.</div>
+          </div>
+        `;
+        return;
+      }
+
+      const groups = buildGroups(filteredIssues);
+
+      groups.sort((a, b) => {
+        if (a.severity === 'must-fix' && b.severity !== 'must-fix') return -1;
+        if (a.severity !== 'must-fix' && b.severity === 'must-fix') return 1;
+        return b.items.length - a.items.length;
+      });
+
+      let html = '';
+
+      groups.forEach(group => {
+        const isExpanded = expandedGroupKeys.has(group.key);
+        const fixableItems = group.items.filter(i => i.autoFixable);
+
+        html += `
+          <div class="group-card">
+            <div class="group-header" onclick="toggleGroup('${escapeHtml(group.key)}')">
+              <div class="group-info-left">
+                <span class="badge-severity ${group.severity}">
+                  ${group.severity === 'must-fix' ? '수정 필요' : '확인 필요'}
+                </span>
+                <span class="group-title" title="${escapeHtml(group.title)}">
+                  ${escapeHtml(group.title)}
+                </span>
+                <span class="group-count-tag">${group.items.length}개 레이어</span>
+              </div>
+              <div class="group-actions-right" onclick="event.stopPropagation()">
+                ${group.autoFixable && fixableItems.length > 0 ? `
+                  <button class="btn-group-fix" onclick="fixGroup('${escapeHtml(group.key)}')">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>${group.fixAction && group.fixAction.label ? group.fixAction.label : '일괄 수정'}</span>
+                  </button>
+                ` : ''}
+                <button class="btn-chevron ${isExpanded ? 'expanded' : ''}" onclick="toggleGroup('${escapeHtml(group.key)}')">
+                  <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+              </div>
+            </div>
+
+            ${isExpanded ? `
+              <div class="group-items-list">
+                ${group.items.map(item => `
+                  <div class="layer-item-row">
+                    <div class="layer-left">
+                      <div class="layer-name-tag">${escapeHtml(item.nodeName)}</div>
+                      <div class="layer-desc">${escapeHtml(item.details || item.message)}</div>
+                    </div>
+                    <div class="layer-btns">
+                      <button class="btn-mini-locate" onclick="selectNode('${item.nodeId}')">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                        <span>위치 이동</span>
+                      </button>
+                      ${item.autoFixable ? `
+                        <button class="btn-mini-fix" onclick="fixSingle('${item.nodeId}', '${item.id}')">
+                          <span>수정</span>
+                        </button>
+                      ` : ''}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+
+      issueScrollArea.innerHTML = html;
+    }
+
+    function toggleGroup(key) {
+      if (expandedGroupKeys.has(key)) {
+        expandedGroupKeys.delete(key);
+      } else {
+        expandedGroupKeys.add(key);
+      }
+      const prevScroll = issueScrollArea.scrollTop;
+      renderGroups();
+      issueScrollArea.scrollTop = prevScroll;
+    }
+
+    function selectNode(nodeId) {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'select-node',
+          nodeId
+        }
+      }, '*');
+    }
+
+    function fixSingle(nodeId, issueId) {
+      const issue = currentIssues.find(i => i.id === issueId);
+      if (issue && issue.fixAction) {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'fix-issue',
+            nodeId,
+            fixAction: issue.fixAction
+          }
+        }, '*');
+      }
+    }
+
+    function fixGroup(groupKey) {
+      const itemsToFix = currentIssues.filter(i => (i.groupKey || i.message) === groupKey && i.autoFixable);
+      if (itemsToFix.length === 0) return;
+
+      parent.postMessage({
+        pluginMessage: {
+          type: 'fix-group',
+          issues: itemsToFix
+        }
+      }, '*');
+    }
+
+    let currentFixTarget = 'in-place'; // 'in-place' | 'clone'
+
+    const fixModal = document.getElementById('fixModal');
+    const fixModalTitle = document.getElementById('fixModalTitle');
+    const btnCloseFixModal = document.getElementById('btnCloseFixModal');
+    const btnCancelFixModal = document.getElementById('btnCancelFixModal');
+    const btnOptMustOnly = document.getElementById('btnOptMustOnly');
+    const btnOptAllItems = document.getElementById('btnOptAllItems');
+    const txtFixMustCount = document.getElementById('txtFixMustCount');
+    const txtFixAllCount = document.getElementById('txtFixAllCount');
+
+    function openFixModal(target) {
+      currentFixTarget = target;
+      const mustFixFixable = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable);
+      const allFixable = currentIssues.filter(i => i.autoFixable);
+
+      if (target === 'in-place') {
+        fixModalTitle.textContent = '이 프레임에서 수정';
+      } else {
+        fixModalTitle.textContent = '수정된 복제본 생성';
+      }
+
+      txtFixMustCount.textContent = `${mustFixFixable.length}개`;
+      txtFixAllCount.textContent = `${allFixable.length}개`;
+
+      fixModal.style.display = 'flex';
+    }
+
+    function closeFixModal() {
+      fixModal.style.display = 'none';
+    }
+
+    btnCloseFixModal.addEventListener('click', closeFixModal);
+    btnCancelFixModal.addEventListener('click', closeFixModal);
+    fixModal.addEventListener('click', (e) => {
+      if (e.target === fixModal) closeFixModal();
+    });
+
+    // 1) '수정 필요' 항목만 수정
+    btnOptMustOnly.addEventListener('click', () => {
+      closeFixModal();
+      const mustFixFixable = currentIssues.filter(i => i.severity === 'must-fix' && i.autoFixable);
+      if (currentFixTarget === 'in-place') {
+        if (mustFixFixable.length === 0) {
+          alert('수정 필요한 항목이 없습니다.');
+          return;
+        }
+        parent.postMessage({
+          pluginMessage: {
+            type: 'fix-all',
+            issues: mustFixFixable
+          }
+        }, '*');
+      } else {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'clone-and-fix',
+            scopeMode: 'must-fix'
+          }
+        }, '*');
+      }
+    });
+
+    // 2) 모든 항목 일괄 수정
+    btnOptAllItems.addEventListener('click', () => {
+      closeFixModal();
+      const allFixable = currentIssues.filter(i => i.autoFixable);
+      if (currentFixTarget === 'in-place') {
+        if (allFixable.length === 0) {
+          alert('자동 수정 가능한 항목이 없습니다.');
+          return;
+        }
+        parent.postMessage({
+          pluginMessage: {
+            type: 'fix-all',
+            issues: allFixable
+          }
+        }, '*');
+      } else {
+        parent.postMessage({
+          pluginMessage: {
+            type: 'clone-and-fix',
+            scopeMode: 'all'
+          }
+        }, '*');
+      }
+    });
+
+    btnFixAll.addEventListener('click', () => {
+      openFixModal('in-place');
+    });
+
+    btnCloneAndFix.addEventListener('click', () => {
+      openFixModal('clone');
+    });
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // 초기 실행
+    requestLint();
+  </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Customer specification previews only; the documentation UI and partner mode are unchanged. */
+[data-customer-preview="true"],
+[data-customer-preview="true"] * {
+  letter-spacing: -0.01em;
+}
+
+[data-partner-preview="true"],
+[data-partner-preview="true"] * {
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Small annotations inside partner examples still obey the minimum caption size. */
+[data-partner-preview="true"] [class~="text-[10px]"],
+[data-partner-preview="true"] [class~="text-[11px]"],
+[data-partner-preview="true"] [class~="text-[12px]"],
+[data-partner-preview="true"] [class~="text-[13px]"] {
+  font-size: 14px;
+  line-height: 21px;
+}
+[data-partner-preview="true"] .font-medium {
+  font-weight: 400;
+}
+[data-partner-preview="true"] .font-semibold,
+[data-partner-preview="true"] .font-extrabold,
+[data-partner-preview="true"] .font-black {
+  font-weight: 700;
+}
+[data-partner-preview="true"] [class~="text-[15px]"] { font-size: 18px; line-height: 27px; }
+[data-partner-preview="true"] [class~="text-[17px]"] { font-size: 20px; line-height: 30px; }
+[data-partner-preview="true"] [class~="text-[14px]"] { line-height: 21px; }
+[data-partner-preview="true"] [class~="text-[16px]"] { line-height: 24px; }
+[data-partner-preview="true"] [class~="text-[18px]"] { line-height: 27px; }
+[data-partner-preview="true"] [class~="text-[20px]"] { line-height: 30px; }
+
+/* Bring legacy sample colors onto partner tokens without changing the site's chrome. */
+[data-partner-preview="true"] [class~="text-[#191F28]"] { color: #121212; }
+[data-partner-preview="true"] [class~="text-[#4E5968]"] { color: #333333; }
+[data-partner-preview="true"] [class~="text-[#6B7684]"] { color: #666666; }
+[data-partner-preview="true"] [class~="text-[#8B95A1]"] { color: #888888; }
+[data-partner-preview="true"] [class~="bg-[#F2F4F8]"] { background-color: #F7F8FA; }
+[data-partner-preview="true"] [class~="bg-[#FAFBFD]"] { background-color: #FAFAFA; }
+[data-partner-preview="true"] [class~="bg-[#E8F3FF]"] { background-color: #F4F5FF; }
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 40px;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Apple SD Gothic Neo', sans-serif;
+  }
+  * {
+    letter-spacing: -0.015em;
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Apple SD Gothic Neo', sans-serif;
+  }
+  body {
+    font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Apple SD Gothic Neo', sans-serif;
+    color: #191F28;
+    background: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'tnum';
+    word-break: keep-all;
+  }
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes scale-up {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Splash Screen Stroke Drawing Keyframes */
+@keyframes letter-stroke-draw {
+  0% {
+    stroke-dashoffset: 260;
+    fill-opacity: 0;
+  }
+  65% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+}
+
+.animate-stroke-letter {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: letter-stroke-draw 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Darangie: run across the viewport from left to right. */
+@keyframes darangie-run-delivery {
+  0% { opacity: 0; transform: translateX(-110%) skewX(-4deg); }
+  8% { opacity: 1; }
+  100% { opacity: 1; transform: translateX(calc(100vw + 100%)) skewX(-8deg); }
+}
+
+@keyframes fade-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeSlideUp {
+  animation: fade-slide-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity;
+}
+
+.animate-fadeIn {
+  animation: fade-in 0.25s ease-out forwards;
+}
+.animate-popIn {
+  animation: pop-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-sheetUp {
+  animation: sheet-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-scaleUp {
+  animation: scale-up 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-darangie {
+  animation: darangie-run-delivery 2.5s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+/* Custom living scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-darangie,
+  .animate-fadeSlideUp,
+  .animate-fadeIn {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "daisalibrary",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run docs:sync && npm run icons:generate && vite",
+    "build": "npm run docs:sync && npm run icons:generate && tsc && vite build",
+    "docs:sync": "tsx scripts/sync-design-docs.ts",
+    "test:design": "tsx --test scripts/design.test.ts",
+    "icons:generate": "tsx scripts/generate-icons.ts",
+    "test:icons": "tsx --test scripts/icons.test.ts scripts/icon-search.test.ts",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/jszip": "^3.4.0",
+    "clsx": "^2.1.0",
+    "jszip": "^3.10.2",
+    "lucide-react": "^0.344.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.5",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "potrace": "^2.1.8",
+    "tailwindcss": "^3.4.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
+  },
+  "overrides": {
+    "electron-to-chromium": "1.5.477"
+  }
+}
